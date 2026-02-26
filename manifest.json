@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T16:08:45.942Z",
+  "generated": "2026-02-26T16:29:37.219Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -492,6 +492,11 @@
       "hash": "sha256:ada99010a1eb4a901751ed2d876b9d07b2bf82750c764cb874f52509b6ad35b0",
       "size": 153299,
       "format": "jpeg"
+    },
+    "logos/stresskit-mcp/readme.png": {
+      "hash": "sha256:2e4fa9731486cd2bd86803c51d2690b1f007f430ed221806b0b31ca7da915948",
+      "size": 1576487,
+      "format": "png"
     },
     "logos/synthesis/readme.png": {
       "hash": "sha256:1bfcd9d83f9301fffe75085859557d2e612baa9852be9c5563b567eb4a958fb2",
