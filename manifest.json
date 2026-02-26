@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T13:57:26.713Z",
+  "generated": "2026-02-26T14:07:28.436Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -396,6 +396,11 @@
     "logos/nexus-suite/readme.png": {
       "hash": "sha256:c411ebe17ceb02ef336995b1349088b3d3f60776472f059ef191fc1094b64ffb",
       "size": 1480583,
+      "format": "png"
+    },
+    "logos/original_voice-soundboard/readme.png": {
+      "hash": "sha256:27c822443c8fa1cc485af1fa30ae0ba456e88c6353a7a1a0d495a6ee24f08fd9",
+      "size": 1186805,
       "format": "png"
     },
     "logos/pathway/readme.png": {
