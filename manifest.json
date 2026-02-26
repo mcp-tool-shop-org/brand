@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:21:04.633Z",
+  "generated": "2026-02-26T12:24:37.606Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -391,6 +391,11 @@
     "logos/prov-spec/readme.png": {
       "hash": "sha256:62297a42c00e6cd00f2fbbf16406788efdc2748304f65060c53c2c84b15049a7",
       "size": 2149567,
+      "format": "png"
+    },
+    "logos/repo-crawler-mcp/readme.png": {
+      "hash": "sha256:d95e7e132db21cfdf871c630d125d35b78b639eab79a274104fe663012ac1fe6",
+      "size": 126380,
       "format": "png"
     },
     "logos/runforge-desktop/readme.png": {
