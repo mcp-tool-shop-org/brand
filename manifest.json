@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:08:00.121Z",
+  "generated": "2026-02-26T12:12:38.607Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -391,6 +391,11 @@
     "logos/runforge-vscode/readme.png": {
       "hash": "sha256:2edc1fbbdd03ed74f3cc8f17df09b809043bf8d756f84c8a92051433bb2c13d6",
       "size": 968569,
+      "format": "png"
+    },
+    "logos/siege-kit/readme.png": {
+      "hash": "sha256:c731ad0fb7e3e371acc635a9340b0d6558e97f368b9c616d8167ab7658d7028c",
+      "size": 2048731,
       "format": "png"
     },
     "logos/soundboard-maui/readme.png": {
