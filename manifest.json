@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:49:40.862Z",
+  "generated": "2026-02-26T12:51:38.248Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -256,6 +256,11 @@
     "logos/flexiflow/readme.png": {
       "hash": "sha256:57a9e13902c306bfd7739778b86a6e3841d7399bce7a7f784f76d61356235c8f",
       "size": 215920,
+      "format": "png"
+    },
+    "logos/game-dev-mcp/readme.png": {
+      "hash": "sha256:816d717198b1af6f2a76d6d33a7bdb6fe89b62fe22f64cdab46241e222487a11",
+      "size": 1591431,
       "format": "png"
     },
     "logos/headless-wheel-builder/readme.png": {
