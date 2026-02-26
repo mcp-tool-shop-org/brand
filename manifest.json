@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T11:46:05.197Z",
+  "generated": "2026-02-26T11:48:45.225Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -116,6 +116,11 @@
     "logos/ai-jam-sessions/readme.png": {
       "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
       "size": 30520,
+      "format": "png"
+    },
+    "logos/ai-music-sheets/readme.png": {
+      "hash": "sha256:1786fd2ca6bfc320f7b68057fc79a717e0c11550e63d2a7b095ffb83e50934bc",
+      "size": 1112103,
       "format": "png"
     },
     "logos/ally-demo-python/readme.png": {
