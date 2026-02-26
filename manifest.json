@@ -1,0 +1,412 @@
+{
+  "version": "1.0",
+  "generated": "2026-02-26T09:11:01.148Z",
+  "algorithm": "sha256",
+  "assets": {
+    "logos/Attestia-Desktop/readme.png": {
+      "hash": "sha256:7c8a7aeaf36ed9b87528e70a85c3c93581dd4f943d1c1f09d0d06be429f730d4",
+      "size": 400744,
+      "format": "png"
+    },
+    "logos/Attestia/readme.png": {
+      "hash": "sha256:7c8a7aeaf36ed9b87528e70a85c3c93581dd4f943d1c1f09d0d06be429f730d4",
+      "size": 400744,
+      "format": "png"
+    },
+    "logos/ClaimLedger/readme.png": {
+      "hash": "sha256:56f16046ee7d1c6e410d655ff5a0b4c097e620706ec7c481eea9f326ccb48e1f",
+      "size": 170793,
+      "format": "png"
+    },
+    "logos/CodeClone-Desktop/readme.png": {
+      "hash": "sha256:7a1a88b0365ef64e915cf08bd3d9fccc4d25de89210d2ccabc6de4da6eb7bd78",
+      "size": 1690409,
+      "format": "png"
+    },
+    "logos/ConsensusOS/readme.png": {
+      "hash": "sha256:83598e06aad9db2d5a751dbb7905a697926e5cc64c03b3c01884aaa7c79da489",
+      "size": 1381554,
+      "format": "png"
+    },
+    "logos/CreatorLedger/readme.png": {
+      "hash": "sha256:8f61fccdda9db6fda4b35e5b16fa76300b7f20cd0972e5ba6923a33e93fe8931",
+      "size": 155854,
+      "format": "png"
+    },
+    "logos/InControl-Desktop/readme.png": {
+      "hash": "sha256:818793e704f65a9c5483f16d578ec3319e78f01708654ce2296103b0834400af",
+      "size": 1576655,
+      "format": "png"
+    },
+    "logos/LeaseGate-Lite/readme.jpg": {
+      "hash": "sha256:670985233c51666ae298f53781cbf1e7b6a1359672da76e165fbea349077f2e2",
+      "size": 34402,
+      "format": "jpeg"
+    },
+    "logos/LeaseGate/readme.png": {
+      "hash": "sha256:beaf246f65f1e29cc3c8013ed7c5dec72d6a1b5460e3f538156cc65e500d5d48",
+      "size": 98103,
+      "format": "png"
+    },
+    "logos/LoKey-Typer/readme.png": {
+      "hash": "sha256:07248e2dc711341c122e0de69b21f59427fce73b0a7a16ca156db4788bcfef6d",
+      "size": 1842824,
+      "format": "png"
+    },
+    "logos/MouseTrainer/readme.png": {
+      "hash": "sha256:364a71178d4ab944905b8cd677405965ac629b51968793989d66e04edae0b08e",
+      "size": 1489748,
+      "format": "png"
+    },
+    "logos/NextLedger/readme.png": {
+      "hash": "sha256:b5db1ef46130be16d90559db6968386f142a60880c81b242e552ead7e70ebf32",
+      "size": 2193519,
+      "format": "png"
+    },
+    "logos/ScalarScope-Desktop/readme.png": {
+      "hash": "sha256:ed2498cb76ba7f884fb0aebc19c76889c46637d452a67ea32f1c462b9a63462d",
+      "size": 1366249,
+      "format": "png"
+    },
+    "logos/ThrottleAI/readme.jpg": {
+      "hash": "sha256:b48587459b4c3afe19465422ed942ca7a86de801592eedf431454684da677cc6",
+      "size": 61989,
+      "format": "jpeg"
+    },
+    "logos/ToolShopStudio/readme.png": {
+      "hash": "sha256:a0ff810acd48cf0d825d156b8995377610a897d714399796462faad7fd318172",
+      "size": 727982,
+      "format": "png"
+    },
+    "logos/a11y-assist/readme.png": {
+      "hash": "sha256:228258c8fbdff0b899d920312f4970724abe13b034f767beecf120cf0d4bb3f9",
+      "size": 1533728,
+      "format": "png"
+    },
+    "logos/a11y-ci/readme.png": {
+      "hash": "sha256:ffed43f2230b19ebb14804896df73aac40b2749a431c713ba8076edf7826d7dd",
+      "size": 468298,
+      "format": "png"
+    },
+    "logos/a11y-demo-site/readme.png": {
+      "hash": "sha256:f04b0a0c7b897dee354ab17536438e2e1df8c12d7a5e50e4bf4ddd81327bc1f8",
+      "size": 2311562,
+      "format": "png"
+    },
+    "logos/a11y-evidence-engine/readme.png": {
+      "hash": "sha256:fd069d1a2fcdc5c39b583a7bf2f07b823e5f6dc634022640a07993fa5fe613f3",
+      "size": 1632309,
+      "format": "png"
+    },
+    "logos/a11y-mcp-tools/readme.png": {
+      "hash": "sha256:25ad0e6cc8ebc992e39cd67c8ae3395bf9c3a9bbc59e302edc3059467671afd6",
+      "size": 2240247,
+      "format": "png"
+    },
+    "logos/accessibility-suite/readme.png": {
+      "hash": "sha256:8b81e67f667f0a380f8f3d596ef85369969d27d7fa44462f50986e8c712e17a8",
+      "size": 372068,
+      "format": "png"
+    },
+    "logos/ai-jam-sessions/readme.png": {
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
+      "format": "png"
+    },
+    "logos/ally-demo-python/readme.png": {
+      "hash": "sha256:539ee4a51e4dd465ce389b6db360d5c10999f531a2f1651d0a12884fd47baf53",
+      "size": 2309037,
+      "format": "png"
+    },
+    "logos/audiobooker/readme.jpg": {
+      "hash": "sha256:645963f51c2e864f58c600ad43905de4756bfc551f35a18f4dc64df4ece10c58",
+      "size": 214376,
+      "format": "jpeg"
+    },
+    "logos/avatar-face-mvp/readme.png": {
+      "hash": "sha256:77d42d622df71a844e50195f73d079da7ab4b40ed14ff942e56f87ca4eccfd23",
+      "size": 1298059,
+      "format": "png"
+    },
+    "logos/backprop/readme.png": {
+      "hash": "sha256:c93e188ec4259bb965183b12df30562c2b11a7dacb9c4278ff50492d1f033e94",
+      "size": 115927,
+      "format": "png"
+    },
+    "logos/backpropagate/readme.png": {
+      "hash": "sha256:6c2789e87d305db16521d5fd25d60b4aa955f7fc9c08c7eaf9b262a9c70fff55",
+      "size": 1144788,
+      "format": "png"
+    },
+    "logos/build-governor/readme.png": {
+      "hash": "sha256:99d919c0f7ef5a87efabd4025e08286ebedd0c893eec30fdb5b930ce1a3062b6",
+      "size": 1610460,
+      "format": "png"
+    },
+    "logos/civility-kernel/readme.png": {
+      "hash": "sha256:e8431620154faa947b4209ca792843196aefa982032d3083755738d8e0b49b40",
+      "size": 24698,
+      "format": "png"
+    },
+    "logos/claude-collaborate/readme.png": {
+      "hash": "sha256:9a69b2c9410d11774e8798ed9a1d72094f0ebda3189f44ac58882f064059984d",
+      "size": 1478689,
+      "format": "png"
+    },
+    "logos/claude-sfx/readme.jpg": {
+      "hash": "sha256:fcb3d466774f16d1c28f7e9436ae91999c4ce29cad7f816afceac472712285f1",
+      "size": 280871,
+      "format": "jpeg"
+    },
+    "logos/code-batch/readme.png": {
+      "hash": "sha256:ccb32b327b8e76bf0c70b78ff31123b9dcdc5c74d948ae64e651b39ec14d6a84",
+      "size": 1470642,
+      "format": "png"
+    },
+    "logos/code-covered/readme.png": {
+      "hash": "sha256:d1a0b37ee21cace70c74d965e9c0621775f29e30ecd80054404a594fa6be8d0c",
+      "size": 1000480,
+      "format": "png"
+    },
+    "logos/codeclone-suite/readme.png": {
+      "hash": "sha256:b5bb6d2b6eb4947fd7992fd970f5addc941571bef4d6b334fe86d9939bd58dbb",
+      "size": 2162877,
+      "format": "png"
+    },
+    "logos/codecomfy-vscode/readme.png": {
+      "hash": "sha256:c1a213bac2ce014b8f913e753e5ff7ff761ef6810097008b4fb299a048aee5f2",
+      "size": 2784369,
+      "format": "png"
+    },
+    "logos/codeteam-suite/readme.png": {
+      "hash": "sha256:3a930ebc868ea47c0adaf1883219ed80a23ffafc529ea556491aa9975733b983",
+      "size": 1409775,
+      "format": "png"
+    },
+    "logos/comfy-headless/readme.png": {
+      "hash": "sha256:17c48ddafe75359e0bb4c20f7c9a7313851ab9fb80e8cb15a88c9367abc41ad4",
+      "size": 1611689,
+      "format": "png"
+    },
+    "logos/context-window-manager/readme.png": {
+      "hash": "sha256:87ccdaf9e9bc2710e4f4ef2d66afe618d8c5594cf7bd6ee0c292c643aa3a7fe5",
+      "size": 1535494,
+      "format": "png"
+    },
+    "logos/control-room/readme.png": {
+      "hash": "sha256:784bbc11da7b41f1973049a6699a805d34d88bd875700e3a30f55ac1f4e7e7e5",
+      "size": 1840697,
+      "format": "png"
+    },
+    "logos/dev-op-typer/readme.png": {
+      "hash": "sha256:7d2a25d78b944079a478471e20b6d5165d5cba30d8c1e4accef0d97af573da90",
+      "size": 1714831,
+      "format": "png"
+    },
+    "logos/feature-reacher/readme.png": {
+      "hash": "sha256:7285b354190a06cc58529b609363be8ffbf2632a9a5b51a81744bd598de45319",
+      "size": 1599999,
+      "format": "png"
+    },
+    "logos/file-compass/readme.png": {
+      "hash": "sha256:beadc5d7cf2f74246436a8ee4722cb8acec39263f02c6484de6f2e3e99045e3b",
+      "size": 1557805,
+      "format": "png"
+    },
+    "logos/flexiflow/readme.png": {
+      "hash": "sha256:57a9e13902c306bfd7739778b86a6e3841d7399bce7a7f784f76d61356235c8f",
+      "size": 215920,
+      "format": "png"
+    },
+    "logos/headless-wheel-builder/readme.png": {
+      "hash": "sha256:e1fba3ccee23e19a5ca2ddd57a67ac87e74c4ed33f53057503a56b210697c496",
+      "size": 1660836,
+      "format": "png"
+    },
+    "logos/homebrew-mcp-tools/readme.png": {
+      "hash": "sha256:2717d66b8067f8d84e4e807f8c9cbee348b5f020441c71fada7168a8b863ea8e",
+      "size": 1476580,
+      "format": "png"
+    },
+    "logos/integradio/readme.png": {
+      "hash": "sha256:140416f61330a5c84da7c159ab2def564697832983b93e7a16aa85612dfa4649",
+      "size": 2202651,
+      "format": "png"
+    },
+    "logos/jam-session-plugin/readme.png": {
+      "hash": "sha256:c3fd975d9bbc511ed2fccfaab82462587274385f01e79c5a549dab99be376d41",
+      "size": 932029,
+      "format": "png"
+    },
+    "logos/linux-dev-typer/readme.png": {
+      "hash": "sha256:c3629292c735e4cd3775ad156c233a1f4d01510c95e2d2d85a5e83dd5715bffa",
+      "size": 510067,
+      "format": "png"
+    },
+    "logos/mcp-app-builder/readme.png": {
+      "hash": "sha256:224417a8e5b7bad505402d701e4f46df191ea919af27401361761925bd5710ba",
+      "size": 21170,
+      "format": "png"
+    },
+    "logos/mcp-examples/readme.png": {
+      "hash": "sha256:2c39a1414064f78b9fc149b1b29e153100f645cb4e9d95c71d8888e58d692051",
+      "size": 1583087,
+      "format": "png"
+    },
+    "logos/mcp-personify/readme.png": {
+      "hash": "sha256:a5a59fa546100c8ec9fae87f725f493b4b4d34eb77ac18ad6f2ad5faa05f5706",
+      "size": 2251132,
+      "format": "png"
+    },
+    "logos/mcp-shipcheck/readme.png": {
+      "hash": "sha256:0fe1cdcceafb9a2b05fad1ebcbc0c4f9adc00efa59b69914639857b4ec901aa3",
+      "size": 2265511,
+      "format": "png"
+    },
+    "logos/mcp-tool-registry/readme.png": {
+      "hash": "sha256:571a56191d2fee3d7738ed1637a1cdd9be5490f96b5040d77b27b82aace73e43",
+      "size": 1249192,
+      "format": "png"
+    },
+    "logos/mcp-voice-engine/readme.png": {
+      "hash": "sha256:455c05d45e74b0003101b8ab7e66b5d2c40ffd903f9db6be439c5573e0669ca4",
+      "size": 2119151,
+      "format": "png"
+    },
+    "logos/mcp-voice-soundboard/readme.png": {
+      "hash": "sha256:6d1b721e936c62069a3e1d086e8c336afe31ea6d3f569592e68e589c0ddd0e7e",
+      "size": 201384,
+      "format": "png"
+    },
+    "logos/mcpt/readme.png": {
+      "hash": "sha256:fd5325d154992cfbe17644302dd73018f26671e2c56cf8c05da5dcb53c6b5f50",
+      "size": 2228971,
+      "format": "png"
+    },
+    "logos/meta-content-system/readme.png": {
+      "hash": "sha256:8be5bcf8bf547e01b18ddb1452398cc392df431665f86a8203f2f4560a0cbd60",
+      "size": 1083507,
+      "format": "png"
+    },
+    "logos/nameops/readme.png": {
+      "hash": "sha256:0f5eede4d5f6e10aa52c97c8e650b84368ec69f01584c7078bff63e4775e8ed4",
+      "size": 2141364,
+      "format": "png"
+    },
+    "logos/nexus-attest/readme.png": {
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
+      "format": "png"
+    },
+    "logos/nexus-router-adapter-http/readme.png": {
+      "hash": "sha256:04e44ce9853dc25de2a89cc348a21474b78a73dd8d9a04377c3ae0500761ea8a",
+      "size": 1369015,
+      "format": "png"
+    },
+    "logos/nexus-suite/readme.png": {
+      "hash": "sha256:c411ebe17ceb02ef336995b1349088b3d3f60776472f059ef191fc1094b64ffb",
+      "size": 1480583,
+      "format": "png"
+    },
+    "logos/pathway/readme.png": {
+      "hash": "sha256:76cfad83fc99f31ae973eb6f215291d5fb6896ae8ee11b62bef357d8b85b74cd",
+      "size": 1556000,
+      "format": "png"
+    },
+    "logos/payroll-engine/readme.png": {
+      "hash": "sha256:cb315ffd848f4b36e6ac0540901dd7494c66589ec632324e5b12c188809f0884",
+      "size": 1572203,
+      "format": "png"
+    },
+    "logos/polyglot-mcp/readme.png": {
+      "hash": "sha256:2c0defc8ad462773443e004c8bc7ccca0f6e4edfea18e92cb55c87ac5d24680e",
+      "size": 1646773,
+      "format": "png"
+    },
+    "logos/prov-engine-js/readme.png": {
+      "hash": "sha256:e893180cc116a4c68469db2059f4a315cb17146e6672a3cb674a006f95d5cb14",
+      "size": 1764222,
+      "format": "png"
+    },
+    "logos/prov-spec/readme.png": {
+      "hash": "sha256:62297a42c00e6cd00f2fbbf16406788efdc2748304f65060c53c2c84b15049a7",
+      "size": 2149567,
+      "format": "png"
+    },
+    "logos/runforge-desktop/readme.png": {
+      "hash": "sha256:75ce67b6ea5cf8dabf2ea089e5765f21942ff9732f2639e4aed5bc19fb5fbf19",
+      "size": 5244897,
+      "format": "png"
+    },
+    "logos/runforge-vscode/readme.png": {
+      "hash": "sha256:2edc1fbbdd03ed74f3cc8f17df09b809043bf8d756f84c8a92051433bb2c13d6",
+      "size": 968569,
+      "format": "png"
+    },
+    "logos/soundboard-maui/readme.png": {
+      "hash": "sha256:e94e28d2036eef389dc863fa6d687c7b632b9ab96c8adef2ef668b0917dd57ca",
+      "size": 1748570,
+      "format": "png"
+    },
+    "logos/soundboard-plugin/readme.jpg": {
+      "hash": "sha256:ada99010a1eb4a901751ed2d876b9d07b2bf82750c764cb874f52509b6ad35b0",
+      "size": 153299,
+      "format": "jpeg"
+    },
+    "logos/synthesis/readme.png": {
+      "hash": "sha256:1bfcd9d83f9301fffe75085859557d2e612baa9852be9c5563b567eb4a958fb2",
+      "size": 1652700,
+      "format": "png"
+    },
+    "logos/tool-compass/readme.png": {
+      "hash": "sha256:61a81ed1065319aaffcab3d673b6be01b3115626054a98c48176982dfdd34a9f",
+      "size": 1074710,
+      "format": "png"
+    },
+    "logos/training-studio/readme.png": {
+      "hash": "sha256:495bf41660de955b1a713e7a7b639a4d0b2d501a92dd67c768074655360af149",
+      "size": 163373,
+      "format": "png"
+    },
+    "logos/venvkit/readme.png": {
+      "hash": "sha256:75d6bb452255512169ff4feea525d2b5d6bb9e147a6bb2149332b4fa23873805",
+      "size": 1041435,
+      "format": "png"
+    },
+    "logos/vocal-synth-engine/readme.png": {
+      "hash": "sha256:a3189e211592d9986f6e176f7b7dd08c5a2e4230370332422135fca5eb18902b",
+      "size": 1680256,
+      "format": "png"
+    },
+    "logos/voice-soundboard/readme.png": {
+      "hash": "sha256:1ec7f965aec021dab4172a8ac9c8ffa95add3f8f2b326cb07b2d4476ce371739",
+      "size": 1558957,
+      "format": "png"
+    },
+    "logos/vscode-voice-soundboard/readme.png": {
+      "hash": "sha256:ccef98473794459c969446ed9582e935311d2a2483c9b63381437d6668926399",
+      "size": 1621847,
+      "format": "png"
+    },
+    "logos/websketch-cli/readme.png": {
+      "hash": "sha256:e5e89098ed03769e7a76133523cf76f374102106769daa554d04a5672d91669d",
+      "size": 1444090,
+      "format": "png"
+    },
+    "logos/websketch-ir/readme.png": {
+      "hash": "sha256:e5e89098ed03769e7a76133523cf76f374102106769daa554d04a5672d91669d",
+      "size": 1444090,
+      "format": "png"
+    },
+    "logos/websketch-vscode/readme.png": {
+      "hash": "sha256:e5e89098ed03769e7a76133523cf76f374102106769daa554d04a5672d91669d",
+      "size": 1444090,
+      "format": "png"
+    },
+    "logos/witness/readme.png": {
+      "hash": "sha256:9dd3db1ec64e2499bcea681bbb8b5f9db26d9baf05f7376325e4e17975489893",
+      "size": 1620492,
+      "format": "png"
+    }
+  }
+}
