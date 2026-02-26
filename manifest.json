@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T11:48:45.225Z",
+  "generated": "2026-02-26T12:00:13.076Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -271,6 +271,11 @@
     "logos/mcp-app-builder/readme.png": {
       "hash": "sha256:224417a8e5b7bad505402d701e4f46df191ea919af27401361761925bd5710ba",
       "size": 21170,
+      "format": "png"
+    },
+    "logos/mcp-bouncer/readme.png": {
+      "hash": "sha256:029a79657ce098f6e0a272cd324d4cf070f85c9fe173483e65481a61e3a2f634",
+      "size": 1655307,
       "format": "png"
     },
     "logos/mcp-examples/readme.png": {
