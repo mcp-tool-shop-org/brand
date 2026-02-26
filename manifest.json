@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T10:34:40.207Z",
+  "generated": "2026-02-26T10:51:21.850Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -121,6 +121,11 @@
     "logos/ally-demo-python/readme.png": {
       "hash": "sha256:539ee4a51e4dd465ce389b6db360d5c10999f531a2f1651d0a12884fd47baf53",
       "size": 2309037,
+      "format": "png"
+    },
+    "logos/aspire-ai/readme.png": {
+      "hash": "sha256:1f0ff0e5fafc2db9c07054bd6ea91381d35b21b56d3f6cfe20b4b5e354a3c3ab",
+      "size": 1215812,
       "format": "png"
     },
     "logos/audiobooker/readme.jpg": {
