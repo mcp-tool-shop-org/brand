@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:45:42.522Z",
+  "generated": "2026-02-26T12:46:57.993Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -66,6 +66,11 @@
     "logos/ScalarScope-Desktop/readme.png": {
       "hash": "sha256:ed2498cb76ba7f884fb0aebc19c76889c46637d452a67ea32f1c462b9a63462d",
       "size": 1366249,
+      "format": "png"
+    },
+    "logos/ScalarScope/readme.png": {
+      "hash": "sha256:cf70508c4637870ce43cd69bbb88a431103d866a84b38f7189a986b9d0c3b03d",
+      "size": 1419492,
       "format": "png"
     },
     "logos/ThrottleAI/readme.jpg": {
