@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T15:30:45.623Z",
+  "generated": "2026-02-26T15:44:19.651Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -31,6 +31,11 @@
     "logos/CreatorLedger/readme.png": {
       "hash": "sha256:8f61fccdda9db6fda4b35e5b16fa76300b7f20cd0972e5ba6923a33e93fe8931",
       "size": 155854,
+      "format": "png"
+    },
+    "logos/DeterministicMouseTrainingEngine/readme.png": {
+      "hash": "sha256:e4aa393745311eea726b0440d715c1bca6b1aea62bbdff20ab18fab612a18078",
+      "size": 1733906,
       "format": "png"
     },
     "logos/InControl-Desktop/readme.png": {
