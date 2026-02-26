@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T11:17:37.976Z",
+  "generated": "2026-02-26T11:21:26.419Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -276,6 +276,11 @@
     "logos/mcp-shipcheck/readme.png": {
       "hash": "sha256:0fe1cdcceafb9a2b05fad1ebcbc0c4f9adc00efa59b69914639857b4ec901aa3",
       "size": 2265511,
+      "format": "png"
+    },
+    "logos/mcp-stress-test/readme.png": {
+      "hash": "sha256:ba953c5b88361c3b96d31909251f7d246df12751d77713c7b2528776378ed380",
+      "size": 1770441,
       "format": "png"
     },
     "logos/mcp-tool-registry/readme.png": {
