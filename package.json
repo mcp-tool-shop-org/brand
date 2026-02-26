@@ -1,12 +1,31 @@
 {
   "name": "@mcptoolshop/brand",
   "version": "0.1.0",
-  "private": true,
   "description": "Centralized brand asset management — migration, audit, and integrity verification for GitHub orgs",
   "type": "module",
   "bin": {
     "brand": "./dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "brand",
+    "assets",
+    "logo",
+    "integrity",
+    "sha256",
+    "migration",
+    "github",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcp-tool-shop-org/brand.git"
+  },
+  "homepage": "https://mcp-tool-shop-org.github.io/brand/",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
