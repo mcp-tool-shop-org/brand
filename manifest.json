@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:00:13.076Z",
+  "generated": "2026-02-26T12:06:12.782Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -456,6 +456,11 @@
     "logos/witness/readme.png": {
       "hash": "sha256:9dd3db1ec64e2499bcea681bbb8b5f9db26d9baf05f7376325e4e17975489893",
       "size": 1620492,
+      "format": "png"
+    },
+    "logos/zip-meta-map/readme.png": {
+      "hash": "sha256:b87cd8e40b6173e3e987d6714cc0d1c50d95305fb56beff23197d460f6539cc2",
+      "size": 1529021,
       "format": "png"
     }
   }
