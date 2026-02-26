@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T14:40:18.106Z",
+  "generated": "2026-02-26T15:30:45.623Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -86,6 +86,11 @@
     "logos/ToolShopStudio/readme.png": {
       "hash": "sha256:a0ff810acd48cf0d825d156b8995377610a897d714399796462faad7fd318172",
       "size": 727982,
+      "format": "png"
+    },
+    "logos/Trace/readme.png": {
+      "hash": "sha256:d45e2eb3a395beea920a0a0132ad7ab4dde0433bb0eed92e29099b3e14e34331",
+      "size": 716616,
       "format": "png"
     },
     "logos/a11y-assist/readme.png": {
