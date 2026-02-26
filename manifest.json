@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:25:43.234Z",
+  "generated": "2026-02-26T12:45:42.522Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -182,6 +182,11 @@
       "hash": "sha256:fcb3d466774f16d1c28f7e9436ae91999c4ce29cad7f816afceac472712285f1",
       "size": 280871,
       "format": "jpeg"
+    },
+    "logos/clearance-opinion-engine/readme.png": {
+      "hash": "sha256:6882d76556c669296b943f77c587ffc874740932d4f47e5c2b553b314ebb0f57",
+      "size": 262191,
+      "format": "png"
     },
     "logos/code-batch/readme.png": {
       "hash": "sha256:ccb32b327b8e76bf0c70b78ff31123b9dcdc5c74d948ae64e651b39ec14d6a84",
