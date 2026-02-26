@@ -6,6 +6,7 @@ import { findLogoImgTags } from '../utils/readme-parser.js';
 
 interface AuditOptions {
   repos: string;
+  logos: string;
   brandBase: string;
 }
 
@@ -18,14 +19,14 @@ interface AuditIssue {
 }
 
 export async function runAudit(opts: AuditOptions): Promise<void> {
-  const logosDir = join(opts.repos, 'logos');
+  const logosDir = opts.logos;
   const issues: AuditIssue[] = [];
 
   // Get all logo slugs
   const slugDirs = globSync('*/', { cwd: logosDir }).map(d => d.replace(/\/$/, ''));
 
   for (const slug of slugDirs) {
-    const repoDir = join(opts.repos, '..', slug);
+    const repoDir = join(opts.repos, slug);
     if (!existsSync(repoDir)) continue;
 
     // Find README files

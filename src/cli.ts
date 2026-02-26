@@ -60,6 +60,7 @@ program
   .command('audit')
   .description('Scan org repos for broken logo refs, badge collisions, indentation traps')
   .option('--repos <path>', 'Parent directory containing repo clones', '.')
+  .option('--logos <path>', 'Path to logos directory', 'logos')
   .option('--brand-base <url>', 'Base URL for brand assets', 'https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main')
   .action(async (opts) => {
     const { runAudit } = await import('./commands/audit.js');

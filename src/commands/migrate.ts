@@ -24,7 +24,7 @@ export async function runMigrate(opts: MigrateOptions): Promise<void> {
   }
 
   for (const slug of slugDirs) {
-    const repoDir = join(opts.repos, '..', slug);
+    const repoDir = join(opts.repos, slug);
     if (!existsSync(repoDir)) {
       skipped++;
       continue;
