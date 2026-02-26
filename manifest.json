@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T13:49:31.714Z",
+  "generated": "2026-02-26T13:57:26.713Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -281,6 +281,11 @@
     "logos/jam-session-plugin/readme.png": {
       "hash": "sha256:c3fd975d9bbc511ed2fccfaab82462587274385f01e79c5a549dab99be376d41",
       "size": 932029,
+      "format": "png"
+    },
+    "logos/ledger-suite/readme.png": {
+      "hash": "sha256:8ef30ee1c9a4fab997b299e1c9b424b8bbbfd85563d237af45a888d375684ff1",
+      "size": 2294139,
       "format": "png"
     },
     "logos/linux-dev-typer/readme.png": {
