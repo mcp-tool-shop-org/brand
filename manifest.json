@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T16:37:35.795Z",
+  "generated": "2026-02-26T16:40:08.590Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -291,6 +291,11 @@
     "logos/headless-wheel-builder/readme.png": {
       "hash": "sha256:e1fba3ccee23e19a5ca2ddd57a67ac87e74c4ed33f53057503a56b210697c496",
       "size": 1660836,
+      "format": "png"
+    },
+    "logos/homebrew-core/readme.png": {
+      "hash": "sha256:db335e03f48d75bededd8c33b759e547e08bb7098f49da34adb4cca5ef88a69b",
+      "size": 1758779,
       "format": "png"
     },
     "logos/homebrew-mcp-tools/readme.png": {
