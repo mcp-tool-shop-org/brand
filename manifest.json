@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:51:38.248Z",
+  "generated": "2026-02-26T13:49:31.714Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -331,6 +331,11 @@
     "logos/mcp-tool-registry/readme.png": {
       "hash": "sha256:571a56191d2fee3d7738ed1637a1cdd9be5490f96b5040d77b27b82aace73e43",
       "size": 1249192,
+      "format": "png"
+    },
+    "logos/mcp-tool-shop.github.io/readme.png": {
+      "hash": "sha256:a0ff810acd48cf0d825d156b8995377610a897d714399796462faad7fd318172",
+      "size": 727982,
       "format": "png"
     },
     "logos/mcp-voice-engine/readme.png": {
