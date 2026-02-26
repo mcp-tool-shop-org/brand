@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T15:50:41.159Z",
+  "generated": "2026-02-26T16:01:16.203Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -431,6 +431,11 @@
     "logos/payroll-engine/readme.png": {
       "hash": "sha256:cb315ffd848f4b36e6ac0540901dd7494c66589ec632324e5b12c188809f0884",
       "size": 1572203,
+      "format": "png"
+    },
+    "logos/pocket-ledger/readme.png": {
+      "hash": "sha256:3a35253f83efe3656bc9b6bd1c583d9b2172689834fa5cd7f2718089f7632461",
+      "size": 1575975,
       "format": "png"
     },
     "logos/polyglot-mcp/readme.png": {
