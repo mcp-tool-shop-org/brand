@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-26T12:46:57.993Z",
+  "generated": "2026-02-26T12:49:40.862Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -356,6 +356,11 @@
     "logos/nexus-attest/readme.png": {
       "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
       "size": 30520,
+      "format": "png"
+    },
+    "logos/nexus-control/readme.png": {
+      "hash": "sha256:29df4dfad063784a8ee9e7e04d1b84af62b5112a6ed4513cde16c2d7286b1aa5",
+      "size": 1360788,
       "format": "png"
     },
     "logos/nexus-router-adapter-http/readme.png": {
