@@ -3,21 +3,26 @@
 </p>
 
 <p align="center">
-  <img src="assets/logo.jpg" alt="Brand" width="400">
+  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main/assets/logo.jpg" alt="Brand" width="400">
 </p>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/brand/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/brand/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://www.npmjs.com/package/@mcptoolshop/brand"><img src="https://img.shields.io/npm/v/@mcptoolshop/brand" alt="npm"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow" alt="License: MIT"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
   <a href="https://mcp-tool-shop-org.github.io/brand/"><img src="https://img.shields.io/badge/Landing_Page-live-blue" alt="Landing Page"></a>
 </p>
 
-Centralized brand asset registry for the [mcp-tool-shop-org](https://github.com/mcp-tool-shop-org) GitHub org. One repo holds every logo. Every README points here. Update once, update everywhere.
+<p align="center">
+  Centralized brand asset registry for the <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop-org</a> GitHub org.<br>
+  One repo holds every logo. Every README points here. Update once, update everywhere.
+</p>
+
+---
 
 ## Why
 
-When every repo carries its own copy of the logo, you get duplication, drift, and inconsistency. A rebrand means hunting through 80+ repos. This repo fixes that — logos live here, READMEs reference them via `raw.githubusercontent.com` URLs.
+When every repo carries its own copy of the logo, you get duplication, drift, and inconsistency. A rebrand means hunting through 100+ repos. This repo fixes that — logos live here, READMEs reference them via `raw.githubusercontent.com` URLs.
 
 ## Structure
 
@@ -27,14 +32,16 @@ logos/
     readme.png    # or readme.jpg — format preserved as-is
 manifest.json     # SHA-256 integrity hashes for every asset
 docs/
-  handbook.md     # Lessons learned from migrating 80+ repos
+  handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-81 logos across 81 repos. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
+117 logos across the org. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
 
 ## CLI
 
 ```bash
+npm install -g @mcptoolshop/brand
+
 # Verify all logos match their manifest hashes
 brand verify
 
@@ -63,8 +70,29 @@ brand migrate --repos /path/to/clones
 
 Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Any mismatch — accidental overwrite, tampering, drift — fails the build.
 
-See [docs/handbook.md](docs/handbook.md) for the full story: why symlinks don't work, how badges collide with logo detection, the markdown rendering traps that break `<img>` tags, and the migration safety protocol.
+See [SECURITY.md](SECURITY.md) for the full security policy and [docs/handbook.md](docs/handbook.md) for the migration handbook.
+
+## Privacy
+
+This tool collects no telemetry. All operations are local filesystem only.
+
+## Scorecard
+
+| Category | Score | Notes |
+|----------|-------|-------|
+| A. Security | 10/10 | SECURITY.md, SHA-256 integrity, no network, no telemetry |
+| B. Error Handling | 8/10 | Structured errors, clear CLI output, exit codes |
+| C. Operator Docs | 10/10 | README, CHANGELOG, handbook, full CLI docs |
+| D. Shipping Hygiene | 9/10 | CI integrity check, 29 tests, version aligned |
+| E. Identity | 10/10 | Logo, translations, landing page, metadata |
+| **Total** | **47/50** | |
 
 ## License
 
 [MIT](LICENSE)
+
+---
+
+<p align="center">
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
+</p>

@@ -6,7 +6,7 @@ export const config: SiteConfig = {
   logoBadge: 'B',
   brandName: 'Brand',
   repoUrl: 'https://github.com/mcp-tool-shop-org/brand',
-  footerText: 'MIT Licensed — built by <a href="https://github.com/mcp-tool-shop-org" style="color:var(--color-muted);text-decoration:underline">mcp-tool-shop-org</a>',
+  footerText: 'MIT Licensed — built by <a href="https://mcp-tool-shop.github.io/" style="color:var(--color-muted);text-decoration:underline">MCP Tool Shop</a>',
 
   hero: {
     badge: 'Open source',
@@ -29,7 +29,7 @@ export const config: SiteConfig = {
       title: 'Features',
       subtitle: 'Why centralize brand assets.',
       features: [
-        { title: 'Single source of truth', desc: '81 logos across 81 repos. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
+        { title: 'Single source of truth', desc: '117 logos across the org. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
         { title: 'Tamper detection', desc: 'SHA-256 manifest tracks every asset. CI catches accidental overwrites, drift, and compromised logos before they ship.' },
         { title: 'Safe migration', desc: 'Multi-gate regex distinguishes brand logos from shields.io badges. Dry-run first, spot-check, push incrementally.' },
       ],
@@ -47,11 +47,25 @@ export const config: SiteConfig = {
       kind: 'features',
       id: 'safety',
       title: 'Battle-tested',
-      subtitle: 'Lessons learned from migrating 80+ repos.',
+      subtitle: 'Lessons learned from migrating 100+ repos.',
       features: [
         { title: 'Badge collision guard', desc: 'shields.io URLs with &logo= parameters look like brand logos. Multi-gate filtering catches badges before they get rewritten.' },
         { title: 'Markdown rendering traps', desc: '4+ spaces makes code blocks. Blank lines break HTML context. The audit command catches these before they break your README.' },
         { title: 'Format preservation', desc: 'PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target. Never converts or compresses.' },
+      ],
+    },
+    {
+      kind: 'data-table',
+      id: 'scorecard',
+      title: 'Quality scorecard',
+      subtitle: 'Ship Gate audit — 47/50.',
+      columns: ['Category', 'Score', 'Notes'],
+      rows: [
+        ['A. Security', '10/10', 'SECURITY.md, SHA-256 integrity, no network, no telemetry'],
+        ['B. Error Handling', '8/10', 'Structured errors, clear CLI output, exit codes'],
+        ['C. Operator Docs', '10/10', 'README, CHANGELOG, handbook, full CLI docs'],
+        ['D. Shipping Hygiene', '9/10', 'CI integrity check, 29 tests, version aligned'],
+        ['E. Identity', '10/10', 'Logo, translations, landing page, metadata'],
       ],
     },
   ],

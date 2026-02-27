@@ -7,3 +7,11 @@ coverage/
 .env
 .env.local
 site/.astro/
+site/dist/
+site/node_modules/
+.polyglot-cache.json
+PLAN.md
+collect-logos.sh
+migrate-readmes.sh
+push-all.sh
+revert-all.sh

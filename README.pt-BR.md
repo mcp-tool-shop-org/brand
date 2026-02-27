@@ -3,20 +3,26 @@
 </p>
 
 <p align="center">
-  <img src="assets/logo.jpg" alt="Brand" width="400">
+  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main/assets/logo.jpg" alt="Brand" width="400">
 </p>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/brand/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/brand/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow" alt="License: MIT"></a>
+  <a href="https://www.npmjs.com/package/@mcptoolshop/brand"><img src="https://img.shields.io/npm/v/@mcptoolshop/brand" alt="npm"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
   <a href="https://mcp-tool-shop-org.github.io/brand/"><img src="https://img.shields.io/badge/Landing_Page-live-blue" alt="Landing Page"></a>
 </p>
 
-Registro centralizado de ativos da marca para a organização GitHub [mcp-tool-shop-org](https://github.com/mcp-tool-shop-org). Um repositório contém todos os logotipos. Cada arquivo README aponta para este repositório. Atualize uma vez e atualize em todos os lugares.
+<p align="center">
+  Centralized brand asset registry for the <a href="https://github.com/mcp-tool-shop-org">mcp-tool-shop-org</a> GitHub org.<br>
+  One repo holds every logo. Every README points here. Update once, update everywhere.
+</p>
+
+---
 
 ## Por que?
 
-Quando cada repositório possui sua própria cópia do logotipo, você obtém duplicação, desvio e inconsistência. Uma mudança de marca significa procurar em mais de 80 repositórios. Este repositório resolve isso: os logotipos ficam aqui, e os arquivos README fazem referência a eles por meio de URLs `raw.githubusercontent.com`.
+Quando cada repositório possui sua própria cópia do logotipo, isso resulta em duplicação, desvio e inconsistência. Uma mudança de marca exige a busca em mais de 100 repositórios. Este repositório resolve esse problema: os logotipos estão armazenados aqui, e os arquivos README fazem referência a eles por meio de URLs do tipo `raw.githubusercontent.com`.
 
 ## Estrutura
 
@@ -26,14 +32,16 @@ logos/
     readme.png    # or readme.jpg — format preserved as-is
 manifest.json     # SHA-256 integrity hashes for every asset
 docs/
-  handbook.md     # Lessons learned from migrating 80+ repos
+  handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-81 logotipos em 81 repositórios. Os arquivos PNG permanecem como PNGs. Os arquivos JPEG permanecem como JPEGs. O formato é uma decisão da marca, não um alvo de compilação.
+Existem 117 logotipos em toda a organização. Os arquivos PNG permanecem como PNGs. Os arquivos JPEG permanecem como JPEGs. O formato é uma decisão de marca, não um alvo de compilação.
 
 ## Interface de Linha de Comando (CLI)
 
 ```bash
+npm install -g @mcptoolshop/brand
+
 # Verify all logos match their manifest hashes
 brand verify
 
@@ -62,8 +70,29 @@ brand migrate --repos /path/to/clones
 
 Cada logotipo é rastreado por um hash SHA-256 no `manifest.json`. O CI executa `brand manifest --check` em cada envio que afeta os arquivos `logos/` ou `manifest.json`. Qualquer incompatibilidade – sobrescrita acidental, adulteração, desvio – causa a falha da compilação.
 
-Consulte [docs/handbook.md](docs/handbook.md) para obter mais detalhes: por que os links simbólicos não funcionam, como os selos interferem na detecção de logotipos, as armadilhas de renderização de Markdown que quebram as tags `<img>`, e o protocolo de segurança para migração.
+Consulte [SECURITY.md](SECURITY.md) para a política de segurança completa e [docs/handbook.md](docs/handbook.md) para o guia de migração.
+
+## Privacidade
+
+Esta ferramenta não coleta dados de telemetria. Todas as operações são realizadas apenas no sistema de arquivos local.
+
+## Avaliação
+
+| Categoria | Pontuação | Observações |
+|----------|-------|-------|
+| A. Segurança | 10/10 | SECURITY.md, integridade SHA-256, sem conexão de rede, sem telemetria. |
+| B. Tratamento de Erros | 8/10 | Erros estruturados, saída clara da linha de comando, códigos de saída. |
+| C. Documentação para Usuários | 10/10 | README, CHANGELOG, guia, documentação completa da linha de comando. |
+| D. Qualidade do Código | 9/10 | Verificação de integridade no CI, 29 testes, versão alinhada. |
+| E. Identidade | 10/10 | Logotipo, traduções, página inicial, metadados. |
+| **Total** | **47/50** | |
 
 ## Licença
 
 [MIT](LICENSE)
+
+---
+
+<p align="center">
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
+</p>

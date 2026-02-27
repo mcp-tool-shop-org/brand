@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-27T05:49:04.002Z",
+  "generated": "2026-02-27T10:47:57.631Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -198,6 +198,11 @@
       "size": 1478689,
       "format": "png"
     },
+    "logos/claude-guardian/readme.png": {
+      "hash": "sha256:3e70f386b96a42fcb623b3e6b998b7700b3322a36ea188ee3335ffc35d866ddd",
+      "size": 2178338,
+      "format": "png"
+    },
     "logos/claude-session-copilot/readme.png": {
       "hash": "sha256:c13d268f95dc7e86eec7442cdff5f963c37f12b0cfe127fefe7fea1a120769dd",
       "size": 1598638,
@@ -353,11 +358,6 @@
       "size": 2251132,
       "format": "png"
     },
-    "logos/mcp-shipcheck/readme.png": {
-      "hash": "sha256:0fe1cdcceafb9a2b05fad1ebcbc0c4f9adc00efa59b69914639857b4ec901aa3",
-      "size": 2265511,
-      "format": "png"
-    },
     "logos/mcp-stress-test/readme.png": {
       "hash": "sha256:ba953c5b88361c3b96d31909251f7d246df12751d77713c7b2528776378ed380",
       "size": 1770441,
@@ -487,6 +487,11 @@
       "hash": "sha256:d28b7bcce816e27a9061aca87d0352fb7738561d2906aa9167f7f2732198d309",
       "size": 1586641,
       "format": "png"
+    },
+    "logos/shipcheck/readme.jpg": {
+      "hash": "sha256:69ee1cdc2732713942b84430d8a6e9b2d5ccc93369a9a8cc3a21882c6998ca16",
+      "size": 134994,
+      "format": "jpeg"
     },
     "logos/siege-kit/readme.png": {
       "hash": "sha256:c731ad0fb7e3e371acc635a9340b0d6558e97f368b9c616d8167ab7658d7028c",
