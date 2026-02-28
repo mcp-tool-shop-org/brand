@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 — 2026-02-27
+
+### Added
+
+- SHIP_GATE.md and SCORECARD.md for product audit trail
+- Security & Data Scope section in README
+
 ## 1.0.0 — 2026-02-27
 
 First stable release.

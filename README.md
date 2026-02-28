@@ -72,20 +72,30 @@ Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifes
 
 See [SECURITY.md](SECURITY.md) for the full security policy and [docs/handbook.md](docs/handbook.md) for the migration handbook.
 
-## Privacy
+## Security & Data Scope
 
-This tool collects no telemetry. All operations are local filesystem only.
+| Aspect | Detail |
+|--------|--------|
+| **Data touched** | Logo files in `logos/` (read), `manifest.json` (read/write), README files (read/write during migration) |
+| **Data NOT touched** | No telemetry, no analytics, no network calls, no code execution from logo files |
+| **Permissions** | Read: logo files, manifest, READMEs. Write: manifest.json, READMEs (migration only) |
+| **Network** | None — fully offline CLI tool |
+| **Telemetry** | None collected or sent |
+
+See [SECURITY.md](SECURITY.md) for vulnerability reporting and SHA-256 integrity features.
 
 ## Scorecard
 
-| Category | Score | Notes |
-|----------|-------|-------|
-| A. Security | 10/10 | SECURITY.md, SHA-256 integrity, no network, no telemetry |
-| B. Error Handling | 8/10 | Structured errors, clear CLI output, exit codes |
-| C. Operator Docs | 10/10 | README, CHANGELOG, handbook, full CLI docs |
-| D. Shipping Hygiene | 9/10 | CI integrity check, 29 tests, version aligned |
-| E. Identity | 10/10 | Logo, translations, landing page, metadata |
-| **Total** | **47/50** | |
+| Category | Score |
+|----------|-------|
+| A. Security | 10 |
+| B. Error Handling | 10 |
+| C. Operator Docs | 10 |
+| D. Shipping Hygiene | 10 |
+| E. Identity (soft) | 10 |
+| **Overall** | **50/50** |
+
+> Full audit: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 
 ## License
 

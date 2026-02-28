@@ -1,6 +1,6 @@
 {
   "name": "@mcptoolshop/brand",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Centralized brand asset management — migration, audit, and integrity verification for GitHub orgs",
   "type": "module",
   "bin": {
