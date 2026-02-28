@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-27T10:47:57.631Z",
+  "generated": "2026-02-28T17:44:58.873Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -428,6 +428,11 @@
       "size": 1480583,
       "format": "png"
     },
+    "logos/nullout/readme.png": {
+      "hash": "sha256:f450a4a4481d45f8bdf467e7868066064fa9035f5e13ffb46ab3da79f94dd6d9",
+      "size": 189473,
+      "format": "png"
+    },
     "logos/original_voice-soundboard/readme.png": {
       "hash": "sha256:27c822443c8fa1cc485af1fa30ae0ba456e88c6353a7a1a0d495a6ee24f08fd9",
       "size": 1186805,
@@ -471,6 +476,11 @@
     "logos/repo-crawler-mcp/readme.png": {
       "hash": "sha256:d95e7e132db21cfdf871c630d125d35b78b639eab79a274104fe663012ac1fe6",
       "size": 126380,
+      "format": "png"
+    },
+    "logos/repomesh/readme.png": {
+      "hash": "sha256:3f9f756b51d9c1d68055f59a77bc2749dc5d9d5fede6de0277caecaad912257b",
+      "size": 268711,
       "format": "png"
     },
     "logos/rippled-windows-debug/readme.png": {
