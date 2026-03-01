@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-02-28T17:44:58.873Z",
+  "generated": "2026-03-01T18:59:05.566Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -212,6 +212,11 @@
       "hash": "sha256:fcb3d466774f16d1c28f7e9436ae91999c4ce29cad7f816afceac472712285f1",
       "size": 280871,
       "format": "jpeg"
+    },
+    "logos/claude-toolstack/readme.png": {
+      "hash": "sha256:4fff531d78115803dbbd1c22e002211273ae79a71e600e118273a1c065646a80",
+      "size": 328757,
+      "format": "png"
     },
     "logos/clearance-opinion-engine/readme.png": {
       "hash": "sha256:6882d76556c669296b943f77c587ffc874740932d4f47e5c2b553b314ebb0f57",
@@ -466,6 +471,16 @@
     "logos/prov-spec/readme.png": {
       "hash": "sha256:62297a42c00e6cd00f2fbbf16406788efdc2748304f65060c53c2c84b15049a7",
       "size": 2149567,
+      "format": "png"
+    },
+    "logos/registry-pulse/readme.png": {
+      "hash": "sha256:e569a07640bd8c0dd5f4bc3f011b53a1b7ea5743e373067d4c798fc53a58f55b",
+      "size": 1468335,
+      "format": "png"
+    },
+    "logos/registry-stats-vscode/readme.png": {
+      "hash": "sha256:06499eb26f1e60288c36bb615d9f659865f303021d5866e9cfd8ee9794a0d382",
+      "size": 42527,
       "format": "png"
     },
     "logos/registry-stats/readme.png": {
