@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-02T08:39:49.692Z",
+  "generated": "2026-03-02T15:35:05.805Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -431,6 +431,11 @@
     "logos/nexus-suite/readme.png": {
       "hash": "sha256:c411ebe17ceb02ef336995b1349088b3d3f60776472f059ef191fc1094b64ffb",
       "size": 1480583,
+      "format": "png"
+    },
+    "logos/npm-launcher/readme.png": {
+      "hash": "sha256:cfd2d5053ae7c04ebcfbfc18a40e78a7caf2d986d966728d24db3821a71f7027",
+      "size": 1860900,
       "format": "png"
     },
     "logos/nullout/readme.png": {
