@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-01T18:59:05.566Z",
+  "generated": "2026-03-02T08:39:49.692Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -488,6 +488,11 @@
       "size": 42527,
       "format": "png"
     },
+    "logos/registry-sync/readme.png": {
+      "hash": "sha256:cce7535c762ae0565673723e8c751f8a17d87b63a30037a02fcdb10d5b8fc03b",
+      "size": 237759,
+      "format": "png"
+    },
     "logos/repo-crawler-mcp/readme.png": {
       "hash": "sha256:d95e7e132db21cfdf871c630d125d35b78b639eab79a274104fe663012ac1fe6",
       "size": 126380,
@@ -532,6 +537,11 @@
       "hash": "sha256:ada99010a1eb4a901751ed2d876b9d07b2bf82750c764cb874f52509b6ad35b0",
       "size": 153299,
       "format": "jpeg"
+    },
+    "logos/sovereignty/readme.png": {
+      "hash": "sha256:a0a60c0ba5cb2a0782161fd9eebe8abcac91c714585b99589f700981aa3df52b",
+      "size": 1565601,
+      "format": "png"
     },
     "logos/stresskit-mcp/readme.png": {
       "hash": "sha256:2e4fa9731486cd2bd86803c51d2690b1f007f430ed221806b0b31ca7da915948",
@@ -606,6 +616,11 @@
     "logos/witness/readme.png": {
       "hash": "sha256:9dd3db1ec64e2499bcea681bbb8b5f9db26d9baf05f7376325e4e17975489893",
       "size": 1620492,
+      "format": "png"
+    },
+    "logos/xrpl-camp/readme.png": {
+      "hash": "sha256:a2ab17adb3c897e36f20f28c6401c8bdb9b4ebab000e42bbe5ebd74095646b19",
+      "size": 1700476,
       "format": "png"
     },
     "logos/zip-meta-map/readme.png": {
