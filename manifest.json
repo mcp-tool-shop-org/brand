@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-02T15:35:05.805Z",
+  "generated": "2026-03-03T10:23:05.822Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -478,6 +478,11 @@
       "size": 2149567,
       "format": "png"
     },
+    "logos/receipt-factory/readme.png": {
+      "hash": "sha256:4dc18fc29f89a437b6403fa9c509fa6b5afeda9e29ee8ea8ee9c29af5cd22fbb",
+      "size": 2039134,
+      "format": "png"
+    },
     "logos/registry-pulse/readme.png": {
       "hash": "sha256:e569a07640bd8c0dd5f4bc3f011b53a1b7ea5743e373067d4c798fc53a58f55b",
       "size": 1468335,
@@ -626,6 +631,11 @@
     "logos/xrpl-camp/readme.png": {
       "hash": "sha256:a2ab17adb3c897e36f20f28c6401c8bdb9b4ebab000e42bbe5ebd74095646b19",
       "size": 1700476,
+      "format": "png"
+    },
+    "logos/xrpl-lab/readme.png": {
+      "hash": "sha256:47339a4f519353782f95319e83bc799e55342d43ab5bfadf0f4352972a322602",
+      "size": 2094195,
       "format": "png"
     },
     "logos/zip-meta-map/readme.png": {
