@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-06T04:19:17.477Z",
+  "generated": "2026-03-06T07:18:36.211Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -143,6 +143,11 @@
       "size": 30520,
       "format": "png"
     },
+    "logos/ai-loadout/readme.png": {
+      "hash": "sha256:3b0683ec08127c9713c419ba7770f2f68ac611bd9180100584a25fbd3b66f7f5",
+      "size": 932060,
+      "format": "png"
+    },
     "logos/ai-music-sheets/readme.png": {
       "hash": "sha256:1786fd2ca6bfc320f7b68057fc79a717e0c11550e63d2a7b095ffb83e50934bc",
       "size": 1112103,
@@ -211,6 +216,11 @@
     "logos/claude-guardian/readme.png": {
       "hash": "sha256:3e70f386b96a42fcb623b3e6b998b7700b3322a36ea188ee3335ffc35d866ddd",
       "size": 2178338,
+      "format": "png"
+    },
+    "logos/claude-rules/readme.png": {
+      "hash": "sha256:cdcdd802fb51414cf21afeff36416fa1400d6b3d4197167dcad1cbc2510b275d",
+      "size": 1018416,
       "format": "png"
     },
     "logos/claude-session-copilot/readme.png": {
