@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-06T07:18:36.211Z",
+  "generated": "2026-03-06T10:26:42.711Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -216,6 +216,11 @@
     "logos/claude-guardian/readme.png": {
       "hash": "sha256:3e70f386b96a42fcb623b3e6b998b7700b3322a36ea188ee3335ffc35d866ddd",
       "size": 2178338,
+      "format": "png"
+    },
+    "logos/claude-memories/readme.png": {
+      "hash": "sha256:12ecec9428431544fca6ebff729e12703e6ec78d422f2f9dab55f1f0c3999131",
+      "size": 891772,
       "format": "png"
     },
     "logos/claude-rules/readme.png": {
