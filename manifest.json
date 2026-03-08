@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-06T10:26:42.711Z",
+  "generated": "2026-03-08T16:37:52.813Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -153,6 +153,11 @@
       "size": 1112103,
       "format": "png"
     },
+    "logos/ai-rpg-engine/readme.png": {
+      "hash": "sha256:53e05795b8ba09c5fc620067525e0e9b8f4cc473c44101e45afc96717aceb4a0",
+      "size": 511046,
+      "format": "png"
+    },
     "logos/ai-ui/readme.png": {
       "hash": "sha256:10b83bd07ae700d3c3211ad86ce8a7c841b5e67304e9216a888bc17c15562298",
       "size": 1404020,
@@ -221,6 +226,16 @@
     "logos/claude-memories/readme.png": {
       "hash": "sha256:12ecec9428431544fca6ebff729e12703e6ec78d422f2f9dab55f1f0c3999131",
       "size": 891772,
+      "format": "png"
+    },
+    "logos/claude-rpg/USAGE.md": {
+      "hash": "sha256:7cb5481e34c146d9b1c288dadf8323da6246201602c7b9ec2530557fa416dd2a",
+      "size": 850,
+      "format": "unknown"
+    },
+    "logos/claude-rpg/readme.png": {
+      "hash": "sha256:d7f1d8663913356279c08b16479e16fe823cf4a2def5a51e0bcc9451ac4de184",
+      "size": 2793718,
       "format": "png"
     },
     "logos/claude-rules/readme.png": {
@@ -656,6 +671,11 @@
     "logos/witness/readme.png": {
       "hash": "sha256:9dd3db1ec64e2499bcea681bbb8b5f9db26d9baf05f7376325e4e17975489893",
       "size": 1620492,
+      "format": "png"
+    },
+    "logos/world-forge/readme.png": {
+      "hash": "sha256:92384d8a39db35816dd382f3f17db323e693b49aa5cf29b3db7e6ec011fa4070",
+      "size": 1520285,
       "format": "png"
     },
     "logos/xrpl-camp/readme.png": {
