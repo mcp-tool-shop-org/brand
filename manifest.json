@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-08T16:37:52.813Z",
+  "generated": "2026-03-10T23:32:08.036Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -206,6 +206,11 @@
     "logos/build-governor/readme.png": {
       "hash": "sha256:99d919c0f7ef5a87efabd4025e08286ebedd0c893eec30fdb5b930ce1a3062b6",
       "size": 1610460,
+      "format": "png"
+    },
+    "logos/cannon-archive/readme.png": {
+      "hash": "sha256:55bc223b640a3c056a30deacc70c4279341d85b10db1363b98778112d124f8c8",
+      "size": 1863755,
       "format": "png"
     },
     "logos/civility-kernel/readme.png": {
@@ -592,6 +597,11 @@
       "hash": "sha256:ada99010a1eb4a901751ed2d876b9d07b2bf82750c764cb874f52509b6ad35b0",
       "size": 153299,
       "format": "jpeg"
+    },
+    "logos/soundweave/readme.png": {
+      "hash": "sha256:16e91b87922eb85bc7b2bc5d2fe3fed981eb31fcd636be43c00780efeb9c5137",
+      "size": 921149,
+      "format": "png"
     },
     "logos/sovereignty/readme.png": {
       "hash": "sha256:a0a60c0ba5cb2a0782161fd9eebe8abcac91c714585b99589f700981aa3df52b",
