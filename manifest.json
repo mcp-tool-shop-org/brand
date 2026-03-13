@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-10T23:34:48.788Z",
+  "generated": "2026-03-13T13:14:51.497Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -154,8 +154,8 @@
       "format": "png"
     },
     "logos/ai-rpg-engine/readme.png": {
-      "hash": "sha256:53e05795b8ba09c5fc620067525e0e9b8f4cc473c44101e45afc96717aceb4a0",
-      "size": 511046,
+      "hash": "sha256:31277821be58753dcf292a9f08d42003183d46ca8fe835813345fe4d396be170",
+      "size": 105452,
       "format": "png"
     },
     "logos/ai-ui/readme.png": {
@@ -317,6 +317,11 @@
       "hash": "sha256:bbdcf55ac5bf0e5537ac445c50b4035126b326d24642f8109f70bc7c9326fcfd",
       "size": 152146,
       "format": "jpeg"
+    },
+    "logos/deltamind/readme.png": {
+      "hash": "sha256:b2033ddc52c8ddef7bb822d3b6eacdaf60550242fa7fc4dd55132f65b4c30234",
+      "size": 872641,
+      "format": "png"
     },
     "logos/dev-op-typer/readme.png": {
       "hash": "sha256:7d2a25d78b944079a478471e20b6d5165d5cba30d8c1e4accef0d97af573da90",
@@ -588,6 +593,16 @@
       "size": 2048731,
       "format": "png"
     },
+    "logos/sonic-core/readme.png": {
+      "hash": "sha256:21821e3a1776b987364a3a31cf6801075ee0e5087af530df12b38933cd370afa",
+      "size": 299045,
+      "format": "png"
+    },
+    "logos/sonic-runtime/readme.png": {
+      "hash": "sha256:691b051a7d3b91e4b585965c31506d6d7bf35f7aa90fde1b2da49da98f35a4b5",
+      "size": 497736,
+      "format": "png"
+    },
     "logos/soundboard-maui/readme.png": {
       "hash": "sha256:e94e28d2036eef389dc863fa6d687c7b632b9ab96c8adef2ef668b0917dd57ca",
       "size": 1748570,
@@ -606,6 +621,16 @@
     "logos/sovereignty/readme.png": {
       "hash": "sha256:a0a60c0ba5cb2a0782161fd9eebe8abcac91c714585b99589f700981aa3df52b",
       "size": 1565601,
+      "format": "png"
+    },
+    "logos/sprite-creator-studio/readme.png": {
+      "hash": "sha256:d1274e0f98c6db70f81d06c77d2d431da09abbb6a15feafd2ec5e2d8a0943028",
+      "size": 407583,
+      "format": "png"
+    },
+    "logos/stillpoint/readme.png": {
+      "hash": "sha256:c3cf707bc3c5b6f9d45581d3db63195918951f1d305a906f4da89a5a94288c27",
+      "size": 365177,
       "format": "png"
     },
     "logos/stresskit-mcp/readme.png": {
