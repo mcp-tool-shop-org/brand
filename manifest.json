@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-13T13:14:51.497Z",
+  "generated": "2026-03-14T00:53:05.179Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -303,6 +303,11 @@
       "size": 1611689,
       "format": "png"
     },
+    "logos/commandui/readme.png": {
+      "hash": "sha256:8438fd9d4581b05b645712f741ae150992da32db6c4e8f9c8596ba39de79462b",
+      "size": 476466,
+      "format": "png"
+    },
     "logos/context-window-manager/readme.png": {
       "hash": "sha256:87ccdaf9e9bc2710e4f4ef2d66afe618d8c5594cf7bd6ee0c292c643aa3a7fe5",
       "size": 1535494,
@@ -386,6 +391,11 @@
     "logos/linux-dev-typer/readme.png": {
       "hash": "sha256:c3629292c735e4cd3775ad156c233a1f4d01510c95e2d2d85a5e83dd5715bffa",
       "size": 510067,
+      "format": "png"
+    },
+    "logos/llm-sync-drive/readme.png": {
+      "hash": "sha256:c394b89e2e2afdfb5403442afda1c03d4f2da0047428ee550f60ab4865b2363d",
+      "size": 1211646,
       "format": "png"
     },
     "logos/mcp-app-builder/readme.png": {
