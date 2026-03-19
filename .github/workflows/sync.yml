@@ -1,0 +1,77 @@
+name: Sync org logos
+
+on:
+  schedule:
+    # Daily at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Sync logos from org repos
+        id: sync
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          bash scripts/sync-org-logos.sh
+          code=$?
+          set -e
+          if [ "$code" -eq 10 ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif [ "$code" -eq 0 ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            exit "$code"
+          fi
+
+      - name: Regenerate manifest
+        if: steps.sync.outputs.changed == 'true'
+        run: node dist/cli.js manifest
+
+      - name: Create PR
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="auto/sync-logos-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          git add logos/ manifest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync org logos ($(date +%Y-%m-%d))"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "chore: sync org logos ($(date +%Y-%m-%d))" \
+            --body "$(cat <<'EOF'
+          ## Auto-sync
+
+          Daily logo sync from all repos in **mcp-tool-shop-org**.
+
+          - New logos added to `logos/`
+          - Updated logos replaced
+          - `manifest.json` regenerated
+
+          **Review:** Check the diff for any unexpected additions or hash changes before merging.
+          EOF
+          )"

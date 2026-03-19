@@ -51,9 +51,14 @@ function detectFormat(filePath: string): string {
   return FORMAT_MAP[extname(filePath).toLowerCase()] ?? 'unknown';
 }
 
-/** Generate a manifest from all files under logosDir */
+/** Image extensions allowed in the manifest (everything else is ignored) */
+const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.svg', '.webp']);
+
+/** Generate a manifest from all image files under logosDir */
 export function generateManifest(logosDir: string): Manifest {
-  const files = globSync('**/*', { cwd: logosDir, nodir: true }).sort();
+  const files = globSync('**/*', { cwd: logosDir, nodir: true })
+    .filter(f => IMAGE_EXTENSIONS.has(extname(f).toLowerCase()))
+    .sort();
   const assets: Record<string, AssetEntry> = {};
 
   for (const file of files) {

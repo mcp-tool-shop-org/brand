@@ -129,4 +129,5 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
     }
   }
   console.log('');
+  process.exit(1);
 }

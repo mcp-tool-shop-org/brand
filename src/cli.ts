@@ -4,13 +4,10 @@
  * brand CLI — Centralized brand asset management.
  *
  * Commands:
- *   collect   Scan org repos, collect authoritative logos
- *   migrate   Rewrite README logo references to brand repo
- *   audit     Scan for broken refs, badge collisions, indentation traps
  *   verify    Verify logo integrity against manifest
  *   manifest  Regenerate manifest.json
- *   push      Commit + push README changes across repos
- *   revert    Revert a migration by commit message
+ *   audit     Scan for broken refs, badge collisions, indentation traps
+ *   migrate   Rewrite README logo references to brand repo
  */
 
 import { Command } from 'commander';

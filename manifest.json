@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-14T00:53:05.179Z",
+  "generated": "2026-03-19T18:02:42.289Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -37,6 +37,11 @@
       "hash": "sha256:e4aa393745311eea726b0440d715c1bca6b1aea62bbdff20ab18fab612a18078",
       "size": 1733906,
       "format": "png"
+    },
+    "logos/GlyphStudio/readme.jpg": {
+      "hash": "sha256:3e4e7839bd995f6f427ae7d4edd8dede45b3363e88c8b8338712d725b82a6ea5",
+      "size": 263077,
+      "format": "jpeg"
     },
     "logos/InControl-Desktop/readme.png": {
       "hash": "sha256:818793e704f65a9c5483f16d578ec3319e78f01708654ce2296103b0834400af",
@@ -232,11 +237,6 @@
       "hash": "sha256:12ecec9428431544fca6ebff729e12703e6ec78d422f2f9dab55f1f0c3999131",
       "size": 891772,
       "format": "png"
-    },
-    "logos/claude-rpg/USAGE.md": {
-      "hash": "sha256:7cb5481e34c146d9b1c288dadf8323da6246201602c7b9ec2530557fa416dd2a",
-      "size": 850,
-      "format": "unknown"
     },
     "logos/claude-rpg/readme.png": {
       "hash": "sha256:d7f1d8663913356279c08b16479e16fe823cf4a2def5a51e0bcc9451ac4de184",
@@ -571,6 +571,11 @@
     "logos/repo-crawler-mcp/readme.png": {
       "hash": "sha256:d95e7e132db21cfdf871c630d125d35b78b639eab79a274104fe663012ac1fe6",
       "size": 126380,
+      "format": "png"
+    },
+    "logos/repo-knowledge/readme.png": {
+      "hash": "sha256:d177f037b290f2b8b9f7b65f9c0bbc759a74388f104fe1e3bfee0bd920194835",
+      "size": 301196,
       "format": "png"
     },
     "logos/repomesh/readme.png": {
