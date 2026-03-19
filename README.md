@@ -35,7 +35,7 @@ docs/
   handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-117 logos across the org. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
+148 logos across the org. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
 
 ## CLI
 
@@ -59,7 +59,21 @@ brand migrate --repos /path/to/clones --dry-run
 brand migrate --repos /path/to/clones
 ```
 
-## Adding a New Logo
+## Auto-Sync
+
+A daily GitHub Action (`sync.yml`) scans every repo in the org for logos, downloads new or changed assets, regenerates the manifest, and opens a PR. You can also trigger it manually via `workflow_dispatch`.
+
+The sync script lives at `scripts/sync-org-logos.sh` and can be run locally:
+
+```bash
+# Preview what would change
+./scripts/sync-org-logos.sh --dry-run
+
+# Sync logos from the org
+./scripts/sync-org-logos.sh
+```
+
+## Adding a Logo Manually
 
 1. Drop the file into `logos/<slug>/readme.png` (or `.jpg`)
 2. Run `brand manifest` to update integrity hashes
@@ -68,7 +82,7 @@ brand migrate --repos /path/to/clones
 
 ## Security
 
-Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Any mismatch — accidental overwrite, tampering, drift — fails the build.
+Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Any mismatch — accidental overwrite, tampering, drift — fails the build. Only image files (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) are tracked; non-image files under `logos/` are ignored.
 
 See [SECURITY.md](SECURITY.md) for the full security policy and [docs/handbook.md](docs/handbook.md) for the migration handbook.
 

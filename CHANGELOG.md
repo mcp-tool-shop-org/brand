@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.2 — 2026-03-19
+
+### Added
+
+- Daily auto-sync workflow — scans all org repos for logos, opens a PR when changes detected
+- Sync script (`scripts/sync-org-logos.sh`) for local and CI use
+- Image-extension allowlist in manifest generator (only `.png/.jpg/.jpeg/.svg/.webp` tracked)
+
+### Fixed
+
+- Manifest drift that broke CI for 5 consecutive runs (GlyphStudio + repo-knowledge logos missing)
+- Removed non-image file (`logos/claude-rpg/USAGE.md`) from asset tree
+- `brand audit` now exits with code 1 when issues are found (CI-gatable)
+- CLI header comment no longer lists unimplemented commands
+- All workflows aligned to Node 22
+
 ## 1.0.1 — 2026-02-27
 
 ### Added
