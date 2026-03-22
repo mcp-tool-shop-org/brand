@@ -1,11 +1,11 @@
 {
   "version": "1.0",
-  "generated": "2026-03-19T18:02:42.289Z",
+  "generated": "2026-03-22T06:40:02.130Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
-      "hash": "sha256:7c8a7aeaf36ed9b87528e70a85c3c93581dd4f943d1c1f09d0d06be429f730d4",
-      "size": 400744,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/Attestia/readme.png": {
@@ -33,6 +33,11 @@
       "size": 155854,
       "format": "png"
     },
+    "logos/CursorAssist/readme.png": {
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
+      "format": "png"
+    },
     "logos/DeterministicMouseTrainingEngine/readme.png": {
       "hash": "sha256:e4aa393745311eea726b0440d715c1bca6b1aea62bbdff20ab18fab612a18078",
       "size": 1733906,
@@ -44,13 +49,18 @@
       "format": "jpeg"
     },
     "logos/InControl-Desktop/readme.png": {
-      "hash": "sha256:818793e704f65a9c5483f16d578ec3319e78f01708654ce2296103b0834400af",
-      "size": 1576655,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/LeaseGate-Lite/readme.jpg": {
       "hash": "sha256:670985233c51666ae298f53781cbf1e7b6a1359672da76e165fbea349077f2e2",
       "size": 34402,
+      "format": "jpeg"
+    },
+    "logos/LeaseGate/readme.jpg": {
+      "hash": "sha256:016fd50710992a4da1851178b375e41b024cf90406b16219fe3eb5aea63e7854",
+      "size": 34666,
       "format": "jpeg"
     },
     "logos/LeaseGate/readme.png": {
@@ -109,8 +119,8 @@
       "format": "png"
     },
     "logos/a11y-assist/readme.png": {
-      "hash": "sha256:228258c8fbdff0b899d920312f4970724abe13b034f767beecf120cf0d4bb3f9",
-      "size": 1533728,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/a11y-ci/readme.png": {
@@ -129,8 +139,8 @@
       "format": "png"
     },
     "logos/a11y-lint/readme.png": {
-      "hash": "sha256:f7e1325a84f918cc2ca1cf355daf822759793066e9c2af8537bf2806ad9c15c6",
-      "size": 316550,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/a11y-mcp-tools/readme.png": {
@@ -179,8 +189,8 @@
       "format": "png"
     },
     "logos/aspire-ai/readme.png": {
-      "hash": "sha256:1f0ff0e5fafc2db9c07054bd6ea91381d35b21b56d3f6cfe20b4b5e354a3c3ab",
-      "size": 1215812,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/audiobooker/readme.jpg": {
@@ -199,8 +209,8 @@
       "format": "png"
     },
     "logos/backpropagate/readme.png": {
-      "hash": "sha256:6c2789e87d305db16521d5fd25d60b4aa955f7fc9c08c7eaf9b262a9c70fff55",
-      "size": 1144788,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/brain-dev/readme.png": {
@@ -209,8 +219,8 @@
       "format": "png"
     },
     "logos/build-governor/readme.png": {
-      "hash": "sha256:99d919c0f7ef5a87efabd4025e08286ebedd0c893eec30fdb5b930ce1a3062b6",
-      "size": 1610460,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/cannon-archive/readme.png": {
@@ -231,6 +241,11 @@
     "logos/claude-guardian/readme.png": {
       "hash": "sha256:3e70f386b96a42fcb623b3e6b998b7700b3322a36ea188ee3335ffc35d866ddd",
       "size": 2178338,
+      "format": "png"
+    },
+    "logos/claude-hook-debug/readme.png": {
+      "hash": "sha256:93659b7531fed34f325740aa45df86162dc2943aa751ac2b615351837d06d77c",
+      "size": 1687504,
       "format": "png"
     },
     "logos/claude-memories/readme.png": {
@@ -274,8 +289,8 @@
       "format": "png"
     },
     "logos/code-covered/readme.png": {
-      "hash": "sha256:d1a0b37ee21cace70c74d965e9c0621775f29e30ecd80054404a594fa6be8d0c",
-      "size": 1000480,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/codeclone-suite/readme.png": {
@@ -333,6 +348,11 @@
       "size": 1714831,
       "format": "png"
     },
+    "logos/dogfood-labs/readme.png": {
+      "hash": "sha256:1f8a0b06ec2abd53cc7567ea128ad2ae622fb7d1731163503384d702dcc58009",
+      "size": 156708,
+      "format": "png"
+    },
     "logos/escape-the-valley/readme.png": {
       "hash": "sha256:d8c551e8418a03c26213ce01d0b68e37dd3f3785343b5c33445a6aabf94d9ec0",
       "size": 1479510,
@@ -344,8 +364,8 @@
       "format": "png"
     },
     "logos/file-compass/readme.png": {
-      "hash": "sha256:beadc5d7cf2f74246436a8ee4722cb8acec39263f02c6484de6f2e3e99045e3b",
-      "size": 1557805,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/flexiflow/readme.png": {
@@ -359,8 +379,8 @@
       "format": "png"
     },
     "logos/headless-wheel-builder/readme.png": {
-      "hash": "sha256:e1fba3ccee23e19a5ca2ddd57a67ac87e74c4ed33f53057503a56b210697c496",
-      "size": 1660836,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/homebrew-core/readme.png": {
@@ -374,8 +394,8 @@
       "format": "png"
     },
     "logos/integradio/readme.png": {
-      "hash": "sha256:140416f61330a5c84da7c159ab2def564697832983b93e7a16aa85612dfa4649",
-      "size": 2202651,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/jam-session-plugin/readme.png": {
@@ -389,8 +409,8 @@
       "format": "png"
     },
     "logos/linux-dev-typer/readme.png": {
-      "hash": "sha256:c3629292c735e4cd3775ad156c233a1f4d01510c95e2d2d85a5e83dd5715bffa",
-      "size": 510067,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/llm-sync-drive/readme.png": {
@@ -404,8 +424,8 @@
       "format": "png"
     },
     "logos/mcp-aside/readme.png": {
-      "hash": "sha256:fd712b55d81cb4aa194f89d1835bbc64a758b65284326139f9742daf46915c34",
-      "size": 907083,
+      "hash": "sha256:b2ff3090c49c30158cdd7c63f0509e7f633c31a3018b478bb4769fe934831e41",
+      "size": 130543,
       "format": "png"
     },
     "logos/mcp-bouncer/readme.png": {
@@ -429,13 +449,13 @@
       "format": "png"
     },
     "logos/mcp-stress-test/readme.png": {
-      "hash": "sha256:ba953c5b88361c3b96d31909251f7d246df12751d77713c7b2528776378ed380",
-      "size": 1770441,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/mcp-tool-registry/readme.png": {
-      "hash": "sha256:571a56191d2fee3d7738ed1637a1cdd9be5490f96b5040d77b27b82aace73e43",
-      "size": 1249192,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/mcp-tool-shop.github.io/readme.png": {
@@ -459,8 +479,13 @@
       "format": "png"
     },
     "logos/meta-content-system/readme.png": {
-      "hash": "sha256:8be5bcf8bf547e01b18ddb1452398cc392df431665f86a8203f2f4560a0cbd60",
-      "size": 1083507,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
+      "format": "png"
+    },
+    "logos/multi-claude/readme.png": {
+      "hash": "sha256:5955212d849d0ed41167c48ca42bce67766fcde9fa761dca5f0f588dfde7bd67",
+      "size": 1534866,
       "format": "png"
     },
     "logos/nameops/readme.png": {
@@ -489,8 +514,8 @@
       "format": "jpeg"
     },
     "logos/nexus-router/readme.png": {
-      "hash": "sha256:739c476319074feb6984b8edaf9d94bcd031e6b67600e56d26302cf3a84513e9",
-      "size": 338860,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/nexus-suite/readme.png": {
@@ -533,9 +558,14 @@
       "size": 1646773,
       "format": "png"
     },
+    "logos/portlight/readme.png": {
+      "hash": "sha256:335376f8f97b64b8ae56eb1f0efde6e2c3e1a034e5b0c093144dabed1bbdeacb",
+      "size": 1735868,
+      "format": "png"
+    },
     "logos/prov-engine-js/readme.png": {
-      "hash": "sha256:e893180cc116a4c68469db2059f4a315cb17146e6672a3cb674a006f95d5cb14",
-      "size": 1764222,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/prov-spec/readme.png": {
@@ -569,8 +599,8 @@
       "format": "png"
     },
     "logos/repo-crawler-mcp/readme.png": {
-      "hash": "sha256:d95e7e132db21cfdf871c630d125d35b78b639eab79a274104fe663012ac1fe6",
-      "size": 126380,
+      "hash": "sha256:a0ff810acd48cf0d825d156b8995377610a897d714399796462faad7fd318172",
+      "size": 727982,
       "format": "png"
     },
     "logos/repo-knowledge/readme.png": {
@@ -589,13 +619,18 @@
       "format": "png"
     },
     "logos/runforge-desktop/readme.png": {
-      "hash": "sha256:75ce67b6ea5cf8dabf2ea089e5765f21942ff9732f2639e4aed5bc19fb5fbf19",
-      "size": 5244897,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/runforge-vscode/readme.png": {
       "hash": "sha256:d28b7bcce816e27a9061aca87d0352fb7738561d2906aa9167f7f2732198d309",
       "size": 1586641,
+      "format": "png"
+    },
+    "logos/sensor-humor/readme.png": {
+      "hash": "sha256:372dbef4d6e7a57fab97abc8b34b6197c11ba7aef68e5a7f93fadc1b8ab1b032",
+      "size": 167454,
       "format": "png"
     },
     "logos/shipcheck/readme.jpg": {
@@ -654,8 +689,8 @@
       "format": "png"
     },
     "logos/synthesis/readme.png": {
-      "hash": "sha256:1bfcd9d83f9301fffe75085859557d2e612baa9852be9c5563b567eb4a958fb2",
-      "size": 1652700,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/tool-compass/readme.png": {
@@ -664,8 +699,8 @@
       "format": "png"
     },
     "logos/tool-scan/readme.png": {
-      "hash": "sha256:4d10478016a5a4d1c70bc2fd6754c19445350c7bc49c536427e863bc02b8ae5e",
-      "size": 1473669,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png"
     },
     "logos/training-studio/readme.png": {
@@ -739,8 +774,8 @@
       "format": "png"
     },
     "logos/zip-meta-map/readme.png": {
-      "hash": "sha256:b87cd8e40b6173e3e987d6714cc0d1c50d95305fb56beff23197d460f6539cc2",
-      "size": 1529021,
+      "hash": "sha256:f5c14de5814ceb83dbceaca05eea112a61d6118ea5fa8b015dee55079fe5459f",
+      "size": 410590,
       "format": "png"
     }
   }
