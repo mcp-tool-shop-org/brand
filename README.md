@@ -51,6 +51,10 @@ brand manifest
 # CI mode — fail if manifest is out of date
 brand manifest --check
 
+# Show registry summary — counts, formats, sync status
+brand stats
+brand stats --json
+
 # Audit repos for broken refs, badge collisions, indentation traps
 brand audit --repos /path/to/clones
 

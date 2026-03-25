@@ -76,4 +76,15 @@ program
     await runMigrate(opts);
   });
 
+program
+  .command('stats')
+  .description('Show brand asset registry summary — logo counts, format breakdown, sync status')
+  .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--manifest <path>', 'Path to manifest.json', 'manifest.json')
+  .option('--json', 'Output as JSON')
+  .action(async (opts) => {
+    const { runStats } = await import('./commands/stats.js');
+    await runStats(opts);
+  });
+
 program.parse();

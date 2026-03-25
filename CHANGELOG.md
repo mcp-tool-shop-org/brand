@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.3 — 2026-03-25
+
+### Added
+
+- `brand stats` command — logo counts, format breakdown, manifest sync status
+- `--json` flag for machine-readable stats output
+- 2 tests for stats command (31 total)
+
 ## 1.0.2 — 2026-03-19
 
 ### Added
