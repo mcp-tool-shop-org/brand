@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-25T22:22:12.824Z",
+  "generated": "2026-03-26T17:31:21.320Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -686,6 +686,11 @@
     "logos/sprite-creator-studio/readme.png": {
       "hash": "sha256:d1274e0f98c6db70f81d06c77d2d431da09abbb6a15feafd2ec5e2d8a0943028",
       "size": 407583,
+      "format": "png"
+    },
+    "logos/star-freight-client/readme.png": {
+      "hash": "sha256:fa65ed32139ed1cd0ee655ab8bc3a9d43bde6766fee12e4617c02a267c511266",
+      "size": 1190787,
       "format": "png"
     },
     "logos/star-freight/readme.png": {
