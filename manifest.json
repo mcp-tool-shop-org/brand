@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-26T17:31:21.320Z",
+  "generated": "2026-03-26T18:10:38.319Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -688,6 +688,11 @@
       "size": 407583,
       "format": "png"
     },
+    "logos/sprite-foundry/readme.png": {
+      "hash": "sha256:d00ec45807b283ee83d7fc717c6507dc0b0129d0e87740b75ac9d5124136b90e",
+      "size": 1830250,
+      "format": "png"
+    },
     "logos/star-freight-client/readme.png": {
       "hash": "sha256:fa65ed32139ed1cd0ee655ab8bc3a9d43bde6766fee12e4617c02a267c511266",
       "size": 1190787,
@@ -796,6 +801,11 @@
     "logos/zip-meta-map/readme.png": {
       "hash": "sha256:b87cd8e40b6173e3e987d6714cc0d1c50d95305fb56beff23197d460f6539cc2",
       "size": 1529021,
+      "format": "png"
+    },
+    "logos/zombie-sprite-pack/readme.png": {
+      "hash": "sha256:73999b826defae00bbe59a5b748c6667508ab41e54674ae4a149888f8c05d7d0",
+      "size": 3004988,
       "format": "png"
     }
   }
