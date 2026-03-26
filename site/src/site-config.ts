@@ -14,7 +14,7 @@ export const config: SiteConfig = {
     headlineAccent: 'asset registry.',
     description: 'One repo holds every logo. Every README points here. Update once, update everywhere. SHA-256 integrity verification keeps your brand safe.',
     primaryCta: { href: '#cli', label: 'Get started' },
-    secondaryCta: { href: '#features', label: 'Learn more' },
+    secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
       { label: 'Verify', code: 'brand verify' },
       { label: 'Audit', code: 'brand audit --repos /path/to/clones' },
@@ -29,7 +29,7 @@ export const config: SiteConfig = {
       title: 'Features',
       subtitle: 'Why centralize brand assets.',
       features: [
-        { title: 'Single source of truth', desc: '117 logos across the org. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
+        { title: 'Single source of truth', desc: '148 logos across the org. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
         { title: 'Tamper detection', desc: 'SHA-256 manifest tracks every asset. CI catches accidental overwrites, drift, and compromised logos before they ship.' },
         { title: 'Safe migration', desc: 'Multi-gate regex distinguishes brand logos from shields.io badges. Dry-run first, spot-check, push incrementally.' },
       ],
@@ -58,7 +58,7 @@ export const config: SiteConfig = {
       kind: 'data-table',
       id: 'scorecard',
       title: 'Quality scorecard',
-      subtitle: 'Ship Gate audit — 47/50.',
+      subtitle: 'Ship Gate audit — 50/50.',
       columns: ['Category', 'Score', 'Notes'],
       rows: [
         ['A. Security', '10/10', 'SECURITY.md, SHA-256 integrity, no network, no telemetry'],
