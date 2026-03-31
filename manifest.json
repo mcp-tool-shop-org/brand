@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-26T18:10:38.319Z",
+  "generated": "2026-03-31T04:33:54.441Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -348,9 +348,24 @@
       "size": 156708,
       "format": "png"
     },
+    "logos/edgepacks/readme.png": {
+      "hash": "sha256:4eb9b1fb372ef22d9af449fb6ae6d49b2263e38e6b64ed7042d39a9e59333417",
+      "size": 188570,
+      "format": "png"
+    },
     "logos/escape-the-valley/readme.png": {
       "hash": "sha256:d8c551e8418a03c26213ce01d0b68e37dd3f3785343b5c33445a6aabf94d9ec0",
       "size": 1479510,
+      "format": "png"
+    },
+    "logos/fantasy-heroes-sprite-pack/readme.png": {
+      "hash": "sha256:bb1188ddb47afdcb50f01505fca1c4a268b062600c0efebe1ea041299d668fb7",
+      "size": 2665947,
+      "format": "png"
+    },
+    "logos/fantasy-villains-sprite-pack/readme.png": {
+      "hash": "sha256:515b7b3c0e695a3c27b7069078d6873e04322a21ae2e927521c344ee2c318053",
+      "size": 2812875,
       "format": "png"
     },
     "logos/feature-reacher/readme.png": {
@@ -371,6 +386,11 @@
     "logos/game-dev-mcp/readme.png": {
       "hash": "sha256:816d717198b1af6f2a76d6d33a7bdb6fe89b62fe22f64cdab46241e222487a11",
       "size": 1591431,
+      "format": "png"
+    },
+    "logos/goblin-sprite-pack/readme.png": {
+      "hash": "sha256:0342c5a648557134aaf3965880003a14f5c967f32922559135a5876fd741665e",
+      "size": 1984098,
       "format": "png"
     },
     "logos/headless-wheel-builder/readme.png": {
@@ -396,6 +416,11 @@
     "logos/jam-session-plugin/readme.png": {
       "hash": "sha256:c3fd975d9bbc511ed2fccfaab82462587274385f01e79c5a549dab99be376d41",
       "size": 932029,
+      "format": "png"
+    },
+    "logos/knowledge-core/readme.png": {
+      "hash": "sha256:d2524b0e90c1e0d028831ede1211e974a9afde62d9ce0b0c2fd86adf76550d32",
+      "size": 1113684,
       "format": "png"
     },
     "logos/ledger-suite/readme.png": {
@@ -478,6 +503,11 @@
       "size": 1083507,
       "format": "png"
     },
+    "logos/monster-pack/readme.png": {
+      "hash": "sha256:4fbe5fc4ae072a59971f6e316ce8e59e0856eaec9cfbc780cd2c408ebccc1ce0",
+      "size": 2208796,
+      "format": "png"
+    },
     "logos/multi-claude/readme.png": {
       "hash": "sha256:5955212d849d0ed41167c48ca42bce67766fcde9fa761dca5f0f588dfde7bd67",
       "size": 1534866,
@@ -541,6 +571,11 @@
     "logos/payroll-engine/readme.png": {
       "hash": "sha256:cb315ffd848f4b36e6ac0540901dd7494c66589ec632324e5b12c188809f0884",
       "size": 1572203,
+      "format": "png"
+    },
+    "logos/pirate-raiders-sprite-pack/readme.png": {
+      "hash": "sha256:c9e0f46964c90633f4ce8667c56a7a8133f15d3b748a0c91b5eb6bea7b2036dd",
+      "size": 688911,
       "format": "png"
     },
     "logos/pocket-ledger/readme.png": {
@@ -688,6 +723,11 @@
       "size": 407583,
       "format": "png"
     },
+    "logos/sprite-foundry-packs/readme.png": {
+      "hash": "sha256:d00ec45807b283ee83d7fc717c6507dc0b0129d0e87740b75ac9d5124136b90e",
+      "size": 1830250,
+      "format": "png"
+    },
     "logos/sprite-foundry/readme.png": {
       "hash": "sha256:d00ec45807b283ee83d7fc717c6507dc0b0129d0e87740b75ac9d5124136b90e",
       "size": 1830250,
@@ -716,6 +756,21 @@
     "logos/synthesis/readme.png": {
       "hash": "sha256:1bfcd9d83f9301fffe75085859557d2e612baa9852be9c5563b567eb4a958fb2",
       "size": 1652700,
+      "format": "png"
+    },
+    "logos/taste-engine/readme.png": {
+      "hash": "sha256:3c3abe911f29818ae77f11c2edcc3671558611c9bb7268c902db5ea274aad804",
+      "size": 242073,
+      "format": "png"
+    },
+    "logos/terminal-tutor/readme.png": {
+      "hash": "sha256:5cf0294dc54cab2bea04916ad5c420656722641da6921c82f06ff925a3d57b06",
+      "size": 464625,
+      "format": "png"
+    },
+    "logos/tinytrainer/readme.png": {
+      "hash": "sha256:a296d7b81ed0b4ed8d6051c757d71cb61d6bc0e4be107e8d6eadc6274883ef20",
+      "size": 177496,
       "format": "png"
     },
     "logos/tool-compass/readme.png": {
