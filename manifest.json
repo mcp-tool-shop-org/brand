@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-03-31T04:33:54.441Z",
+  "generated": "2026-04-17T07:37:50.893Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -244,8 +244,8 @@
       "format": "png"
     },
     "logos/claude-rpg/readme.png": {
-      "hash": "sha256:d7f1d8663913356279c08b16479e16fe823cf4a2def5a51e0bcc9451ac4de184",
-      "size": 2793718,
+      "hash": "sha256:734d9b66655cc25817baacdde31b23feedf7cdc3d825d232f90be8a2da643ad7",
+      "size": 1672634,
       "format": "png"
     },
     "logos/claude-rules/readme.png": {
@@ -332,6 +332,11 @@
       "hash": "sha256:bbdcf55ac5bf0e5537ac445c50b4035126b326d24642f8109f70bc7c9326fcfd",
       "size": 152146,
       "format": "jpeg"
+    },
+    "logos/datagates/readme.png": {
+      "hash": "sha256:749b6a3bbeb34fca7e5aa6f16948ad4ea12e8b0a625982ca27018c72ea168990",
+      "size": 226598,
+      "format": "png"
     },
     "logos/deltamind/readme.png": {
       "hash": "sha256:b2033ddc52c8ddef7bb822d3b6eacdaf60550242fa7fc4dd55132f65b4c30234",
@@ -508,6 +513,11 @@
       "size": 2208796,
       "format": "png"
     },
+    "logos/motif/readme.png": {
+      "hash": "sha256:72bf957c9aae033a770e246c49b4ba2634e61865dc8ab8499edcd45a74d4084f",
+      "size": 340710,
+      "format": "png"
+    },
     "logos/multi-claude/readme.png": {
       "hash": "sha256:5955212d849d0ed41167c48ca42bce67766fcde9fa761dca5f0f588dfde7bd67",
       "size": 1534866,
@@ -556,6 +566,11 @@
     "logos/nullout/readme.png": {
       "hash": "sha256:f450a4a4481d45f8bdf467e7868066064fa9035f5e13ffb46ab3da79f94dd6d9",
       "size": 189473,
+      "format": "png"
+    },
+    "logos/ollama-intern-mcp/readme.png": {
+      "hash": "sha256:31e4fb5dfb404f0b45043e26abf99f37b875892c32ce7f97ace686c6f5d1b63d",
+      "size": 384315,
       "format": "png"
     },
     "logos/original_voice-soundboard/readme.png": {
@@ -638,6 +653,11 @@
       "size": 126380,
       "format": "png"
     },
+    "logos/repo-dataset/readme.png": {
+      "hash": "sha256:e90c92d78656e1a0364ff93a567c4561684c61df53d338cd05e37df6868fe57a",
+      "size": 245285,
+      "format": "png"
+    },
     "logos/repo-knowledge/readme.png": {
       "hash": "sha256:d177f037b290f2b8b9f7b65f9c0bbc759a74388f104fe1e3bfee0bd920194835",
       "size": 301196,
@@ -658,6 +678,11 @@
       "size": 293274,
       "format": "png"
     },
+    "logos/roll/readme.png": {
+      "hash": "sha256:f949f387cb443ed26baf77a792619dd976db163b3d90eaa6ebaf2e35a0f5f032",
+      "size": 1450959,
+      "format": "png"
+    },
     "logos/runforge-desktop/readme.png": {
       "hash": "sha256:75ce67b6ea5cf8dabf2ea089e5765f21942ff9732f2639e4aed5bc19fb5fbf19",
       "size": 5244897,
@@ -674,8 +699,8 @@
       "format": "png"
     },
     "logos/sensor-humor/readme.png": {
-      "hash": "sha256:372dbef4d6e7a57fab97abc8b34b6197c11ba7aef68e5a7f93fadc1b8ab1b032",
-      "size": 167454,
+      "hash": "sha256:d2096265bb99bf65fa981081d495ca6984194db8b3741b71261d2e3e638f1989",
+      "size": 1669984,
       "format": "png"
     },
     "logos/shipcheck/readme.jpg": {
@@ -753,9 +778,19 @@
       "size": 1576487,
       "format": "png"
     },
+    "logos/style-dataset-lab/readme.png": {
+      "hash": "sha256:8addaea094fdc980eb744ca5f54394c5767d21b25f4d0ac7deb5c5b7aadb9ef2",
+      "size": 314718,
+      "format": "png"
+    },
     "logos/synthesis/readme.png": {
       "hash": "sha256:1bfcd9d83f9301fffe75085859557d2e612baa9852be9c5563b567eb4a958fb2",
       "size": 1652700,
+      "format": "png"
+    },
+    "logos/taste-compiler/readme.png": {
+      "hash": "sha256:4baeb934ebee89360151db12199218db0fc62005fe08abaeb98efe565fcb38a4",
+      "size": 297299,
       "format": "png"
     },
     "logos/taste-engine/readme.png": {
@@ -846,6 +881,11 @@
     "logos/xrpl-camp/readme.png": {
       "hash": "sha256:a2ab17adb3c897e36f20f28c6401c8bdb9b4ebab000e42bbe5ebd74095646b19",
       "size": 1700476,
+      "format": "png"
+    },
+    "logos/xrpl-creator-capsule/readme.png": {
+      "hash": "sha256:965cea881d1de70ed6ac87fe301d609968eb62ba2a6835660ddd936fbd630f58",
+      "size": 345464,
       "format": "png"
     },
     "logos/xrpl-lab/readme.png": {
