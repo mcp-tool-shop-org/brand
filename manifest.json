@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-04-17T20:00:38.811Z",
+  "generated": "2026-04-19T23:36:28.087Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -386,6 +386,11 @@
     "logos/flexiflow/readme.png": {
       "hash": "sha256:57a9e13902c306bfd7739778b86a6e3841d7399bce7a7f784f76d61356235c8f",
       "size": 215920,
+      "format": "png"
+    },
+    "logos/forkable/readme.png": {
+      "hash": "sha256:c22d573bbb321800be74b8e6c18a03e2aa94afbc4611ddacfec8e20b30967deb",
+      "size": 133803,
       "format": "png"
     },
     "logos/game-dev-mcp/readme.png": {
