@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-05-04T06:08:42.018719Z",
+  "generated": "2026-05-04T07:28:59.409Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -398,6 +398,11 @@
       "size": 147551,
       "format": "png"
     },
+    "logos/forkctl/readme.png": {
+      "hash": "sha256:a4c63a7997a986aabc2d174d1ee786fc7e2b5a60a8f628f128a770238643bc1c",
+      "size": 241122,
+      "format": "png"
+    },
     "logos/game-dev-mcp/readme.png": {
       "hash": "sha256:816d717198b1af6f2a76d6d33a7bdb6fe89b62fe22f64cdab46241e222487a11",
       "size": 1591431,
@@ -781,6 +786,11 @@
     "logos/stillpoint/readme.png": {
       "hash": "sha256:c3cf707bc3c5b6f9d45581d3db63195918951f1d305a906f4da89a5a94288c27",
       "size": 365177,
+      "format": "png"
+    },
+    "logos/storyboard-os/readme.png": {
+      "hash": "sha256:ec1327abdf78f26e2d8fbe4a63f812ca55fb6ebf46ecc51a31e86b3e30906884",
+      "size": 1014667,
       "format": "png"
     },
     "logos/stresskit-mcp/readme.png": {
