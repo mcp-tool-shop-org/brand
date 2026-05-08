@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-05-04T07:28:59.409Z",
+  "generated": "2026-05-08T08:59:38.694Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -681,6 +681,11 @@
     "logos/repomesh/readme.png": {
       "hash": "sha256:3f9f756b51d9c1d68055f59a77bc2749dc5d9d5fede6de0277caecaad912257b",
       "size": 268711,
+      "format": "png"
+    },
+    "logos/research-os/readme.png": {
+      "hash": "sha256:777b019ca58bf6e5925ee39d40e7ea323d353514000f2d0eda75d032fa766495",
+      "size": 1005312,
       "format": "png"
     },
     "logos/rippled-windows-debug/readme.png": {
