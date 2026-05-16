@@ -1,6 +1,6 @@
 {
   "name": "@mcptoolshop/brand",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Centralized brand asset management — migration, audit, and integrity verification for GitHub orgs",
   "type": "module",
   "bin": {
@@ -9,7 +9,9 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md"
   ],
   "keywords": [
     "brand",
@@ -25,13 +27,25 @@
     "type": "git",
     "url": "https://github.com/mcp-tool-shop-org/brand.git"
   },
+  "bugs": {
+    "url": "https://github.com/mcp-tool-shop-org/brand/issues"
+  },
   "homepage": "https://mcp-tool-shop-org.github.io/brand/",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
+    "pretest": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:fast": "vitest run --exclude tests/manifest-cmd.test.ts --exclude tests/verify.test.ts --exclude tests/json-output.test.ts --exclude tests/exit-codes.test.ts",
+    "test:slow": "vitest run tests/manifest-cmd.test.ts tests/verify.test.ts tests/json-output.test.ts tests/exit-codes.test.ts",
+    "test:ci": "vitest run --coverage",
+    "coverage": "vitest run --coverage",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "engines": {
@@ -45,7 +59,8 @@
     "glob": "^11.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
     "rimraf": "^5.0.0",
     "typescript": "^5.4.0",
     "vitest": "^2.0.0"

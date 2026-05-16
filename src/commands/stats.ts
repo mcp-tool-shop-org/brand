@@ -5,14 +5,17 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { extname } from 'node:path';
 import { globSync } from 'glob';
 import chalk from 'chalk';
+import { getFormatGlob, type Manifest } from '../manifest.js';
 
 interface StatsOptions {
   logos: string;
   manifest: string;
   json?: boolean;
+  quiet?: boolean;
+  verbose?: boolean;
 }
 
 interface StatsResult {
@@ -27,9 +30,13 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   const logosDir = opts.logos;
   const manifestPath = opts.manifest;
 
-  // Find all image files
-  const imageFiles = globSync('*/readme.{png,jpg,jpeg,svg,webp}', { cwd: logosDir });
-  const slugs = imageFiles.map(f => f.split('/')[0]);
+  // Find all image files using the shared format glob (derived from SUPPORTED_FORMATS).
+  // Normalize Windows paths so slug split works cross-platform.
+  const imageFiles = globSync(getFormatGlob('*/readme'), { cwd: logosDir })
+    .map(f => f.replace(/\\/g, '/'));
+  const slugs = imageFiles
+    .map(f => f.split('/')[0])
+    .filter((s): s is string => s !== undefined);
 
   // Format breakdown
   const formats: Record<string, number> = {};
@@ -42,19 +49,30 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   let manifestEntries = 0;
   const manifestSlugs = new Set<string>();
   if (existsSync(manifestPath)) {
-    const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
-    const entries = manifest.logos || manifest;
-    if (Array.isArray(entries)) {
-      manifestEntries = entries.length;
-      for (const e of entries) {
-        manifestSlugs.add(e.slug || e.name);
+    let manifest: Manifest;
+    try {
+      manifest = JSON.parse(readFileSync(manifestPath, 'utf-8')) as Manifest;
+    } catch (err) {
+      const msg = `Manifest is not valid JSON (${manifestPath}): ${(err as Error).message}`;
+      if (opts.json) {
+        process.stdout.write(JSON.stringify({ ok: false, error: 'parse', path: manifestPath, message: msg }, null, 2) + '\n');
       }
-    } else if (typeof entries === 'object') {
-      const keys = Object.keys(entries);
-      manifestEntries = keys.length;
-      for (const k of keys) {
-        manifestSlugs.add(k);
-      }
+      console.error(chalk.red(`  ✗ ${msg}`));
+      console.error(chalk.dim(`  Fix: re-run \`brand manifest\` to regenerate, then \`brand verify\`.`));
+      process.exit(1);
+    }
+    const assets = manifest.assets ?? {};
+    const assetKeys = Object.keys(assets);
+    manifestEntries = assetKeys.length;
+    // Derive slugs from keys like `logos/<slug>/readme.<ext>` — strip the
+    // `logos/` prefix and take the directory segment.
+    for (const key of assetKeys) {
+      const normalized = key.replace(/\\/g, '/');
+      const withoutPrefix = normalized.startsWith('logos/')
+        ? normalized.slice('logos/'.length)
+        : normalized;
+      const slug = withoutPrefix.split('/')[0];
+      if (slug) manifestSlugs.add(slug);
     }
   }
 
@@ -76,7 +94,7 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     return;
   }
 
-  console.log(chalk.bold('Brand Asset Registry'));
+  console.log(chalk.bold('\n  Brand Asset Registry'));
   console.log('');
   console.log(`  Logos on disk:     ${chalk.cyan(String(result.totalLogos))}`);
   console.log(`  Manifest entries:  ${chalk.cyan(String(result.manifestEntries))}`);
@@ -111,6 +129,7 @@ export async function runStats(opts: StatsOptions): Promise<void> {
 
   if (missing.length === 0 && untracked.length === 0) {
     console.log('');
-    console.log(chalk.green('  ✓ Manifest and disk are in sync'));
+    console.log(chalk.green('  ✓ Manifest and disk are in sync.'));
   }
+  console.log('');
 }

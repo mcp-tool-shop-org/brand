@@ -1,0 +1,77 @@
+version: 2
+updates:
+  # npm dependencies (root)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    assignees:
+      - mcp-tool-shop
+    reviewers:
+      - mcp-tool-shop
+    labels:
+      - dependencies
+      - npm
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      npm-minor-patch:
+        update-types:
+          - minor
+          - patch
+
+  # npm dependencies (site/)
+  - package-ecosystem: npm
+    directory: /site
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    assignees:
+      - mcp-tool-shop
+    reviewers:
+      - mcp-tool-shop
+    labels:
+      - dependencies
+      - npm
+      - site
+    commit-message:
+      prefix: chore(site)
+      include: scope
+    groups:
+      site-minor-patch:
+        update-types:
+          - minor
+          - patch
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    assignees:
+      - mcp-tool-shop
+    reviewers:
+      - mcp-tool-shop
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: chore(ci)
+      include: scope
+    groups:
+      actions-minor-patch:
+        update-types:
+          - minor
+          - patch

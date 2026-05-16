@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Brand registry logo.
+  Motif: two interlocking chain links forming a "B" silhouette,
+  with a small lock keyhole at the center to evoke SHA-256 integrity.
+  Single-color (emerald-400, #34d399) so it scales and inverts cleanly
+  in light/dark mode. Designed for header rendering at 24-32px and
+  favicon at 16-32px without losing the link silhouette.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#34d399" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Brand registry">
+  <title>Brand registry</title>
+  <!-- Upper chain link -->
+  <rect x="10" y="8" width="26" height="22" rx="11" />
+  <!-- Lower chain link, offset to interlock -->
+  <rect x="28" y="34" width="26" height="22" rx="11" />
+  <!-- Integrity keyhole dot at the locked junction -->
+  <circle cx="32" cy="32" r="2.5" fill="#34d399" stroke="none" />
+</svg>

@@ -27,29 +27,67 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18, 20, 22]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: 22
+          node-version: ${{ matrix.node-version }}
           cache: npm
       - run: npm ci
+      - name: npm audit (high)
+        id: audit
+        run: npm audit --audit-level=high
+        continue-on-error: false
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
+      - name: Write CI summary
+        if: always()
+        run: |
+          {
+            echo "## CI summary (node ${{ matrix.node-version }})"
+            echo ""
+            echo "| Step | Result |"
+            echo "| --- | --- |"
+            echo "| npm audit (high) | ${{ steps.audit.outcome }} |"
+            echo "| typecheck / build / test | ${{ job.status }} |"
+            echo "| Commit | \`${{ github.sha }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   integrity:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run build
       - name: Verify manifest integrity
+        id: verify
         run: node dist/cli.js manifest --check --logos logos --output manifest.json
+      - name: Write integrity summary
+        if: always()
+        run: |
+          {
+            echo "## Manifest integrity"
+            echo ""
+            if [ "${{ steps.verify.outcome }}" = "success" ]; then
+              echo "Manifest hashes match every file in \`logos/\`."
+            else
+              echo "Manifest verification FAILED — \`logos/\` and \`manifest.json\` are out of sync."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

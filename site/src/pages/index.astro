@@ -22,12 +22,32 @@ import { config } from '../site-config';
 >
   <Hero {...config.hero} />
 
-  {config.sections.map((s) => (
-    <Section id={s.id} title={s.title} subtitle={s.subtitle}>
-      {s.kind === 'features' && <FeatureGrid features={s.features} />}
-      {s.kind === 'data-table' && <DataTable columns={s.columns} rows={s.rows} />}
-      {s.kind === 'code-cards' && <CodeCardGrid cards={s.cards} />}
-      {s.kind === 'api' && <ApiList apis={s.apis} />}
-    </Section>
-  ))}
+  {config.sections.map((s) => {
+    // Exhaustive section renderer. The `_exhaustive: never` assignment in
+    // the default branch is a TypeScript exhaustiveness check — if a new
+    // section kind is added to site-theme's union and not handled here,
+    // tsc + astro check will fail. At runtime, an unknown kind throws
+    // loud instead of silently rendering an empty Section body.
+    let body;
+    if (s.kind === 'features') {
+      body = <FeatureGrid features={s.features} />;
+    } else if (s.kind === 'data-table') {
+      body = <DataTable columns={s.columns} rows={s.rows} />;
+    } else if (s.kind === 'code-cards') {
+      body = <CodeCardGrid cards={s.cards} />;
+    } else if (s.kind === 'api') {
+      body = <ApiList apis={s.apis} />;
+    } else {
+      // Exhaustiveness check — if this line ever fails to type-check, a new
+      // section kind was added to site-theme without being handled above.
+      const _exhaustive: never = s;
+      void _exhaustive;
+      throw new Error(`Unknown section kind: ${(s as { kind: string }).kind}`);
+    }
+    return (
+      <Section id={s.id} title={s.title} subtitle={s.subtitle}>
+        {body}
+      </Section>
+    );
+  })}
 </BaseLayout>

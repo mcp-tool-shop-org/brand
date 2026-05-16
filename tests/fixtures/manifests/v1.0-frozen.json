@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "generated": "2026-01-15T12:00:00.000Z",
+  "algorithm": "sha256",
+  "assets": {
+    "logos/alpha/readme.png": {
+      "hash": "sha256:b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+      "size": 11,
+      "format": "png"
+    },
+    "logos/beta/readme.jpg": {
+      "hash": "sha256:2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+      "size": 7,
+      "format": "jpeg"
+    },
+    "logos/gamma/readme.jpeg": {
+      "hash": "sha256:fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9",
+      "size": 8,
+      "format": "jpeg"
+    },
+    "logos/delta/readme.svg": {
+      "hash": "sha256:486ea46224d1bb4fb680f34f7c9ad96a8f24ec88be73ea8e5a6c65260e9cb8a7",
+      "size": 4,
+      "format": "svg"
+    },
+    "logos/epsilon/readme.webp": {
+      "hash": "sha256:b22b35f9be05ea35d50a23a92c98a0795a07d9e6e8a4b9e22a26064f8b5b0c45",
+      "size": 6,
+      "format": "webp"
+    }
+  }
+}

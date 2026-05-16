@@ -3,7 +3,7 @@
 > Score a repo before remediation. Fill this out first, then use SHIP_GATE.md to fix.
 
 **Repo:** brand
-**Date:** 2026-02-27
+**Date:** 2026-02-27 (original) · 2026-05-15 (refreshed after wave-2 amend)
 **Type tags:** [npm] [cli]
 
 ## Pre-Remediation Assessment
@@ -31,13 +31,17 @@
 | 2 | Add Security & Data Scope table to README | 3 min |
 | 3 | Patch bump to 1.0.1 | 1 min |
 
-## Post-Remediation
+## Post-Remediation (after 2026-05-15 wave-2 amend)
 
 | Category | Before | After |
 |----------|--------|-------|
 | A. Security | 9/10 | 10/10 |
 | B. Error Handling | 8/10 | 10/10 |
 | C. Operator Docs | 9/10 | 10/10 |
-| D. Shipping Hygiene | 9/10 | 10/10 |
+| D. Shipping Hygiene | 9/10 | 9/10 |
 | E. Identity (soft) | 10/10 | 10/10 |
-| **Overall** | **45/50** | **50/50** |
+| **Overall** | **45/50** | **49/50** |
+
+### Outstanding (D = 9/10 reason)
+
+- Remote git tags only go to v1.0.1, but CHANGELOG documents v1.0.2 + v1.0.3 published. Tag/release parity is the one unresolved D-line item. Tracking as a separate follow-up; the rest of D is green (CI matrix covers Node 18/20/22, SHA-pinned actions, `npm audit` step, Dependabot config, full tarball contents).

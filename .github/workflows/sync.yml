@@ -1,3 +1,12 @@
+# Sync org logos
+#
+# Required setup (one of):
+#   (a) Org/repo setting "Allow GitHub Actions to create and approve pull requests" must be ON, OR
+#   (b) Provide a `SYNC_PAT` repository secret (PAT) with `contents:write` and `pull-requests:write`
+#       scopes. The PAT path also triggers downstream CI on the auto-PR (the default GITHUB_TOKEN
+#       does not).
+#
+# The workflow prefers SYNC_PAT when available and falls back to GITHUB_TOKEN.
 name: Sync org logos
 
 on:
@@ -8,19 +17,22 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 22
           cache: npm
@@ -31,7 +43,7 @@ jobs:
       - name: Sync logos from org repos
         id: sync
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SYNC_PAT || secrets.GITHUB_TOKEN }}
         run: |
           set +e
           bash scripts/sync-org-logos.sh
@@ -49,20 +61,27 @@ jobs:
         if: steps.sync.outputs.changed == 'true'
         run: node dist/cli.js manifest
 
+      - name: Verify regenerated manifest
+        id: verify
+        if: steps.sync.outputs.changed == 'true'
+        run: node dist/cli.js verify
+
       - name: Create PR
+        id: pr
         if: steps.sync.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SYNC_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          BRANCH="auto/sync-logos-$(date +%Y%m%d)"
-          git checkout -b "$BRANCH"
-          git add logos/ manifest.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: sync org logos ($(date +%Y-%m-%d))"
+          BRANCH="auto/sync-logos-$(date -u +%Y%m%d)-${{ github.run_id }}"
+          git checkout -b "$BRANCH"
+          git add logos/ manifest.json
+          git diff --cached --quiet && { echo 'nothing to commit'; exit 0; }
+          git commit -m "chore: sync org logos ($(date -u +%Y-%m-%d))"
           git push -u origin "$BRANCH"
           gh pr create \
-            --title "chore: sync org logos ($(date +%Y-%m-%d))" \
+            --title "chore: sync org logos ($(date -u +%Y-%m-%d))" \
             --body "$(cat <<'EOF'
           ## Auto-sync
 
@@ -75,3 +94,50 @@ jobs:
           **Review:** Check the diff for any unexpected additions or hash changes before merging.
           EOF
           )"
+
+      - name: Write sync summary
+        if: always()
+        run: |
+          ADDED="${{ steps.sync.outputs.added }}"
+          CHANGED_COUNT="${{ steps.sync.outputs.changed_count }}"
+          UNCHANGED="${{ steps.sync.outputs.unchanged }}"
+          SKIPPED="${{ steps.sync.outputs.skipped }}"
+          REJECTED="${{ steps.sync.outputs.rejected }}"
+          NET_ERR="${{ steps.sync.outputs.network_errors }}"
+          {
+            echo "## Daily sync — $(date -u +%Y-%m-%d)"
+            echo ""
+            echo "| Metric | Count |"
+            echo "| --- | --- |"
+            echo "| New logos | ${ADDED:-0} |"
+            echo "| Updated logos | ${CHANGED_COUNT:-0} |"
+            echo "| Unchanged | ${UNCHANGED:-0} |"
+            echo "| No logo found | ${SKIPPED:-0} |"
+            echo "| Rejected (not an image / too large) | ${REJECTED:-0} |"
+            echo "| Network errors | ${NET_ERR:-0} |"
+            echo ""
+            echo "Repo changes detected: ${{ steps.sync.outputs.changed }}"
+            if [ "${{ steps.verify.outcome }}" = "failure" ]; then
+              echo ""
+              echo "Manifest verification FAILED — see the Verify regenerated manifest step."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open issue on verify failure
+        # If the manifest verify step failed, surface it as a tracked issue
+        # so it doesn't sit unnoticed in the Actions tab. De-duplicates by
+        # label so repeated failures don't spawn N issues.
+        if: failure() && steps.verify.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh issue list --label sync-failure --state open --json number --jq 'length')
+          if [ "${existing:-0}" -gt 0 ]; then
+            echo "An open sync-failure issue already exists — not opening another."
+            exit 0
+          fi
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          gh issue create \
+            --title "Daily sync: manifest verify failed ($(date -u +%Y-%m-%d))" \
+            --label sync-failure \
+            --body "The daily sync regenerated \`manifest.json\` but verification failed. See [run log]($RUN_URL)."

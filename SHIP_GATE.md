@@ -9,7 +9,7 @@
 
 ## A. Security Baseline
 
-- [x] `[all]` SECURITY.md exists (report email, supported versions, response timeline) (2026-02-27)
+- [x] `[all]` SECURITY.md exists (private report channel, supported versions, response SLA) (2026-02-27, refreshed 2026-05-15)
 - [x] `[all]` README includes threat model paragraph (data touched, data NOT touched, permissions required) (2026-02-27)
 - [x] `[all]` No secrets, tokens, or credentials in source or diagnostics output (2026-02-27)
 - [x] `[all]` No telemetry by default — state it explicitly even if obvious (2026-02-27)
@@ -36,7 +36,7 @@
 - [x] `[all]` README is current: what it does, install, usage, supported platforms + runtime versions (2026-02-27)
 - [x] `[all]` CHANGELOG.md (Keep a Changelog format) (2026-02-27)
 - [x] `[all]` LICENSE file present and repo states support status (2026-02-27)
-- [x] `[cli]` `--help` output accurate for all commands and flags (verify, manifest, audit, migrate) (2026-02-27)
+- [x] `[cli]` `--help` output accurate for all commands and flags (verify, manifest, audit, migrate, stats) (2026-02-27)
 - [ ] `[cli|mcp|desktop]` SKIP: CLI tool — no logging levels needed
 - [ ] `[mcp]` SKIP: not an MCP server
 - [x] `[complex]` Handbook exists (docs/handbook.md — migration lessons learned) (2026-02-27)
@@ -44,11 +44,12 @@
 ## D. Shipping Hygiene
 
 - [x] `[all]` `verify` script exists (vitest) (2026-02-27)
-- [x] `[all]` Version in manifest matches git tag (2026-02-27)
-- [x] `[all]` Dependency scanning runs in CI (ecosystem-appropriate) (2026-02-27)
-- [x] `[all]` Automated dependency update mechanism exists (2026-02-27)
-- [x] `[npm]` `npm pack --dry-run` includes: dist/, README.md, LICENSE (2026-02-27)
-- [x] `[npm]` `engines.node` set (>=18) (2026-02-27)
+- [ ] `[all]` Version in manifest matches git tag — FOLLOW-UP: remote tags only go to v1.0.1; CHANGELOG documents v1.0.2 + v1.0.3 published. Investigate how 1.0.2/1.0.3 reached npm without `release: published` firing (or tag push). Until reconciled, do not treat this as passing.
+- [x] `[all]` Dependency scanning runs in CI (`npm audit --audit-level=high` in ci.yml) (2026-05-15)
+- [x] `[all]` Automated dependency update mechanism exists (`.github/dependabot.yml` covers npm root, npm site/, github-actions) (2026-05-15)
+- [x] `[all]` Workflow `uses:` actions pinned to commit SHA with `# vX.Y.Z` comment (2026-05-15)
+- [x] `[npm]` `npm pack --dry-run` includes: dist/, README.md, LICENSE, CHANGELOG.md, SECURITY.md (2026-05-15)
+- [x] `[npm]` `engines.node` set (>=18) and CI matrix covers 18, 20, 22 (2026-05-15)
 - [ ] `[npm]` SKIP: no lockfile needed — CLI published to npm
 - [ ] `[vsix]` SKIP: not a VS Code extension
 - [ ] `[desktop]` SKIP: not a desktop application

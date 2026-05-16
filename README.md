@@ -35,7 +35,7 @@ docs/
   handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-148 logos across the org. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
+Hundreds of logos across the org. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
 
 ## CLI
 
@@ -77,6 +77,24 @@ The sync script lives at `scripts/sync-org-logos.sh` and can be run locally:
 ./scripts/sync-org-logos.sh
 ```
 
+### Setup (one-time, per fork)
+
+The sync workflow opens a PR, so it needs permission to do that. Pick one of these in repo Settings:
+
+1. **Enable Actions PR creation.** Settings -> Actions -> General -> "Allow GitHub Actions to create and approve pull requests" -> ON. Simplest path; no extra secrets to manage. ([GitHub docs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
+2. **Provide a `SYNC_PAT` repository secret.** Personal access token with `contents:write` + `pull-requests:write` scopes. This path also triggers downstream CI on the auto-PR (the default `GITHUB_TOKEN` does not).
+
+Without one of these the daily workflow fails every morning at `gh pr create` with a permissions error.
+
+### Troubleshooting
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| `gh pr create` 403 | Neither setup option above is configured | Pick option 1 or 2 above |
+| Daily workflow opens no PR, nothing changes | All org repos either have no logo, or the logos already match | Expected — no-op runs are healthy |
+| Manifest verify failed | Logos downloaded but manifest hash mismatch | A `sync-failure` issue is auto-created; re-run `brand manifest && brand verify` locally |
+| A sync PR introduces a bad logo | Upstream repo published a corrupted or wrong-content image | Revert the merge: `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. See [SECURITY.md](SECURITY.md#incident-response) |
+
 ## Adding a Logo Manually
 
 1. Drop the file into `logos/<slug>/readme.png` (or `.jpg`)
@@ -86,12 +104,6 @@ The sync script lives at `scripts/sync-org-logos.sh` and can be run locally:
 
 ## Security
 
-Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Any mismatch — accidental overwrite, tampering, drift — fails the build. Only image files (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) are tracked; non-image files under `logos/` are ignored.
-
-See [SECURITY.md](SECURITY.md) for the full security policy and [docs/handbook.md](docs/handbook.md) for the migration handbook.
-
-## Security & Data Scope
-
 | Aspect | Detail |
 |--------|--------|
 | **Data touched** | Logo files in `logos/` (read), `manifest.json` (read/write), README files (read/write during migration) |
@@ -100,7 +112,9 @@ See [SECURITY.md](SECURITY.md) for the full security policy and [docs/handbook.m
 | **Network** | None — fully offline CLI tool |
 | **Telemetry** | None collected or sent |
 
-See [SECURITY.md](SECURITY.md) for vulnerability reporting and SHA-256 integrity features.
+Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Any mismatch — accidental overwrite, tampering, drift — fails the build. Only image files (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) are tracked; non-image files under `logos/` are ignored.
+
+Vulnerability reports go to GitHub's [private advisory channel](https://github.com/mcp-tool-shop-org/brand/security/advisories/new). See [SECURITY.md](SECURITY.md) for the full policy and [docs/handbook.md](docs/handbook.md) for the migration handbook.
 
 ## Scorecard
 
@@ -109,9 +123,11 @@ See [SECURITY.md](SECURITY.md) for vulnerability reporting and SHA-256 integrity
 | A. Security | 10 |
 | B. Error Handling | 10 |
 | C. Operator Docs | 10 |
-| D. Shipping Hygiene | 10 |
+| D. Shipping Hygiene | 9 |
 | E. Identity (soft) | 10 |
-| **Overall** | **50/50** |
+| **Overall** | **49/50** |
+
+D is 9/10 pending one follow-up: remote git tags only reach v1.0.1, but CHANGELOG documents v1.0.2 + v1.0.3 published. Every other D line is green — Node 18/20/22 matrix, SHA-pinned actions, `npm audit` step, Dependabot, tarball contents.
 
 > Full audit: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 

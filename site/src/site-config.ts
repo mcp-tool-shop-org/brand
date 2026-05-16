@@ -1,18 +1,90 @@
+// Sections support kind: 'features' | 'data-table' | 'code-cards' | 'api'.
+// Adding a new homepage section requires editing this file. Adding a new
+// section *kind* requires updates here AND in src/pages/index.astro (the
+// exhaustive switch will fail loud on unknown kinds at build time).
+//
+// Adding a handbook page: drop a new .md under src/content/docs/handbook/.
+// The Starlight sidebar autogenerates from that directory.
+import { z } from 'zod';
 import type { SiteConfig } from '@mcptoolshop/site-theme';
 
-export const config: SiteConfig = {
+// Runtime validation schema. site-theme's SiteConfig is TypeScript-only;
+// this zod schema catches misconfigurations at module load (silent renders
+// > loud failures). Kept loose where shape is opaque (site-theme owns those
+// types); strict on the fields a content editor actually touches.
+const HeroSchema = z.object({
+  badge: z.string().optional(),
+  headline: z.string(),
+  headlineAccent: z.string().optional(),
+  description: z.string(),
+  primaryCta: z.object({ href: z.string(), label: z.string() }).optional(),
+  secondaryCta: z.object({ href: z.string(), label: z.string() }).optional(),
+  previews: z.array(z.object({ label: z.string(), code: z.string() })).optional(),
+}).passthrough();
+
+const SectionSchema = z.discriminatedUnion('kind', [
+  z.object({
+    kind: z.literal('features'),
+    id: z.string(),
+    title: z.string(),
+    subtitle: z.string().optional(),
+    features: z.array(z.object({ title: z.string(), desc: z.string() })),
+  }).passthrough(),
+  z.object({
+    kind: z.literal('data-table'),
+    id: z.string(),
+    title: z.string(),
+    subtitle: z.string().optional(),
+    columns: z.array(z.string()),
+    rows: z.array(z.array(z.string())),
+  }).passthrough(),
+  z.object({
+    kind: z.literal('code-cards'),
+    id: z.string(),
+    title: z.string(),
+    subtitle: z.string().optional(),
+    cards: z.array(z.object({ title: z.string(), code: z.string() })),
+  }).passthrough(),
+  z.object({
+    kind: z.literal('api'),
+    id: z.string(),
+    title: z.string(),
+    subtitle: z.string().optional(),
+    apis: z.array(z.any()),
+  }).passthrough(),
+]);
+
+const SiteConfigSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  logoBadge: z.string(),
+  brandName: z.string(),
+  repoUrl: z.string().url(),
+  npmUrl: z.string().url(),
+  footerText: z.string().optional(),
+  hero: HeroSchema,
+  sections: z.array(SectionSchema),
+}).passthrough();
+
+const rawConfig: SiteConfig = {
   title: 'Brand',
   description: 'Centralized brand asset management — migration, audit, and integrity verification for GitHub orgs',
   logoBadge: 'B',
   brandName: 'Brand',
   repoUrl: 'https://github.com/mcp-tool-shop-org/brand',
+  npmUrl: 'https://www.npmjs.com/package/@mcptoolshop/brand',
   footerText: 'MIT Licensed — built by <a href="https://mcp-tool-shop.github.io/" style="color:var(--color-muted);text-decoration:underline">MCP Tool Shop</a>',
 
   hero: {
-    badge: 'Open source',
+    // Badge: lead with the integrity story (the differentiator) rather than
+    // a generic "Open source" label. The accent dot in the badge is the
+    // emerald-400 brand color, so this reads as "active, verified".
+    badge: 'SHA-256 integrity verified',
     headline: 'Brand',
     headlineAccent: 'asset registry.',
     description: 'One repo holds every logo. Every README points here. Update once, update everywhere. SHA-256 integrity verification keeps your brand safe.',
+    // Primary CTA goes to the CLI section (jump to the actual install). The
+    // handbook secondary CTA is for users who want context first.
     primaryCta: { href: '#cli', label: 'Get started' },
     secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
@@ -57,16 +129,27 @@ export const config: SiteConfig = {
     {
       kind: 'data-table',
       id: 'scorecard',
+      // TODO: bump to 50/50 and D=10/10 once v1.0.3 tag is confirmed on remote
+      // (npm publish + git push --tags). Currently v1.0.1 is the latest tag on
+      // remote, so shipping-hygiene parity is 9/10 — honest read.
       title: 'Quality scorecard',
-      subtitle: 'Ship Gate audit — 50/50.',
+      // Score is doubled in the subtitle so it reads at-a-glance without
+      // requiring the user to scan the table.
+      subtitle: '49/50 on the Ship Gate audit — pending v1.0.3 tag.',
       columns: ['Category', 'Score', 'Notes'],
       rows: [
         ['A. Security', '10/10', 'SECURITY.md, SHA-256 integrity, no network, no telemetry'],
-        ['B. Error Handling', '8/10', 'Structured errors, clear CLI output, exit codes'],
+        ['B. Error Handling', '10/10', 'Structured errors, clear CLI output, exit codes'],
         ['C. Operator Docs', '10/10', 'README, CHANGELOG, handbook, full CLI docs'],
-        ['D. Shipping Hygiene', '9/10', 'CI integrity check, 29 tests, version aligned'],
+        ['D. Shipping Hygiene', '9/10', 'CI integrity check, 29 tests; v1.0.3 tag pending'],
         ['E. Identity', '10/10', 'Logo, translations, landing page, metadata'],
       ],
     },
   ],
 };
+
+// Validate at module load. A misshapen config fails the build loud instead
+// of rendering an empty section.
+SiteConfigSchema.parse(rawConfig);
+
+export const config: SiteConfig = rawConfig;

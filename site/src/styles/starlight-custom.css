@@ -1,10 +1,40 @@
+/*
+ * Starlight handbook theming.
+ *
+ * Brand accent is emerald-400 (#34d399) — matches site-theme's
+ * --color-accent so the landing page and the handbook share a single
+ * accent color. Light/dark parity is explicit (both modes set all three
+ * --sl-color-accent-* tokens) so the active sidebar item, link
+ * underlines, and search highlights all read as "brand emerald" in
+ * either mode.
+ */
+
+/* Dark mode (default) — emerald that reads on near-black surface */
 :root {
-  --sl-color-accent-low: #022c22;
-  --sl-color-accent: #34d399;
-  --sl-color-accent-high: #6ee7b7;
+  --sl-color-accent-low: #022c22;   /* hover/active background tint */
+  --sl-color-accent: #34d399;       /* primary accent — links, active sidebar */
+  --sl-color-accent-high: #6ee7b7;  /* hover text, emphasized accent */
 }
 
 html[data-theme='dark'] {
   --sl-color-bg: #09090b;
   --sl-color-hairline: #27272a;
+}
+
+/* Light mode — emerald-700/600/500 so the same accent reads on white.
+   Without this override the accent tokens above (tuned for dark) leave
+   the light theme using Starlight defaults, breaking accent parity. */
+html[data-theme='light'] {
+  --sl-color-accent-low: #d1fae5;
+  --sl-color-accent: #047857;
+  --sl-color-accent-high: #065f46;
+}
+
+/* Header logo crop — Starlight reserves space for the logo, but the
+   default sizing leaves the chain motif feeling cramped against the
+   site title. Bump the rendered height slightly so the silhouette
+   reads at the same weight as the wordmark next to it. */
+.site-title img {
+  height: 1.75rem;
+  width: auto;
 }

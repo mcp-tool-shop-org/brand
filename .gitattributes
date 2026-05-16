@@ -1,0 +1,8 @@
+# Lock line endings on test fixtures so cross-platform checkout doesn't
+# silently mutate test inputs. Tests assert exact `content` and `line`
+# fields, so any CRLF↔LF translation by git's autocrlf would break them.
+tests/fixtures/*.md text eol=lf
+
+# Exception: the CRLF fixture must preserve its CRLF line endings on every
+# platform. Mark as binary so git never normalises it.
+tests/fixtures/crlf.md binary

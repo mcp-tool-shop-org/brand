@@ -1,6 +1,6 @@
 # Brand Handbook
 
-Lessons learned from centralizing brand assets across 80+ repos in a GitHub org. Everything in this handbook was discovered the hard way.
+Lessons learned from centralizing brand assets across an entire GitHub org. Everything in this handbook was discovered the hard way.
 
 ---
 
@@ -139,7 +139,7 @@ Some repos have branch protection rules requiring PRs. A mass push will fail sil
 
 ### Commit messages
 
-Use descriptive, searchable commit messages. If you need to revert a migration later, you'll search by commit message across 80+ repos.
+Use descriptive, searchable commit messages. If you need to revert a migration later, you'll search by commit message across the entire org.
 
 ## 8. Integrity Verification
 
@@ -151,7 +151,7 @@ The `manifest.json` file maps every logo to its SHA-256 hash. This protects agai
 
 ### How to verify
 
-```
+```bash
 brand verify
 ```
 
