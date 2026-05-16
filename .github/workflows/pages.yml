@@ -34,7 +34,12 @@ jobs:
 
       - name: Install site dependencies
         working-directory: site
-        run: npm ci
+        # `npm ci` would be ideal for determinism, but lockfiles generated on
+        # Windows omit the Linux-specific rollup optional binaries (npm/cli#4828),
+        # producing "Cannot find module @rollup/rollup-linux-x64-gnu" on the
+        # ubuntu runner. `npm install` re-resolves and includes the right
+        # platform binaries; versions are still pinned by the lockfile.
+        run: npm install --no-audit --no-fund
 
       - name: Build site
         working-directory: site
