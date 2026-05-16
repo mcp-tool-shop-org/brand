@@ -3,52 +3,55 @@
 This file documents the pinning rationale for each non-trivial dependency in
 `site/package.json`. Reviewers should consult this before bumping deps.
 
-## Exact pins (no caret)
+## Tailwind plugin choice
 
-### `@astrojs/starlight: "0.37.6"`
+### `@tailwindcss/postcss` (NOT `@tailwindcss/vite`)
 
-**Why exact:** Starlight is pre-1.0 (currently 0.37.x). Per semver convention, a
-0.x package may break on any minor bump. Starlight's content collection
-contracts (frontmatter schema, sidebar config, autogenerate directory layout)
-have shifted between minor releases. An auto-bump from `^0.37.6` could silently
-break the handbook's frontmatter or the sidebar autogenerate config.
+**Why PostCSS:** Astro 6 ships Vite 7 whose Rolldown-based resolve binding
+shape (`BindingViteResolvePluginConfig.resolveOptions`) changed in a way that
+broke `@tailwindcss/vite` at runtime even though its peer-dep range advertises
+`^7`. See [withastro/astro#16542](https://github.com/withastro/astro/issues/16542).
+Switching to `@tailwindcss/postcss` consumes the same `@import "tailwindcss"`
+source CSS but routes it through Astro's PostCSS pipeline, sidestepping the
+binding-shape mismatch entirely.
 
 **Bump policy:**
-- Bump deliberately, with a manual smoke build (`npm run -w site build`) and a
-  click-through of the deployed handbook.
-- Do NOT let Dependabot auto-merge minor Starlight bumps until 1.0 ships.
+- Stay on `@tailwindcss/postcss` until `@tailwindcss/vite` ships a release
+  that builds clean against Vite 7 with the current Astro version. Then
+  reconsider — there's no functional benefit to the Vite plugin over PostCSS
+  for this site's build; revert only if a Tailwind feature becomes
+  vite-plugin-only.
+- `postcss.config.mjs` is the single touchpoint; `astro.config.mjs` no longer
+  imports any Tailwind plugin.
+
+## Caret ranges (Dependabot can auto-bump minors)
+
+### `astro: "^6.3.3"`, `@astrojs/starlight: "^0.39.2"`, `@mcptoolshop/site-theme: "^1.6.1"`
+
+These three are coupled — Starlight 0.39 peer-requires Astro 6, and site-theme
+1.6 peer-requires both. Bumping any one alone risks pulling the others
+unexpectedly. The combined upgrade landed together via `deps/site-stack-vite7`.
+
+**Bump policy:**
+- Minor bumps on the three coupled packages can be merged together (Dependabot
+  may group them via the `site-minor-patch` group in `dependabot.yml`).
+- Major bumps must be tested as a bundle on a working branch. The Starlight 0.x
+  era taught us that minor bumps could change content-collection contracts;
+  the same caution applies to 0.39 → future minors.
 - When Starlight 1.0 ships: coordinate the bump across ALL org sites that
-  consume `@mcptoolshop/site-theme` (the theme depends on Starlight too).
-- Security patches: review and bump within 7 days. Even though they're 0.x
-  patches, the breaking-change risk is small.
-
-### `@mcptoolshop/site-theme: "0.2.6"`
-
-**Why exact:** site-theme is a 0.x package and is the visual + structural
-backbone of this site (BaseLayout, Hero, Section, FeatureGrid, DataTable,
-CodeCardGrid, ApiList). A caret range (`^0.2.4`) resolves to anything in
-`>=0.2.4 <0.3.0`, so a fresh `npm install` in CI could silently jump to a 0.2.x
-release with a breaking prop rename or component restructure.
-
-**Bump policy:**
-- Bump deliberately when site-theme cuts a new minor release. Review the
-  CHANGELOG for breaking prop changes before bumping.
+  consume `@mcptoolshop/site-theme`.
 - The exhaustive switch in `src/pages/index.astro` will fail loud at build
   time if site-theme adds a new `Section.kind` we don't handle here. That's
   the intended behavior.
-- When site-theme reaches 1.0, this can move to `^1.0.0` and Dependabot can
-  manage minor bumps.
 
-## Caret ranges (acceptable risk)
+### `tailwindcss: "^4.2.0"`, `@tailwindcss/postcss: "^4.3.0"`
 
-### `astro: "^5.17.0"`, `tailwindcss: "^4.2.0"`, `@tailwindcss/vite: "^4.2.0"`
+Tailwind 4.x has strong semver discipline — minor bumps are safe within a
+major. Caret is fine; Dependabot can auto-bump.
 
-Astro 5.x and Tailwind 4.x have strong semver discipline — minor bumps are
-safe within a major. Caret is fine; Dependabot can auto-bump.
+### `zod: "^4.4.3"`
 
-### `zod: "^3.25.76"`
-
-zod 3.x has stable API. Caret is fine.
+zod 4.x stable. Caret is fine.
 
 ## Why this file exists
 
