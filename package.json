@@ -49,7 +49,7 @@
     "prepublishOnly": "npm run clean && npm run build"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "author": "mcp-tool-shop",
   "license": "MIT",
