@@ -34,12 +34,16 @@ jobs:
 
       - name: Install site dependencies
         working-directory: site
-        # `npm ci` would be ideal for determinism, but lockfiles generated on
-        # Windows omit the Linux-specific rollup optional binaries (npm/cli#4828),
-        # producing "Cannot find module @rollup/rollup-linux-x64-gnu" on the
-        # ubuntu runner. `npm install` re-resolves and includes the right
-        # platform binaries; versions are still pinned by the lockfile.
-        run: npm install --no-audit --no-fund
+        # `npm ci` would be ideal for determinism, but the npm cross-platform
+        # optional-deps bug (npm/cli#4828) means a lockfile generated on one
+        # platform may omit the rollup native binary for another. The
+        # documented workaround is to remove BOTH package-lock.json AND
+        # node_modules and re-resolve from package.json. Versions still pin
+        # via package.json caret ranges, which for this site are policy-
+        # documented in site/DEPS.md.
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install --no-audit --no-fund
 
       - name: Build site
         working-directory: site
