@@ -127,7 +127,7 @@ Vulnerability reports go to GitHub's [private advisory channel](https://github.c
 | E. Identity (soft) | 10 |
 | **Overall** | **49/50** |
 
-D is 9/10 pending one follow-up: remote git tags only reach v1.0.1, but CHANGELOG documents v1.0.2 + v1.0.3 published. Every other D line is green — Node 18/20/22 matrix, SHA-pinned actions, `npm audit` step, Dependabot, tarball contents.
+D is 9/10 pending one follow-up: remote git tags only reach v1.0.1, but CHANGELOG documents v1.0.2 + v1.0.3 published. Every other D line is green — Node 20/22/24 matrix, SHA-pinned actions, `npm audit` step, Dependabot, tarball contents.
 
 > Full audit: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 

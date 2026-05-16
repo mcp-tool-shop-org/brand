@@ -49,7 +49,7 @@
 - [x] `[all]` Automated dependency update mechanism exists (`.github/dependabot.yml` covers npm root, npm site/, github-actions) (2026-05-15)
 - [x] `[all]` Workflow `uses:` actions pinned to commit SHA with `# vX.Y.Z` comment (2026-05-15)
 - [x] `[npm]` `npm pack --dry-run` includes: dist/, README.md, LICENSE, CHANGELOG.md, SECURITY.md (2026-05-15)
-- [x] `[npm]` `engines.node` set (>=18) and CI matrix covers 18, 20, 22 (2026-05-15)
+- [x] `[npm]` `engines.node` set (>=20) and CI matrix covers 20, 22, 24 (2026-05-15)
 - [ ] `[npm]` SKIP: no lockfile needed — CLI published to npm
 - [ ] `[vsix]` SKIP: not a VS Code extension
 - [ ] `[desktop]` SKIP: not a desktop application
