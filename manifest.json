@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-05-19T05:02:43.772Z",
+  "generated": "2026-05-22T07:12:08.720Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -267,6 +267,11 @@
       "hash": "sha256:fcb3d466774f16d1c28f7e9436ae91999c4ce29cad7f816afceac472712285f1",
       "size": 280871,
       "format": "jpeg"
+    },
+    "logos/claude-synergy/readme.png": {
+      "hash": "sha256:88998b65f345e4f31c1c8570a9cebf448b774a88ac5416830281b52e929c7a84",
+      "size": 1092074,
+      "format": "png"
     },
     "logos/claude-toolstack/readme.png": {
       "hash": "sha256:4fff531d78115803dbbd1c22e002211273ae79a71e600e118273a1c065646a80",
