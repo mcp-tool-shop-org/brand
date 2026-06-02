@@ -69,18 +69,15 @@ jobs:
 
       - run: npm test --if-present
 
+      # OIDC trusted publishing requires npm >= 11.5.1; Node 22 bundles
+      # npm 10.9.x, so upgrade the global npm before the publish call.
+      - name: Upgrade npm for OIDC trusted publishing (>= 11.5.1)
+        run: npm install -g npm@latest
+
       - name: Publish to npm
         id: publish
-        run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "::error::NPM_TOKEN is required for npm publish but is not configured."
-            echo "::error::Set NPM_TOKEN in repo Settings -> Secrets -> Actions before publishing."
-            echo "::error::After adding the secret, re-run via: gh workflow run publish.yml -f tag=<release-tag>"
-            exit 1
-          fi
-          npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # Auth via npm Trusted Publishing (OIDC) - intentionally NO NODE_AUTH_TOKEN.
+        run: npm publish --provenance --access public
 
       - name: Write publish summary
         if: always()
