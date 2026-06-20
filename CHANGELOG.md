@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.5 — 2026-06-20
+
+CI hardening + npm trusted-publishing migration.
+
+### Fixed
+
+- **CI**: `lint-test-build`'s `npm audit --audit-level=high` step had been failing on a high-severity `vite` advisory (GHSA-fx2h-pf6j-xcff `server.fs.deny` bypass + GHSA-v6wh-96g9-6wx3 launch-editor NTLMv2) and a moderate `brace-expansion` DoS — both transitive dev/build deps. `npm audit fix` bumped 8 lockfile packages (no direct-dep change); re-audit reports 0 vulnerabilities. Unblocks the required check so logo-asset PRs merge through the gate again.
+
+### Changed
+
+- **Publishing migrated to npm Trusted Publishing (OIDC).** New `release.yml` publishes `@mcptoolshop/brand` on a `v*` tag push via OIDC (`--provenance`, no `NPM_TOKEN`), bound to the npm Trusted Publisher. The token-based `publish.yml` is retired.
+
 ## 1.0.4 — 2026-05-15
 
 10-phase dogfood swarm pass. 170+ findings closed across A/B/C/D stages; test suite grew from 31 to 137 tests (+342%).
