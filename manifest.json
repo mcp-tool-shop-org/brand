@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-05-22T07:12:08.720Z",
+  "generated": "2026-06-20T19:45:01.129Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -204,8 +204,8 @@
       "format": "png"
     },
     "logos/backpropagate/readme.png": {
-      "hash": "sha256:6c2789e87d305db16521d5fd25d60b4aa955f7fc9c08c7eaf9b262a9c70fff55",
-      "size": 1144788,
+      "hash": "sha256:ca1a753e1f8aa5ab8d8717c4303e40fb35cb5bee4fe6b32d7185bda004231b9f",
+      "size": 859022,
       "format": "png"
     },
     "logos/brain-dev/readme.png": {
@@ -351,6 +351,11 @@
     "logos/datagates/readme.png": {
       "hash": "sha256:749b6a3bbeb34fca7e5aa6f16948ad4ea12e8b0a625982ca27018c72ea168990",
       "size": 226598,
+      "format": "png"
+    },
+    "logos/db-cluster/readme.png": {
+      "hash": "sha256:454793231c420c0e478743ab826d97b35f4c3656330473e540d3dd2a4700056d",
+      "size": 1517263,
       "format": "png"
     },
     "logos/deltamind/readme.png": {
@@ -684,13 +689,13 @@
       "format": "png"
     },
     "logos/repo-knowledge/readme.png": {
-      "hash": "sha256:d177f037b290f2b8b9f7b65f9c0bbc759a74388f104fe1e3bfee0bd920194835",
-      "size": 301196,
+      "hash": "sha256:459d4b5e40660c25e223723db1ea16ebc94a109ed543152d385405b3eae6006b",
+      "size": 986404,
       "format": "png"
     },
     "logos/repomesh/readme.png": {
-      "hash": "sha256:3f9f756b51d9c1d68055f59a77bc2749dc5d9d5fede6de0277caecaad912257b",
-      "size": 268711,
+      "hash": "sha256:a28694b788f4645f90d705ab6d616a550c4cac67063034d1d9165f996001c0e0",
+      "size": 1190190,
       "format": "png"
     },
     "logos/research-os/readme.png": {
@@ -739,8 +744,8 @@
       "format": "png"
     },
     "logos/sensor-humor/readme.png": {
-      "hash": "sha256:d2096265bb99bf65fa981081d495ca6984194db8b3741b71261d2e3e638f1989",
-      "size": 1669984,
+      "hash": "sha256:4b4e0085199d29aa73bebdd4b436db5d10623693027e1b9654cd77b4bdb713e1",
+      "size": 986083,
       "format": "png"
     },
     "logos/shipcheck/readme.jpg": {
@@ -834,8 +839,8 @@
       "format": "png"
     },
     "logos/synthesis/readme.png": {
-      "hash": "sha256:1bfcd9d83f9301fffe75085859557d2e612baa9852be9c5563b567eb4a958fb2",
-      "size": 1652700,
+      "hash": "sha256:9bb3fee2a25458d5b829226f98a43e57cb490b92306333d2ae06a1ccf651e7e7",
+      "size": 1050703,
       "format": "png"
     },
     "logos/taste-compiler/readme.png": {
