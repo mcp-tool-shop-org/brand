@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-06-20T19:45:01.129Z",
+  "generated": "2026-06-21T04:13:07.496Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -876,6 +876,11 @@
     "logos/training-studio/readme.png": {
       "hash": "sha256:495bf41660de955b1a713e7a7b639a4d0b2d501a92dd67c768074655360af149",
       "size": 163373,
+      "format": "png"
+    },
+    "logos/trellis-sprite-pipeline/readme.png": {
+      "hash": "sha256:480546468539481d68b998a93116301e019a28a0db497f0680980d7f70301315",
+      "size": 126335,
       "format": "png"
     },
     "logos/venvkit/readme.png": {
