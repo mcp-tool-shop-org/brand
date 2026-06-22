@@ -9,10 +9,6 @@ updates:
       time: "06:00"
       timezone: Etc/UTC
     open-pull-requests-limit: 5
-    assignees:
-      - mcp-tool-shop
-    reviewers:
-      - mcp-tool-shop
     labels:
       - dependencies
       - npm
@@ -34,10 +30,6 @@ updates:
       time: "06:00"
       timezone: Etc/UTC
     open-pull-requests-limit: 5
-    assignees:
-      - mcp-tool-shop
-    reviewers:
-      - mcp-tool-shop
     labels:
       - dependencies
       - npm
@@ -60,10 +52,6 @@ updates:
       time: "06:00"
       timezone: Etc/UTC
     open-pull-requests-limit: 5
-    assignees:
-      - mcp-tool-shop
-    reviewers:
-      - mcp-tool-shop
     labels:
       - dependencies
       - github-actions
