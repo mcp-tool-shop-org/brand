@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-06-22T06:37:35.439Z",
+  "generated": "2026-07-01T04:47:43.181Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -616,6 +616,141 @@
     "logos/payroll-engine/readme.png": {
       "hash": "sha256:cb315ffd848f4b36e6ac0540901dd7494c66589ec632324e5b12c188809f0884",
       "size": 1572203,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/readme.png": {
+      "hash": "sha256:fe1447a143a9b1eb18c88985b0511087559aaa7bc35128d78f74dfdeabbeefab",
+      "size": 971517,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/berserker.png": {
+      "hash": "sha256:20e4536a38c13d7cc31872152dfdf9230f9f15f0e597b4b606ef9ba2ef18ddb3",
+      "size": 2383975,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/bombardier.png": {
+      "hash": "sha256:ceabfbd11dc817277a6c64555cc06ae671dd451db4e4c7654f2dab80ea3fe6b6",
+      "size": 2339330,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/bosun.png": {
+      "hash": "sha256:c9bdeedab69d6c3ad456b03bc97605102dabbd0af1b45476f9571919e984cb3d",
+      "size": 1749393,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/breaker.png": {
+      "hash": "sha256:650f99e696e174f325805890a1f38b6d0fb9529f4d419c1b98e7fec4a8785a34",
+      "size": 2357596,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/brig-keeper.png": {
+      "hash": "sha256:d4337cbaa48aade9bfbfb298b02e357fd2854eff08f47bda10766e3831aaa9d8",
+      "size": 1669573,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/cabin-kid.png": {
+      "hash": "sha256:95f8400f5b4271357407e16e4f6064e315f41a9909e22a6b5e93d5ca7bbc63ab",
+      "size": 1721759,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/cannoneer.png": {
+      "hash": "sha256:26e5ed3a4c3d62cb7e198f2d28aed293c85e2abe0e075f962a4ac719dd488364",
+      "size": 1740559,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/captain.png": {
+      "hash": "sha256:5204de0203aaed5c60983bbae9305397af84acea7ef0c5102a0dbd569434de62",
+      "size": 1255113,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/cook.png": {
+      "hash": "sha256:a84dad58c4b529b85c26761c464ec961251b63c3401886e1f06926c6493ac300",
+      "size": 2252776,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/diver.png": {
+      "hash": "sha256:2951579b010b8ddbcf500c34abcf698bd1439ce6cdf317b5c6cbc97a15eabdc8",
+      "size": 2353461,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/first-mate.png": {
+      "hash": "sha256:91308fb11b22b8aafe4c19c47ddc40fc1e0443ea5b393e76715c4d3dfb68367c",
+      "size": 2367277,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/harpooner.png": {
+      "hash": "sha256:c99f52e3fea7f4b65c220be6c9d4ee3b58396c4525a013433d2af75be14aff63",
+      "size": 2439862,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/juggernaut.png": {
+      "hash": "sha256:2de841ab3fbb7e5bb04f739776c8b3893e1c34ea2c199179145340bf09ea48fc",
+      "size": 2423915,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/marine.png": {
+      "hash": "sha256:28c017fb49d0b17a7f41f237a1ff34e5df68d74f624af3170c3260ddbfaa56ec",
+      "size": 1787280,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/marksman.png": {
+      "hash": "sha256:1a496cd66987658564992d7782a80bc3320496b369b9519b492e60afaebcdf8f",
+      "size": 1977869,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/navigator.png": {
+      "hash": "sha256:15dca1015a9c13a585cee24a24e6205b4fa7d280ff9868e239b625ac93e1e7b1",
+      "size": 1796742,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/poisoner.png": {
+      "hash": "sha256:22c7bb624003743e29ddeb66c221a0963a48cb6afacec0ce2914a1f5020f2ece",
+      "size": 2377783,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/quartermaster.png": {
+      "hash": "sha256:0f61a4d7981ae612414ddae9f9b70bfef48867e0eb3b0560f567a5b058618c22",
+      "size": 2580994,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/reaver.png": {
+      "hash": "sha256:ac27f5d968367f293d7ac89eea346a424907b532420db1ed1b1cfa3d837dc3db",
+      "size": 2485018,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/rigger.png": {
+      "hash": "sha256:8102e00eee59fbb345c46ed6f321bab9fbac803adef0ad35e39007c5a279ecb1",
+      "size": 2005724,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/sawbones.png": {
+      "hash": "sha256:62faf7380200873922e27803f8b71aea44e56f2b521f0c26391f3de369634725",
+      "size": 1725675,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/sea-witch.png": {
+      "hash": "sha256:92cd61642f098ae82439fd67ec733dbe670828adea5b1c990938334a45966369",
+      "size": 2270781,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/smuggler.png": {
+      "hash": "sha256:a5bc9fb4ce057a66c773a0549501ccc07cf96bbf7498a3118bdaf51dffd52de4",
+      "size": 1889338,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/stormcaller.png": {
+      "hash": "sha256:0c115df669c25e039c07891cf4e11f384b099c53a180018e6875d74318d2622f",
+      "size": 1988595,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/swashbuckler.png": {
+      "hash": "sha256:788292ead9d10ef17b71c753456225ff7a875a85574c05a2a851b4afdfece740",
+      "size": 1415763,
+      "format": "png"
+    },
+    "logos/pirate-raiders-3d-2/turnarounds/tide-cultist.png": {
+      "hash": "sha256:50e8bd1d83b798503b5fbc09d10eabf1aa8f0ca5ba599d83c00d9f5df843be1a",
+      "size": 2204256,
       "format": "png"
     },
     "logos/pirate-raiders-sprite-pack/readme.png": {
