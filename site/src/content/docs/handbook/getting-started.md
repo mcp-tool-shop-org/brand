@@ -78,3 +78,32 @@ brand stats --json
 ```
 
 Shows total logo count, format breakdown (PNG vs JPEG vs SVG), and sync status.
+
+## Register a gallery
+
+Some products need more than one showcase image per slug (a sprite pack's character turnarounds, a tool's screenshot set). Register a directory of images as a gallery:
+
+```bash
+brand add-gallery <slug> /path/to/turnarounds --dry-run  # preview
+brand add-gallery <slug> /path/to/turnarounds             # register + regenerate manifest
+```
+
+Re-run any time the source directory changes — `add-gallery` reconciles the gallery folder to match (adds, updates, and removes files) rather than only ever appending.
+
+## Wire the gallery into a consuming README
+
+Drop a marker pair anywhere in the consuming repo's README:
+
+```html
+<!-- brand:gallery:start slug="<slug>" -->
+<!-- brand:gallery:end -->
+```
+
+Then regenerate the content between the markers from the manifest:
+
+```bash
+brand sync --slug <slug> --repos /path/to/clones --check   # CI gate: exit 1 on drift
+brand sync --slug <slug> --repos /path/to/clones            # write it
+```
+
+See the [CLI Reference](/handbook/reference/#brand-add-gallery) for the full option list.
