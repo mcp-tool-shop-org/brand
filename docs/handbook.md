@@ -190,3 +190,56 @@ Serve the brand repo as a GitHub Pages site. Same files, but:
 - CORS headers
 
 Set up when you see flaky image loads or need branded URLs like `brand.yoursite.com/logos/...`.
+
+## 10. Galleries & Dynamic READMEs
+
+Added after a real miss: a sprite-pack product needed 26 character-turnaround images for one slug, and the only way to get them into the consuming README was hand-typing 27 `<img>` tags with `sed`. The manifest's recursive hasher happened to tolerate the extra files — nothing else in the tool understood "a gallery of N images" as a concept. This section is what closed that gap.
+
+### The role field
+
+Every manifest entry now carries an explicit `role`: `"primary"` for the one canonical `logos/<slug>/readme.<ext>`, `"gallery"` for anything inside a direct subfolder of the slug (`logos/<slug>/<anyName>/*.<ext>`). This is a deliberately **bounded, two-level scan** — `<slug>/readme.<ext>` or `<slug>/<oneFolder>/<file>` — not an unscoped recursive glob. An unbounded `**/*` glob is a documented anti-pattern (Bazel's own BUILD-file docs warn a bare wildcard "accidentally match[es]" content nobody meant to include): it gives the manifest no way to tell "the logo" from "a pile of unrelated images" apart. The bound costs nothing on real data — every existing slug is either a bare `readme.<ext>` or has at most one flat subfolder.
+
+Nesting deeper than one subfolder level is intentionally NOT tracked. If you need that, you're describing a second gallery, not a deeper one — register it under its own subfolder name via `add-gallery --gallery-name`.
+
+### Registering a gallery
+
+```bash
+brand add-gallery <slug> /path/to/source-dir
+```
+
+This is deliberately explicit, never automatic — confirmed against npm's own `package.json` `files` field docs, a directory's contents are never included implicitly by that ecosystem's own tooling either, and the same principle applies here. `add-gallery` is **idempotent and fully reconciling**, matching `git add <dir>`'s proven contract: re-run it after the source directory changes and it adds new files, updates changed files (by content hash, never mtime), and removes files that disappeared — not append-only. It regenerates `manifest.json` as part of the same command, so there's no "forgot to run `brand manifest`" gap.
+
+Display order defaults to a natural (numeric-aware) filename sort — never trust `readdir()` order for anything user-facing; it's platform-dependent (this bit both Storybook and Astro badly enough that both ship explicit warnings in their own docs). Pass `--order file1,file2,...` to pin an exact order; `add-gallery` encodes it durably via zero-padded numeric-prefix renaming so no extra sidecar state is needed.
+
+### Wiring a gallery into a consuming README
+
+Drop a marker pair anywhere in the consuming repo's README:
+
+```html
+<!-- brand:gallery:start slug="<slug>" -->
+<!-- brand:gallery:end -->
+```
+
+(Add `gallery="<name>"` if the slug has more than one gallery folder — rare, but `sync` will tell you exactly when it's ambiguous.)
+
+```bash
+brand sync --slug <slug> --repos /path/to/clones --check   # CI gate: exit 1 on drift
+brand sync --slug <slug> --repos /path/to/clones            # regenerate + write
+```
+
+The marker convention borrows directly from prior art rather than inventing a new shape:
+
+- **Whole-document marker search, not fixed position** (doctoc: a generated block can be relocated anywhere in the file and the tool still finds it).
+- **Destructive replace between markers, never merge/diff-patch** (terraform-docs' `inject` mode: content outside is untouched, content between is fully replaced every time).
+- **Hard-fail on duplicate or nested markers** — never silently pick the first/last match. This is a real, still-open gap in at least one prior-art tool's own docs; `brand` treats it as a required check, not an afterthought.
+- **Deterministic output, no timestamps embedded in the generated content.** A `{{generatedDate}}`-style field or unstable ordering makes every regeneration diff non-empty with zero semantic change — this is the single most common false-positive source in regenerate-and-diff drift detection (it's what broke swagger-codegen's and protobuf.js's own CI at various points). `sync`'s output is byte-identical across runs with unchanged inputs.
+
+`sync` is a pure function of the local manifest + the local README — no network calls, same as everything else in this CLI.
+
+### `audit`'s role-aware exception
+
+Before this feature, `audit` flagged any README with more than one logo-shaped `<img>` tag as a likely badge collision — correct when the tool only knew about one logo per slug, wrong the moment a slug legitimately has a gallery. `audit` now resolves each matched tag's manifest role: a genuine collision (two `role: primary` refs, or a mix that includes an unresolvable src) still flags high-severity. A README where every extra match resolves cleanly to `role: gallery` for one slug is not a collision — instead `audit` emits an informational `unmanaged-gallery` nudge pointing at `brand sync`, so an old hand-typed gallery has a clear, low-friction upgrade path.
+
+### Why not a sidecar order file, an MCP server, or CDN serving
+
+This feature deliberately stayed inside the CLI's existing shape. No new file format (order lives in filenames, not a `.order.json` sidecar — one less thing to keep in sync). No MCP server, no automatic format conversion, no CDN serving — those were out of scope when this tool was designed and nothing about galleries changes that calculus; `raw.githubusercontent.com` serves gallery images exactly the way it already serves the single logo.

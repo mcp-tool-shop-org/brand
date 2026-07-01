@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.6 — 2026-07-01
+
+Feature pass: first-class galleries + dynamic README sync. Dogfood swarm, grounded in a 4-question study-swarm + retrieval-verified citation recovery.
+
+### Added
+
+- **`brand add-gallery <slug> <source-dir>`** — explicit, idempotent registration of a directory of images as a named gallery collection for a slug. Full resync on re-run (adds/updates/removes to match `source-dir`, content-hash compared, never mtime), natural-sort default order, `--order` for explicit ordering via numeric-prefix renaming, `--dry-run`. Auto-regenerates `manifest.json`.
+- **`brand sync --slug <slug> [--check]`** — regenerates a consuming repo's README gallery block from the manifest, via a new `<!-- brand:gallery:start slug="..." -->` / `<!-- brand:gallery:end -->` marker convention (namespaced so future block types don't collide). `--check` reports drift without writing (CI-gatable, exit 1 on drift). Pure function of the local manifest + local README — no network calls. Deterministic output: byte-identical across runs with unchanged inputs.
+- **Manifest asset entries now carry an explicit `role: "primary" | "gallery"`** (plus `gallery: "<folder>"` for gallery entries). `generateManifest()` moved from an unscoped recursive glob to a bounded two-level scan (`<slug>/readme.<ext>` = primary, `<slug>/<oneFolder>/<file>` = gallery) — zero migration needed, every existing slug's file coverage is unchanged.
+- **`brand audit` is role-aware.** The `multiple-logo-matches` check no longer false-flags a legitimate gallery as a badge collision; a README with unmanaged gallery `<img>` tags gets a new informational `unmanaged-gallery` finding pointing at `brand sync` instead.
+- `docs/handbook.md` §10 "Galleries & Dynamic READMEs" — the design rationale and prior-art grounding (doctoc, terraform-docs, Kubernetes' verify-codegen.sh, Bazel's bare-glob warning, Storybook/Astro's readdir-order caution).
+
+### Fixed
+
+- Retroactively tagged `v1.0.2`/`v1.0.3` at their real historical commits — they were documented in this CHANGELOG but never reached npm (no GitHub Release was ever created for them, so the release workflow never fired). Tag/git/CHANGELOG parity closed; current releases were never affected.
+
 ## 1.0.5 — 2026-06-20
 
 CI hardening + npm trusted-publishing migration.

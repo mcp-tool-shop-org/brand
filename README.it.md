@@ -22,20 +22,25 @@
 
 ## Perché
 
-Quando ogni repository contiene una copia separata del logo, si verificano duplicazioni, discrepanze e incoerenze. Un rebranding richiede la ricerca in oltre 100 repository. Questo repository risolve questo problema: i loghi sono memorizzati qui, e i file README fanno riferimento ad essi tramite URL `raw.githubusercontent.com`.
+Quando ogni repository contiene la propria copia del logo, si ottiene duplicazione, incoerenza e divergenza. Un rebranding significa dover cercare in oltre 100 repository. Questo repository risolve il problema: i loghi sono archiviati qui e i file README fanno riferimento ad essi tramite URL `raw.githubusercontent.com`.
 
 ## Struttura
 
 ```
 logos/
   <slug>/
-    readme.png    # or readme.jpg — format preserved as-is
-manifest.json     # SHA-256 integrity hashes for every asset
+    readme.png       # THE logo — one canonical image, format preserved as-is
+    gallery/          # optional — a named collection of N extra showcase images
+      side.png
+      back.png
+manifest.json     # SHA-256 integrity hashes for every asset, tagged role: primary | gallery
 docs/
   handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-Centinaia di loghi all'interno dell'organizzazione. I file PNG rimangono file PNG. I file JPEG rimangono file JPEG. Il formato è una decisione di branding, non un obiettivo di compilazione.
+Centinaia di loghi in tutta l'organizzazione. I file PNG rimangono PNG, i JPEG rimangono JPEG. Il formato è una decisione del marchio, non un obiettivo di build.
+
+Il file `readme.<ext>` di uno "slug" è sempre il logo principale. Uno "slug" può anche avere una sottocartella con immagini aggiuntive (ad esempio, le animazioni dei personaggi di una serie di sprite o una raccolta di schermate di un'applicazione). Il manifesto etichetta esplicitamente il "ruolo" di ogni elemento anziché trattare tutti i file immagine allo stesso modo. Vedere [Gallerie e README dinamici](#galleries--dynamic-readmes) qui sotto.
 
 ## CLI
 
@@ -61,11 +66,19 @@ brand audit --repos /path/to/clones
 # Migrate READMEs to point at brand repo (dry run first)
 brand migrate --repos /path/to/clones --dry-run
 brand migrate --repos /path/to/clones
+
+# Register a directory of images as a named gallery for a slug
+brand add-gallery <slug> /path/to/turnarounds --dry-run
+brand add-gallery <slug> /path/to/turnarounds
+
+# Sync a consuming repo's README gallery block from the manifest
+brand sync --slug <slug> --repos /path/to/clones --check
+brand sync --slug <slug> --repos /path/to/clones
 ```
 
 ## Sincronizzazione automatica
 
-Un'azione giornaliera di GitHub (`sync.yml`) esamina ogni repository nell'organizzazione alla ricerca di loghi, scarica risorse nuove o modificate, rigenera il manifest e apre una pull request. È anche possibile avviarla manualmente tramite `workflow_dispatch`.
+Un'azione GitHub giornaliera (`sync.yml`) esamina tutti i repository dell'organizzazione alla ricerca di loghi, scarica gli elementi nuovi o modificati, rigenera il manifesto e apre una richiesta pull (PR). È anche possibile avviarla manualmente tramite `workflow_dispatch`.
 
 Lo script di sincronizzazione si trova in `scripts/sync-org-logos.sh` e può essere eseguito localmente:
 
@@ -79,55 +92,83 @@ Lo script di sincronizzazione si trova in `scripts/sync-org-logos.sh` e può ess
 
 ### Configurazione (una tantum, per ogni fork)
 
-Il workflow di sincronizzazione apre una pull request, quindi necessita delle autorizzazioni per farlo. Scegliere una delle seguenti opzioni nelle impostazioni del repository:
+Il flusso di lavoro di sincronizzazione apre una PR, quindi richiede l'autorizzazione per farlo. Scegliere una delle seguenti opzioni nelle impostazioni del repository:
 
-1. **Abilitare la creazione di pull request da parte delle azioni di GitHub.** Impostazioni -> Azioni -> Generali -> "Consenti alle azioni di GitHub di creare e approvare pull request" -> ATTIVATO. È il metodo più semplice; non richiede la gestione di segreti aggiuntivi. ([Documentazione di GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
-2. **Fornire un segreto di repository `SYNC_PAT`.** Token di accesso personale con le autorizzazioni `contents:write` e `pull-requests:write`. Questo metodo attiva anche il CI a valle sulla pull request automatica (il `GITHUB_TOKEN` predefinito non lo fa).
+1. **Abilitare la creazione di PR tramite Azioni.** Impostazioni -> Azioni -> Generale -> "Consenti alle azioni GitHub di creare e approvare richieste pull" -> ATTIVATO. È l'opzione più semplice; non richiede la gestione di segreti aggiuntivi. ([Documentazione GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
+2. **Fornire un segreto di repository `SYNC_PAT`.** Token di accesso personale con gli ambiti `contents:write` e `pull-requests:write`. Questa opzione attiva anche il CI a valle sulla PR automatica (il token `GITHUB_TOKEN` predefinito non lo fa).
 
-Senza una di queste opzioni, il workflow giornaliero fallisce ogni mattina con un errore di autorizzazione durante l'esecuzione di `gh pr create`.
+Se non si configura una di queste opzioni, il flusso di lavoro giornaliero fallirà ogni mattina al comando `gh pr create` a causa di un errore di autorizzazione.
 
 ### Risoluzione dei problemi
 
 | Sintomo | Causa | Soluzione |
 | --- | --- | --- |
-| `gh pr create` restituisce il codice 403 | Nessuna delle opzioni di configurazione sopra indicate è stata impostata. | Scegli l'opzione 1 o 2 sopra. |
-| Il workflow giornaliero non apre una pull request, non vengono apportate modifiche. | Tutti i repository dell'organizzazione non hanno un logo, oppure i loghi sono già corretti. | Comportamento previsto: le esecuzioni senza modifiche sono normali. |
-| Verifica del manifest fallita. | I loghi sono stati scaricati, ma l'hash del manifest non corrisponde. | Viene creato automaticamente un problema `sync-failure`; rieseguire `brand manifest && brand verify` localmente. |
-| Una pull request di sincronizzazione introduce un logo errato. | Il repository upstream ha pubblicato un'immagine corrotta o con contenuti errati. | Annullare il merge: `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. Consultare [SECURITY.md](SECURITY.md#incident-response). |
+| `gh pr create` 403 | Nessuna delle opzioni di configurazione sopra indicate è stata configurata. | Scegliere l'opzione 1 o 2 sopra indicata. |
+| Il flusso di lavoro giornaliero non apre alcuna PR, nulla cambia. | Tutti i repository dell'organizzazione non hanno loghi oppure i loghi sono già corretti. | È previsto: le esecuzioni senza modifiche sono normali. |
+| La verifica del manifesto è fallita. | I loghi sono stati scaricati, ma l'hash del manifesto non corrisponde. | Viene creata automaticamente un issue `sync-failure`; rieseguire localmente `brand manifest && brand verify`. |
+| Una PR di sincronizzazione introduce un logo errato. | Il repository upstream ha pubblicato un'immagine corrotta o con contenuto errato. | Annullare l'unione: `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. Vedere [SECURITY.md](SECURITY.md#incident-response). |
+
+## Gallerie e README dinamici
+
+Alcuni prodotti richiedono più di un'immagine per "slug": ad esempio, le animazioni dei personaggi di una serie di sprite o una raccolta di schermate di un'applicazione. `brand` tratta questi elementi come una **galleria** distinta dal logo principale, anziché come una semplice raccolta di file aggiuntivi:
+
+```bash
+# Register a directory of images as a gallery (idempotent — re-run any time
+# source-dir changes; new files are added, changed files updated, deleted
+# files removed. Regenerates manifest.json automatically.)
+brand add-gallery pirate-raiders-3d-2 /path/to/turnarounds
+```
+
+Per visualizzare la galleria in un **README del repository di destinazione** e mantenerla sincronizzata quando la galleria cambia, inserire una coppia di marcatori ovunque nel README:
+
+```html
+<!-- brand:gallery:start slug="pirate-raiders-3d-2" -->
+<!-- brand:gallery:end -->
+```
+
+Quindi eseguire:
+
+```bash
+brand sync --slug pirate-raiders-3d-2 --repos /path/to/clones
+```
+
+`sync` rigenera tutto ciò che si trova tra i marcatori dal manifesto: l'output è deterministico e identico ad ogni esecuzione con input invariati, quindi si integra perfettamente con il CI. L'opzione `--check` segnala le differenze senza scrivere (esce con codice 1 se il README non è aggiornato, 0 se lo è) e può essere integrata nel CI del repository di destinazione nello stesso modo in cui `brand manifest --check` controlla questo flusso di lavoro. Questa è una sezione **README dinamica**: il contenuto creato manualmente attorno ai marcatori rimane invariato; tutto ciò che si trova tra i marcatori è gestito dalla macchina e può essere rigenerato in qualsiasi momento. Il prefisso `brand:gallery:` è con uno spazio dei nomi, in modo che tipi di blocchi futuri (badge, statistiche) possano condividere un README senza conflitti.
+
+Anche `brand audit` comprende la differenza: un README con diversi tag `<img>` per uno "slug" non viene più segnalato come possibile conflitto di badge; se non è ancora collegato a un blocco marcatore, `audit` suggerisce l'utilizzo di `brand sync`.
 
 ## Aggiunta manuale di un logo
 
-1. Copiare il file in `logos/<slug>/readme.png` (o `.jpg`).
-2. Eseguire `brand manifest` per aggiornare gli hash di integrità.
-3. Committare sia il logo che il file `manifest.json` insieme.
-4. Il CI verifica il manifest durante il push.
+1. Inserire il file in `logos/<slug>/readme.png` (o `.jpg`)
+2. Eseguire `brand manifest` per aggiornare gli hash di integrità
+3. Commit sia del logo che di `manifest.json`
+4. Il CI verifica il manifesto all'invio
 
 ## Sicurezza
 
 | Aspetto | Dettagli |
 |--------|--------|
-| **Data touched** | File dei loghi in `logos/` (lettura), file `manifest.json` (lettura/scrittura), file README (lettura/scrittura durante la migrazione). |
-| **Data NOT touched** | Nessuna telemetria, nessuna analisi, nessuna chiamata di rete, nessuna esecuzione di codice dai file dei loghi. |
-| **Permissions** | Lettura: file dei loghi, manifest, file README. Scrittura: file `manifest.json`, file README (solo durante la migrazione). |
+| **Data touched** | File immagine del logo e della galleria in `logos/` (lettura), `manifest.json` (lettura/scrittura), file README (lettura/scrittura durante la migrazione e la sincronizzazione: `sync` riscrive solo il contenuto tra i marcatori `brand:gallery:start`/`end`) |
+| **Data NOT touched** | Nessuna telemetria, nessun dato analitico, nessuna chiamata di rete (incluso `sync`: è una funzione pura del manifesto locale + README locale), nessuna esecuzione di codice dai file logo/galleria. |
+| **Permissions** | Lettura: file logo/galleria, manifesto, README. Scrittura: manifest.json, README (solo migrazione/sincronizzazione). |
 | **Network** | Nessuno: strumento CLI completamente offline. |
-| **Telemetry** | Nessuno raccolto o inviato. |
+| **Telemetry** | Nessun dato raccolto o inviato. |
 
-Ogni logo è tracciato tramite l'hash SHA-256 in `manifest.json`. Il CI esegue `brand manifest --check` su ogni push che modifica `logos/` o `manifest.json`. Qualsiasi discrepanza (sovrascrittura accidentale, manomissione, deriva) causa il fallimento della compilazione. Vengono tracciati solo i file immagine (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`); i file non immagine in `logos/` vengono ignorati.
+Ogni logo è tracciato tramite l'hash SHA-256 in `manifest.json`. Il CI esegue `brand manifest --check` su ogni invio che modifica `logos/` o `manifest.json`. Qualsiasi discrepanza (sovrascrittura accidentale, manomissione, divergenza) fa fallire la build. Vengono tracciati solo i file immagine (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`); i file non immagine in `logos/` vengono ignorati.
 
-I segnalazioni di vulnerabilità devono essere inviate al [canale privato di segnalazione](https://github.com/mcp-tool-shop-org/brand/security/advisories/new) di GitHub. Consultare il file [SECURITY.md](SECURITY.md) per la policy completa e il file [docs/handbook.md](docs/handbook.md) per la guida alla migrazione.
+Le segnalazioni di vulnerabilità vanno inviate al canale privato di GitHub dedicato: [https://github.com/mcp-tool-shop-org/brand/security/advisories/new]. Per la politica completa, consultare il file [SECURITY.md](SECURITY.md), e per la guida alla migrazione, il file [docs/handbook.md](docs/handbook.md).
 
-## Scorecard
+## Scheda di valutazione
 
 | Categoria | Punteggio |
 |----------|-------|
 | A. Sicurezza | 10 |
 | B. Gestione degli errori | 10 |
 | C. Documentazione per gli operatori | 10 |
-| D. Pratiche di sviluppo | 9 |
-| E. Identità (soft) | 10 |
-| **Overall** | **49/50** |
+| D. Pratiche di rilascio | 10 |
+| E. Identità (aspetto secondario) | 10 |
+| **Overall** | **50/50** |
 
-Il punteggio D è 9/10, in attesa di un ulteriore controllo: i tag Git remoti raggiungono solo la versione 1.0.1, ma il file CHANGELOG documenta le versioni 1.0.2 e 1.0.3 pubblicate. Tutte le altre voci relative alla categoria D sono positive: supporto per Node 18/20/22, azioni con hash fissi, passaggio `npm audit`, Dependabot, contenuto dei file tarball.
+Ogni riga contrassegnata con "D" è verde: matrice Node 20/22/24, azioni con SHA fisso, passaggio `npm audit`, Dependabot, contenuto del tarball e piena corrispondenza tra tag/release/npm (risolto il 2026-07-01; v1.0.2/v1.0.3 non sono mai stati pubblicati su npm; contrassegnati retroattivamente per la corrispondenza con git/CHANGELOG).
 
 > Audit completo: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 

@@ -29,13 +29,18 @@ When every repo carries its own copy of the logo, you get duplication, drift, an
 ```
 logos/
   <slug>/
-    readme.png    # or readme.jpg — format preserved as-is
-manifest.json     # SHA-256 integrity hashes for every asset
+    readme.png       # THE logo — one canonical image, format preserved as-is
+    gallery/          # optional — a named collection of N extra showcase images
+      side.png
+      back.png
+manifest.json     # SHA-256 integrity hashes for every asset, tagged role: primary | gallery
 docs/
   handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
 Hundreds of logos across the org. PNGs stay PNGs. JPEGs stay JPEGs. Format is a brand decision, not a build target.
+
+A slug's `readme.<ext>` is always the one canonical logo. A slug MAY also have one subfolder of additional showcase images (a sprite pack's character turnarounds, a tool's screenshot set) — the manifest tags each asset's `role` explicitly rather than treating every image file the same way. See [Galleries & Dynamic READMEs](#galleries--dynamic-readmes) below.
 
 ## CLI
 
@@ -61,6 +66,14 @@ brand audit --repos /path/to/clones
 # Migrate READMEs to point at brand repo (dry run first)
 brand migrate --repos /path/to/clones --dry-run
 brand migrate --repos /path/to/clones
+
+# Register a directory of images as a named gallery for a slug
+brand add-gallery <slug> /path/to/turnarounds --dry-run
+brand add-gallery <slug> /path/to/turnarounds
+
+# Sync a consuming repo's README gallery block from the manifest
+brand sync --slug <slug> --repos /path/to/clones --check
+brand sync --slug <slug> --repos /path/to/clones
 ```
 
 ## Auto-Sync
@@ -95,6 +108,34 @@ Without one of these the daily workflow fails every morning at `gh pr create` wi
 | Manifest verify failed | Logos downloaded but manifest hash mismatch | A `sync-failure` issue is auto-created; re-run `brand manifest && brand verify` locally |
 | A sync PR introduces a bad logo | Upstream repo published a corrupted or wrong-content image | Revert the merge: `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. See [SECURITY.md](SECURITY.md#incident-response) |
 
+## Galleries & Dynamic READMEs
+
+Some products need more than one showcase image per slug — a sprite pack's 8-direction character turnarounds, a tool's screenshot set. `brand` treats these as a first-class **gallery**, distinct from the one canonical logo, instead of an anonymous pile of extra files:
+
+```bash
+# Register a directory of images as a gallery (idempotent — re-run any time
+# source-dir changes; new files are added, changed files updated, deleted
+# files removed. Regenerates manifest.json automatically.)
+brand add-gallery pirate-raiders-3d-2 /path/to/turnarounds
+```
+
+To render that gallery into a **consuming repo's README** and keep it in sync as the gallery changes, drop a marker pair anywhere in the README:
+
+```html
+<!-- brand:gallery:start slug="pirate-raiders-3d-2" -->
+<!-- brand:gallery:end -->
+```
+
+Then run:
+
+```bash
+brand sync --slug pirate-raiders-3d-2 --repos /path/to/clones
+```
+
+`sync` regenerates everything between the markers from the manifest — deterministic, byte-identical output on every run with unchanged inputs, so it composes cleanly with CI. `--check` reports drift without writing (exit 1 if the README is stale, 0 if it's current) — wire it into a consuming repo's CI the same way `brand manifest --check` gates this one. This is a **dynamic README** section: hand-authored content around the markers is untouched; everything between them is machine-owned and safe to regenerate at any time. The `brand:gallery:` prefix is namespaced so future block types (badges, stats) can share a README without collision.
+
+`brand audit` understands the difference too — a README with several gallery `<img>` tags for one slug is no longer flagged as a possible badge collision; if it isn't wired up to a marker block yet, `audit` nudges toward `brand sync` instead.
+
 ## Adding a Logo Manually
 
 1. Drop the file into `logos/<slug>/readme.png` (or `.jpg`)
@@ -106,9 +147,9 @@ Without one of these the daily workflow fails every morning at `gh pr create` wi
 
 | Aspect | Detail |
 |--------|--------|
-| **Data touched** | Logo files in `logos/` (read), `manifest.json` (read/write), README files (read/write during migration) |
-| **Data NOT touched** | No telemetry, no analytics, no network calls, no code execution from logo files |
-| **Permissions** | Read: logo files, manifest, READMEs. Write: manifest.json, READMEs (migration only) |
+| **Data touched** | Logo and gallery image files in `logos/` (read), `manifest.json` (read/write), README files (read/write during migration and sync — `sync` only ever rewrites content between `brand:gallery:start`/`end` markers) |
+| **Data NOT touched** | No telemetry, no analytics, no network calls (including `sync` — it's a pure function of the local manifest + local README), no code execution from logo/gallery files |
+| **Permissions** | Read: logo/gallery files, manifest, READMEs. Write: manifest.json, READMEs (migrate/sync only) |
 | **Network** | None — fully offline CLI tool |
 | **Telemetry** | None collected or sent |
 
