@@ -123,11 +123,11 @@ Vulnerability reports go to GitHub's [private advisory channel](https://github.c
 | A. Security | 10 |
 | B. Error Handling | 10 |
 | C. Operator Docs | 10 |
-| D. Shipping Hygiene | 9 |
+| D. Shipping Hygiene | 10 |
 | E. Identity (soft) | 10 |
-| **Overall** | **49/50** |
+| **Overall** | **50/50** |
 
-D is 9/10 pending one follow-up: remote git tags only reach v1.0.1, but CHANGELOG documents v1.0.2 + v1.0.3 published. Every other D line is green — Node 20/22/24 matrix, SHA-pinned actions, `npm audit` step, Dependabot, tarball contents.
+Every D line is green — Node 20/22/24 matrix, SHA-pinned actions, `npm audit` step, Dependabot, tarball contents, and full tag/release/npm parity (resolved 2026-07-01 — v1.0.2/v1.0.3 never reached npm; retroactively tagged for git/CHANGELOG parity).
 
 > Full audit: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 

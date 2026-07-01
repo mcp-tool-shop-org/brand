@@ -42,6 +42,8 @@
 | E. Identity (soft) | 10/10 | 10/10 |
 | **Overall** | **45/50** | **49/50** |
 
-### Outstanding (D = 9/10 reason)
+### D resolved (2026-07-01 dogfood swarm freshness check)
 
-- Remote git tags only go to v1.0.1, but CHANGELOG documents v1.0.2 + v1.0.3 published. Tag/release parity is the one unresolved D-line item. Tracking as a separate follow-up; the rest of D is green (CI matrix covers Node 18/20/22, SHA-pinned actions, `npm audit` step, Dependabot config, full tarball contents).
+- Tag/release parity is CLOSED. v1.0.2/v1.0.3 never reached npm (real publishing began at 1.0.4); no GitHub Release was ever created for v1.0.0–v1.0.3 so the token-based `publish.yml` never fired for them — retroactively tagged v1.0.2/v1.0.3 at their real historical commits for git/CHANGELOG parity (tag-push doesn't trigger the current `release.yml`; verified no publish occurred). Current HEAD (v1.0.5) has full tag/release/npm parity. D moves to **10/10** — every other line was already green (CI matrix Node 20/22/24, SHA-pinned actions, `npm audit` step, Dependabot config, full tarball contents).
+
+**Overall: 50/50.**

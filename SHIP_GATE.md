@@ -44,7 +44,7 @@
 ## D. Shipping Hygiene
 
 - [x] `[all]` `verify` script exists (vitest) (2026-02-27)
-- [ ] `[all]` Version in manifest matches git tag — FOLLOW-UP: remote tags only go to v1.0.1; CHANGELOG documents v1.0.2 + v1.0.3 published. Investigate how 1.0.2/1.0.3 reached npm without `release: published` firing (or tag push). Until reconciled, do not treat this as passing.
+- [x] `[all]` Version in manifest matches git tag (2026-07-01) — RESOLVED: investigated the v1.0.2/v1.0.3 follow-up. They never reached npm — `npm view @mcptoolshop/brand versions` returns only `1.0.4`/`1.0.5`; real npm publishing began at 1.0.4 (2026-05-15), and the token-based `publish.yml` (retired 2026-06-20) only ever fired on `release: published`, but no GitHub Release was ever created for v1.0.0–v1.0.3. Retroactively tagged `v1.0.2` (`d1e8be1`) and `v1.0.3` (`78f9b84`) at their real historical bump commits for git/CHANGELOG parity — tag-push does not trigger the current `release.yml` (verified: no new Release run fired, npm `dist-tags.latest` unchanged at 1.0.5). Current HEAD (v1.0.5) has full parity: tag, GitHub Release, and npm all agree.
 - [x] `[all]` Dependency scanning runs in CI (`npm audit --audit-level=high` in ci.yml) (2026-05-15)
 - [x] `[all]` Automated dependency update mechanism exists (`.github/dependabot.yml` covers npm root, npm site/, github-actions) (2026-05-15)
 - [x] `[all]` Workflow `uses:` actions pinned to commit SHA with `# vX.Y.Z` comment (2026-05-15)
