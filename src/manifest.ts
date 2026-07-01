@@ -10,10 +10,21 @@ import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import { join, relative, extname } from 'node:path';
 import { globSync } from 'glob';
 
+/**
+ * Asset role — "primary" is the one canonical logo (readme.<ext> at the slug
+ * root); "gallery" is any image inside a direct subfolder of the slug (e.g.
+ * logos/<slug>/turnarounds/*.png). Optional on read so a manifest generated
+ * before this field existed still parses; always populated on generate.
+ */
+export type AssetRole = 'primary' | 'gallery';
+
 export interface AssetEntry {
   hash: string;
   size: number;
   format: string;
+  role?: AssetRole;
+  /** Present only when role === "gallery" — the direct subfolder name (e.g. "turnarounds"). */
+  gallery?: string;
 }
 
 export interface Manifest {
@@ -125,21 +136,77 @@ export function findLogoFile(slug: string, baseDir: string): { path: string; ext
   return null;
 }
 
-/** Generate a manifest from all image files under logosDir */
+/**
+ * List the direct subfolder names under a slug (existence-based, not
+ * filtered by content). Used by add-gallery/sync to discover or disambiguate
+ * gallery collections without re-deriving the glob logic in generateManifest.
+ */
+export function getGalleryFolders(slug: string, baseDir: string): string[] {
+  const slugPath = join(baseDir, slug);
+  if (!existsSync(slugPath)) return [];
+  return globSync('*/', { cwd: slugPath, follow: false })
+    .map(d => d.replace(/\/$/, ''))
+    .sort();
+}
+
+/**
+ * Generate a manifest from a BOUNDED two-level scan of logosDir:
+ *   <slug>/readme.<ext>          -> role "primary" (the one canonical logo)
+ *   <slug>/<anyDir>/<file>.<ext> -> role "gallery", gallery: <anyDir> (files
+ *                                   directly inside the subfolder; no deeper
+ *                                   nesting is tracked)
+ *
+ * This replaces an earlier unscoped recursive `**\/*` glob across all of
+ * logosDir. An unbounded recursive glob is a documented anti-pattern (Bazel's
+ * own BUILD-file docs warn a bare wildcard "accidentally match[es]" content
+ * nobody meant to include) and gave the manifest no way to distinguish "the
+ * logo" from "a gallery of N supplementary images" — both were just anonymous
+ * hash entries. The two-level bound plus the explicit `role` field make that
+ * distinction structural instead of accidental, while still requiring zero
+ * migration: every existing slug is either a bare readme.<ext> (primary) or
+ * has at most one flat subfolder of extra images (gallery), so the new scan
+ * produces identical file coverage to the old recursive one on current data.
+ */
 export function generateManifest(logosDir: string): Manifest {
-  // follow:false — never follow symlinks. A malicious or careless symlink
-  // under logos/ would otherwise be hashed and silently included.
-  const files = globSync('**/*', { cwd: logosDir, nodir: true, follow: false })
-    .filter(f => IMAGE_EXTENSIONS.has(extname(f).toLowerCase()));
+  // follow:false throughout — never follow symlinks. A malicious or careless
+  // symlink under logos/ would otherwise be hashed and silently included.
+  const slugDirs = globSync('*/', { cwd: logosDir, follow: false }).map(d => d.replace(/\/$/, ''));
+
+  const found: Array<{ file: string; key: string; role: AssetRole; gallery?: string }> = [];
+
+  for (const slug of slugDirs) {
+    const slugPath = join(logosDir, slug);
+
+    // Primary: direct child files literally named readme.<ext>.
+    const rootFiles = globSync('*', { cwd: slugPath, nodir: true, follow: false }).filter(
+      f => IMAGE_EXTENSIONS.has(extname(f).toLowerCase()) && /^readme\./i.test(f)
+    );
+    for (const f of rootFiles) {
+      const rel = `${slug}/${f}`;
+      found.push({ file: rel, key: `logos/${rel}`.replace(/\\/g, '/'), role: 'primary' });
+    }
+
+    // Gallery: one direct subfolder level; files directly inside it (no
+    // further nesting is tracked — keeps the scan bounded, not recursive).
+    for (const sub of getGalleryFolders(slug, logosDir)) {
+      const subPath = join(slugPath, sub);
+      const galleryFiles = globSync('*', { cwd: subPath, nodir: true, follow: false }).filter(f =>
+        IMAGE_EXTENSIONS.has(extname(f).toLowerCase())
+      );
+      for (const f of galleryFiles) {
+        const rel = `${slug}/${sub}/${f}`;
+        found.push({ file: rel, key: `logos/${rel}`.replace(/\\/g, '/'), role: 'gallery', gallery: sub });
+      }
+    }
+  }
+
   // Sort by the FINAL key shape (logos/<file> with / separators) so that the
   // manifest's key order matches a downstream `[...Object.keys(assets)].sort()`
   // regardless of host OS path separator.
-  const entries = files
-    .map(file => ({ file, key: `logos/${file}`.replace(/\\/g, '/') }))
-    .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
-  const assets: Record<string, AssetEntry> = {};
+  found.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
 
-  for (const { file, key } of entries) {
+  const assets: Record<string, AssetEntry> = {};
+  for (const { file, key, role, gallery } of found) {
     const fullPath = join(logosDir, file);
     let size: number;
     try {
@@ -156,6 +223,8 @@ export function generateManifest(logosDir: string): Manifest {
       hash: hashFile(fullPath),
       size,
       format: detectFormat(fullPath),
+      role,
+      ...(gallery ? { gallery } : {}),
     };
   }
 
