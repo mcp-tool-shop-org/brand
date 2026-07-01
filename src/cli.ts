@@ -88,6 +88,7 @@ program
   .description('Scan org repos for broken logo refs, badge collisions, indentation traps')
   .option('--repos <path>', 'Parent directory containing repo clones', '.')
   .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--manifest <path>', 'Path to manifest.json (resolves asset roles for the multiple-logo-matches check)', 'manifest.json')
   .option('--brand-base <url>', 'Base URL for brand assets', 'https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main')
   .option('--json', 'Emit findings as a single JSON object')
   .action(async (opts) => {
@@ -118,6 +119,37 @@ program
   .action(async (opts) => {
     const { runStats } = await import('./commands/stats.js');
     await runStats(withGlobals(opts, program));
+  });
+
+program
+  .command('add-gallery')
+  .description('Register a directory of images as a named gallery collection for a slug')
+  .argument('<slug>', 'Slug under logos/ to attach the gallery to')
+  .argument('<source-dir>', 'Directory of image files to register')
+  .option('--gallery-name <name>', 'Gallery subfolder name', 'gallery')
+  .option('--order <files>', 'Comma-separated original filenames in desired display order (must cover every image in source-dir)')
+  .option('--dry-run', 'Preview added/updated/removed files without modifying anything', false)
+  .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--json', 'Emit a single JSON object describing the result')
+  .action(async (slug, sourceDir, opts) => {
+    const { runAddGallery } = await import('./commands/add-gallery.js');
+    await runAddGallery(withGlobals({ ...opts, slug, sourceDir }, program));
+  });
+
+program
+  .command('sync')
+  .description('Regenerate a consuming repo README\'s gallery marker block from the manifest')
+  .requiredOption('--slug <slug>', 'Slug whose gallery should be synced')
+  .option('--gallery <name>', 'Gallery subfolder name (auto-detected if the slug has exactly one)')
+  .option('--repos <path>', 'Parent directory containing repo clones', '.')
+  .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--manifest <path>', 'Path to manifest.json', 'manifest.json')
+  .option('--brand-base <url>', 'Base URL for brand gallery images', 'https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main/logos')
+  .option('--check', 'Check mode — report drift without writing (for CI)', false)
+  .option('--json', 'Emit a single JSON object describing the result')
+  .action(async (opts) => {
+    const { runSync } = await import('./commands/sync.js');
+    await runSync(withGlobals(opts, program));
   });
 
 /**

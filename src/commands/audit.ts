@@ -2,13 +2,15 @@ import chalk from 'chalk';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { globSync } from 'glob';
-import { findLogoImgTags } from '../utils/readme-parser.js';
-import { findLogoFile } from '../manifest.js';
+import { findLogoImgTags, type LogoMatch } from '../utils/readme-parser.js';
+import { findLogoFile, readManifest, type Manifest } from '../manifest.js';
 
 interface AuditOptions {
   repos: string;
   logos: string;
   brandBase: string;
+  /** Path to manifest.json, used to resolve asset roles (primary/gallery) for the multiple-logo-matches check. Defaults to 'manifest.json'. */
+  manifest?: string;
   json?: boolean;
   quiet?: boolean;
   verbose?: boolean;
@@ -32,10 +34,11 @@ const ISSUE_SEVERITY: Record<string, 'high' | 'medium' | 'info'> = {
   'local-logo-ref': 'medium',
   'no-logo-ref': 'medium',
   'no-readme': 'info',
+  'unmanaged-gallery': 'info',
 };
 
 /** One-line operator-facing fix hint per issue type. */
-function fixHintFor(issue: string, ctx: { slug: string; brandUrl: string }): string {
+function fixHintFor(issue: string, ctx: { slug: string; brandUrl: string; count?: number }): string {
   switch (issue) {
     case 'indentation-trap':
       return 'Fix: wrap in `<p>` to prevent markdown from rendering as code block.';
@@ -49,14 +52,66 @@ function fixHintFor(issue: string, ctx: { slug: string; brandUrl: string }): str
       return 'Fix: keep one canonical logo `<img>` in the README; move badges to a separate row.';
     case 'no-readme':
       return 'Fix: add a `README.md` to this repo.';
+    case 'unmanaged-gallery':
+      return `Fix: run \`brand sync --slug ${ctx.slug}\` to keep this gallery in sync automatically instead of hand-maintaining ${ctx.count ?? 'N'} individual <img> tags.`;
     default:
       return '';
   }
 }
 
+/** Resolved role for a single logo match, used by the multiple-logo-matches / unmanaged-gallery checks. */
+type ResolvedRole = 'primary' | 'gallery' | 'unknown';
+
+/**
+ * Resolve a logo match's manifest role by stripping the brand-base prefix
+ * from its src to get a manifest key (`logos/<slug>/<rest>`), then looking
+ * that key up in the loaded manifest. Returns 'unknown' when the src doesn't
+ * point at the brand repo (the local-logo-ref check already flags that case
+ * separately) or when no manifest is available, or when the key isn't found.
+ */
+function resolveMatchRole(
+  match: LogoMatch,
+  slug: string,
+  brandBase: string,
+  manifest: Manifest | null,
+): ResolvedRole {
+  if (!manifest) return 'unknown';
+  const prefix = `${brandBase}/logos/`;
+  if (!match.src.startsWith(prefix)) return 'unknown';
+  const tail = match.src.slice(prefix.length);
+  const key = `logos/${tail}`;
+  const entry = manifest.assets[key];
+  if (!entry) return 'unknown';
+  if (entry.role === 'primary' || entry.role === 'gallery') return entry.role;
+  return 'unknown';
+}
+
+/** slug this manifest key's tail resolves to, used to confirm all gallery matches share one slug. */
+function galleryGroupKey(match: LogoMatch, brandBase: string): string | null {
+  const prefix = `${brandBase}/logos/`;
+  if (!match.src.startsWith(prefix)) return null;
+  const tail = match.src.slice(prefix.length);
+  const slug = tail.split('/')[0];
+  return slug ?? null;
+}
+
 export async function runAudit(opts: AuditOptions): Promise<void> {
   const logosDir = opts.logos;
   const issues: AuditIssue[] = [];
+
+  // Load the manifest once per run so the multiple-logo-matches check can
+  // distinguish "N legitimate gallery images" from "a real badge collision."
+  // Safe degrade: if the manifest is missing or unparseable, fall back to the
+  // OLD flag-everything behavior for role resolution (manifest stays null,
+  // resolveMatchRole returns 'unknown' for everything) rather than crashing
+  // the whole audit.
+  const manifestPath = opts.manifest ?? 'manifest.json';
+  let manifest: Manifest | null = null;
+  try {
+    manifest = readManifest(manifestPath);
+  } catch {
+    manifest = null;
+  }
 
   // Get all logo slugs (include dot-prefixed dirs so .legacy/ etc. are visible to audit)
   const slugDirs = globSync('*/', { cwd: logosDir, dot: true }).map(d => d.replace(/\/$/, ''));
@@ -167,8 +222,22 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
         }
       }
 
-      // Check: multiple logo matches (possible badge collision)
-      if (logoMatches.length > 1) {
+      // Check: multiple logo matches (possible badge collision) — but a
+      // README with N legitimate gallery images for the SAME slug is not a
+      // collision. Resolve each match's manifest role and only flag when:
+      //   - more than one match resolves to role "primary", OR
+      //   - there's a mix of a resolvable match alongside an unresolvable/
+      //     unknown-role match (the genuinely ambiguous "can't tell" case).
+      // When every match beyond the first resolves cleanly to "gallery" for
+      // one slug, emit the informational unmanaged-gallery nudge instead.
+      //
+      // Safe degrade: when the manifest itself couldn't be loaded (missing or
+      // unparseable — see the try/catch above), there is no role information
+      // available for ANY match, so fall back to the pre-fix behavior of
+      // flagging any >1 logo matches as a possible collision, rather than
+      // running the mix-detection heuristic against an all-"unknown" roles
+      // array (which would incorrectly look like "no ambiguous mix").
+      if (logoMatches.length > 1 && !manifest) {
         issues.push({
           repo: slug,
           file: readmeFile,
@@ -177,20 +246,79 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
           severity: ISSUE_SEVERITY['multiple-logo-matches'],
           fix: fixHintFor('multiple-logo-matches', { slug, brandUrl: '' }),
         });
+      } else if (logoMatches.length > 1) {
+        const roles = logoMatches.map(m => resolveMatchRole(m, slug, opts.brandBase, manifest));
+        const primaryCount = roles.filter(r => r === 'primary').length;
+        const galleryCount = roles.filter(r => r === 'gallery').length;
+        const unknownCount = roles.filter(r => r === 'unknown').length;
+
+        // Ambiguous whenever at least one match's role can't be resolved —
+        // whether that unknown sits alongside a resolved match (a genuine
+        // mix) or every match is unresolved (manifest loaded fine but none
+        // of these srcs correspond to a known asset). Either way we can't
+        // prove "this is a managed gallery," so conservatively flag it.
+        const hasAmbiguousMix = unknownCount > 0;
+        const isCollision = primaryCount > 1 || hasAmbiguousMix;
+
+        if (isCollision) {
+          issues.push({
+            repo: slug,
+            file: readmeFile,
+            issue: 'multiple-logo-matches',
+            detail: `${logoMatches.length} logo <img> tags found — possible badge collision`,
+            severity: ISSUE_SEVERITY['multiple-logo-matches'],
+            fix: fixHintFor('multiple-logo-matches', { slug, brandUrl: '' }),
+          });
+        } else if (galleryCount === logoMatches.length && galleryCount > 1) {
+          // All matches resolve to gallery role — confirm they share one slug
+          // before treating this as a managed gallery (defensive; in practice
+          // resolveMatchRole already scoped the lookup to this slug's prefix).
+          const slugs = new Set(logoMatches.map(m => galleryGroupKey(m, opts.brandBase)));
+          if (slugs.size === 1 && slugs.has(slug)) {
+            issues.push({
+              repo: slug,
+              file: readmeFile,
+              issue: 'unmanaged-gallery',
+              detail: `${logoMatches.length} logo <img> tags all resolve to gallery images for "${slug}" — hand-maintained instead of synced`,
+              severity: ISSUE_SEVERITY['unmanaged-gallery'],
+              fix: fixHintFor('unmanaged-gallery', { slug, brandUrl: '', count: logoMatches.length }),
+            });
+          } else {
+            // Gallery images span more than one slug — genuinely unexpected;
+            // conservatively fall back to flagging it as a collision.
+            issues.push({
+              repo: slug,
+              file: readmeFile,
+              issue: 'multiple-logo-matches',
+              detail: `${logoMatches.length} logo <img> tags found — possible badge collision`,
+              severity: ISSUE_SEVERITY['multiple-logo-matches'],
+              fix: fixHintFor('multiple-logo-matches', { slug, brandUrl: '' }),
+            });
+          }
+        }
+        // else: e.g. exactly one primary + rest gallery, or other clean
+        // combinations that aren't a collision and aren't an unmanaged
+        // gallery — no issue emitted.
       }
     }
   }
 
+  // Severity-gated exit: only high/medium findings fail the audit. Pure
+  // info-severity results (e.g. no-readme, unmanaged-gallery) are surfaced
+  // but must not flip a clean run to exit 1 — that would defeat the point of
+  // making unmanaged-gallery an informational nudge rather than a hard fail.
+  const blockingIssues = issues.filter(i => i.severity !== 'info');
+
   // JSON mode: single object on stdout, nothing else
   if (opts.json) {
     const out = {
-      ok: issues.length === 0,
+      ok: blockingIssues.length === 0,
       reposChecked: slugDirs.length,
       issueCount: issues.length,
       issues,
     };
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
-    if (issues.length > 0) process.exit(1);
+    if (blockingIssues.length > 0) process.exit(1);
     return;
   }
 
@@ -213,7 +341,7 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
     console.log(chalk.bold(`  ${repo}`));
     for (const issue of repoIssues) {
       const lineRef = issue.line ? `:${issue.line}` : '';
-      const color = issue.severity === 'high' ? chalk.red : chalk.yellow;
+      const color = issue.severity === 'high' ? chalk.red : issue.severity === 'info' ? chalk.dim : chalk.yellow;
       console.log(color(`    [${issue.issue}] ${issue.file}${lineRef} — ${issue.detail}`));
       if (issue.fix && opts.verbose !== false && !opts.quiet) {
         console.log(chalk.dim(`      ${issue.fix}`));
@@ -221,5 +349,5 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
     }
   }
   console.log('');
-  process.exit(1);
+  if (blockingIssues.length > 0) process.exit(1);
 }
