@@ -101,7 +101,7 @@ const rawConfig: SiteConfig = {
       title: 'Features',
       subtitle: 'Why centralize brand assets.',
       features: [
-        { title: 'Single source of truth', desc: '148 logos across the org. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
+        { title: 'Single source of truth', desc: 'Hundreds of logos across the org. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
         { title: 'Tamper detection', desc: 'SHA-256 manifest tracks every asset. CI catches accidental overwrites, drift, and compromised logos before they ship.' },
         { title: 'Safe migration', desc: 'Multi-gate regex distinguishes brand logos from shields.io badges. Dry-run first, spot-check, push incrementally.' },
       ],
@@ -129,19 +129,17 @@ const rawConfig: SiteConfig = {
     {
       kind: 'data-table',
       id: 'scorecard',
-      // TODO: bump to 50/50 and D=10/10 once v1.0.3 tag is confirmed on remote
-      // (npm publish + git push --tags). Currently v1.0.1 is the latest tag on
-      // remote, so shipping-hygiene parity is 9/10 — honest read.
       title: 'Quality scorecard',
       // Score is doubled in the subtitle so it reads at-a-glance without
-      // requiring the user to scan the table.
-      subtitle: '49/50 on the Ship Gate audit — pending v1.0.3 tag.',
+      // requiring the user to scan the table. Mirrors SCORECARD.md / README —
+      // keep these in sync on every release.
+      subtitle: '50/50 on the Ship Gate audit.',
       columns: ['Category', 'Score', 'Notes'],
       rows: [
         ['A. Security', '10/10', 'SECURITY.md, SHA-256 integrity, no network, no telemetry'],
-        ['B. Error Handling', '10/10', 'Structured errors, clear CLI output, exit codes'],
+        ['B. Error Handling', '10/10', 'Structured errors, clear CLI output, uniform 0/1/2/3 exit codes'],
         ['C. Operator Docs', '10/10', 'README, CHANGELOG, handbook, full CLI docs'],
-        ['D. Shipping Hygiene', '9/10', 'CI integrity check, 29 tests; v1.0.3 tag pending'],
+        ['D. Shipping Hygiene', '10/10', 'Node 20/22/24 matrix, SHA-pinned actions, npm audit, Dependabot, 237 tests, full tag/release/npm parity'],
         ['E. Identity', '10/10', 'Logo, translations, landing page, metadata'],
       ],
     },

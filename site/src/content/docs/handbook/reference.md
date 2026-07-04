@@ -17,8 +17,9 @@ brand verify [options]
 |--------|---------|-------------|
 | `--manifest <path>` | `manifest.json` | Path to the manifest file |
 | `--logos <path>` | `logos` | Path to the logos directory |
+| `--json` | `false` | Emit a single JSON object describing the verification result |
 
-**Exit codes:** 0 if all hashes match, 1 if any mismatch found.
+**Exit codes:** `0` all hashes match · `1` integrity mismatch (changed / added / removed) · `2` operator error (missing or malformed manifest) · `3` unexpected runtime / IO error.
 
 **Output:** Lists verified, changed, added, and removed files.
 
@@ -104,8 +105,14 @@ brand migrate [options]
 | `--logos <path>` | `logos` | Path to the logos directory |
 | `--brand-base <url>` | `https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main/logos` | Base URL for brand logos |
 | `--dry-run` | `false` | Preview changes without writing files |
+| `--resume` | `false` | Restore any half-applied migration from a prior interrupted run before proceeding |
+| `--json` | `false` | Emit a single JSON object describing the migration result |
 
 **Safety:** Always use `--dry-run` first. The migration uses multi-gate regex to skip shields.io badges and other non-brand image references.
+
+**Crash recovery:** `migrate` journals the original content of every README it touches to `.brand-migrate.journal.json` (under `--repos`) before writing, and drops the entry on success. If a run is interrupted (Ctrl-C, crash, power loss), re-run with `--resume` to restore the originals from the journal. On the next run after an interrupt, `migrate` prints a reminder when it finds a leftover journal.
+
+**Debugging:** set `BRAND_DEBUG=1` to surface full stack traces on unexpected errors (exit 3) instead of the friendly one-line message.
 
 ---
 
@@ -122,8 +129,9 @@ brand stats [options]
 | `--logos <path>` | `logos` | Path to the logos directory |
 | `--manifest <path>` | `manifest.json` | Path to the manifest file |
 | `--json` | `false` | Output as JSON instead of human-readable table |
+| `--verbose` | `false` | List each gallery and its image count |
 
-**Output:** Total logo count, format breakdown, and manifest sync status.
+**Output:** Logo count, format breakdown, manifest sync status, and — when galleries exist — the primary/gallery role split (`Primary logos` vs `Gallery images (across N galleries)`). JSON adds `primaryCount`, `galleryCount`, and `galleries` (a `slug/gallery → count` map).
 
 ---
 

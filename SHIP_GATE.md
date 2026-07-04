@@ -48,7 +48,7 @@
 - [x] `[all]` Dependency scanning runs in CI (`npm audit --audit-level=high` in ci.yml) (2026-05-15)
 - [x] `[all]` Automated dependency update mechanism exists (`.github/dependabot.yml` covers npm root, npm site/, github-actions) (2026-05-15)
 - [x] `[all]` Workflow `uses:` actions pinned to commit SHA with `# vX.Y.Z` comment (2026-05-15)
-- [x] `[npm]` `npm pack --dry-run` includes: dist/, README.md, LICENSE, CHANGELOG.md, SECURITY.md (2026-05-15)
+- [x] `[npm]` `npm pack --dry-run` shape verified (2026-07-04): dist/, README.md, LICENSE, CHANGELOG.md, SECURITY.md, plus the 7 translated READMEs (README.{ja,zh,es,fr,hi,it,pt-BR}.md) — npm force-includes every `README*` regardless of `files[]`, so translations ship; `files[]` lists `README.*.md` explicitly so the manifest reflects reality. `manifest.json` and `logos/` correctly excluded.
 - [x] `[npm]` `engines.node` set (>=20) and CI matrix covers 20, 22, 24 (2026-05-15)
 - [ ] `[npm]` SKIP: no lockfile needed — CLI published to npm
 - [ ] `[vsix]` SKIP: not a VS Code extension

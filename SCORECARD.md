@@ -47,3 +47,7 @@
 - Tag/release parity is CLOSED. v1.0.2/v1.0.3 never reached npm (real publishing began at 1.0.4); no GitHub Release was ever created for v1.0.0–v1.0.3 so the token-based `publish.yml` never fired for them — retroactively tagged v1.0.2/v1.0.3 at their real historical commits for git/CHANGELOG parity (tag-push doesn't trigger the current `release.yml`; verified no publish occurred). Current HEAD (v1.0.5) has full tag/release/npm parity. D moves to **10/10** — every other line was already green (CI matrix Node 20/22/24, SHA-pinned actions, `npm audit` step, Dependabot config, full tarball contents).
 
 **Overall: 50/50.**
+
+### Dogfood swarm (2026-07-04, v1.0.7)
+
+Full 10-phase swarm on the shipped v1.0.6 product. Stage A (bug/security) + Stage B/C/D (proactive/humanization/visual) + feature pass, each with adversarial cross-verification; **0 CRITICAL / 0 HIGH survived** (mature repo — verifiers deflated 6 over-rated severities). 25 fixes landed: manifest `assets` validation + atomic `writeManifest`, `data-src` parser anchor, dir-existence guards (audit/stats/migrate exit 2), audit read-resilience + honest inspection count, gallery HTML-escaping, CRLF-preserving sync, `stats` primary/gallery split, gitignored repo-knowledge scaffolding, sync-workflow graceful degradation, and a full doc-drift sweep (landing scorecard, Node floor, handbook link, exit-code table, `--resume` docs). Tests **205 → 237**; scorecard holds **50/50**. Tarball shape re-verified (translations ship via npm's README* force-include; `files[]` now lists them explicitly).

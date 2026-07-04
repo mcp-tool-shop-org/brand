@@ -11,7 +11,7 @@ sidebar:
 npm install -g @mcptoolshop/brand
 ```
 
-Requires Node.js 18 or later.
+Requires Node.js 20 or later.
 
 ## Verify your logos
 
@@ -106,4 +106,4 @@ brand sync --slug <slug> --repos /path/to/clones --check   # CI gate: exit 1 on 
 brand sync --slug <slug> --repos /path/to/clones            # write it
 ```
 
-See the [CLI Reference](/handbook/reference/#brand-add-gallery) for the full option list.
+See the [CLI Reference](/brand/handbook/reference/#brand-add-gallery) for the full option list.

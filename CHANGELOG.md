@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.0.7 — 2026-07-04
+
+Full 10-phase dogfood swarm on the shipped v1.0.6 product — bug/security (Stage A) + proactive/humanization/visual (Stage B/C/D) + feature pass, each finding adversarially cross-verified. **0 CRITICAL / 0 HIGH survived** (mature repo; verifiers deflated 6 over-rated severities). Tests **205 → 237**; scorecard holds **50/50**.
+
+### Fixed
+
+- **`readManifest` now validates `assets`.** A valid-JSON manifest missing/garbage `assets` was accepted and crashed `verify` / `manifest --check` / `audit` with a raw `TypeError` routed to exit 3 (the contract requires exit 2 for a malformed manifest), and `assets: [...]` produced phantom "Removed" drift. It now throws a `ManifestParseError` that flows to the exit-2 path across all four call-sites.
+- **`writeManifest` is atomic** (temp file + rename), matching the `sync`/`migrate` write helpers — the integrity trust-root can no longer be observed half-written by a concurrent reader. The previously-vacuous "atomic contract" test now proves the temp+rename mechanism.
+- **README `<img>` src detection no longer mis-targets `data-src`.** The parser anchored `src` with a `\b` word boundary, which also matched inside `data-src`/`data-lazy-src`; a lazy-loaded image tag made `migrate` rewrite the wrong attribute and leave the real logo stale. Anchored with a lookbehind for a real attribute separator.
+- **`audit` / `stats` / `migrate` exit 2 on a missing/mistyped `--logos`/`--repos`** instead of a cheerful "0 repos checked / in sync / Repos scanned: 0" no-op that silently inspected nothing on a release gate.
+- **`audit` survives one unreadable README** — it records a `readme-unreadable` finding and keeps walking (mirroring `migrate`'s per-file resilience) rather than a raw exit-3 that discarded every finding already collected.
+- **`audit` reports "N of M repos inspected (K had no local clone)"** — the old "N repos checked" counted logo slugs, not repos actually read, so a wrong `--repos` read as full coverage. `--json` adds `reposChecked`/`reposTotal`/`skippedNoClone`.
+- **`renderGalleryBlock` HTML-escapes gallery url/alt** — a `&` or `"` in an image filename no longer emits malformed markup or closes the attribute early.
+- **`sync` preserves the document's line endings** — regenerating a gallery block in a CRLF-authored consuming README no longer produces mixed CRLF/LF output; `findMarkerBlocks` strips stray `\r` from inner content.
+- The marker missing-`slug` error names the recognized attributes and the offending typo'd key.
+- **Config hygiene**: `data/` (repo-knowledge SQLite DB) and `rk.config.json` (placeholder owner) are gitignored — both were committable by a blanket `git add -A`. `package.json` `files[]` now lists `README.*.md` so the manifest reflects reality (npm force-includes every `README*` regardless of `files[]`, so the 7 translations ship).
+- **CI**: the daily "Sync org logos" job degrades gracefully when GitHub-Actions PR creation is denied — it warns with the exact remediation and deletes the just-pushed branch instead of failing red and orphaning a dated branch every day. A PR-gated site build was added to `pages.yml` so a build-breaking `site/**` change fails on the PR, not post-merge.
+- **Docs**: landing-page scorecard refreshed to the shipped reality (50/50, D=10/10, 237 tests); Node floor corrected to 20 in the handbook (matches `engines`); fixed a broken internal handbook link (missing `/brand` base); completed the `verify` exit-code table (0/1/2/3); documented `migrate --resume` / `--json` and `BRAND_DEBUG`.
+
+### Added
+
+- **`brand stats` surfaces the primary/gallery role split** — "Primary logos: N" and "Gallery images: M (across K galleries)", a `--verbose` per-gallery listing, and `primaryCount`/`galleryCount`/`galleries` in `--json`. Closes the confusing gap between "Logos on disk" (primaries only) and "Manifest entries" (all assets) once galleries exist.
+
 ## 1.0.6 — 2026-07-01
 
 Feature pass: first-class galleries + dynamic README sync. Dogfood swarm, grounded in a 4-question study-swarm + retrieval-verified citation recovery.

@@ -21,7 +21,7 @@ Think of it like a shared folder for logos — except it also checks that every 
 
 Before you start, you need:
 
-- **Node.js 18 or later** — check with `node --version`
+- **Node.js 20 or later** — check with `node --version`
 - **npm** — comes with Node.js
 - **A GitHub org** with repos that have logos in their READMEs
 - **Basic terminal skills** — you'll run commands in a terminal/command prompt
