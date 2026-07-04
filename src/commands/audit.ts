@@ -139,6 +139,15 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
       const readmePath = join(repoDir, readmeFile);
       const content = readFileSync(readmePath, 'utf-8');
 
+      // Lines already flagged as an indentation-trap for THIS README, so the
+      // raw-line scan below and the per-match scan further down never emit the
+      // same trap twice. They overlap for a 4-space-indented bare <img> whose
+      // previous line is non-blank: the parser's Gate 0b only treats an indented
+      // line as a code block when the previous line is blank, so with a non-blank
+      // predecessor the parser RETURNS the <img> as a logo match and BOTH scans
+      // would otherwise fire on the same file:line.
+      const trapLines = new Set<number>();
+
       // Independent indentation-trap scan — catches 4-space-indented <img> tags
       // that the parser correctly skips as "in a code block." Without this scan,
       // the very layout error the audit was designed to catch becomes invisible.
@@ -148,6 +157,7 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
         if (rawLine === undefined) continue;
         const trapMatch = rawLine.match(/^(\s{4,})<img\b/);
         if (trapMatch && !rawLine.trimStart().startsWith('<p')) {
+          trapLines.add(i + 1);
           issues.push({
             repo: slug,
             file: readmeFile,
@@ -193,10 +203,13 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
           });
         }
 
-        // Check: indentation trap (4+ spaces before <img)
+        // Check: indentation trap (4+ spaces before <img). Skip if the raw-line
+        // scan above already flagged this line, so a single indented <img> is
+        // never double-counted.
         const lineContent = match.content;
         const leadingSpaces = lineContent.match(/^(\s*)/)?.[1]?.length ?? 0;
-        if (leadingSpaces >= 4 && !lineContent.trimStart().startsWith('<p')) {
+        if (leadingSpaces >= 4 && !lineContent.trimStart().startsWith('<p') && !trapLines.has(match.line)) {
+          trapLines.add(match.line);
           issues.push({
             repo: slug,
             file: readmeFile,

@@ -6,7 +6,7 @@
  */
 
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, statSync, renameSync } from 'node:fs';
 import { join, relative, extname } from 'node:path';
 import { globSync } from 'glob';
 
@@ -236,9 +236,21 @@ export function generateManifest(logosDir: string): Manifest {
   };
 }
 
-/** Write manifest to disk as pretty-printed JSON */
+/**
+ * Write manifest to disk as pretty-printed JSON.
+ *
+ * Atomic write: stage the new content at <path>.brand-tmp then rename onto the
+ * target. On the same volume rename is atomic, so a concurrent reader (`brand
+ * verify` / `audit` / `stats`, all of which JSON.parse the manifest) never
+ * observes a torn, half-written file — it sees either the complete OLD content
+ * or the complete NEW content, never malformed JSON. The manifest is the
+ * integrity trust-root, so it gets the same guarantee as the READMEs that
+ * sync.ts / migrate.ts rewrite via their own atomicWrite helpers.
+ */
 export function writeManifest(manifest: Manifest, outputPath: string): void {
-  writeFileSync(outputPath, JSON.stringify(manifest, null, 2) + '\n', 'utf-8');
+  const tmp = `${outputPath}.brand-tmp`;
+  writeFileSync(tmp, JSON.stringify(manifest, null, 2) + '\n', 'utf-8');
+  renameSync(tmp, outputPath);
 }
 
 /** Error thrown when the manifest file exists but cannot be parsed as JSON. */
@@ -281,6 +293,22 @@ export function readManifest(manifestPath: string): Manifest {
   if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
     throw new ManifestParseError(
       `Manifest root must be a JSON object (${manifestPath}); got ${parsed === null ? 'null' : Array.isArray(parsed) ? 'array' : typeof parsed}.`,
+      manifestPath
+    );
+  }
+  // The return type promises `assets: Record<string, AssetEntry>`. Enforce that
+  // invariant HERE — the one place typed callers trust — instead of letting a
+  // valid-JSON-but-missing/garbage-`assets` manifest through to crash them with
+  // a raw TypeError (Object.keys(undefined)) routed to the generic exit-3 path.
+  // A malformed manifest is an operator error (exit 2 via ManifestParseError),
+  // not an unexpected internal bug (exit 3); this guard restores that contract
+  // for verifyManifest, `manifest --check`, audit's resolveMatchRole, and sync.
+  const assets = (parsed as { assets?: unknown }).assets;
+  if (assets === null || assets === undefined || typeof assets !== 'object' || Array.isArray(assets)) {
+    throw new ManifestParseError(
+      `Manifest is missing a valid "assets" object (${manifestPath}); got ${
+        assets === undefined ? 'undefined' : assets === null ? 'null' : Array.isArray(assets) ? 'array' : typeof assets
+      }. Re-run \`brand manifest\` to regenerate it.`,
       manifestPath
     );
   }

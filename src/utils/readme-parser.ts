@@ -161,9 +161,17 @@ function isImgInsideAnchor(
  * Match the src attribute of an <img> tag, regardless of quoting style.
  * Capture groups: 1 = double-quoted value, 2 = single-quoted value,
  * 3 = unquoted value. Whichever group fired is the src.
+ *
+ * The `src` attribute is anchored with a lookbehind for a real attribute
+ * separator — whitespace or a quote — rather than a bare `\b` word boundary.
+ * `\b` also fires INSIDE `data-src` / `data-lazy-src` (between the `-` and the
+ * `s`), which made the lazy `[^>]*?` lock onto the lookalike attribute and
+ * read/rewrite the wrong value on lazy-loaded image tags. The lookbehind skips
+ * `*-src` lookalikes and lands on the true `src=`. (Node 20+ supports regex
+ * lookbehind natively.)
  */
 const IMG_SRC_RE =
-  /<img\s[^>]*?\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi;
+  /<img\s[^>]*?(?<=[\s"'])src\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi;
 
 /**
  * Detail about a single <img> src match used by the iterator.
@@ -286,7 +294,10 @@ function forEachLogoImg(
 
       const imgStart = m.index;
       const matchText = m[0];
-      const srcAttrRe = /\bsrc\s*=\s*(["']?)/i;
+      // Same lookbehind anchor as IMG_SRC_RE — must target the true `src=`, not
+      // a `data-src` lookalike, or srcValueStart/srcValueEnd would point at the
+      // wrong attribute and rewriteLogoSrc would splice the wrong span.
+      const srcAttrRe = /(?<=[\s"'])src\s*=\s*(["']?)/i;
       const attrMatch = srcAttrRe.exec(matchText);
       if (!attrMatch) continue;
       const quoteChar = attrMatch[1] ?? '';

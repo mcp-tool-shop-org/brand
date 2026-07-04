@@ -217,6 +217,33 @@ describe('runMigrate — idempotency', () => {
   });
 });
 
+describe('runMigrate — non-default --brand-base idempotency (MIGRATE-BRANDBASE)', () => {
+  it('recognizes its own already-migrated output under a custom --brand-base (no second write)', async () => {
+    // A custom base whose URL still contains a "logos" path segment, so the
+    // rewritten src is re-detected as a logo on the second pass. The
+    // already-migrated test must be derived from --brand-base, not a hard-coded
+    // 'brand/main/logos' literal — otherwise the second run re-writes forever.
+    const customBase = 'https://cdn.example.com/brand-logos';
+    seedLogo('alpha', 'png');
+    const repoDir = seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+
+    await runMigrate({ repos: reposDir, logos: logosDir, brandBase: customBase, dryRun: false });
+    const afterFirst = readFileSync(join(repoDir, 'README.md'), 'utf-8');
+    expect(afterFirst).toContain(`${customBase}/alpha/readme.png`);
+    const firstMtime = statSync(join(repoDir, 'README.md')).mtimeMs;
+
+    await new Promise(r => setTimeout(r, 20));
+
+    // Second run — must be a clean no-op (already migrated under this base).
+    await runMigrate({ repos: reposDir, logos: logosDir, brandBase: customBase, dryRun: false });
+    const afterSecond = readFileSync(join(repoDir, 'README.md'), 'utf-8');
+    const secondMtime = statSync(join(repoDir, 'README.md')).mtimeMs;
+
+    expect(afterSecond).toBe(afterFirst);
+    expect(secondMtime).toBe(firstMtime);
+  });
+});
+
 describe('runMigrate — skip path', () => {
   it('skips slugs that have no local repo clone', async () => {
     seedLogo('alpha', 'png');

@@ -111,6 +111,15 @@ export async function runMigrate(opts: MigrateOptions): Promise<void> {
   const logosDir = opts.logos;
   const slugDirs = globSync('*/', { cwd: logosDir }).map(d => d.replace(/\/$/, ''));
 
+  // "Is this src already pointing at the brand repo?" must be derived from the
+  // operator-settable --brand-base, not a hard-coded 'brand/main/logos' literal.
+  // The rewrite target (newSrc, below) is built from opts.brandBase, so the
+  // recognizer has to match — otherwise a custom --brand-base can never see its
+  // own already-migrated output and re-writes byte-identical content every run,
+  // falsely reporting repos as "updated". Trailing slash tolerated.
+  const brandPrefix = opts.brandBase.replace(/\/+$/, '');
+  const isBrandSrc = (src: string): boolean => src.includes(brandPrefix);
+
   // --- Resume: restore any half-applied migration from a prior interrupted run ---
   let resumed = 0;
   const existingJournal = readJournal(opts.repos);
@@ -213,13 +222,13 @@ export async function runMigrate(opts: MigrateOptions): Promise<void> {
         if (matches.length === 0) continue;
 
         // Check if already pointing at brand repo
-        const needsUpdate = matches.some(m => !m.src.includes('brand/main/logos'));
+        const needsUpdate = matches.some(m => !isBrandSrc(m.src));
         if (!needsUpdate) continue;
         repoAlreadyMigrated = false;
 
         // Multi-logo guard: distinct non-brand srcs would silently collapse.
         const nonBrandSrcs = matches
-          .filter(m => !m.src.includes('brand/main/logos'))
+          .filter(m => !isBrandSrc(m.src))
           .map(m => m.src);
         const distinctNonBrand = new Set(nonBrandSrcs);
         if (distinctNonBrand.size > 1) {
@@ -246,7 +255,7 @@ export async function runMigrate(opts: MigrateOptions): Promise<void> {
         if (opts.dryRun) {
           if (!opts.json && !opts.quiet) {
             for (const match of matches) {
-              if (!match.src.includes('brand/main/logos')) {
+              if (!isBrandSrc(match.src)) {
                 console.log(`  ~ ${slug}/${readmeFile}`);
                 console.log(chalk.red(`    old: ${match.src}`));
                 console.log(chalk.green(`    new: ${newSrc}`));

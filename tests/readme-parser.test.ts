@@ -137,6 +137,20 @@ describe('findLogoImgTags', () => {
     expect(matches[0].src).toBe('assets/logo.png');
   });
 
+  // PARSE-001 — the src anchor must target the TRUE `src=`, not a `data-src`
+  // (or any `*-src`) lookalike. A bare `\b` word boundary fires between the
+  // `-` and the `s` of `data-src`, so a lazy-loaded <img> whose data-src
+  // precedes the real src made the parser read the wrong attribute.
+  it('reads the true src, not a preceding data-src lookalike', () => {
+    const content =
+      `<p align="center">\n` +
+      `  <img data-src="assets/decoy-logo.png" src="assets/logo.png" alt="Logo">\n` +
+      `</p>\n`;
+    const matches = findLogoImgTags(content);
+    expect(matches).toHaveLength(1);
+    expect(matches[0].src).toBe('assets/logo.png');
+  });
+
   // Code-block awareness (Stage C — utils agent's RejectedMatch channel +
   // fenced/indented code-block exclusion).
   //
@@ -291,5 +305,14 @@ describe('rewriteLogoSrc', () => {
     const result = rewriteLogoSrc(input, BRAND_URL);
     expect(result).toContain(BRAND_URL);
     expect(result).not.toMatch(/src="assets\/logo\.png"/);
+  });
+
+  // PARSE-001 — rewrite the TRUE src and leave a preceding data-src untouched.
+  // With the old `\bsrc` anchor this rewrote data-src and left the real src
+  // (the rendered image) stale — a silent, misreported-as-success migration.
+  it('rewrites the true src and leaves a preceding data-src untouched', () => {
+    const input = '  <img data-src="assets/decoy-logo.png" src="assets/logo.png" alt="Logo">';
+    const result = rewriteLogoSrc(input, BRAND_URL);
+    expect(result).toBe(`  <img data-src="assets/decoy-logo.png" src="${BRAND_URL}" alt="Logo">`);
   });
 });

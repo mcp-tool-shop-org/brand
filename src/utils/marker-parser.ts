@@ -238,7 +238,11 @@ export function findMarkerBlocks(content: string): MarkerBlock[] {
     }
 
     const { slug, gallery } = parseAttrs(openStart.attrsRaw ?? '', `line ${openStart.line + 1}`);
-    const innerContent = content.slice(openStart.endIndex, marker.index).replace(/^\n/, '').replace(/\n$/, '');
+    // Strip the leading/trailing newline that abuts the marker lines. Match
+    // `\r?\n` (not bare `\n`) so a CRLF document doesn't leave a dangling `\r`
+    // at either end of innerContent — otherwise extractFilenames and block
+    // matching see stray carriage returns on Windows-authored READMEs.
+    const innerContent = content.slice(openStart.endIndex, marker.index).replace(/^\r?\n/, '').replace(/\r?\n$/, '');
 
     blocks.push({
       slug,
@@ -368,10 +372,20 @@ export function syncMarkerBlock(
     );
   }
 
-  const lines = content.split('\n');
+  // Preserve the document's line-ending style. renderGalleryBlock always emits
+  // LF-joined markup; splicing that verbatim into a CRLF-authored consuming
+  // README produced a file with mixed line endings (LF inside the machine-owned
+  // block, CRLF everywhere else) — a noisy whole-block diff and a wrinkle in the
+  // "content outside the markers is untouched byte-for-byte" contract. Detect
+  // the dominant EOL, split on `\r?\n`, and re-join everything with it so the
+  // written file is uniform. For pure-LF and pure-CRLF documents (the real
+  // cases) the surrounding content is byte-identical to the original; a
+  // pre-existing mixed-EOL file is normalized to its dominant ending.
+  const eol = content.includes('\r\n') ? '\r\n' : '\n';
+  const lines = content.split(/\r?\n/);
   const before = lines.slice(0, match.startLine + 1);
   const after = lines.slice(match.endLine);
-  const middle = newInnerContent.length > 0 ? newInnerContent.split('\n') : [];
+  const middle = newInnerContent.length > 0 ? newInnerContent.split(/\r?\n/) : [];
 
-  return [...before, ...middle, ...after].join('\n');
+  return [...before, ...middle, ...after].join(eol);
 }

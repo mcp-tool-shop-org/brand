@@ -93,6 +93,25 @@ describe('verify exit codes', () => {
     const r = runCli('verify', '--logos', logosDir, '--manifest', manifestPath);
     expect(r.status).toBe(2);
   });
+
+  // CORE-1 — a valid-JSON object with a missing/garbage `assets` is a malformed
+  // manifest (operator error, exit 2), NOT a raw TypeError routed to exit 3.
+  it('exits 2 when manifest is valid JSON but missing "assets"', () => {
+    seedLogo('alpha', 'png');
+    writeFileSync(manifestPath, '{"version":"1.0","algorithm":"sha256"}', 'utf-8');
+    const r = runCli('verify', '--logos', logosDir, '--manifest', manifestPath);
+    expect(r.status).toBe(2);
+  });
+
+  it('exits 2 (not phantom-drift exit 1) when "assets" is an array', () => {
+    // The old code accepted `assets:[1,2]` and reported array indices as
+    // spurious "Removed" drift (exit 1) — silently wrong output from a
+    // tamper-detection tool. It must now be rejected as malformed (exit 2).
+    seedLogo('alpha', 'png');
+    writeFileSync(manifestPath, '{"version":"1.0","algorithm":"sha256","assets":[1,2]}', 'utf-8');
+    const r = runCli('verify', '--logos', logosDir, '--manifest', manifestPath);
+    expect(r.status).toBe(2);
+  });
 });
 
 describe('manifest --check exit codes', () => {
@@ -153,6 +172,21 @@ describe('manifest --check exit codes', () => {
     // Malformed JSON is an operator error (or upstream tamper of the
     // manifest itself, in which case the operator should know).
     expect([1, 2]).toContain(r.status);
+  });
+
+  // CORE-1 — valid JSON object missing `assets` must route through
+  // ManifestParseError (exit 1 in --check mode: drift/malformed), NOT the
+  // generic exit-3 TypeError crash the missing guard used to produce.
+  it('exits 1 (not exit-3 crash) when manifest is valid JSON but missing "assets"', () => {
+    seedLogo('alpha', 'png');
+    writeFileSync(manifestPath, '{"version":"1.0","algorithm":"sha256"}', 'utf-8');
+    const r = runCli(
+      'manifest',
+      '--logos', logosDir,
+      '--output', manifestPath,
+      '--check'
+    );
+    expect(r.status).toBe(1);
   });
 });
 

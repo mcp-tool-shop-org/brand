@@ -147,6 +147,29 @@ describe('runAudit', () => {
     expect(joined).toContain('[indentation-trap]');
   });
 
+  // AUDIT-DUP-TRAP — a 4-space-indented bare <img> whose PREVIOUS line is
+  // non-blank is returned by the parser as a logo match (Gate 0b only treats an
+  // indented line as a code block when the previous line is blank), so both the
+  // raw-line scan and the per-match scan fired and the same trap was reported
+  // TWICE. The dedup must collapse them to a single finding.
+  it('reports an indentation-trap only ONCE for a non-blank-preceded indented <img>', async () => {
+    seedLogo('dup', 'png');
+    // No blank line between the heading and the indented <img>.
+    const readme =
+      `# Dup\n    <img src="${BRAND_BASE}/logos/dup/readme.png" alt="dup">\n`;
+    seedRepo('dup', { 'README.md': readme });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+    });
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    const trapCount = (joined.match(/\[indentation-trap\]/g) ?? []).length;
+    expect(trapCount).toBe(1);
+  });
+
   it('emits a missing-brand-asset issue when the brand URL has no matching slug on disk', async () => {
     // Create a slug DIR but no actual readme.<ext> file (so findLogoFile returns null
     // but the slug is still seen by globSync('*/'))

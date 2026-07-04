@@ -198,3 +198,49 @@ describe('syncMarkerBlock', () => {
     expect(result).not.toContain('<img');
   });
 });
+
+// SYNC-CRLF / TESTS-002 — Windows-authored consuming READMEs can be CRLF. The
+// marker/sync path previously spliced LF-only rendered markup into a CRLF file,
+// producing mixed line endings, and left stray \r in innerContent. The
+// readme-parser path is CRLF-tested (crlf.md fixture, .gitattributes pin); this
+// closes the same asymmetry for the marker/sync path with inline CRLF strings.
+describe('CRLF handling (SYNC-CRLF / TESTS-002)', () => {
+  it('findMarkerBlocks strips stray \\r from innerContent on a CRLF document', () => {
+    const content =
+      `<!-- brand:gallery:start slug="x" -->\r\nOLD\r\n<!-- brand:gallery:end -->\r\n`;
+    const blocks = findMarkerBlocks(content);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0].innerContent).toBe('OLD');
+    expect(blocks[0].innerContent).not.toContain('\r');
+  });
+
+  it('syncMarkerBlock preserves CRLF line endings (no lone LF among CRLFs)', () => {
+    const content =
+      `# Title\r\n\r\n<!-- brand:gallery:start slug="x" -->\r\n` +
+      `  <img src="https://x/old.png" alt="old" width="200">\r\n` +
+      `<!-- brand:gallery:end -->\r\n\r\nMore text.\r\n`;
+    const newInner = renderGalleryBlock([{ url: 'https://x/new.png', alt: 'new' }]);
+    const result = syncMarkerBlock(content, 'x', undefined, newInner);
+
+    // The regenerated block adopts the document's CRLF style — a `[^\r]\n`
+    // probe (a non-CR byte immediately before an LF, i.e. a lone LF) must NOT
+    // match anywhere in the output.
+    expect(/[^\r]\n/.test(result)).toBe(false);
+    expect(result).toContain('new.png');
+    expect(result).not.toContain('old.png');
+    // Human-authored content outside the markers preserved byte-for-byte.
+    expect(result).toContain('# Title\r\n');
+    expect(result).toContain('More text.\r\n');
+  });
+
+  it('syncMarkerBlock leaves a pure-LF document LF-only (no CRLF introduced)', () => {
+    const content =
+      `# Title\n\n<!-- brand:gallery:start slug="x" -->\n` +
+      `  <img src="https://x/old.png" alt="old" width="200">\n` +
+      `<!-- brand:gallery:end -->\n\nMore text.\n`;
+    const newInner = renderGalleryBlock([{ url: 'https://x/new.png', alt: 'new' }]);
+    const result = syncMarkerBlock(content, 'x', undefined, newInner);
+    expect(result).not.toContain('\r');
+    expect(result).toContain('new.png');
+  });
+});
