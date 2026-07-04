@@ -244,3 +244,35 @@ describe('CRLF handling (SYNC-CRLF / TESTS-002)', () => {
     expect(result).toContain('new.png');
   });
 });
+
+// PARSE-01 / PARSE-02 — attribute escaping + error enrichment.
+describe('renderGalleryBlock HTML-attribute escaping (PARSE-01)', () => {
+  it('escapes & and " in url/alt so a special-char filename stays well-formed', () => {
+    const rendered = renderGalleryBlock([{ url: 'https://x/a & b.png', alt: 'a & "b"' }]);
+    // & → &amp; and " → &quot; in BOTH attributes; no bare special char that
+    // would emit invalid markup or close the attribute early.
+    expect(rendered).toContain('src="https://x/a &amp; b.png"');
+    expect(rendered).toContain('alt="a &amp; &quot;b&quot;"');
+  });
+
+  it('is still deterministic on special-char input (byte-identical on re-render)', () => {
+    const images = [{ url: 'https://x/a & b.png', alt: 'a & b' }];
+    expect(renderGalleryBlock(images)).toBe(renderGalleryBlock([...images]));
+  });
+});
+
+describe('parseAttrs missing-slug error enrichment (PARSE-02)', () => {
+  it('names the recognized keys and the offending key when slug is typo\'d', () => {
+    const content = '<!-- brand:gallery:start slugg="x" -->\nOLD\n<!-- brand:gallery:end -->\n';
+    try {
+      findMarkerBlocks(content);
+      expect.fail('should have thrown');
+    } catch (err) {
+      expect(err).toBeInstanceOf(MarkerParseError);
+      const msg = (err as MarkerParseError).message;
+      expect(msg).toContain('missing a required slug');
+      expect(msg).toContain('slugg');
+      expect(msg).toContain('recognized attributes: slug, gallery');
+    }
+  });
+});

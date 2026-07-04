@@ -191,3 +191,96 @@ describe('migrate journal contract (mid-abort persistence)', () => {
     expect(threw || true).toBe(true); // keep lint happy
   });
 });
+
+const JOURNAL_NAME = '.brand-migrate.journal.json';
+
+// TEST-001 — the --resume restore path is the command's headline crash-safety
+// promise and was previously exercised by NO test. Seed a journal, corrupt the
+// target on disk, resume, and assert exact-byte restore + journal cleared.
+describe('migrate --resume restore (TEST-001)', () => {
+  it('restores the original README bytes from the journal and clears it', async () => {
+    const repoDir = seedRepo('alpha', { 'README.md': 'CORRUPTED HALF-WRITTEN CONTENT\n' });
+    const readmePath = join(repoDir, 'README.md');
+    const original = README_WITH_LOCAL_LOGO('alpha');
+    const journalPath = join(reposDir, JOURNAL_NAME);
+    writeFileSync(
+      journalPath,
+      JSON.stringify([{ path: readmePath, original, ts: '2026-01-01T00:00:00.000Z' }], null, 2) + '\n',
+      'utf-8',
+    );
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    try {
+      // No logo seeded, so the main migrate loop is a no-op — this isolates the
+      // resume/restore behavior.
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false, resume: true });
+    } finally {
+      logSpy.mockRestore();
+    }
+
+    expect(readFileSync(readmePath, 'utf-8')).toBe(original);
+    expect(existsSync(journalPath)).toBe(false);
+  });
+
+  it('skips a journal entry whose path no longer exists, without throwing, and still clears the journal', async () => {
+    const journalPath = join(reposDir, JOURNAL_NAME);
+    const missingPath = join(reposDir, 'ghost', 'README.md'); // never created
+    writeFileSync(
+      journalPath,
+      JSON.stringify([{ path: missingPath, original: 'x', ts: '2026-01-01T00:00:00.000Z' }], null, 2) + '\n',
+      'utf-8',
+    );
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    let threw = false;
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false, resume: true });
+    } catch {
+      threw = true;
+    } finally {
+      logSpy.mockRestore();
+    }
+
+    expect(threw).toBe(false);
+    expect(existsSync(journalPath)).toBe(false);
+  });
+});
+
+// TEST-002 — the capture half of the crash-safety contract: on a write failure
+// the journal entry (with the pre-migration original) MUST persist so --resume
+// has something to restore. Force atomicWrite's tmp write to fail with EISDIR by
+// pre-creating the `.brand-tmp` path as a directory (no ESM fs spy needed).
+describe('migrate journal persists on write failure (TEST-002)', () => {
+  it('leaves a recoverable journal entry when the atomic write fails mid-run', async () => {
+    seedLogo('alpha', 'png');
+    const repoDir = seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+    const readmePath = join(repoDir, 'README.md');
+    const original = readFileSync(readmePath, 'utf-8');
+
+    // Read of readmePath still succeeds; atomicWrite's writeFileSync to
+    // `${readmePath}.brand-tmp` hits EISDIR because that path is a directory.
+    mkdirSync(`${readmePath}.brand-tmp`, { recursive: true });
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      throw new Error(`__EXIT__:${code}`);
+    }) as never);
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false });
+    } catch {
+      // migrate exits 3 on failures; the mocked exit throws — expected.
+    } finally {
+      logSpy.mockRestore();
+      errSpy.mockRestore();
+      exitSpy.mockRestore();
+    }
+
+    const journalPath = join(reposDir, JOURNAL_NAME);
+    expect(existsSync(journalPath)).toBe(true);
+    const entries = JSON.parse(readFileSync(journalPath, 'utf-8')) as Array<{ path: string; original: string }>;
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.path).toBe(readmePath);
+    expect(entries[0]?.original).toBe(original);
+  });
+});

@@ -130,8 +130,17 @@ function parseAttrs(raw: string, context: string): { slug: string; gallery?: str
 
   const slug = attrs.slug;
   if (!slug || slug.trim().length === 0) {
+    // If the operator supplied OTHER keys, they most likely typo'd `slug`
+    // (e.g. `slugg="x"`). Name the recognized keys and what was actually found
+    // so the fix is one glance away, matching the rest of the CLI's actionable
+    // error bar.
+    const foundKeys = Object.keys(attrs);
+    const hint =
+      foundKeys.length > 0
+        ? ` (recognized attributes: slug, gallery; found: ${foundKeys.join(', ')} — check for a typo)`
+        : '';
     throw new MarkerParseError(
-      `Marker at ${context} is missing a required slug="..." attribute.`,
+      `Marker at ${context} is missing a required slug="..." attribute.${hint}`,
       'malformed-attrs',
     );
   }
@@ -288,6 +297,22 @@ export interface GalleryImageRef {
 }
 
 /**
+ * Escape a value for safe interpolation into a double-quoted HTML attribute.
+ * A gallery filename may legally contain `&` (every filesystem) or `"` (macOS/
+ * Linux dev boxes), which would otherwise emit invalid markup a strict
+ * consuming-repo linter rejects, or close the attribute early and produce a
+ * broken <img> tag — undercutting this module's clean-deterministic-output
+ * contract. Escape `&` first so the entities we introduce aren't double-escaped.
+ */
+function escapeAttr(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/**
  * Natural (numeric-aware) comparator: "image9" sorts before "image10".
  * Splits each string into runs of digits vs. non-digits and compares
  * digit runs numerically, non-digit runs lexicographically.
@@ -343,7 +368,7 @@ export function renderGalleryBlock(images: GalleryImageRef[]): string {
     return '<!-- no gallery images -->';
   }
   const lines = sorted.map(
-    (img) => `  <img src="${img.url}" alt="${img.alt}" width="200">`,
+    (img) => `  <img src="${escapeAttr(img.url)}" alt="${escapeAttr(img.alt)}" width="200">`,
   );
   return ['<p align="center">', ...lines, '</p>'].join('\n');
 }

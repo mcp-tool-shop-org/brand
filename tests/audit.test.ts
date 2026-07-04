@@ -28,6 +28,7 @@ let reposDir: string;
 let stdout: string[];
 let exitCode: number | null;
 let logSpy: ReturnType<typeof vi.spyOn>;
+let errorSpy: ReturnType<typeof vi.spyOn>;
 let exitSpy: ReturnType<typeof vi.spyOn>;
 
 beforeEach(() => {
@@ -42,6 +43,9 @@ beforeEach(() => {
   logSpy = vi.spyOn(console, 'log').mockImplementation((...args: unknown[]) => {
     stdout.push(args.map(String).join(' '));
   });
+  errorSpy = vi.spyOn(console, 'error').mockImplementation((...args: unknown[]) => {
+    stdout.push(args.map(String).join(' '));
+  });
   exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code?: number | string | null) => {
     exitCode = typeof code === 'number' ? code : 0;
     throw new Error(`__EXIT__:${exitCode}`);
@@ -50,6 +54,7 @@ beforeEach(() => {
 
 afterEach(() => {
   logSpy.mockRestore();
+  errorSpy.mockRestore();
   exitSpy.mockRestore();
   rmSync(tempDir, { recursive: true, force: true });
 });
@@ -402,6 +407,65 @@ describe('runAudit', () => {
     expect(code2).toBe(1);
     const joined2 = stdout.join('\n');
     expect(joined2).toContain('[multiple-logo-matches]');
+  });
+
+  // brand-core-01 — missing input dir is an operator error (exit 2), not a
+  // green "0 repos checked" pass.
+  it('exits 2 when the logos dir does not exist', async () => {
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: join(tempDir, 'no-such-logos'),
+      brandBase: BRAND_BASE,
+    });
+    expect(code).toBe(2);
+    expect(stdout.join('\n')).toMatch(/logos directory not found/);
+  });
+
+  it('exits 2 when the repos dir does not exist', async () => {
+    seedLogo('alpha', 'png');
+    const code = await runAndCaptureExit({
+      repos: join(tempDir, 'no-such-repos'),
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+    });
+    expect(code).toBe(2);
+    expect(stdout.join('\n')).toMatch(/repos directory not found/);
+  });
+
+  // brand-core-02 — the clean-run count reports repos actually inspected, not
+  // the raw slug count, and discloses how many had no local clone.
+  it('reports "N of M repos inspected" and skipped-no-clone honestly', async () => {
+    seedLogo('alpha', 'png');
+    seedLogo('beta', 'png');
+    // Only clone alpha (clean brand ref); beta has no clone under --repos.
+    seedRepo('alpha', {
+      'README.md': `<p align="center"><img src="${BRAND_BASE}/logos/alpha/readme.png" alt="alpha"></p>\n`,
+    });
+
+    const code = await runAndCaptureExit({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE });
+    expect(code).toBeNull();
+    const joined = stdout.join('\n');
+    expect(joined).toMatch(/1 of 2 repos inspected/);
+    expect(joined).toMatch(/1 had no local clone/);
+  });
+
+  // brand-core-03 — one unreadable README is recorded as a finding and the walk
+  // continues, instead of a raw exit-3 that discards everything collected.
+  it('records an unreadable README as a finding and keeps walking', async () => {
+    seedLogo('alpha', 'png');
+    seedLogo('broken', 'png');
+    seedRepo('alpha', {
+      'README.md': `<p align="center"><img src="${BRAND_BASE}/logos/alpha/readme.png" alt="alpha"></p>\n`,
+    });
+    // Make 'broken'/README.md a DIRECTORY so readFileSync throws EISDIR on both
+    // Linux and Windows (no spy needed).
+    mkdirSync(join(reposDir, 'broken', 'README.md'), { recursive: true });
+
+    const code = await runAndCaptureExit({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE });
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[readme-unreadable]');
+    expect(joined).toContain('broken');
   });
 
   it('defaults opts.manifest to "manifest.json" when unset (no crash even when absent)', async () => {

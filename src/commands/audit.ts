@@ -31,6 +31,7 @@ const ISSUE_SEVERITY: Record<string, 'high' | 'medium' | 'info'> = {
   'indentation-trap': 'high',
   'multiple-logo-matches': 'high',
   'missing-brand-asset': 'high',
+  'readme-unreadable': 'high',
   'local-logo-ref': 'medium',
   'no-logo-ref': 'medium',
   'no-readme': 'info',
@@ -52,6 +53,8 @@ function fixHintFor(issue: string, ctx: { slug: string; brandUrl: string; count?
       return 'Fix: keep one canonical logo `<img>` in the README; move badges to a separate row.';
     case 'no-readme':
       return 'Fix: add a `README.md` to this repo.';
+    case 'readme-unreadable':
+      return 'Fix: check file permissions / that the path is a regular file, then re-run.';
     case 'unmanaged-gallery':
       return `Fix: run \`brand sync --slug ${ctx.slug}\` to keep this gallery in sync automatically instead of hand-maintaining ${ctx.count ?? 'N'} individual <img> tags.`;
     default:
@@ -99,6 +102,30 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
   const logosDir = opts.logos;
   const issues: AuditIssue[] = [];
 
+  // Guard the input directories up front. A missing/mistyped --logos or --repos
+  // (defaults are the relative `logos` and `.`, so a wrong cwd triggers it) must
+  // be an operator error (exit 2) — NOT a cheerful "0 repos checked, no issues"
+  // green pass that silently inspected nothing on a release gate.
+  for (const [flag, dir] of [['--logos', logosDir], ['--repos', opts.repos]] as const) {
+    if (!existsSync(dir)) {
+      const which = flag === '--logos' ? 'logos' : 'repos';
+      const message = `${which} directory not found: ${dir} — pass ${flag} <path> or run from the brand repo root.`;
+      if (opts.json) {
+        process.stdout.write(JSON.stringify({ ok: false, error: 'dir-not-found', flag, path: dir, message }, null, 2) + '\n');
+      } else {
+        console.error(chalk.red(`\n  ✗ ${message}\n`));
+      }
+      process.exit(2);
+    }
+  }
+
+  // Coverage accounting: `inspected` counts slugs whose clone actually existed
+  // under --repos; `skippedNoClone` counts those that did not. Reporting both
+  // (instead of the raw slug count as "repos checked") stops a wrong --repos
+  // from reading as full coverage — see the clean-run message below.
+  let inspected = 0;
+  let skippedNoClone = 0;
+
   // Load the manifest once per run so the multiple-logo-matches check can
   // distinguish "N legitimate gallery images" from "a real badge collision."
   // Safe degrade: if the manifest is missing or unparseable, fall back to the
@@ -118,7 +145,8 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
 
   for (const slug of slugDirs) {
     const repoDir = join(opts.repos, slug);
-    if (!existsSync(repoDir)) continue;
+    if (!existsSync(repoDir)) { skippedNoClone++; continue; }
+    inspected++;
 
     // Find README files
     const readmes = globSync('README*.md', { cwd: repoDir });
@@ -137,7 +165,25 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
 
     for (const readmeFile of readmes) {
       const readmePath = join(repoDir, readmeFile);
-      const content = readFileSync(readmePath, 'utf-8');
+      let content: string;
+      try {
+        content = readFileSync(readmePath, 'utf-8');
+      } catch (err) {
+        // One unreadable README (EACCES, EISDIR, or a TOCTOU removal between the
+        // glob above and this read) must not vaporize the whole run and discard
+        // every finding already collected — mirror migrate.ts's per-file
+        // resilience. Record it as a blocking finding and keep walking.
+        const e = err as NodeJS.ErrnoException;
+        issues.push({
+          repo: slug,
+          file: readmeFile,
+          issue: 'readme-unreadable',
+          detail: `could not read README: ${e.message}${e.code ? ` (${e.code})` : ''}`,
+          severity: ISSUE_SEVERITY['readme-unreadable'],
+          fix: fixHintFor('readme-unreadable', { slug, brandUrl: '' }),
+        });
+        continue;
+      }
 
       // Lines already flagged as an indentation-trap for THIS README, so the
       // raw-line scan below and the per-match scan further down never emit the
@@ -322,11 +368,16 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
   // making unmanaged-gallery an informational nudge rather than a hard fail.
   const blockingIssues = issues.filter(i => i.severity !== 'info');
 
-  // JSON mode: single object on stdout, nothing else
+  // JSON mode: single object on stdout, nothing else. `reposChecked` now means
+  // repos actually inspected (clone present); `reposTotal` is the slug count and
+  // `skippedNoClone` is how many had no local clone — so a wrong --repos reads
+  // as "0 of N inspected", not a hollow full-coverage pass.
   if (opts.json) {
     const out = {
       ok: blockingIssues.length === 0,
-      reposChecked: slugDirs.length,
+      reposChecked: inspected,
+      reposTotal: slugDirs.length,
+      skippedNoClone,
       issueCount: issues.length,
       issues,
     };
@@ -337,7 +388,8 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
 
   // Human report
   if (issues.length === 0) {
-    console.log(chalk.green(`\n  ✓ Audit clean — ${slugDirs.length} repos checked, no issues.\n`));
+    const skipNote = skippedNoClone > 0 ? ` (${skippedNoClone} had no local clone)` : '';
+    console.log(chalk.green(`\n  ✓ Audit clean — ${inspected} of ${slugDirs.length} repos inspected${skipNote}, no issues.\n`));
     return;
   }
 

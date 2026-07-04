@@ -11,6 +11,14 @@ site/dist/
 site/node_modules/
 .polyglot-cache.json
 swarms/
+
+# Local repo-knowledge scaffolding (Phase 5 of full-treatment). rk.config.json
+# is unfilled local tooling config (placeholder owner) and data/ is its SQLite
+# DB + artifacts sink — neither belongs in git history, and both were otherwise
+# committable by a blanket `git add -A` during release.
+data/
+rk.config.json
+
 PLAN.md
 collect-logos.sh
 migrate-readmes.sh

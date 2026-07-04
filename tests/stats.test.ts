@@ -64,11 +64,21 @@ function parseJsonOutput(): {
   totalLogos: number;
   formats: Record<string, number>;
   manifestEntries: number;
+  primaryCount?: number;
+  galleryCount?: number;
+  galleries?: Record<string, number>;
   missing: string[];
   untracked: string[];
 } {
   const last = stdout[stdout.length - 1];
   return JSON.parse(last);
+}
+
+/** Seed a gallery subfolder under a slug with the given image filenames. */
+function seedGallery(slug: string, gallery: string, files: string[]): void {
+  const dir = join(logosDir, slug, gallery);
+  mkdirSync(dir, { recursive: true });
+  for (const f of files) writeFileSync(join(dir, f), `fake-${slug}-${f}`);
 }
 
 describe('runStats (--json)', () => {
@@ -178,6 +188,30 @@ describe('runStats (--json)', () => {
     expect(joined).toMatch(/not valid JSON|invalid JSON|JSON/i);
   });
 
+  // brand-core-04 — the primary/gallery role split (v1.0.6 headline data).
+  it('reports primaryCount / galleryCount / galleries in JSON', async () => {
+    seedLogos({ alpha: 'png' });
+    seedGallery('alpha', 'turnarounds', ['a.png', 'b.png']);
+    writeManifest(generateManifest(logosDir), manifestPath);
+
+    await runStats({ logos: logosDir, manifest: manifestPath, json: true });
+    const out = parseJsonOutput();
+
+    expect(out.manifestEntries).toBe(3);
+    expect(out.primaryCount).toBe(1);
+    expect(out.galleryCount).toBe(2);
+    expect(out.galleries?.['alpha/turnarounds']).toBe(2);
+  });
+
+  // brand-core-01 — a missing logos dir is an operator error (exit 2), not a
+  // green "in sync" pass over an empty scan.
+  it('exits 2 when the logos dir does not exist', async () => {
+    await expect(
+      runStats({ logos: join(tempDir, 'does-not-exist'), manifest: manifestPath, json: false })
+    ).rejects.toThrow(/__EXIT__:2/);
+    expect(exitCode).toBe(2);
+  });
+
   it('handles >10 missing slugs with truncation in human-readable output', async () => {
     // build a manifest with 15 slugs, then remove all from disk
     const spec: Record<string, string> = {};
@@ -215,5 +249,26 @@ describe('runStats (human output)', () => {
     await runStats({ logos: logosDir, manifest: manifestPath, json: false });
     const joined = stdout.join('\n');
     expect(joined).toMatch(/in sync/);
+  });
+
+  it('prints the Primary/Gallery split when galleries exist (brand-core-04)', async () => {
+    seedLogos({ alpha: 'png' });
+    seedGallery('alpha', 'turnarounds', ['a.png', 'b.png']);
+    writeManifest(generateManifest(logosDir), manifestPath);
+
+    await runStats({ logos: logosDir, manifest: manifestPath, json: false });
+    const joined = stdout.join('\n');
+    expect(joined).toContain('Primary logos:');
+    expect(joined).toContain('Gallery images:');
+    expect(joined).toMatch(/across 1 gallery/);
+  });
+
+  it('omits the split for a gallery-free registry', async () => {
+    seedLogos({ alpha: 'png' });
+    writeManifest(generateManifest(logosDir), manifestPath);
+
+    await runStats({ logos: logosDir, manifest: manifestPath, json: false });
+    const joined = stdout.join('\n');
+    expect(joined).not.toContain('Gallery images:');
   });
 });

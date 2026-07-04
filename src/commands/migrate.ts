@@ -109,6 +109,23 @@ function isTTY(): boolean {
 
 export async function runMigrate(opts: MigrateOptions): Promise<void> {
   const logosDir = opts.logos;
+
+  // Guard the input directories up front — a missing/mistyped --logos or --repos
+  // (defaults `logos` and `.`) is an operator error (exit 2), not a silent
+  // "Repos scanned: 0" / exit-0 no-op that migrated nothing.
+  for (const [flag, dir] of [['--logos', logosDir], ['--repos', opts.repos]] as const) {
+    if (!existsSync(dir)) {
+      const which = flag === '--logos' ? 'logos' : 'repos';
+      const message = `${which} directory not found: ${dir} — pass ${flag} <path> or run from the brand repo root.`;
+      if (opts.json) {
+        process.stdout.write(JSON.stringify({ ok: false, error: 'dir-not-found', flag, path: dir, message }, null, 2) + '\n');
+      } else {
+        console.error(chalk.red(`\n  ✗ ${message}\n`));
+      }
+      process.exit(2);
+    }
+  }
+
   const slugDirs = globSync('*/', { cwd: logosDir }).map(d => d.replace(/\/$/, ''));
 
   // "Is this src already pointing at the brand repo?" must be derived from the

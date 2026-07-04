@@ -159,6 +159,33 @@ describe('runAddGallery — fresh gallery creation', () => {
   });
 });
 
+// TEST-003 — a second `add-gallery --order <same list>` against an unchanged
+// source-dir must be a no-op. The invariant is documented but was untested;
+// a regression would churn the whole gallery + regenerate the manifest on every
+// run. (The --order tests only asserted single-run output.)
+describe('runAddGallery — --order idempotency (TEST-003)', () => {
+  it('re-running with the identical --order is a no-op (no churn)', async () => {
+    seedSourceFile('zebra.png');
+    seedSourceFile('apple.png');
+    const order = 'zebra.png,apple.png';
+
+    // First run establishes the numeric-prefixed target names.
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir, order });
+    const firstListing = listTargetFiles('widget');
+    expect(firstListing).toEqual(['1-zebra.png', '2-apple.png']);
+
+    // Second run with the identical --order must report zero churn.
+    const writes = await captureStdoutWrites(() =>
+      runAddGallery({ slug: 'widget', sourceDir, logos: logosDir, order, json: true }),
+    );
+    const out = firstJson(writes);
+    expect(out.added).toEqual([]);
+    expect(out.updated).toEqual([]);
+    expect(out.removed).toEqual([]);
+    expect(listTargetFiles('widget')).toEqual(firstListing);
+  });
+});
+
 describe('runAddGallery — idempotent reconciliation', () => {
   it('re-run with an added file (via --json) reports only the new file as added', async () => {
     seedSourceFile('a.png');
