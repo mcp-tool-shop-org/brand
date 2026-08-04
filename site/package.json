@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.40.0",
-    "@mcptoolshop/site-theme": "^1.6.1",
+    "@mcptoolshop/site-theme": "^2.1.0",
     "@tailwindcss/postcss": "^4.3.1",
     "astro": "^6.3.3",
     "tailwindcss": "^4.3.1",
