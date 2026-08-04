@@ -385,9 +385,14 @@ target: step 1.*
 **2. ANDON_AUTHORITY — 2.** CHECK-CAT halts `add-model` ingest on a fabricated categorical colour;
 the `dist/` passthrough hash assert halts the site build if Astro re-encodes a categorical channel
 and breaks the conformance induction; CHECK-MIP halts on an unproven filter path; GATE-SEQUENCE
-halts step 2 until the `model` role exists, because a `model/` folder created early mis-roles
-silently rather than erroring. All specified inside the tool that performs the step. Not 3 until
-the tests exist and have receipts.
+refuses to write into a tree whose manifest was generated before the `model` role existed. All
+specified inside the tool that performs the step.
+
+*Updated after step 1 (2026-08-04):* GATE-SEQUENCE is no longer prose — `findMisroledModelAssets`
+is implemented in `src/manifest.ts` with tests, and `parseModelView` refuses a categorical channel
+that is linear-filtered or declares no palette, so an unenforceable declaration cannot be written
+in the first place. CHECK-CAT, CHECK-MIP and the `dist/` assert remain unbuilt (steps 2–3), which
+is what holds this at 2 rather than 3.
 
 **3. NAMED_COMPENSATORS — 2.** Table below; no skip claimed. Not 3 until each has been rehearsed
 once.

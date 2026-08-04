@@ -1,0 +1,58 @@
+{
+  "schema": "brand.model-view/1",
+  "asset": "asset.glb",
+  "subject": "a textured character, three evidence layers",
+  "provenance": {
+    "source_repo": "example-org/example-subject",
+    "source_spec": "docs/experiments/EXX-display-copy.md",
+    "derived_from": "source_full.glb",
+    "recipe": "decimate --target 150000 --weld",
+    "receipt": {
+      "metric": "mean abs channel delta /255",
+      "value": null,
+      "against": "full-resolution source, flat render"
+    }
+  },
+  "channels": [
+    {
+      "id": "flat",
+      "label": "Texture",
+      "texture": "ch_flat.webp",
+      "filter": "linear",
+      "categorical": false,
+      "caption": "The finished asset under flat light."
+    },
+    {
+      "id": "layer-a",
+      "label": "Where each texel came from",
+      "texture": "ch_layer_a.png",
+      "filter": "nearest",
+      "categorical": true,
+      "palette": ["#000000", "#3b7dd8", "#d8a13b", "#8d3bd8"],
+      "legend": {
+        "#3b7dd8": "class one",
+        "#d8a13b": "class two",
+        "#8d3bd8": "class three"
+      },
+      "caption": "A subject-authored caption."
+    },
+    {
+      "id": "layer-b",
+      "label": "Which source won each texel",
+      "texture": "ch_layer_b.png",
+      "filter": "nearest",
+      "categorical": true,
+      "palette": ["#000000", "#c4432b", "#2bc47a"],
+      "caption": "A second categorical layer the first is structurally blind to."
+    }
+  ],
+  "cameras": [
+    { "label": "front", "orbit": "0deg 90deg 2.2m" },
+    { "label": "three-quarter", "orbit": "45deg 80deg 2.2m" }
+  ],
+  "budget": {
+    "asset_bytes": 8388608,
+    "channel_bytes": 1572864,
+    "poster_bytes": 307200
+  }
+}

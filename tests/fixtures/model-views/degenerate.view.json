@@ -1,0 +1,20 @@
+{
+  "schema": "brand.model-view/1",
+  "asset": "asset.glb",
+  "channels": [
+    {
+      "id": "matte",
+      "label": "Matte",
+      "texture": "ch_matte.webp",
+      "filter": "linear",
+      "categorical": false
+    },
+    {
+      "id": "metallic",
+      "label": "Metallic",
+      "texture": "ch_metallic.webp",
+      "filter": "linear",
+      "categorical": false
+    }
+  ]
+}

@@ -23,8 +23,19 @@ import { globSync } from 'glob';
  * root); "gallery" is any image inside a direct subfolder of the slug (e.g.
  * logos/<slug>/turnarounds/*.png). Optional on read so a manifest generated
  * before this field existed still parses; always populated on generate.
+ *
+ * The three model roles live under the RESERVED `model/` subfolder (MODEL_DIR
+ * below) and are scanned by their own path, deliberately NOT through
+ * SUPPORTED_FORMATS — see docs/model-channels-spec.md. A model is not an
+ * image, and widening the image list to carry non-images would silently
+ * change FORMAT_MAP, IMAGE_EXTENSIONS, IMAGE_EXTENSION_ORDER and the stats
+ * glob, all of which derive from it.
+ *
+ *   "model"          — the 3D asset itself (asset.glb)
+ *   "channel"        — a switchable texture layer (ch_<id>.png|webp)
+ *   "model-manifest" — view.json, the subject-authored channel description
  */
-export type AssetRole = 'primary' | 'gallery';
+export type AssetRole = 'primary' | 'gallery' | 'model' | 'channel' | 'model-manifest';
 
 export interface AssetEntry {
   hash: string;
@@ -309,6 +320,65 @@ function isGalleryScratchDir(name: string): boolean {
 }
 
 /**
+ * MODEL_DIR — the RESERVED subfolder name under a slug that holds a 3D model
+ * and its switchable channels. It is excluded from getGalleryFolders, so a
+ * `model/` directory can never be adopted as a gallery.
+ *
+ * This exclusion is the whole point and it is load-bearing. Before it, the
+ * gallery walker caught ANY subdirectory: dropping model files into
+ * `logos/<slug>/model/` did not error — it silently registered them as
+ * `role: "gallery"`, and `brand stats` counted models as gallery images.
+ * That is a wrong manifest that LOOKS right, which is strictly worse than a
+ * loud failure. Verified clean before reserving: zero `model/` directories
+ * existed under logos/ and the only gallery name in use was "turnarounds",
+ * so no existing asset changes role.
+ */
+export const MODEL_DIR = 'model';
+
+/**
+ * MODEL_ASSET_KINDS — extension -> (role, format) for files directly inside
+ * `<slug>/model/`. Deliberately SEPARATE from SUPPORTED_FORMATS: that list's
+ * own doc comment says "Add new formats here ONLY" precisely because four
+ * other consumers derive from it, and none of them should learn about .glb
+ * or .json. Anything in `model/` whose extension is not listed here is left
+ * untracked rather than guessed at.
+ */
+const MODEL_ASSET_KINDS: Record<string, { role: AssetRole; format: string }> = {
+  '.glb': { role: 'model', format: 'glb' },
+  '.png': { role: 'channel', format: 'png' },
+  '.webp': { role: 'channel', format: 'webp' },
+  '.json': { role: 'model-manifest', format: 'json' },
+};
+
+/**
+ * GATE-SEQUENCE detection (docs/model-channels-spec.md).
+ *
+ * Returns manifest keys under `<slug>/model/` that are recorded with a role
+ * this build would not assign — in practice `role: "gallery"`, which is what
+ * a brand build PREDATING MODEL_DIR produces for the same tree. Callers that
+ * are about to write into `model/` (add-model) must refuse on a non-empty
+ * result and tell the operator to regenerate the manifest first.
+ *
+ * The failure this closes is silent: an old build's manifest is structurally
+ * valid, verifies clean, and is wrong. Nothing about it looks broken, so the
+ * check has to be explicit rather than emergent.
+ */
+export function findMisroledModelAssets(manifest: Manifest): string[] {
+  const modelSegment = `/${MODEL_DIR}/`;
+  return Object.entries(manifest.assets)
+    .filter(([key, entry]) => {
+      if (!key.startsWith('logos/') || !key.includes(modelSegment)) return false;
+      const kind = MODEL_ASSET_KINDS[extname(key).toLowerCase()];
+      // Unknown extensions inside model/ are not tracked by this build, so a
+      // pre-existing entry for one is not evidence of mis-roling.
+      if (!kind) return false;
+      return entry.role !== kind.role;
+    })
+    .map(([key]) => key)
+    .sort();
+}
+
+/**
  * List the direct subfolder names under a slug (existence-based, not
  * filtered by content). Used by add-gallery/sync to discover or disambiguate
  * gallery collections without re-deriving the glob logic in generateManifest.
@@ -334,6 +404,12 @@ export function getGalleryFolders(slug: string, baseDir: string): string[] {
       // scratch dirs explicitly, rather than relying on glob's default
       // dot-file exclusion as the only reason they're invisible here today.
       if (isGalleryScratchDir(sub)) return false;
+      // MODEL_DIR is reserved and is scanned by its own path in
+      // generateManifest. Excluding it HERE is what stops a `model/` folder
+      // from being silently adopted as a gallery — see MODEL_DIR's doc.
+      // This also means add-gallery/sync cannot create or target a gallery
+      // literally named "model", which is intended.
+      if (sub === MODEL_DIR) return false;
       const full = join(slugPath, sub);
       const safe = isContained(full, rootRealPath);
       if (!safe) warnEscaped(full);
@@ -345,6 +421,10 @@ export function getGalleryFolders(slug: string, baseDir: string): string[] {
 /**
  * Generate a manifest from a BOUNDED two-level scan of logosDir:
  *   <slug>/readme.<ext>          -> role "primary" (the one canonical logo)
+ *   <slug>/model/<file>          -> roles "model" | "channel" | "model-manifest"
+ *                                   (RESERVED dir, scanned by its own path via
+ *                                   MODEL_ASSET_KINDS — never through
+ *                                   SUPPORTED_FORMATS, and never as a gallery)
  *   <slug>/<anyDir>/<file>.<ext> -> role "gallery", gallery: <anyDir> (files
  *                                   directly inside the subfolder; no deeper
  *                                   nesting is tracked)
@@ -378,7 +458,18 @@ export function generateManifest(logosDir: string): Manifest {
       return safe;
     });
 
-  const found: Array<{ file: string; key: string; role: AssetRole; gallery?: string }> = [];
+  // `format` is optional and set ONLY by the model branch, which knows its own
+  // extensions (MODEL_ASSET_KINDS). The primary/gallery branches leave it
+  // undefined and fall through to detectFormat, preserving their exact
+  // pre-existing behaviour — this is why adding model support does not move a
+  // single byte of the existing corpus's manifest entries.
+  const found: Array<{
+    file: string;
+    key: string;
+    role: AssetRole;
+    gallery?: string;
+    format?: string;
+  }> = [];
 
   for (const slug of slugDirs) {
     const slugPath = join(logosDir, slug);
@@ -415,6 +506,36 @@ export function generateManifest(logosDir: string): Manifest {
         found.push({ file: rel, key: `logos/${rel}`.replace(/\\/g, '/'), role: 'gallery', gallery: sub });
       }
     }
+
+    // Model: the RESERVED `model/` subfolder, scanned by its own path so no
+    // model file is ever routed through the gallery branch above (see
+    // MODEL_DIR). Same two-level bound as gallery — files directly inside
+    // model/, no deeper nesting. A nested `model/channels/flat.webp` is
+    // therefore NOT tracked, deliberately and visibly: the spec's layout is
+    // flat (ch_<id>.<ext>) precisely because this scan is bounded, and a
+    // silently-skipped nested file would be the same invisible-defect class
+    // the model role exists to close.
+    const modelPath = join(slugPath, MODEL_DIR);
+    if (existsSync(modelPath) && isContained(modelPath, logosRealPath)) {
+      const modelFiles = globSync('*', { cwd: modelPath, nodir: true, follow: false })
+        .filter(f => MODEL_ASSET_KINDS[extname(f).toLowerCase()] !== undefined)
+        .filter(f => {
+          const full = join(modelPath, f);
+          const safe = isContained(full, logosRealPath);
+          if (!safe) warnEscaped(full);
+          return safe;
+        });
+      for (const f of modelFiles) {
+        const rel = `${slug}/${MODEL_DIR}/${f}`;
+        const kind = MODEL_ASSET_KINDS[extname(f).toLowerCase()]!;
+        found.push({
+          file: rel,
+          key: `logos/${rel}`.replace(/\\/g, '/'),
+          role: kind.role,
+          format: kind.format,
+        });
+      }
+    }
   }
 
   // Sort by the FINAL key shape (logos/<file> with / separators) so that the
@@ -423,7 +544,7 @@ export function generateManifest(logosDir: string): Manifest {
   found.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
 
   const assets: Record<string, AssetEntry> = {};
-  for (const { file, key, role, gallery } of found) {
+  for (const { file, key, role, gallery, format } of found) {
     const fullPath = join(logosDir, file);
     let size: number;
     try {
@@ -439,7 +560,7 @@ export function generateManifest(logosDir: string): Manifest {
     assets[key] = {
       hash: hashFile(fullPath),
       size,
-      format: detectFormat(fullPath),
+      format: format ?? detectFormat(fullPath),
       role,
       ...(gallery ? { gallery } : {}),
     };

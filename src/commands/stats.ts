@@ -28,6 +28,8 @@ interface StatsResult {
   primaryCount: number;
   /** Manifest entries with role "gallery". */
   galleryCount: number;
+  /** Manifest entries with role "model", "channel" or "model-manifest". */
+  modelCount: number;
   /** "slug/galleryName" -> image count, for every gallery in the manifest. */
   galleries: Record<string, number>;
   missing: string[];
@@ -88,6 +90,7 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   let manifestEntries = 0;
   let primaryCount = 0;
   let galleryCount = 0;
+  let modelCount = 0;
   const galleries: Record<string, number> = {};
   const manifestSlugs = new Set<string>();
   if (existsSync(manifestPath)) {
@@ -138,6 +141,21 @@ export async function runStats(opts: StatsOptions): Promise<void> {
         const galleryName = entry.gallery ?? parts[1] ?? 'gallery';
         const gk = slug ? `${slug}/${galleryName}` : galleryName;
         galleries[gk] = (galleries[gk] ?? 0) + 1;
+      } else if (
+        entry?.role === 'model' ||
+        entry?.role === 'channel' ||
+        entry?.role === 'model-manifest'
+      ) {
+        // Model-channel assets (docs/model-channels-spec.md). Counted on their
+        // own line and DELIBERATELY not folded into primaryCount.
+        //
+        // This branch exists because the old `else` was a catch-all: anything
+        // that was not "gallery" became a primary logo. That was correct while
+        // only two roles existed, and became a silent miscount the moment the
+        // model roles were added -- three model files would have reported as
+        // three extra canonical logos, a wrong number that looks right. Any
+        // future role must be handled explicitly here for the same reason.
+        modelCount++;
       } else {
         // role "primary" or an untagged legacy entry — count as a canonical logo.
         primaryCount++;
@@ -170,6 +188,7 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     manifestEntries,
     primaryCount,
     galleryCount,
+    modelCount,
     galleries,
     missing,
     untracked,
@@ -184,6 +203,14 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   console.log('');
   console.log(`  Logos on disk:     ${chalk.cyan(String(result.totalLogos))}`);
   console.log(`  Manifest entries:  ${chalk.cyan(String(result.manifestEntries))}`);
+  // Model-channel assets get their own line, shown only when present so a
+  // registry without them prints byte-identically to before this role existed.
+  // Without this line their count would be invisible: they are excluded from
+  // primaryCount by design, so they would otherwise appear only inside the
+  // "Manifest entries" total with nothing explaining the gap.
+  if (result.modelCount > 0) {
+    console.log(`    Model assets:    ${chalk.cyan(String(result.modelCount))}`);
+  }
   // Surface the primary/gallery split so the gap between the two counts above
   // (primaries-on-disk vs all-manifest-assets) is never a mystery. Only shown
   // when galleries actually exist, so a gallery-free registry stays terse.
