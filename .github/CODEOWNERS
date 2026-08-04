@@ -1,0 +1,43 @@
+# CODEOWNERS — review requirements for the paths that matter to brand
+# integrity: the trust root (canonical logos + the manifest that hashes
+# them) and the automation that is able to rewrite that trust root.
+#
+# READ THIS BEFORE ASSUMING THIS FILE ENFORCES ANYTHING:
+#
+# GitHub only turns a CODEOWNERS entry into an actual merge requirement when
+# the target branch's branch protection rule has "Require review from Code
+# Owners" enabled. As measured for this repo, branch protection currently
+# has NO required reviews and enforce_admins is false — that setting has
+# NOT been turned on. Enabling it is the Director's call (a repo-settings
+# change), not something this file can do or imply on its own.
+#
+# Until that setting is enabled, this file is ADVISORY ONLY. It documents
+# who *should* review these paths, and GitHub will still show them as a
+# suggested reviewer on a PR touching these globs — but nothing blocks a
+# merge without that review, including a direct push by anyone with write
+# access. Do not describe this file as an enforced control in any doc,
+# summary, or scorecard. See .github/SECURITY-CONTROLS.md for the full,
+# honest gap list and what closing it would actually require.
+#
+# Owner: @mcp-tool-shop — the personal account used for review on this
+# mcp-tool-shop-org repo (see .claude/rules/canonical-ownership.md: tool
+# repos are owned under the org, reviewed by the personal account).
+#
+# Later entries override earlier ones for the same path (standard
+# CODEOWNERS precedence) — there is no catch-all `*` entry here on purpose;
+# scope is intentionally limited to the paths that matter, not every file.
+
+# --- The trust root ---------------------------------------------------------
+# Exactly the surface a swapped-logo attack touches: the canonical image
+# files, and the SHA-256 manifest that is supposed to attest to them.
+# Reminder (see .github/SECURITY-CONTROLS.md): the manifest alone does not
+# stop someone who can also regenerate it — review is the actual control.
+/logos/**       @mcp-tool-shop
+/manifest.json  @mcp-tool-shop
+
+# --- The automation that can rewrite the trust root above -------------------
+# A compromise here can regenerate a passing manifest around a tampered
+# logo just as easily as editing /logos/** directly — CI, the sync
+# tripwire, and the manifest/verify pipeline all live under these paths.
+/.github/**  @mcp-tool-shop
+/scripts/**  @mcp-tool-shop

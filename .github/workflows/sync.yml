@@ -16,6 +16,11 @@
 #       lists are documented in different places and can drift independently
 #       -- cross-check them against each other whenever either changes.
 #
+#       The same issues:write need applies to "Open issue on suspicious logo
+#       divergence" below (also uses gh label create + gh issue create) --
+#       no NEW scope beyond what "Open issue on verify failure" already
+#       required, just noting it shares the requirement.
+#
 # The workflow prefers SYNC_PAT when available and falls back to GITHUB_TOKEN.
 name: Sync org logos
 
@@ -180,6 +185,18 @@ jobs:
 
       - name: Write sync summary
         if: always()
+        env:
+          # Routed through env: (not inlined via ${{ }} into the script body
+          # below) because this value is built from git commit author/message
+          # text that may be attacker-influenced -- see sync-org-logos.sh's
+          # last_commit_info_for_path() honesty-limits comment. Splicing
+          # untrusted content directly into a `run:` step via ${{ }} template
+          # substitution is a known GitHub Actions script-injection vector
+          # (the substitution happens before bash ever sees the script); env:
+          # avoids it because shell variable expansion at runtime does not
+          # re-evaluate `$(...)`/backticks found INSIDE an already-expanded
+          # value.
+          SUSPICIOUS_DETAILS: ${{ steps.sync.outputs.suspicious_details }}
         run: |
           ADDED="${{ steps.sync.outputs.added }}"
           CHANGED_COUNT="${{ steps.sync.outputs.changed_count }}"
@@ -187,6 +204,7 @@ jobs:
           SKIPPED="${{ steps.sync.outputs.skipped }}"
           REJECTED="${{ steps.sync.outputs.rejected }}"
           NET_ERR="${{ steps.sync.outputs.network_errors }}"
+          SUSPICIOUS_COUNT="${{ steps.sync.outputs.suspicious_count }}"
           {
             echo "## Daily sync — $(date -u +%Y-%m-%d)"
             echo ""
@@ -198,13 +216,114 @@ jobs:
             echo "| No logo found | ${SKIPPED:-0} |"
             echo "| Rejected (not an image / too large) | ${REJECTED:-0} |"
             echo "| Network errors | ${NET_ERR:-0} |"
+            echo "| Suspicious divergence | ${SUSPICIOUS_COUNT:-0} |"
             echo ""
             echo "Repo changes detected: ${{ steps.sync.outputs.changed }}"
             if [ "${{ steps.verify.outcome }}" = "failure" ]; then
               echo ""
               echo "Manifest verification FAILED — see the Verify regenerated manifest step."
             fi
+            if [ -n "${SUSPICIOUS_COUNT:-}" ] && [ "${SUSPICIOUS_COUNT:-0}" != "0" ]; then
+              echo ""
+              echo "### Suspicious logo divergence"
+              echo ""
+              echo "The registry's copy differed from upstream for the logo(s) below, AND"
+              echo "the most recent commit to touch that file in this repo's history was"
+              echo "NOT the sync automation's own commit. This does not by itself prove"
+              echo "tampering -- git commit authorship is self-reported and this repo does"
+              echo "not require signed commits (see \`.github/SECURITY-CONTROLS.md\`) -- but"
+              echo "it is not explained by a normal sync cycle either. Tracked via a"
+              echo "labelled issue (\`logo-divergence-suspicious\`) so it isn't only visible"
+              echo "in this run's summary."
+              echo ""
+              echo '```'
+              echo "$SUSPICIOUS_DETAILS"
+              echo '```'
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open issue on suspicious logo divergence
+        # Tripwire (Director brief, 2026-08): the SHA-256 manifest alone
+        # cannot catch a contributor or compromised CI swapping a logo and
+        # then regenerating manifest.json themselves -- `brand verify` would
+        # still pass. This job is already, incidentally, an independent
+        # witness: it downloads every upstream repo's real logo to compare
+        # against this registry. See sync-org-logos.sh's
+        # last_commit_info_for_path() for exactly what is and is not
+        # distinguishable from the data available, and
+        # .github/SECURITY-CONTROLS.md for the full threat-model writeup.
+        #
+        # This step does NOT revert or block anything -- the sync PR (see
+        # "Create PR" above) still proceeds normally so a human reviews the
+        # diff. Reporting only, on purpose: silently "fixing" a suspicious
+        # divergence would destroy the evidence this tripwire exists to
+        # preserve. De-duplicates by label, same pattern as "Open issue on
+        # verify failure" below.
+        #
+        # Compensators (org workflow standard NAMED_COMPENSATORS -- both
+        # actions below are new write actions this change introduces):
+        #   Action: gh label create logo-divergence-suspicious --force
+        #   Undo:   gh label delete logo-divergence-suspicious --yes
+        #           (pure metadata removal; any issue using it just loses
+        #           the tag) -- Owner: mcp-tool-shop
+        #   Action: gh issue create --label logo-divergence-suspicious
+        #   Undo:   gh issue close <number> --reason "not planned" --comment "<why>"
+        #           (issues are not deleted here -- closing is the normal,
+        #           reversible undo; hard-deleting via the web UI destroys
+        #           the audit trail this tripwire exists to create, so
+        #           closing is the correct undo, not deleting) -- Owner:
+        #           mcp-tool-shop
+        #   (The rest of this workflow's compensator/standards coverage is
+        #   tracked under the org's separate ongoing workflow-standards
+        #   audit -- not re-scored wholesale by this change.)
+        if: always() && steps.sync.outputs.suspicious_count != '' && steps.sync.outputs.suspicious_count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_PAT || secrets.GITHUB_TOKEN }}
+          SUSPICIOUS_COUNT: ${{ steps.sync.outputs.suspicious_count }}
+          # Routed through env:, not ${{ }} template substitution in the
+          # script body -- see "Write sync summary" step's comment above for
+          # why (this value can contain attacker-influenced git commit
+          # author/message text).
+          SUSPICIOUS_DETAILS: ${{ steps.sync.outputs.suspicious_details }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --label logo-divergence-suspicious --state open --json number --jq 'length')
+          if [ "${existing:-0}" -gt 0 ]; then
+            echo "An open logo-divergence-suspicious issue already exists — not opening another."
+            exit 0
+          fi
+          # Idempotent: creates the label the first time this ever fires,
+          # updates its color/description in place on later runs, and never
+          # errors just because the label already exists.
+          gh label create logo-divergence-suspicious \
+            --color B60205 \
+            --description "Sync tripwire: registry logo diverged from upstream outside the normal sync flow" \
+            --force >/dev/null 2>&1 || true
+          {
+            echo "The daily logo sync found **$SUSPICIOUS_COUNT** logo(s) where the"
+            echo "registry's copy differed from upstream AND the most recent commit to"
+            echo "touch that file in this repo's history was not the sync automation's"
+            echo "own commit."
+            echo ""
+            echo "Affected:"
+            echo '```'
+            echo "$SUSPICIOUS_DETAILS"
+            echo '```'
+            echo ""
+            echo "This does not by itself prove tampering — git commit authorship is"
+            echo "self-reported and this repo does not currently require signed commits"
+            echo "(see \`.github/SECURITY-CONTROLS.md\`). It means a human should confirm"
+            echo "who made that commit and why before assuming it's benign."
+            echo ""
+            echo "The sync PR proceeds normally for review; this issue exists so the"
+            echo "anomaly itself is tracked and not lost in an Actions log nobody reads."
+            echo ""
+            echo "See [run log]($RUN_URL)."
+          } > /tmp/suspicious-issue-body.md
+          gh issue create \
+            --title "Suspicious logo divergence detected ($(date -u +%Y-%m-%d))" \
+            --label logo-divergence-suspicious \
+            --body-file /tmp/suspicious-issue-body.md
 
       - name: Open issue on verify failure
         # If the manifest verify step failed, surface it as a tracked issue

@@ -24,6 +24,8 @@ UNCHANGED=0
 SKIPPED=0
 REJECTED=0
 NETWORK_ERRORS=0
+SUSPICIOUS=0
+SUSPICIOUS_LIST=()
 
 # Download caps — non-image rejection + size/time bounds
 CURL_MAX_TIME=30
@@ -54,6 +56,58 @@ hash_file() {
     echo "ERROR: neither sha256sum nor shasum found on PATH" >&2
     exit 2
   fi
+}
+
+# --- Tripwire support -------------------------------------------------------
+#
+# Context: the SHA-256 manifest (manifest.json) proves internal consistency
+# -- that logos/ matches what manifest.json says it should hash to. It does
+# NOT prove provenance: a contributor or a compromised CI run with write
+# access to THIS repo can swap a logo and simply run `brand manifest`
+# themselves, and `brand verify` then passes cleanly. See
+# .github/SECURITY-CONTROLS.md for the full writeup.
+#
+# This sync script is already, incidentally, an independent witness: it
+# downloads every upstream org repo's actual logo to compare against this
+# registry's copy. That comparison is exactly the signal a same-repo tamper
+# cannot silence (silencing it requires compromising the upstream repos
+# too, not just this one). `last_commit_info_for_path` below is the
+# supporting half of that check: when a registry copy differs from the
+# freshly-downloaded upstream file, it answers "was the most recent commit
+# to touch this path on the default branch the sync automation's own
+# commit, or something else?" -- see the call site in the download loop
+# for how that answer is used.
+#
+# Honesty limits (do not oversell this in any summary or doc):
+#   - Requires `gh` + `jq` + running inside GitHub Actions (GITHUB_REPOSITORY
+#     set). Outside that (e.g. a contributor's local machine), the function
+#     returns nothing and the caller treats that as "cannot determine" --
+#     NOT as suspicious. A false "looks fine" from an unrunnable check is an
+#     acceptable failure mode here; a false "suspicious" alarm from a lookup
+#     gap is not.
+#   - It reads commit AUTHOR NAME and MESSAGE via the GitHub API. Neither is
+#     cryptographically verified today -- this repo does not require signed
+#     commits (see .github/SECURITY-CONTROLS.md) -- so a determined attacker
+#     with write access could set `git config user.name`/message to imitate
+#     the bot and defeat this specific check. It raises the bar (the
+#     attacker must now also forge history convincingly) rather than closing
+#     the gap outright. The upstream-comparison half of the tripwire is the
+#     part that cannot be silenced by compromising only this repo.
+#
+# Prints "author|subject" (subject truncated to its first line) on success;
+# prints nothing on any failure or when the check cannot be performed.
+last_commit_info_for_path() {
+  local path="$1"
+  if ! command -v gh >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1 || [[ -z "${GITHUB_REPOSITORY:-}" ]]; then
+    return 0
+  fi
+  local commit_json
+  commit_json=$(gh api "repos/${GITHUB_REPOSITORY}/commits?path=${path}&per_page=1" 2>/dev/null) || return 0
+  local author subject
+  author=$(printf '%s' "$commit_json" | jq -r '.[0].commit.author.name // empty' 2>/dev/null) || return 0
+  subject=$(printf '%s' "$commit_json" | jq -r '(.[0].commit.message // "") | split("\n")[0]' 2>/dev/null) || return 0
+  [[ -z "$author" ]] && return 0
+  printf '%s|%s\n' "$author" "$subject"
 }
 
 echo "Syncing logos from org: $ORG"
@@ -148,8 +202,38 @@ while IFS= read -r repo; do
           rm "$tmp"
           UNCHANGED=$((UNCHANGED + 1))
         else
+          # Divergence: the registry's copy differs from the fresh upstream
+          # download. Normally this just means upstream changed its logo
+          # since the last sync -- but it is ALSO the exact signature of a
+          # direct tamper on THIS repo (swap the file, regenerate
+          # manifest.json so `brand verify` stays green). Distinguish as
+          # best the data allows: was the most recent commit to touch this
+          # file on the default branch the sync bot's own commit? See
+          # last_commit_info_for_path()'s doc comment above for exactly
+          # what this can and cannot prove.
+          commit_info=$(last_commit_info_for_path "$target_path")
+          is_suspicious=false
+          last_author=""
+          last_subject=""
+          if [[ -n "$commit_info" ]]; then
+            last_author="${commit_info%%|*}"
+            last_subject="${commit_info#*|}"
+            if [[ "$last_author" != "github-actions[bot]" || "$last_subject" != "chore: sync org logos"* ]]; then
+              is_suspicious=true
+            fi
+          fi
+          # commit_info empty => lookup unavailable (no gh/jq/GITHUB_REPOSITORY,
+          # or a transient API error) -- treated as "cannot determine", not
+          # flagged. See last_commit_info_for_path()'s honesty-limits comment.
+
           mv "$tmp" "$target_path"
-          echo "  ~ $repo/$target_name (updated)"
+          if $is_suspicious; then
+            echo "  ~ $repo/$target_name (updated) [SUSPICIOUS: last registry change was not the sync bot -- author='$last_author' message='$last_subject']"
+            SUSPICIOUS_LIST+=("$repo/$target_name -- last changed by \"$last_author\": \"$last_subject\"")
+            SUSPICIOUS=$((SUSPICIOUS + 1))
+          else
+            echo "  ~ $repo/$target_name (updated)"
+          fi
           CHANGED=$((CHANGED + 1))
         fi
       else
@@ -179,11 +263,22 @@ echo "  Unchanged:      $UNCHANGED"
 echo "  No logo:        $SKIPPED"
 echo "  Rejected:       $REJECTED"
 echo "  Network errors: $NETWORK_ERRORS"
+echo "  Suspicious:     $SUSPICIOUS"
 
 # Emit counts to GITHUB_OUTPUT when running inside a GitHub Action so the
 # wrapping workflow can surface them in the run summary. Safe no-op when
 # GITHUB_OUTPUT is unset (local run).
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+  # Random-ish delimiter (pid + $RANDOM + nanosecond timestamp) for the
+  # multi-line suspicious_details heredoc below. suspicious_details is built
+  # from git commit author/message text, which -- per this tripwire's own
+  # documented honesty limits -- may be attacker-influenced; a predictable
+  # fixed delimiter (e.g. plain "EOF") could in principle be collided with
+  # deliberately to inject extra GITHUB_OUTPUT keys. This does not make the
+  # value safe to interpolate directly into a workflow `run:` step via
+  # `${{ }}` template substitution -- the workflow must still read it via
+  # `env:` (see .github/workflows/sync.yml).
+  delim="SUSPICIOUS_DETAILS_$$_${RANDOM}_$(date +%s%N 2>/dev/null || date +%s)"
   {
     echo "added=$ADDED"
     echo "changed_count=$CHANGED"
@@ -191,6 +286,12 @@ if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
     echo "skipped=$SKIPPED"
     echo "rejected=$REJECTED"
     echo "network_errors=$NETWORK_ERRORS"
+    echo "suspicious_count=$SUSPICIOUS"
+    echo "suspicious_details<<$delim"
+    if [[ ${#SUSPICIOUS_LIST[@]} -gt 0 ]]; then
+      printf '%s\n' "${SUSPICIOUS_LIST[@]}"
+    fi
+    echo "$delim"
   } >> "$GITHUB_OUTPUT"
 fi
 
