@@ -17,7 +17,7 @@
  *   3 — unexpected error (IO failure, network, internal bug)
  */
 
-import { Command } from 'commander';
+import { Command, CommanderError } from 'commander';
 import chalk from 'chalk';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -58,7 +58,19 @@ program
   .description('Centralized brand asset management — migration, audit, and integrity verification')
   .version(version)
   .option('-q, --quiet', 'Suppress per-item progress output (only summaries and errors)')
-  .option('-v, --verbose', 'Verbose output — extra per-step diagnostics');
+  .option('-v, --verbose', 'Verbose output — extra per-step diagnostics')
+  // Without this, Commander's default behavior on any usage error (missing
+  // required option, unknown option/command) is to print its own message and
+  // call process.exit() itself — bypassing main()'s try/catch below entirely,
+  // so it never gets mapped onto this tool's documented exit-code contract.
+  // Verified empirically: `brand sync` with no --slug printed Commander's raw
+  // (un-styled) error and exited 1, which per THIS file's own contract means
+  // "integrity drift", not "bad flag". exitOverride() turns that into a
+  // thrown CommanderError instead, caught below and remapped to exit 2.
+  // MUST be set before any .command(...) call below — Commander copies the
+  // exit-callback onto a subcommand at the moment .command() is invoked, so
+  // a subcommand defined before this line would not inherit the override.
+  .exitOverride();
 
 program
   .command('verify')
@@ -157,6 +169,28 @@ program
  * Subcommands should normally handle their own exit codes via process.exit;
  * this catch is a safety net for unhandled rejections (lib bugs, async paths
  * we missed) so the operator sees something better than a raw Node stack.
+ *
+ * Two things this block corrects (Stage-C exit-code audit):
+ *
+ *  - Commander's OWN usage-error path (missing required option, unknown
+ *    option/command, etc.) used to bypass this try/catch entirely — it
+ *    printed its own message and called process.exit() itself, always with
+ *    Commander's internal default of exit 1. `.exitOverride()` on `program`
+ *    (above) turns that into a thrown CommanderError instead, so it lands
+ *    in the catch below and gets remapped onto exit 2 (operator error) —
+ *    Commander's own "1" collides with this file's "1 = integrity drift".
+ *
+ *  - process.exit(N) is avoided here in favor of process.exitCode = N.
+ *    Writes to stderr are asynchronous on a piped/non-TTY stream (CI
+ *    runners, `2>file`, `| jq`), and process.exit() "will stop the Node.js
+ *    process as quickly as possible even if there are still asynchronous
+ *    operations pending... including I/O operations to process.stdout and
+ *    process.stderr" (Node docs) — so an immediate process.exit() right
+ *    after a stderr write can truncate that very write. Setting exitCode
+ *    lets Node drain stdio naturally once the event loop empties, which
+ *    this CLI does quickly: it holds no open handles (servers, sockets,
+ *    timers) once a subcommand's own work is done, so nothing here is a
+ *    "pending hung handle" that needs forceful termination.
  */
 async function main(): Promise<void> {
   process.on('unhandledRejection', (reason) => {
@@ -165,22 +199,43 @@ async function main(): Promise<void> {
     if (reason instanceof Error && reason.stack && process.env.BRAND_DEBUG) {
       process.stderr.write(`${reason.stack}\n`);
     }
-    process.exit(3);
+    process.exitCode = 3;
   });
 
   try {
     await program.parseAsync(process.argv);
   } catch (err) {
+    if (err instanceof CommanderError) {
+      if (err.exitCode === 0) {
+        // --help / --version (or any other clean Commander exit) — not an
+        // error. Commander already wrote the help/version text itself.
+        process.exitCode = 0;
+        return;
+      }
+      // Every other CommanderError is Commander's own usage-error path; it
+      // already printed its own message via outputError() before throwing,
+      // so this does not print a second copy. Per this file's documented
+      // contract, a bad flag / missing required option / unknown command is
+      // operator error (exit 2) — regardless of the exitCode Commander
+      // assigned internally (always 1, by Commander's own convention).
+      process.exitCode = 2;
+      return;
+    }
+
     const e = err as NodeJS.ErrnoException;
     if (e && (e.code === 'ENOENT' || e.code === 'EACCES' || e.code === 'EBUSY')) {
       process.stderr.write(chalk.red(`\n  ✗ ${e.message}\n`));
-      process.exit(3);
+      // Operator error (missing file / bad path) per the documented
+      // contract — this used to fall through to exit 3 ("unexpected"),
+      // contradicting the header comment's own literal example.
+      process.exitCode = 2;
+      return;
     }
     process.stderr.write(chalk.red(`\n  ✗ ${(err as Error).message}\n`));
     if (process.env.BRAND_DEBUG) {
       process.stderr.write(`${(err as Error).stack}\n`);
     }
-    process.exit(3);
+    process.exitCode = 3;
   }
 }
 
