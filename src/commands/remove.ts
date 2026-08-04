@@ -431,14 +431,26 @@ export async function runRemove(opts: RemoveOptions): Promise<void> {
       const manifest = generateManifest(logosDir);
       writeManifest(manifest, manifestPath);
     } catch (err) {
+      // Report what actually happened, not what was attempted. The restore is
+      // best-effort, and on the double-failure path (regeneration threw AND the
+      // rename back threw) the content survives under backupDir's name rather
+      // than vanishing — but an operator told "the original content has been
+      // restored" would go look for it where it is not. On the one path where
+      // someone most needs the truth about their data, do not assert an outcome
+      // that was never checked.
+      let restored = false;
       try {
         renameSync(backupDir, targetDir);
+        restored = true;
       } catch {
-        /* best-effort restore — if this ALSO fails, the content survives, just under backupDir's name instead of vanishing */
+        /* fall through — reported honestly below, with the path to recover from */
       }
       const e = err as Error;
       refuse(
-        `Manifest regeneration failed after removing ${scopeLabel} — the original content has been restored. ${e.message}`,
+        restored
+          ? `Manifest regeneration failed after removing ${scopeLabel} — the original content has been restored. ${e.message}`
+          : `Manifest regeneration failed after removing ${scopeLabel}, and restoring the original ALSO failed. ` +
+            `Nothing was lost: the content is intact at ${backupDir} — rename it back to ${targetDir} to recover. ${e.message}`,
         3,
         'manifest-regenerate-failed',
       );

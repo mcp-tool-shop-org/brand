@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1 — 2026-08-04
+
+### Fixed
+
+- **`brand remove` no longer claims a restore it did not perform.** The swap deletes by rename-away → regenerate manifest → delete-or-restore. On the double-failure path — regeneration throws *and* the rename back also throws — the content survives under the reserved `.brand-backup-*` name, but the error message said "the original content has been restored" unconditionally, asserting an outcome it never checked. On the one path where an operator most needs the truth about their data, they were pointed at a location the content was not in. The message now reports what actually happened and, when the restore failed, names the exact path to recover from.
+
+Found post-release by the wave-6 cross-family jury: one seat dissented on `AC-remove-swap-restore-on-failure` (3 pass / 1 fail). The majority was right about the letter of the criterion — the rename-back *is* wired — and the dissenter was right that something was wrong beside it. Now covered by two tests, including an isolated `vi.mock` file forcing the second rename to fail, proven red before green.
+
 ## 1.1.0 — 2026-08-04
 
 Feature pass from the dogfood swarm's feature audit, plus an honesty pass on the security claims. Tests **362 → 421**.

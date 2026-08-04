@@ -464,3 +464,31 @@ describe('runRemove — idempotent follow-up state', () => {
     expect(entries.some((e: string) => e.startsWith('.brand-backup'))).toBe(false);
   });
 });
+
+// -----------------------------------------------------------------------
+// The rename-away → regenerate → delete-or-restore swap has a DOUBLE-failure
+// path: manifest regeneration throws AND the rename back also throws. The
+// content is not lost — it survives under the reserved backup name — but the
+// operator has to be told where it actually is. The message used to assert
+// "the original content has been restored" unconditionally, on the one path
+// where someone most needs the truth about their data. Caught post-release by
+// a cross-family jury seat dissenting on the swap criterion (wave-6
+// adjudication, AC-remove-swap-restore-on-failure, 3 pass / 1 fail).
+describe('runRemove — swap failure reporting is honest', () => {
+  it('says the content was restored only when the restore actually succeeded', async () => {
+    seedPrimary('widget');
+    seedManifest();
+    // Force manifest regeneration to fail: make the manifest path a directory.
+    rmSync(manifestPath, { force: true });
+    mkdirSync(manifestPath, { recursive: true });
+
+    await expectExit(3, () => runRemove({ slug: 'widget', logos: logosDir, yes: true }));
+
+    // Restore succeeded, so the slug is back and the message may say so.
+    expect(existsSync(join(logosDir, 'widget'))).toBe(true);
+    const said = errorSpy.mock.calls.map((c: unknown[]) => String(c[0])).join('\n');
+    expect(said).toContain('has been restored');
+    expect(said).not.toContain('ALSO failed');
+  });
+
+});
