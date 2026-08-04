@@ -197,12 +197,32 @@ cheaper than re-decoding pixels everywhere:
    conformance — but conformance *at ingest* plus *unchanged bytes* gives conformance now, by
    induction. No pixel decoding is bolted onto `verify`.
 
-**The induction has one break, and it is a real requirement, not a caveat.** It holds only while
-the served bytes are the hashed bytes. Astro's image pipeline re-encodes assets during build by
-default, which would silently break it. **Categorical channels must bypass site image
-optimisation entirely and be served as byte-identical static passthrough.** Assert this in step
-3 by hashing the file in `dist/` and comparing against the manifest — a mismatch means the build
-re-encoded a categorical channel, and that is a halt.
+**The induction rests on two legs, and both must be verified. Neither is a caveat.** It holds
+only while the served bytes *are* the hashed bytes, and there are two places that can stop being
+true:
+
+**Leg 1 — the build.** Astro's image pipeline re-encodes assets during build by default, which
+would silently break conformance. **Categorical channels must bypass site image optimisation
+entirely and be served as byte-identical static passthrough.** Assert in step 3 by hashing the
+file in `dist/` against the manifest. A mismatch means the build re-encoded a categorical
+channel: halt.
+
+**Leg 2 — the delivery.** `dist/` being correct only helps if Pages serves it byte-identically.
+That is true today, but it is an assumption about infrastructure we do not control, and an
+unverified assumption is the whole failure class this check exists to close. **One-shot check at
+first deploy:** fetch each categorical channel from its live URL once, hash the response body,
+compare against the manifest, and **record the result and date in this spec**.
+
+After that single measurement both legs are verified and the induction carries. No standing
+served-bytes machinery is needed — which was the point of composing the check this way rather
+than building a fetcher. Re-run the one-shot only if the hosting or build pipeline changes.
+
+> **First-deploy served-bytes measurement:** not yet taken. Record here: date, URL per channel,
+> response-body SHA-256, manifest SHA-256, match y/n.
+
+The failure this closes is the one this workspace calls *a working viewer that looks right* — a
+categorical channel silently re-encoded somewhere in delivery fabricates classes downstream of
+every passing check, and every check would keep passing.
 
 ---
 
