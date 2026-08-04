@@ -82,15 +82,15 @@ const rawConfig: SiteConfig = {
     badge: 'SHA-256 integrity verified',
     headline: 'Brand',
     headlineAccent: 'asset registry.',
-    description: 'One repo holds every logo. Every README points here. Update once, update everywhere. SHA-256 integrity verification keeps your brand safe.',
+    description: 'One repo holds every logo. Every README points here. Update once, update everywhere. A SHA-256 manifest catches drift and accidental overwrites before they ship.',
     // Primary CTA goes to the CLI section (jump to the actual install). The
     // handbook secondary CTA is for users who want context first.
     primaryCta: { href: '#cli', label: 'Get started' },
     secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
       { label: 'Verify', code: 'brand verify' },
-      { label: 'Audit', code: 'brand audit --repos /path/to/clones' },
-      { label: 'Migrate', code: 'brand migrate --repos /path/to/clones --dry-run' },
+      { label: 'Reconcile', code: 'brand audit --remote --org my-org' },
+      { label: 'History', code: 'brand history my-tool' },
     ],
   },
 
@@ -102,8 +102,8 @@ const rawConfig: SiteConfig = {
       subtitle: 'Why centralize brand assets.',
       features: [
         { title: 'Single source of truth', desc: 'Hundreds of logos across the org. Rebrand once, update everywhere — no more hunting through repos for stale logos.' },
-        { title: 'Tamper detection', desc: 'SHA-256 manifest tracks every asset. CI catches accidental overwrites, drift, and compromised logos before they ship.' },
-        { title: 'Safe migration', desc: 'Multi-gate regex distinguishes brand logos from shields.io badges. Dry-run first, spot-check, push incrementally.' },
+        { title: 'Drift detection', desc: 'A SHA-256 manifest tracks every asset, and CI fails the build the moment disk and manifest disagree. It catches accidents, not adversaries — the handbook is explicit about where that line sits.' },
+        { title: 'Org reconciliation', desc: 'Repos get renamed, archived, and deleted; registries quietly rot. One command checks every tracked slug against the live org and tells you which are renamed, archived, or genuinely orphaned.' },
       ],
     },
     {
@@ -112,7 +112,8 @@ const rawConfig: SiteConfig = {
       title: 'CLI',
       cards: [
         { title: 'Verify integrity', code: '# Check all logos against manifest hashes\nbrand verify\n\n# CI mode — fail if manifest is stale\nbrand manifest --check' },
-        { title: 'Audit & migrate', code: '# Find broken refs, badge collisions, traps\nbrand audit --repos ./clones\n\n# Rewrite READMEs to point at brand repo\nbrand migrate --repos ./clones --dry-run' },
+        { title: 'Reconcile with the org', code: '# Audit a whole org without cloning it\nbrand audit --remote --org my-org\n\n# Reports renamed, archived and orphaned slugs.\n# Nothing is ever deleted for you.' },
+        { title: 'Inspect & remove', code: '# When did this logo change, and to what?\nbrand history my-tool\n\n# Removal is destructive, so it asks\nbrand remove old-tool --dry-run\nbrand remove old-tool --yes' },
       ],
     },
     {

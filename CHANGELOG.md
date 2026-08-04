@@ -23,6 +23,14 @@ The audit turned up a number worth leading with: **134 of 194 registry slugs (69
 ### Fixed
 
 - `audit`'s full-skip exit-2 guard assumed local mode's "0 inspected implies 0 issues" invariant, which is false in remote mode — an orphaned slug has 0 READMEs inspected and 1 genuine finding.
+- **`stats` no longer implies health it cannot verify.** Its success line read "✓ Manifest and disk are in sync" — accurate, and the reason 69% org drift went unnoticed, because it compares the manifest to the local filesystem and nothing else. The success path now names its own blind spot and points at `brand audit --remote`. Two tests pin it, including one asserting the caveat never leaks into `--json`.
+
+### Docs
+
+- New handbook page: **Security** — what the manifest proves, what it does not, the divergence tripwire and its limits, the repository controls that actually close the gap and which are currently off, and why signing was declined.
+- Handbook reference expanded with `brand remove`, `brand history`, and `audit --remote` including the org-reconciliation finding table.
+- Landing page copy corrected — the "Tamper detection" feature card claimed the manifest catches "compromised logos"; it is now "Drift detection", with an "Org reconciliation" card replacing filler.
+- All 7 translations regenerated from the corrected English source (ja, zh, es, fr, hi, it, pt-BR).
 
 ## 1.0.8 — 2026-08-04
 

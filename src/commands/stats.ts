@@ -243,6 +243,15 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   if (missing.length === 0 && untracked.length === 0) {
     console.log('');
     console.log(chalk.green('  ✓ Manifest and disk are in sync.'));
+    // Say what this check does NOT cover. `stats` compares the manifest to the
+    // local filesystem and nothing else, so a registry that has drifted badly
+    // from the org still reports a clean green tick here — measured 2026-08-04,
+    // 134 of 194 tracked slugs matched no repo in any org while this line read
+    // "in sync". True, and misleading by omission. Point at the command that
+    // does answer the question.
+    console.log(chalk.dim('    (Compares the manifest to local files only — it does not check'));
+    console.log(chalk.dim('     whether those repos still exist. Run `brand audit --remote --org <org>`'));
+    console.log(chalk.dim('     to reconcile the registry against the live org.)'));
   }
   console.log('');
 }

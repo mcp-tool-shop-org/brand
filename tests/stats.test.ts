@@ -369,6 +369,34 @@ describe('runStats (human output)', () => {
     expect(joined).toMatch(/in sync/);
   });
 
+  // The "in sync" tick compares the manifest to the LOCAL FILESYSTEM and
+  // nothing else — it cannot tell you whether the repos those slugs describe
+  // still exist. Measured 2026-08-04: 134 of 194 tracked slugs matched no repo
+  // in any org while this line reported a clean green pass. True, and
+  // misleading by omission. The success path must therefore name its own blind
+  // spot and point at the command that covers it; without this assertion the
+  // caveat is one stray edit away from being "tidied up" again.
+  it("qualifies 'in sync' with what it does not check, and names the command that does", async () => {
+    seedLogos({ alpha: 'png' });
+    writeManifest(generateManifest(logosDir), manifestPath);
+
+    await runStats({ logos: logosDir, manifest: manifestPath, json: false });
+    const joined = stdout.join('\n');
+    expect(joined).toContain('local files only');
+    expect(joined).toContain('brand audit --remote');
+  });
+
+  // The caveat is human-mode only. --json must stay exactly one document.
+  it('does not leak the reconciliation caveat into --json output', async () => {
+    seedLogos({ alpha: 'png' });
+    writeManifest(generateManifest(logosDir), manifestPath);
+
+    await runStats({ logos: logosDir, manifest: manifestPath, json: true });
+    const joined = stdout.join('\n');
+    expect(joined).not.toContain('local files only');
+    expect(() => JSON.parse(joined)).not.toThrow();
+  });
+
   it('prints the Primary/Gallery split when galleries exist (brand-core-04)', async () => {
     seedLogos({ alpha: 'png' });
     seedGallery('alpha', 'turnarounds', ['a.png', 'b.png']);
