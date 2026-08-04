@@ -19,6 +19,8 @@ interface StatsOptions {
 }
 
 interface StatsResult {
+  /** true when disk and manifest are fully in sync (no missing/untracked slugs) -- matches every sibling command's `ok` contract. */
+  ok: boolean;
   totalLogos: number;
   formats: Record<string, number>;
   manifestEntries: number;
@@ -46,7 +48,13 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     } else {
       console.error(chalk.red(`\n  ✗ ${message}\n`));
     }
-    process.exit(2);
+    // F-f4900c6e — exitCode instead of exit() right after a stdout write
+    // (see verify.ts's F-f0c1a1f8 for the full rationale: process.exit()
+    // does not wait for a piped stdout write to flush). The explicit return
+    // is NOT optional -- without it, execution falls through to the glob
+    // scan below against a non-existent directory.
+    process.exitCode = 2;
+    return;
   }
 
   // Find all image files using the shared format glob (derived from SUPPORTED_FORMATS).
@@ -54,6 +62,18 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   const imageFiles = globSync(getFormatGlob('*/readme'), { cwd: logosDir })
     .map(f => f.replace(/\\/g, '/'));
   const slugs = imageFiles
+    .map(f => f.split('/')[0])
+    .filter((s): s is string => s !== undefined);
+
+  // Gallery images live one level deeper than the primary readme (see
+  // manifest.ts's two-level scan): <slug>/<galleryFolder>/<file>.<ext>.
+  // getFormatGlob('*/*/*') matches that shape. `slugs`/`imageFiles` above
+  // stay PRIMARY-only (readme.<ext>) because they also drive the displayed
+  // "Logos on disk" primary count -- this is a separate, comprehensive
+  // on-disk slug set used ONLY for the missing/untracked comparison below.
+  const galleryImageFiles = globSync(getFormatGlob('*/*/*'), { cwd: logosDir })
+    .map(f => f.replace(/\\/g, '/'));
+  const gallerySlugs = galleryImageFiles
     .map(f => f.split('/')[0])
     .filter((s): s is string => s !== undefined);
 
@@ -77,11 +97,24 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     } catch (err) {
       const msg = `Manifest is not valid JSON (${manifestPath}): ${(err as Error).message}`;
       if (opts.json) {
+        // Missing `else` fix: JSON mode must emit ONLY the JSON payload on
+        // stdout, matching "JSON mode: single object on stdout, nothing
+        // else" (see audit.ts). Previously the two console.error calls below
+        // ran UNCONDITIONALLY even in --json mode, so a `--json` consumer
+        // got the clean JSON on stdout AND a redundant human-readable
+        // message + fix hint on stderr every time.
         process.stdout.write(JSON.stringify({ ok: false, error: 'parse', path: manifestPath, message: msg }, null, 2) + '\n');
+      } else {
+        console.error(chalk.red(`  ✗ ${msg}`));
+        console.error(chalk.dim(`  Fix: re-run \`brand manifest\` to regenerate, then \`brand verify\`.`));
       }
-      console.error(chalk.red(`  ✗ ${msg}`));
-      console.error(chalk.dim(`  Fix: re-run \`brand manifest\` to regenerate, then \`brand verify\`.`));
-      process.exit(1);
+      // F-f4900c6e — exitCode instead of exit() right after a stdout write
+      // (see verify.ts's F-f0c1a1f8 for the full rationale). The explicit
+      // return is NOT optional -- without it, execution falls through to the
+      // `const assets = manifest.assets ?? {};` line below against an
+      // uninitialized `manifest`.
+      process.exitCode = 1;
+      return;
     }
     const assets = manifest.assets ?? {};
     const assetKeys = Object.keys(assets);
@@ -112,12 +145,26 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     }
   }
 
-  // Compare
-  const slugSet = new Set(slugs);
-  const missing = [...manifestSlugs].filter(s => !slugSet.has(s));
-  const untracked = slugs.filter(s => !manifestSlugs.has(s));
+  // Compare. Uses the COMPREHENSIVE on-disk slug set (primary OR gallery),
+  // not just `slugs` (primary-only) -- fixes the gallery-only-slug false
+  // "missing from disk" bug: a slug with ONLY gallery images (no primary
+  // readme.<ext>) is still very much present on disk, but `slugs` alone
+  // never saw it, so it was wrongly reported as missing even though
+  // manifestSlugs (built from every manifest key, both roles) correctly
+  // includes it. Symmetrically, `untracked` now also catches a gallery-only
+  // slug that's on disk but hasn't been captured into the manifest yet,
+  // which the old primary-only comparison silently missed.
+  const diskSlugSet = new Set([...slugs, ...gallerySlugs]);
+  const missing = [...manifestSlugs].filter(s => !diskSlugSet.has(s));
+  const untracked = [...diskSlugSet].filter(s => !manifestSlugs.has(s));
 
   const result: StatsResult = {
+    // ok mirrors this file's OWN "in sync" success condition (used by the
+    // human-readable path below) so the sibling commands' contract --
+    // `ok` means "nothing to fix" -- holds here too. Previously stats.ts was
+    // the only one of the four commands with no `ok` field in its --json
+    // success shape at all.
+    ok: missing.length === 0 && untracked.length === 0,
     totalLogos: imageFiles.length,
     formats,
     manifestEntries,
@@ -144,7 +191,11 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     const galleryFolders = Object.keys(result.galleries).length;
     console.log(`    Primary logos:   ${chalk.cyan(String(result.primaryCount))}`);
     console.log(`    Gallery images:  ${chalk.cyan(String(result.galleryCount))} ${chalk.dim(`(across ${galleryFolders} gal${galleryFolders === 1 ? 'lery' : 'leries'})`)}`);
-    if (opts.verbose) {
+    // --quiet wins over --verbose (matches audit.ts's identical precedence
+    // for its per-issue fix hint) -- the per-gallery breakdown is exactly
+    // the kind of "per-item progress output" the global --quiet flag is
+    // documented to suppress.
+    if (opts.verbose && !opts.quiet) {
       for (const [gk, count] of Object.entries(result.galleries).sort()) {
         console.log(chalk.dim(`      - ${gk}: ${count}`));
       }
@@ -157,25 +208,35 @@ export async function runStats(opts: StatsOptions): Promise<void> {
     console.log(`    ${ext.padEnd(8)} ${count}`);
   }
 
+  // --quiet suppresses the itemized per-slug listings below (the "per-item
+  // progress output" the global flag is documented to suppress) but NEVER
+  // the count-bearing header line itself -- that line is a summary ("only
+  // summaries and errors" survive --quiet per the flag's own description),
+  // and a --quiet CI log should still show "Missing from disk (15):" without
+  // spamming all 15 slugs.
   if (missing.length > 0) {
     console.log('');
     console.log(chalk.yellow(`  Missing from disk (${missing.length}):`));
-    for (const s of missing.slice(0, 10)) {
-      console.log(`    - ${s}`);
-    }
-    if (missing.length > 10) {
-      console.log(`    ... and ${missing.length - 10} more`);
+    if (!opts.quiet) {
+      for (const s of missing.slice(0, 10)) {
+        console.log(`    - ${s}`);
+      }
+      if (missing.length > 10) {
+        console.log(`    ... and ${missing.length - 10} more`);
+      }
     }
   }
 
   if (untracked.length > 0) {
     console.log('');
     console.log(chalk.yellow(`  Not in manifest (${untracked.length}):`));
-    for (const s of untracked.slice(0, 10)) {
-      console.log(`    - ${s}`);
-    }
-    if (untracked.length > 10) {
-      console.log(`    ... and ${untracked.length - 10} more`);
+    if (!opts.quiet) {
+      for (const s of untracked.slice(0, 10)) {
+        console.log(`    - ${s}`);
+      }
+      if (untracked.length > 10) {
+        console.log(`    ... and ${untracked.length - 10} more`);
+      }
     }
   }
 

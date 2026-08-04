@@ -234,4 +234,74 @@ describe('audit exit codes', () => {
     );
     expect(r.status).toBe(1);
   });
+
+  // F-09eddfab — full-skip (every slug had no local clone under --repos) is
+  // an operator/config error (exit 2), distinct from both a clean pass (0)
+  // and real findings (1) — a wrong --repos must never read as "clean".
+  it('exits 2 when every slug has no local clone under --repos', () => {
+    seedLogo('alpha', 'png');
+    // No repo clones at all under tempDir.
+
+    const r = runCli(
+      'audit',
+      '--repos', tempDir,
+      '--logos', logosDir,
+      '--brand-base', BRAND_BASE
+    );
+    expect(r.status).toBe(2);
+  });
+
+  // F-d956cd15 — an empty --brand-base is a bad-flag operator error (exit 2),
+  // not silently accepted (which would let the anchoring check degrade).
+  it('exits 2 when --brand-base is empty', () => {
+    seedLogo('alpha', 'png');
+    seedRepo(
+      'alpha',
+      `<p align="center"><img src="${BRAND_BASE}/logos/alpha/readme.png" alt="alpha"></p>\n`
+    );
+
+    const r = runCli(
+      'audit',
+      '--repos', tempDir,
+      '--logos', logosDir,
+      '--brand-base', ''
+    );
+    expect(r.status).toBe(2);
+  });
+});
+
+describe('manifest (generate mode) exit codes', () => {
+  // F-0b8e6404 (CRITICAL) — a missing/mistyped --logos must exit 2, not
+  // silently write an empty manifest and exit 0. See
+  // manifest-cmd.test.ts's "bad --logos does not destroy an existing
+  // manifest" describe block for the full byte-for-byte-unchanged assertion;
+  // this is the exit-code catalog entry for this file's per-command style.
+  it('exits 2 when --logos does not exist', () => {
+    const r = runCli(
+      'manifest',
+      '--logos', join(tempDir, 'no-such-logos'),
+      '--output', manifestPath
+    );
+    expect(r.status).toBe(2);
+  });
+
+  // Zero-asset overwrite guard (companion to F-0b8e6404) — --logos exists
+  // but now resolves to 0 assets, which would silently zero out a
+  // previously non-empty manifest. See manifest-cmd.test.ts's "zero-asset
+  // overwrite guard" describe block for the full unchanged-on-disk assertion.
+  it('exits 2 when --logos exists but is now empty and would overwrite a non-empty manifest', () => {
+    seedLogo('alpha', 'png');
+    expect(
+      runCli('manifest', '--logos', logosDir, '--output', manifestPath).status
+    ).toBe(0);
+    rmSync(join(logosDir, 'alpha'), { recursive: true, force: true });
+
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath);
+    expect(r.status).toBe(2);
+  });
+
+  it('exits 0 for a genuinely empty first run (no prior manifest to lose)', () => {
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath);
+    expect(r.status).toBe(0);
+  });
 });

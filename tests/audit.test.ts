@@ -40,6 +40,10 @@ beforeEach(() => {
 
   stdout = [];
   exitCode = null;
+  // F-f4900c6e reset: audit.ts now sets process.exitCode instead of calling
+  // process.exit() for its error/failure paths. Start every test from a
+  // clean slate so a leftover value from a PRIOR test never leaks in.
+  process.exitCode = undefined;
   logSpy = vi.spyOn(console, 'log').mockImplementation((...args: unknown[]) => {
     stdout.push(args.map(String).join(' '));
   });
@@ -56,6 +60,9 @@ afterEach(() => {
   logSpy.mockRestore();
   errorSpy.mockRestore();
   exitSpy.mockRestore();
+  // Guard against a test leaking a non-zero exitCode into vitest's own
+  // worker process (pool: 'forks' isolates by FILE, not by individual test).
+  process.exitCode = undefined;
   rmSync(tempDir, { recursive: true, force: true });
 });
 
@@ -103,16 +110,30 @@ function fakeAsset(role: 'primary' | 'gallery', gallery?: string): AssetEntry {
   };
 }
 
-/** Run runAudit and absorb the thrown __EXIT__ if process.exit was called. */
+/**
+ * Run runAudit and report its exit code, however it was signaled.
+ *
+ * F-f4900c6e changed audit.ts's error/failure paths from process.exit(N)
+ * (which this file's exitSpy mocks by throwing __EXIT__:N) to
+ * `process.exitCode = N; return;` (avoids truncating a JSON stdout write on
+ * a pipe — see verify.ts's F-f0c1a1f8). This helper checks BOTH signals so
+ * every existing call site keeps working unchanged: catch the legacy throw
+ * if anything still uses it, otherwise read (and reset) process.exitCode
+ * after a normal resolve. Resetting exitCode here is required, not optional
+ * -- otherwise a later test in this same file (pool: 'forks' isolates by
+ * FILE, not by individual test) could observe a stale value.
+ */
 async function runAndCaptureExit(opts: Parameters<typeof runAudit>[0]): Promise<number | null> {
   try {
     await runAudit(opts);
-    return null;
   } catch (err) {
     const msg = (err as Error).message;
     if (msg.startsWith('__EXIT__:')) return exitCode;
     throw err;
   }
+  const code = process.exitCode;
+  process.exitCode = undefined;
+  return typeof code === 'number' ? code : null;
 }
 
 describe('runAudit', () => {
@@ -449,6 +470,66 @@ describe('runAudit', () => {
     expect(joined).toMatch(/1 had no local clone/);
   });
 
+  // F-09eddfab — when EVERY slug has no local clone under --repos (full
+  // skip, not just partial), the old code still reported a clean ok:true /
+  // exit-0 pass -- identical to a genuinely fully-inspected clean run, even
+  // though NOTHING was actually inspected. A CI checkout step that silently
+  // failed, or a --repos pointed at the wrong path entirely, got a
+  // permanent, indistinguishable-from-clean green light on the release gate.
+  // This is the human-mode companion; see json-output.test.ts /
+  // exit-codes.test.ts for the --json and subprocess-level regression tests.
+  it('exits 2 (not a clean pass) when every slug has no local clone under --repos', async () => {
+    seedLogo('alpha', 'png');
+    seedLogo('beta', 'png');
+    // Neither alpha nor beta gets a clone under reposDir at all.
+
+    const code = await runAndCaptureExit({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE });
+    expect(code).toBe(2);
+    const joined = stdout.join('\n');
+    expect(joined).not.toMatch(/Audit clean/i);
+    expect(joined).toMatch(/0 of 2 repos inspected/);
+  });
+
+  // Companion: a --repos directory that EXISTS but is completely empty (no
+  // repo clones at all) must hit the exact same full-skip guard, not a
+  // trivial "0 slugs, 0 repos, clean" pass -- the guard is keyed on
+  // slugDirs.length > 0 (there WERE logo slugs to check), not on reposDir
+  // being non-empty.
+  it('exits 2 when --repos exists but contains no clones at all for any slug', async () => {
+    seedLogo('alpha', 'png');
+    // reposDir exists (created in beforeEach) but stays completely empty.
+
+    const code = await runAndCaptureExit({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE });
+    expect(code).toBe(2);
+  });
+
+  // F-f4900c6e mechanism pin — audit.ts sets process.exitCode instead of
+  // calling process.exit() directly for its dir-not-found guard. Fails
+  // before this fix (runAudit() rejects via the mocked process.exit()
+  // throwing, so runAndCaptureExit's non-__EXIT__ rethrow path or a hanging
+  // promise would surface), passes after (resolves normally; exitSpy never
+  // fires; process.exitCode carries the signal instead).
+  it('sets process.exitCode instead of calling process.exit on a dir-not-found error', async () => {
+    await runAudit({ repos: reposDir, logos: join(tempDir, 'no-such-logos'), brandBase: BRAND_BASE });
+    expect(exitSpy).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(2);
+    process.exitCode = undefined;
+  });
+
+  // Same mechanism pin, for the OTHER named F-f4900c6e call site in this
+  // file: the final blockingIssues exit after the full findings-JSON write.
+  it('sets process.exitCode instead of calling process.exit when blocking issues are found', async () => {
+    seedLogo('alpha', 'png');
+    seedRepo('alpha', {
+      'README.md': `<p align="center"><img src="assets/logo.png" alt="alpha"></p>\n`,
+    });
+
+    await runAudit({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE });
+    expect(exitSpy).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
+    process.exitCode = undefined;
+  });
+
   // brand-core-03 — one unreadable README is recorded as a finding and the walk
   // continues, instead of a raw exit-3 that discards everything collected.
   it('records an unreadable README as a finding and keeps walking', async () => {
@@ -514,6 +595,55 @@ describe('runAudit', () => {
     const joined = stdout.join('\n');
     expect(joined).toContain('[missing-brand-asset]');
     expect(joined).not.toContain('[local-logo-ref]');
+  });
+
+  // F-d956cd15 — an empty --brand-base (plausible from an unset/empty CI
+  // template variable interpolated into the flag) must fail closed (exit 2)
+  // instead of silently letting pointsAtBrand's prefix check degrade to
+  // "/logos/", which an unanchored `.includes()` matched against almost any
+  // src containing that substring anywhere -- e.g. a genuinely LOCAL
+  // "assets/logos/team/photo.png" read as pointing at the brand repo, so
+  // local-logo-ref never fired for a real stale local reference.
+  it('exits 2 when --brand-base is empty instead of silently misclassifying local refs as brand-pointed', async () => {
+    seedLogo('alpha', 'png');
+    seedRepo('alpha', {
+      'README.md': `<p align="center"><img src="assets/logos/team/photo.png" alt="alpha"></p>\n`,
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: '',
+    });
+    expect(code).toBe(2);
+    const joined = stdout.join('\n');
+    expect(joined).toMatch(/brand-base must not be empty/i);
+    expect(joined).not.toMatch(/Audit clean/i);
+  });
+
+  // F-d956cd15 — anchoring regression, independent of the empty-string guard
+  // above. A short, non-empty --brand-base could still coincidentally appear
+  // as a SUBSTRING inside an unrelated local path under the OLD unanchored
+  // `.includes()` check. Anchoring via `.startsWith(prefix)` requires the
+  // match to sit at the START of src, closing that gap for any brandBase
+  // value, not just the empty-string case.
+  it('still fires local-logo-ref for a local src that merely CONTAINS the brand-base substring without starting with it', async () => {
+    const shortBase = 'b'; // non-empty, so it passes the empty-string guard above
+    seedLogo('alpha', 'png');
+    // This src does NOT start with "b/logos/" -- it starts with "assets/" --
+    // but it DOES contain "b/logos/" as a substring further in.
+    seedRepo('alpha', {
+      'README.md': `<p align="center"><img src="assets/b/logos/team/photo.png" alt="alpha"></p>\n`,
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: shortBase,
+    });
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[local-logo-ref]');
   });
 
   it('defaults opts.manifest to "manifest.json" when unset (no crash even when absent)', async () => {

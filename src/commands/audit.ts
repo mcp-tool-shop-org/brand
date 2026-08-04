@@ -115,8 +115,30 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
       } else {
         console.error(chalk.red(`\n  ✗ ${message}\n`));
       }
-      process.exit(2);
+      // F-f4900c6e — exitCode instead of exit() right after a stdout write
+      // (see verify.ts's F-f0c1a1f8 for the full rationale: process.exit()
+      // does not wait for a piped stdout write to flush). The explicit
+      // return matters here too: without it, the for-loop keeps checking the
+      // remaining [flag, dir] pairs and could overwrite this exitCode.
+      process.exitCode = 2;
+      return;
     }
+  }
+
+  // F-d956cd15 — an empty --brand-base (e.g. an unset CI template variable
+  // interpolated into the flag) must fail closed, the same as a missing
+  // --logos/--repos above, instead of silently letting the pointsAtBrand
+  // prefix check below degrade to a near-empty fragment that matches almost
+  // any src. Whitespace-only counts as empty too (trim before checking).
+  if (!opts.brandBase || opts.brandBase.trim() === '') {
+    const message = '--brand-base must not be empty — pass a real base URL, or omit the flag to use the default.';
+    if (opts.json) {
+      process.stdout.write(JSON.stringify({ ok: false, error: 'bad-flag', flag: '--brand-base', message }, null, 2) + '\n');
+    } else {
+      console.error(chalk.red(`\n  ✗ ${message}\n`));
+    }
+    process.exitCode = 2;
+    return;
   }
 
   // Coverage accounting: `inspected` counts slugs whose clone actually existed
@@ -244,9 +266,18 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
         // README correctly points at the CUSTOM base but pointsAtBrand comes
         // back false, wrongly firing local-logo-ref AND silently disabling
         // the missing-brand-asset check below (which is gated on this flag).
-        // Trailing slash on brandBase tolerated.
-        const brandPrefix = `${opts.brandBase.replace(/\/+$/, '')}/logos`;
-        const pointsAtBrand = match.src.includes(brandPrefix);
+        // Trailing slash on brandBase tolerated. F-d956cd15 — anchored via
+        // startsWith + a trailing slash on the prefix itself, matching
+        // resolveMatchRole/galleryGroupKey above exactly. The previous
+        // unanchored `.includes(brandPrefix)` (no trailing slash) treated
+        // brandPrefix as a substring found ANYWHERE in src, so a degenerate
+        // --brand-base (empty, or short enough to coincidentally appear
+        // inside an unrelated local path) could make a genuinely LOCAL
+        // src="assets/logos/..." read as brand-pointed and silently suppress
+        // local-logo-ref. Anchoring requires the match to appear at the
+        // START of src, the same guarantee the sibling functions rely on.
+        const brandPrefix = `${opts.brandBase.replace(/\/+$/, '')}/logos/`;
+        const pointsAtBrand = match.src.startsWith(brandPrefix);
 
         // Check: is the src pointing at the brand repo?
         if (!pointsAtBrand) {
@@ -380,25 +411,59 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
   // making unmanaged-gallery an informational nudge rather than a hard fail.
   const blockingIssues = issues.filter(i => i.severity !== 'info');
 
+  // F-09eddfab — full-skip: every slug had no local clone under --repos, so
+  // NOTHING was actually inspected. Previously this fell through to the same
+  // ok:true / exit-0 clean-pass path as a genuinely fully-inspected run, so a
+  // CI checkout step that silently failed (or a --repos pointed at the wrong
+  // path) got a permanent, indistinguishable-from-clean green light on the
+  // release gate — even though the reposChecked/skippedNoClone accounting
+  // existed specifically to make a wrong --repos visible. Treat it as a
+  // distinct operator/config error (exit 2), the same class already used for
+  // a missing --logos/--repos directory above, instead of folding it into
+  // the "no issues found" success path. (issues.length is guaranteed 0 here:
+  // inspected === 0 means the per-slug loop `continue`d for every slug
+  // before it could ever push a finding.)
+  const fullSkip = skippedNoClone > 0 && inspected === 0 && slugDirs.length > 0;
+
   // JSON mode: single object on stdout, nothing else. `reposChecked` now means
   // repos actually inspected (clone present); `reposTotal` is the slug count and
   // `skippedNoClone` is how many had no local clone — so a wrong --repos reads
   // as "0 of N inspected", not a hollow full-coverage pass.
   if (opts.json) {
     const out = {
-      ok: blockingIssues.length === 0,
+      ok: blockingIssues.length === 0 && !fullSkip,
       reposChecked: inspected,
       reposTotal: slugDirs.length,
       skippedNoClone,
       issueCount: issues.length,
       issues,
+      ...(fullSkip ? { error: 'no-repos-inspected' as const } : {}),
     };
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
-    if (blockingIssues.length > 0) process.exit(1);
+    // F-f4900c6e — exitCode instead of exit() right after this stdout write.
+    // Audit's findings-JSON payload is the largest of the four commands (one
+    // entry per issue across every scanned repo), making it the highest-value
+    // target for the truncation risk F-f0c1a1f8 fixed in verify.ts: exit()
+    // does not wait for a piped/redirected stdout write to flush.
+    if (fullSkip) {
+      process.exitCode = 2;
+    } else if (blockingIssues.length > 0) {
+      process.exitCode = 1;
+    }
     return;
   }
 
   // Human report
+  if (fullSkip) {
+    console.error(chalk.red(`\n  ✗ 0 of ${slugDirs.length} repos inspected — every slug had no local clone under --repos (${opts.repos}). Check that --repos points at the right directory; a wrong path must not read as a clean audit.\n`));
+    // F-f4900c6e — exitCode instead of exit(). The explicit return matters:
+    // without it, execution falls through to the "Audit clean" message below
+    // (issues.length is 0 here, same as a genuinely clean run) and prints a
+    // green pass immediately after the red error above.
+    process.exitCode = 2;
+    return;
+  }
+
   if (issues.length === 0) {
     const skipNote = skippedNoClone > 0 ? ` (${skippedNoClone} had no local clone)` : '';
     console.log(chalk.green(`\n  ✓ Audit clean — ${inspected} of ${slugDirs.length} repos inspected${skipNote}, no issues.\n`));
@@ -426,5 +491,9 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
     }
   }
   console.log('');
-  if (blockingIssues.length > 0) process.exit(1);
+  // F-f4900c6e — exitCode instead of exit(); this is the last statement in
+  // the function so there's no fallthrough risk, but the explicit style
+  // keeps every exit path in this function visibly symmetric (matches
+  // verify.ts's own documented reasoning, F-f0c1a1f8).
+  if (blockingIssues.length > 0) process.exitCode = 1;
 }
