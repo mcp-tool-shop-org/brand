@@ -9,6 +9,8 @@
  *   audit     Scan for broken refs, badge collisions, indentation traps
  *   migrate   Rewrite README logo references to brand repo
  *   stats     Summary of the brand asset registry
+ *   remove    Remove a slug's (or one gallery's) assets from the registry
+ *   history   Show git history for a slug's asset(s) — added/changed/removed
  *
  * Exit codes (uniform across commands):
  *   0 — success
@@ -102,6 +104,8 @@ program
   .option('--logos <path>', 'Path to logos directory', 'logos')
   .option('--manifest <path>', 'Path to manifest.json (resolves asset roles for the multiple-logo-matches check)', 'manifest.json')
   .option('--brand-base <url>', 'Base URL for brand assets', 'https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main')
+  .option('--remote', 'Audit against the live GitHub org over the network instead of local clones under --repos (strictly opt-in — omitting this flag makes zero network calls)')
+  .option('--org <org>', 'GitHub org/user to check when --remote is set (comma-separated for multiple, e.g. mcp-tool-shop-org,dogfood-lab,mcp-tool-shop)', 'mcp-tool-shop-org')
   .option('--json', 'Emit findings as a single JSON object')
   .action(async (opts) => {
     const { runAudit } = await import('./commands/audit.js');
@@ -148,6 +152,39 @@ program
     await runAddGallery(withGlobals({ ...opts, slug, sourceDir }, program));
   });
 
+// Placed directly after add-gallery (and before sync) — remove and
+// add-gallery are the two commands that mutate logos/ directly, per the
+// commands-write agent's own placement note (wave-6 F-FEAT-remove).
+program
+  .command('remove')
+  .description('Remove a slug\'s logo directory (or one gallery within it), safely')
+  .argument('<slug>', 'Slug under logos/ to remove')
+  .option('--gallery <name>', 'Remove only this gallery subfolder, leaving the primary logo')
+  .option('--dry-run', 'Preview what would be deleted without modifying anything', false)
+  .option('--yes', 'Confirm a real (non-dry-run) removal — required for any destructive run', false)
+  .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--json', 'Emit a single JSON object describing the result')
+  .action(async (slug, opts) => {
+    // src/commands/remove.ts is owned by the commands-write agent (wave-6
+    // cross-domain build: core owns cli.ts wiring, commands-write owns the
+    // command implementation) and may not exist yet in this worktree. A
+    // plain literal `import('./commands/remove.js')` would make `tsc` raise
+    // TS2307 whenever that file is absent, which fails `npm run build` —
+    // and since `pretest` runs the build, that takes down `npm test` for
+    // EVERY command in this file, not just this one. `@ts-ignore` (not
+    // `@ts-expect-error`) is deliberate: it suppresses the "cannot find
+    // module" error while the file is missing AND stays completely inert
+    // (no "unused directive" complaint, verified empirically) once
+    // commands-write's branch lands the real file — so this line needs no
+    // follow-up edit either way. Option surface + RemoveOptions contract
+    // above confirmed directly against commands-write's own wave-6 output
+    // (F-FEAT-remove skipped note): runRemove({ slug, gallery?, dryRun?,
+    // yes?, logos?, json?, quiet?, verbose? }).
+    // @ts-ignore -- cross-domain sibling module, see comment above
+    const { runRemove } = await import('./commands/remove.js');
+    await runRemove(withGlobals({ ...opts, slug }, program));
+  });
+
 program
   .command('sync')
   .description('Regenerate a consuming repo README\'s gallery marker block from the manifest')
@@ -162,6 +199,19 @@ program
   .action(async (opts) => {
     const { runSync } = await import('./commands/sync.js');
     await runSync(withGlobals(opts, program));
+  });
+
+program
+  .command('history')
+  .description('Show git history for a slug\'s (or one gallery\'s) assets — added/changed/removed, newest first')
+  .argument('<slug>', 'Slug under logos/ to show history for')
+  .option('--gallery <name>', 'Show only this gallery subfolder\'s history instead of the whole slug')
+  .option('--limit <n>', 'Maximum number of history entries to show', '20')
+  .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--json', 'Emit a single JSON object describing the result')
+  .action(async (slug, opts) => {
+    const { runHistory } = await import('./commands/history.js');
+    await runHistory(withGlobals({ ...opts, slug }, program));
   });
 
 /**
