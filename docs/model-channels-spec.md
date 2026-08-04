@@ -318,8 +318,12 @@ number was "1 GiB storage / 1 GiB per month bandwidth, overage via paid data pac
 - Unused bandwidth does **not** roll over.
 
 The ruling stands either way; the correction changes how much headroom precedes the first bill.
-**Which tier applies depends on `mcp-tool-shop-org`'s plan — confirm before rollout**, since 10
-GiB and 250 GiB are very different budgets.
+
+**Tier confirmed 2026-08-04** — `gh api orgs/mcp-tool-shop-org` reports `plan.name: "free"`, so
+the applicable budget is **10 GiB storage + 10 GiB/month bandwidth**, metered past that. No
+question to the Director was needed. `git-lfs 3.7.1` is installed on this rig and
+`filter.lfs.required=true` is set globally, so a machine without git-lfs fails loudly rather than
+silently committing pointer text as content.
 
 **QUOTA-CHECK (pre-registered, before any multi-subject rollout).** Measure **one** CI build's
 actual LFS pull in GiB, multiply by the monthly build count, and compare against the confirmed

@@ -36,3 +36,42 @@ tests/fixtures/crlf.md binary
 # files for zero correctness benefit. Keeping the rule scoped to logos/**
 # preserves text diffs everywhere the hash-stability argument doesn't apply.
 logos/**/*.svg binary
+
+# ---------------------------------------------------------------------------
+# Git LFS -- model-channel assets only. Ratified by the Director 2026-08-04;
+# reasoning in docs/model-channels-spec.md.
+#
+# SCOPE IS DELIBERATE AND NARROW: `logos/<slug>/model/**` binaries only. The
+# existing logos (readme.<ext> and gallery/**) stay as ordinary git blobs and
+# must NOT be migrated -- converting them would rewrite history, which is the
+# exact cost LFS was chosen to avoid. This repo's packed history is already
+# ~281 MiB; these rules are forward-looking and apply to files that do not
+# exist yet.
+#
+# Why LFS and not plain commits or Release assets: a plain-committed model
+# binary has no compensator short of `git filter-repo` + force push (which
+# invalidates every clone), and Release assets would break three shipped
+# commands -- `verify` hashes working-tree bytes (manifest.ts readFileSync),
+# `remove` swaps a real directory, `history` walks git paths, and a release
+# asset has none of those. LFS keeps all three working: paths stay in git for
+# `history`, and the smudge filter gives `verify`/`remove` real bytes.
+#
+# `-text` (part of the standard LFS filter set) carries the SAME hash-
+# stability argument as the logos/**/*.svg rule above: this rig runs with
+# core.autocrlf=true, and any line-ending rewrite on a tracked asset changes
+# its SHA-256 and fails `brand verify` on a clean, untampered clone.
+#
+# Failure mode, deliberately loud: a clone made without git-lfs gets pointer
+# files, so `brand verify` hashes a ~130-byte pointer and reports a mismatch.
+# That is the safe direction -- a noisy failure rather than a silent one.
+#
+# view.json is NOT tracked here, by extension rather than by exclusion: it is
+# small text read by both the CLI and the site build, and it must diff.
+#
+# Quota (measured 2026-08-04): mcp-tool-shop-org is on the `free` plan ->
+# 10 GiB LFS storage + 10 GiB/month bandwidth, metered billing past that.
+# Bandwidth is consumed by CI checkouts, not by site visitors. QUOTA-CHECK is
+# pre-registered in the spec before any multi-subject rollout.
+logos/*/model/*.glb  filter=lfs diff=lfs merge=lfs -text
+logos/*/model/*.png  filter=lfs diff=lfs merge=lfs -text
+logos/*/model/*.webp filter=lfs diff=lfs merge=lfs -text
