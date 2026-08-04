@@ -468,6 +468,54 @@ describe('runAudit', () => {
     expect(joined).toContain('broken');
   });
 
+  // F-3860274a — pointsAtBrand must derive from the operator-configurable
+  // --brand-base (like resolveMatchRole/galleryGroupKey already do), not a
+  // hard-coded 'brand/main/logos' substring. A custom --brand-base (fork,
+  // different branch, self-hosted mirror) that correctly points at itself
+  // must not be misread as a stale local reference, and the
+  // missing-brand-asset check (gated on the same pointsAtBrand flag) must
+  // still run for custom bases too.
+  it('does not fire local-logo-ref for a correctly-pointing NON-default --brand-base', async () => {
+    const customBase = 'https://raw.githubusercontent.com/my-fork-org/brand/develop';
+    seedLogo('custom-base-slug', 'png');
+    seedRepo('custom-base-slug', {
+      'README.md':
+        `<p align="center"><img src="${customBase}/logos/custom-base-slug/readme.png" alt="custom-base-slug"></p>\n`,
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: customBase,
+    });
+    expect(code).toBeNull();
+    const joined = stdout.join('\n');
+    expect(joined).toMatch(/Audit clean/i);
+    expect(joined).not.toContain('[local-logo-ref]');
+  });
+
+  // Companion case: a custom-base URL whose slug has NO matching logo file on
+  // disk must still fire missing-brand-asset — proving the gate isn't just
+  // disabled outright for custom bases, it's correctly re-enabled.
+  it('still fires missing-brand-asset for a NON-default --brand-base when the asset is absent', async () => {
+    const customBase = 'https://raw.githubusercontent.com/my-fork-org/brand/develop';
+    mkdirSync(join(logosDir, 'custom-base-ghost'), { recursive: true });
+    seedRepo('custom-base-ghost', {
+      'README.md':
+        `<p align="center"><img src="${customBase}/logos/custom-base-ghost/readme.png" alt="ghost"></p>\n`,
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: customBase,
+    });
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[missing-brand-asset]');
+    expect(joined).not.toContain('[local-logo-ref]');
+  });
+
   it('defaults opts.manifest to "manifest.json" when unset (no crash even when absent)', async () => {
     // No manifest option passed at all — runAudit must default internally
     // to 'manifest.json' and safely degrade since that file won't exist

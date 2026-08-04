@@ -234,7 +234,19 @@ export async function runAudit(opts: AuditOptions): Promise<void> {
       }
 
       for (const match of logoMatches) {
-        const pointsAtBrand = match.src.includes('brand/main/logos');
+        // "Is this src already pointing at the brand repo?" must be derived
+        // from the operator-settable --brand-base, not a hard-coded
+        // 'brand/main/logos' literal — mirroring resolveMatchRole (above) and
+        // galleryGroupKey, and matching migrate.ts's brandPrefix derivation
+        // (its comment there explains this exact anti-pattern was deliberately
+        // avoided). Otherwise a custom --brand-base (fork, different branch,
+        // self-hosted mirror) can never be recognized as brand-pointed: its
+        // README correctly points at the CUSTOM base but pointsAtBrand comes
+        // back false, wrongly firing local-logo-ref AND silently disabling
+        // the missing-brand-asset check below (which is gated on this flag).
+        // Trailing slash on brandBase tolerated.
+        const brandPrefix = `${opts.brandBase.replace(/\/+$/, '')}/logos`;
+        const pointsAtBrand = match.src.includes(brandPrefix);
 
         // Check: is the src pointing at the brand repo?
         if (!pointsAtBrand) {

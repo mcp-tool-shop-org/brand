@@ -106,4 +106,26 @@ describe('brand verify', () => {
     const combined = r.stdout + r.stderr;
     expect(combined).toMatch(/logos\/beta\/readme\.png/);
   });
+
+  // F-7f8c4e14 — the single worst possible bug this tool could ship: a file
+  // on disk that is NOT in the manifest (untracked addition) silently
+  // passing as clean. verifyManifest already pushes it into added[] and sets
+  // ok=false (src/manifest.ts), but until now no test in THIS file seeded an
+  // untracked file and asserted verify catches it — the identical scenario
+  // was only covered for the sibling `manifest --check` command (see
+  // manifest-cmd.test.ts's 'exits 2 with ... ADDED' case). Mirrors that case.
+  it('exits 1 when a new/untracked file has been ADDED on disk since manifest was written', () => {
+    seedLogo('alpha', 'png');
+    generateManifestViaCli();
+
+    // Add a new logo that's not in the manifest yet.
+    seedLogo('beta', 'png');
+
+    const r = runCli('verify', '--logos', logosDir, '--manifest', manifestPath);
+
+    expect(r.status).toBe(1);
+    const combined = r.stdout + r.stderr;
+    expect(combined).toMatch(/Added \(not in manifest\)/i);
+    expect(combined).toMatch(/logos\/beta\/readme\.png/);
+  });
 });

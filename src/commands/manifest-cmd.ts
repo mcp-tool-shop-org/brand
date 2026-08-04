@@ -31,9 +31,16 @@ export async function runManifest(opts: ManifestOptions): Promise<void> {
 
   if (opts.check) {
     // CI mode: fail if manifest would change.
-    // Exit-code contract (pinned by existing tests):
-    //   1 = drift / missing manifest / malformed JSON
+    // Exit-code contract (F-8aee4160 — aligned with verify.ts's contract):
+    //   1 = drift (added / removed / hashChanged) — the ONLY case that means
+    //       "the manifest and disk genuinely disagree."
+    //   2 = operator error (missing manifest, malformed/invalid JSON) — the
+    //       SAME two failure categories verify.ts already classifies as 2.
     //   3 = unexpected IO failure (EACCES etc.)
+    // Previously missing-manifest and malformed-JSON both collapsed into 1,
+    // indistinguishable from real drift; automation built to the documented
+    // 1-vs-2 distinction (fix your config vs. real tamper) got the wrong
+    // classification specifically for `manifest --check`.
     if (!existsSync(opts.output)) {
       if (opts.json) {
         process.stdout.write(JSON.stringify({
@@ -44,7 +51,7 @@ export async function runManifest(opts: ManifestOptions): Promise<void> {
       } else {
         console.error(chalk.red(`  ✗ No manifest found at ${opts.output}. Run \`brand manifest\` to generate one.`));
       }
-      process.exit(1);
+      process.exit(2);
     }
 
     let stored: Manifest;
@@ -63,10 +70,13 @@ export async function runManifest(opts: ManifestOptions): Promise<void> {
           console.error(chalk.red(`  ✗ ${err.message}`));
           console.error(chalk.dim(`  Fix: re-run \`brand manifest\` (without --check) to regenerate, then \`brand verify\`.`));
         }
-        process.exit(1);
+        process.exit(2);
       }
       if (err instanceof ManifestIOError) {
-        const exitCode = err.code === 'ENOENT' ? 1 : 3;
+        // ENOENT on the manifest itself → operator error (2), matching the
+        // existsSync guard above and verify.ts's isMissingManifest branch.
+        // Any other IO failure → unexpected (3).
+        const exitCode = err.code === 'ENOENT' ? 2 : 3;
         if (opts.json) {
           process.stdout.write(JSON.stringify({
             ok: false,
