@@ -33,6 +33,10 @@ import {
   MarkerParseError,
   type GalleryImageRef,
 } from '../utils/marker-parser.js';
+// Shared with add-gallery.ts rather than re-implemented here so the two
+// commands' path-safety rules cannot drift apart again (F-5cbd78ab): sync.ts
+// previously had NO slug validation at all, unlike add-gallery.ts.
+import { validateSlug } from './add-gallery.js';
 
 export interface SyncOptions {
   repos: string;
@@ -105,6 +109,17 @@ function fail(opts: SyncOptions, message: string, exitCode: number, error: strin
 
 export async function runSync(opts: SyncOptions): Promise<void> {
   const { slug } = opts;
+
+  // --- Step 0: validate the slug BEFORE it is ever joined into a path. ---
+  // Without this, `join(opts.repos, slug, 'README.md')` below would accept a
+  // slug like "../../outside" and `join()` would normalize the ".." segments
+  // right past the --repos root, writing a README entirely outside the
+  // operator's intended tree (F-5cbd78ab / F-002).
+  try {
+    validateSlug(slug);
+  } catch (err) {
+    return fail(opts, (err as Error).message, 2, 'invalid-slug');
+  }
 
   // --- Step 1: read manifest, resolve gallery folder ---
   let manifest;

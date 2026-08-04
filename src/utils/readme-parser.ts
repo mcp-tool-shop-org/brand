@@ -8,6 +8,9 @@
  * 4. Standalone badges (not in <a>) with shields.io/actions/badge paths — exclude
  * 5. <p><img> on the same line is a valid logo pattern — must match
  * 6. 4+ spaces of indentation = markdown code block — never add indentation
+ * 7. An <img> inside an HTML comment (<!-- ... -->) was deliberately
+ *    disabled by a human (e.g. "Old branding, kept for reference:") — never
+ *    resurrect or rewrite it (F-22a69b96)
  *
  * SECURITY: This parser assumes its input is a trusted README from a repo in
  * the operator's own org (cloned via `git clone` against opts.repos). It uses
@@ -21,6 +24,8 @@
  * through the parser. The limit is intentionally well above any plausible
  * README (the largest real README in mcp-tool-shop-org is ~80 KB).
  */
+
+import { computeCodeContextLines } from './code-context.js';
 
 /** Maximum input size accepted by the parser, in bytes (5 MB). */
 export const MAX_README_BYTES = 5_000_000;
@@ -43,7 +48,8 @@ export type RejectionReason =
   | 'in-anchor'
   | 'badge'
   | 'not-logo'
-  | 'in-code-block';
+  | 'in-code-block'
+  | 'in-comment';
 
 export interface RejectedMatch {
   /** Line number (1-indexed). */
@@ -200,7 +206,12 @@ interface ImgMatch {
  * Gates (in order — matters when both a badge AND a logo gate would fire):
  *  0. Line is NOT inside a fenced code block (```...``` or ~~~...~~~) AND
  *     is NOT a 4-space-indented code block line. README documentation examples
- *     must not be mutated by the rewriter.
+ *     must not be mutated by the rewriter. (Shared with marker-parser.ts via
+ *     code-context.ts — see F-75c9e0fc.)
+ *  0c. The specific <img> is NOT inside an HTML comment (<!-- ... -->),
+ *      same-line or carried over from a prior unclosed comment. A human who
+ *      commented out old branding must not have it silently resurrected or
+ *      rewritten (F-22a69b96).
  *  1. <img> tag with a src attribute (any quoting style).
  *  2. The specific <img> is NOT wrapped by an <a>...</a> (same line OR an
  *     <a> opened on a prior line that has not yet closed).
@@ -214,8 +225,8 @@ interface ImgMatch {
  * this surprises you, host-based badge detection is the cleaner long-term fix.
  *
  * If `onReject` is provided, candidates that pass Gate 1 (regex match) but
- * fail any of Gates 0/2/3/4 are reported there with a reason. Logo gates are
- * checked first, so the reason is the FIRST gate that rejected.
+ * fail any of Gates 0/0c/2/3/4 are reported there with a reason. Logo gates
+ * are checked first, so the reason is the FIRST gate that rejected.
  */
 function forEachLogoImg(
   content: string,
@@ -232,58 +243,24 @@ function forEachLogoImg(
 
   const lines = content.split('\n');
 
-  // Code-block state, maintained across lines.
-  let inFencedBlock = false;
-  let fenceChar: '`' | '~' | null = null;
-  let prevLineBlank = true; // line 0 is treated as "after blank" for indented-block detection
+  // Code-block state (fenced ```/~~~ + 4-space-indented), precomputed once
+  // per document by the module shared with marker-parser.ts so the two
+  // parsers can never silently diverge on what counts as "code" (F-75c9e0fc).
+  const codeContextLines = computeCodeContextLines(lines);
 
   // Cross-line anchor state. True at line i if an <a> opened on a prior line
   // has not been closed by the end of line i-1. Computed lazily inside the
   // loop.
   let anchorOpenFromPriorLine = false;
 
+  // Cross-line HTML-comment state, same shape as the anchor carry (F-22a69b96).
+  let commentOpenFromPriorLine = false;
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     if (line === undefined) continue;
 
-    // --- Gate 0a: fenced code block tracking ---
-    // A fence is 3+ backticks or 3+ tildes at the start of the line (with up
-    // to 3 leading spaces, per CommonMark). The fence character must match
-    // to close.
-    const fenceMatch = /^ {0,3}(`{3,}|~{3,})/.exec(line);
-    if (fenceMatch && fenceMatch[1]) {
-      const ch = fenceMatch[1][0] as '`' | '~';
-      if (!inFencedBlock) {
-        inFencedBlock = true;
-        fenceChar = ch;
-      } else if (ch === fenceChar) {
-        inFencedBlock = false;
-        fenceChar = null;
-      }
-      // The fence line itself is code; advance bookkeeping and skip parsing.
-      prevLineBlank = line.trim().length === 0;
-      // Update anchor carry-over: the fence line contains no anchor activity
-      // (it's a code marker). Recompute defensively in case the line has
-      // weird content.
-      anchorOpenFromPriorLine = updateAnchorCarry(
-        anchorOpenFromPriorLine,
-        line,
-      );
-      continue;
-    }
-
-    // --- Gate 0b: 4-space indented code block ---
-    // CommonMark: a line beginning with 4+ spaces (or a tab) AFTER a blank
-    // line is an indented code block. We don't have full block-context here,
-    // so the simplest proxy is: "previous line was blank AND this line starts
-    // with 4+ leading spaces (or a tab) AND we're not in a list/blockquote".
-    // The not-list-or-blockquote check is approximated by "previous line was
-    // blank" — list items don't have blank lines between continuation and
-    // children. This catches the common case in the fixture suite.
-    const indentedCodeBlock =
-      prevLineBlank && /^(?: {4,}|\t)/.test(line);
-
-    const inCodeContext = inFencedBlock || indentedCodeBlock;
+    const inCodeContext = codeContextLines[i] ?? false;
 
     // Scan for <img> regardless of code context, so we can emit rejections.
     const re = new RegExp(IMG_SRC_RE.source, IMG_SRC_RE.flags);
@@ -318,6 +295,15 @@ function forEachLogoImg(
         continue;
       }
 
+      // Gate 0c: HTML comment — a human explicitly disabled this <img> by
+      // wrapping it in <!-- ... -->. Checked early, alongside inCodeContext,
+      // for the same reason: it's the more actionable signal than a later
+      // generic gate (F-22a69b96).
+      if (isImgInsideComment(line, imgStart, commentOpenFromPriorLine)) {
+        onReject?.({ line: i + 1, content: line, src, reason: 'in-comment' });
+        continue;
+      }
+
       // Gate 2: per-<img> <a>-wrap check (incl. multi-line carry-over).
       if (isImgInsideAnchor(line, imgStart, anchorOpenFromPriorLine)) {
         onReject?.({ line: i + 1, content: line, src, reason: 'in-anchor' });
@@ -345,8 +331,8 @@ function forEachLogoImg(
     }
 
     // Update bookkeeping for the next iteration.
-    prevLineBlank = line.trim().length === 0;
     anchorOpenFromPriorLine = updateAnchorCarry(anchorOpenFromPriorLine, line);
+    commentOpenFromPriorLine = updateCommentCarry(commentOpenFromPriorLine, line);
   }
 }
 
@@ -368,11 +354,75 @@ function updateAnchorCarry(carryIn: boolean, line: string): boolean {
 }
 
 /**
+ * Returns true if the <img> tag at `imgStart` on `line` is wrapped by an
+ * HTML comment `<!-- ... -->` — either opened earlier on THIS line (before
+ * imgStart) or carried over from a prior line that has not yet closed
+ * (`commentOpenFromPriorLine`). Same shape as {@link isImgInsideAnchor}: a
+ * single line may open AND close a comment before or after the <img>, so
+ * this is evaluated per-<img>, not as a whole-line flag (F-22a69b96).
+ *
+ * A commented-out "old branding, kept for reference" block is a very common
+ * README pattern; without this, `findLogoImgTags`/`rewriteLogoSrc` would
+ * silently resurrect/mutate text a human explicitly disabled from rendering.
+ */
+function isImgInsideComment(
+  line: string,
+  imgStart: number,
+  commentOpenFromPriorLine: boolean,
+): boolean {
+  const openRe = /<!--/g;
+  const closeRe = /-->/g;
+  const opens: Array<{ start: number; end: number }> = [];
+  const closes: Array<{ start: number; end: number }> = [];
+  let m: RegExpExecArray | null;
+  while ((m = openRe.exec(line)) !== null) {
+    opens.push({ start: m.index, end: m.index + m[0].length });
+  }
+  while ((m = closeRe.exec(line)) !== null) {
+    closes.push({ start: m.index, end: m.index + m[0].length });
+  }
+  if (commentOpenFromPriorLine) {
+    const firstClose = closes[0];
+    if (!firstClose) return true; // comment still open on this whole line
+    if (imgStart < firstClose.start) return true;
+  }
+  for (const o of opens) {
+    const nextClose = closes.find((c) => c.start >= o.end);
+    if (!nextClose) {
+      // Open with no close on this line; img after the open is inside the comment.
+      if (imgStart >= o.end) return true;
+      continue;
+    }
+    if (imgStart >= o.end && imgStart < nextClose.start) return true;
+  }
+  return false;
+}
+
+/**
+ * Given the comment-open-carry state coming INTO this line and the line
+ * text, return the comment-open-carry state going OUT of this line. Same
+ * shape as {@link updateAnchorCarry}, tracking `<!--`/`-->` instead of
+ * `<a>`/`</a>`.
+ */
+function updateCommentCarry(carryIn: boolean, line: string): boolean {
+  let opens = 0;
+  let closes = 0;
+  const openRe = /<!--/g;
+  const closeRe = /-->/g;
+  while (openRe.exec(line) !== null) opens++;
+  while (closeRe.exec(line) !== null) closes++;
+  const depth = (carryIn ? 1 : 0) + opens - closes;
+  return depth > 0;
+}
+
+/**
  * Find all logo <img> tags in a README.
  *
  * Gates (applied per-<img>, not per-line):
  *   0. The <img> is NOT inside a fenced (```...```/~~~...~~~) or 4-space-
  *      indented markdown code block — documentation examples must not match.
+ *   0c. The <img> is NOT inside an HTML comment (`<!-- ... -->`) — a human
+ *      who commented out old branding must not have it resurrected.
  *   1. Tag is `<img>` with a `src` attribute (double, single, or unquoted).
  *   2. The specific <img> is NOT wrapped by an `<a>...</a>` (same line OR a
  *      multi-line anchor opened on a prior line).
@@ -405,9 +455,10 @@ export function findLogoImgTags(content: string): LogoMatch[] {
  *
  * The `matches` array is exactly what {@link findLogoImgTags} returns. The
  * `rejected` array contains every `<img>` whose regex matched but which was
- * dropped by Gate 0 (code block), Gate 2 (in `<a>`), Gate 3 (badge pattern),
- * or Gate 4 (src doesn't look like a logo). Gates are checked in order;
- * `reason` is the FIRST gate that rejected.
+ * dropped by Gate 0 (code block), Gate 0c (inside an HTML comment), Gate 2
+ * (in `<a>`), Gate 3 (badge pattern), or Gate 4 (src doesn't look like a
+ * logo). Gates are checked in order; `reason` is the FIRST gate that
+ * rejected.
  *
  * Throws if `content.length > MAX_README_BYTES`.
  */
@@ -442,7 +493,9 @@ export function findAllImgTags(content: string): {
  * on the same line both get the correct treatment.
  *
  * Skips <img> tags inside fenced or 4-space-indented markdown code blocks
- * (Gate 0), so documentation examples in the README are never mutated.
+ * (Gate 0), so documentation examples in the README are never mutated. Also
+ * skips <img> tags inside an HTML comment (Gate 0c) — a human-disabled
+ * "old branding, kept for reference" block is never resurrected or rewritten.
  *
  * Implementation uses splice-by-index (not String.prototype.replace) so the
  * replacement value is inserted verbatim — `$&`, `$1`, `$$`, etc. in newSrc

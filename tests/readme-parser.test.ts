@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { findLogoImgTags, rewriteLogoSrc } from '../src/utils/readme-parser.js';
+import { findLogoImgTags, findAllImgTags, rewriteLogoSrc } from '../src/utils/readme-parser.js';
 
 const fixture = (name: string) =>
   readFileSync(join(import.meta.dirname, 'fixtures', name), 'utf-8');
@@ -197,6 +197,43 @@ describe('findLogoImgTags', () => {
       // Real logo should NOT have the example marker in alt.
       expect(matches[0].content).toContain('RealLogo');
     });
+  });
+});
+
+// F-22a69b96 — HTML-comment awareness. forEachLogoImg's Gate 0 only checked
+// fenced/indented CODE blocks; there was no HTML-comment tracking at all, so
+// an <img> a human deliberately disabled by wrapping it in an HTML comment
+// (a very common "old branding, kept for reference" README pattern) was
+// treated as a live logo — findLogoImgTags returned it AND rewriteLogoSrc
+// silently resurrected/mutated it.
+describe('HTML-comment awareness (F-22a69b96)', () => {
+  it('does NOT match an <img> commented out as "kept for reference"', () => {
+    const content = fixture('img-in-html-comment.md');
+    // Sanity: the fixture really has TWO <img> tags total (one real, one commented).
+    expect(content.match(/<img/g)?.length).toBe(2);
+    const matches = findLogoImgTags(content);
+    // Only the real logo above the comment must be matched.
+    expect(matches).toHaveLength(1);
+    expect(matches[0].src).toBe('assets/logo.png');
+  });
+
+  it('reports the commented-out <img> as rejected with reason "in-comment"', () => {
+    const content = fixture('img-in-html-comment.md');
+    const { matches, rejected } = findAllImgTags(content);
+    expect(matches).toHaveLength(1);
+    const commentRejection = rejected.find((r) => r.src === 'assets/old-logo.png');
+    expect(commentRejection).toBeDefined();
+    expect(commentRejection?.reason).toBe('in-comment');
+  });
+
+  it('does not resurrect or rewrite the commented-out <img> src', () => {
+    const content = fixture('img-in-html-comment.md');
+    const result = rewriteLogoSrc(content, BRAND_URL);
+    // The real logo is rewritten...
+    expect(result).toContain(BRAND_URL);
+    // ...but the commented-out old logo's src is untouched, byte-for-byte.
+    expect(result).toContain('<img src="assets/old-logo.png" alt="Old logo">');
+    expect(result).toContain('<!-- Old branding, kept for reference:');
   });
 });
 

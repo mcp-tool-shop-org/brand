@@ -24,3 +24,4 @@ collect-logos.sh
 migrate-readmes.sh
 push-all.sh
 revert-all.sh
+.swarm/

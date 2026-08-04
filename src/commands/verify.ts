@@ -58,7 +58,13 @@ export async function runVerify(opts: VerifyOptions): Promise<void> {
         removed: result.removed,
       };
       process.stdout.write(JSON.stringify(out, null, 2) + '\n');
-      if (!result.ok) process.exit(1);
+      // F-f0c1a1f8 — set exitCode and let the process exit naturally once the
+      // event loop drains, instead of process.exit() right after a stdout
+      // write. process.exit() does not wait for pending async I/O to flush;
+      // on Windows (and for pipes on POSIX) a redirected/piped stdout write
+      // is asynchronous, so `brand verify --json | consumer` could observe a
+      // truncated JSON payload, especially as the registry grows.
+      if (!result.ok) process.exitCode = 1;
       return;
     }
 
@@ -95,7 +101,9 @@ export async function runVerify(opts: VerifyOptions): Promise<void> {
     }
 
     console.log(chalk.dim('\n  Fix: run `brand manifest` to regenerate the manifest, then commit it.\n'));
-    process.exit(1);
+    // F-f0c1a1f8 — see the --json branch above for why exitCode replaces exit().
+    process.exitCode = 1;
+    return;
   } catch (err) {
     // Exit-code contract (Stage-C documented):
     //   1 = integrity mismatch (handled in the success path above)
@@ -108,7 +116,14 @@ export async function runVerify(opts: VerifyOptions): Promise<void> {
         console.error(chalk.red(`\n  ✗ ${err.message}`));
         console.error(chalk.dim(`  Fix: re-run \`brand manifest\` to regenerate, then \`brand verify\`.\n`));
       }
-      process.exit(2);
+      // F-f0c1a1f8 — exitCode instead of exit() (see --json branch above).
+      // The explicit `return` is NOT optional here: process.exit() used to
+      // terminate the process immediately, but process.exitCode alone does
+      // not stop execution — without this return, control would fall through
+      // to the ManifestIOError check and then the unexpected-error block
+      // below, double-reporting this same error and clobbering exitCode.
+      process.exitCode = 2;
+      return;
     }
 
     if (err instanceof ManifestIOError) {
@@ -125,7 +140,10 @@ export async function runVerify(opts: VerifyOptions): Promise<void> {
           console.error(chalk.dim(`  Fix: run \`brand manifest\` to generate one, or pass --manifest <path>.\n`));
         }
       }
-      process.exit(isMissingManifest ? 2 : 3);
+      // F-f0c1a1f8 — same reasoning as above: exitCode + explicit return so
+      // execution doesn't fall through to the unexpected-error block below.
+      process.exitCode = isMissingManifest ? 2 : 3;
+      return;
     }
 
     const e = err as Error;
@@ -134,6 +152,10 @@ export async function runVerify(opts: VerifyOptions): Promise<void> {
     } else {
       console.error(chalk.red(`\n  ✗ ${e.message}\n`));
     }
-    process.exit(3);
+    // F-f0c1a1f8 — exitCode instead of exit(); this is the last statement in
+    // the function so there's no fallthrough risk, but the explicit return
+    // keeps all five exit paths in this function visibly symmetric.
+    process.exitCode = 3;
+    return;
   }
 }

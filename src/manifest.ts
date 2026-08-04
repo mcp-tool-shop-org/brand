@@ -6,8 +6,16 @@
  */
 
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync, existsSync, statSync, renameSync } from 'node:fs';
-import { join, relative, extname } from 'node:path';
+import {
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  statSync,
+  renameSync,
+  lstatSync,
+  realpathSync,
+} from 'node:fs';
+import { join, relative, extname, isAbsolute, sep } from 'node:path';
 import { globSync } from 'glob';
 
 /**
@@ -100,7 +108,25 @@ export class ManifestIOError extends Error {
   }
 }
 
-/** Compute SHA-256 hash of a file, returned as "sha256:<hex>" */
+/**
+ * Compute SHA-256 hash of a file, returned as "sha256:<hex>".
+ *
+ * Hashes RAW, unnormalized bytes for every format — deliberately, not by
+ * oversight. The manifest's documented contract (README.md, docs/handbook.md)
+ * is "the manifest hash IS the SHA-256 of the file", so an operator's
+ * independent `sha256sum <file>` must always agree with what generateManifest
+ * stores. Normalizing (e.g. line-ending conversion for a text-based format
+ * like svg) would silently break that contract — the stored hash would be of
+ * a normalized COPY, not the file — and would weaken tamper detection by
+ * making two byte-different files hash identically. A CRLF/LF checkout
+ * hazard for text-based logo assets is real, but it belongs at the git
+ * layer (`.gitattributes`: `logos/**\/*.svg binary`, so git never applies EOL
+ * conversion to a tracked logo SVG), which keeps the checked-out bytes
+ * identical on every platform — the hasher never needs to paper over a
+ * difference that git no longer allows to exist on disk. (An earlier version
+ * of this function normalized svg content before hashing; that was reverted
+ * for exactly this reason — see F-b017896c.)
+ */
 export function hashFile(filePath: string): string {
   try {
     const content = readFileSync(filePath);
@@ -122,16 +148,119 @@ function detectFormat(filePath: string): string {
 }
 
 /**
+ * Symlink / path-escape containment guard.
+ *
+ * A prior version of this file relied on glob's `follow: false` to "never
+ * follow symlinks" (see the historical comment that used to sit on
+ * generateManifest). That claim was FALSE: `follow` only controls whether
+ * `**` (globstar) patterns descend into symlinked directories — per the
+ * glob package's own docs, "Follow symlinked directories when expanding `**`
+ * patterns." It has zero effect on the plain single-segment wildcard
+ * patterns (a bare `*`, or `*` with a trailing slash) used throughout this
+ * file. A directory junction or a file-level symlink placed
+ * under logosDir was silently walked and hashed regardless of
+ * `follow: false`, because nothing here ever called lstatSync to notice the
+ * symlink in the first place (confirmed against glob v11.1.0, installed
+ * alongside the ^13.0.6 dependency range: a junction at `logos/<slug>`
+ * pointing outside the tree was enumerated as a slug and its content hashed;
+ * a file-level symlink at `logos/<slug>/readme.png` pointing at an external
+ * file was silently followed by plain readFileSync).
+ *
+ * The actual defense, applied to every candidate slug dir, gallery folder,
+ * and file below: (1) lstat the candidate and reject it if it IS a symlink
+ * — this also catches NTFS junctions, which Node's fs.lstatSync reports via
+ * isSymbolicLink() === true on Windows — and (2) resolve its REAL path and
+ * verify that real path is still contained inside the resolved scan root.
+ * Rule (2) is what actually holds even where (1) alone would not: it also
+ * rejects an entry reached through a symlink one level up that wasn't
+ * re-checked at every step.
+ */
+
+/** realpathSync that returns null instead of throwing (root may legitimately not exist, e.g. a fresh repo with no logos/ yet). */
+function safeRealpath(path: string): string | null {
+  try {
+    return realpathSync(path);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * True if `entryPath` is NOT a symlink/junction itself AND its fully-resolved
+ * real path is contained inside `rootRealPath` (the already-resolved real
+ * path of the scan root). False ("unsafe") on any lstat/realpath failure, or
+ * when rootRealPath itself could not be resolved — fails closed.
+ */
+function isContained(entryPath: string, rootRealPath: string | null): boolean {
+  if (rootRealPath === null) return false;
+
+  let st: ReturnType<typeof lstatSync>;
+  try {
+    st = lstatSync(entryPath);
+  } catch {
+    return false;
+  }
+  if (st.isSymbolicLink()) return false;
+
+  let real: string;
+  try {
+    real = realpathSync(entryPath);
+  } catch {
+    return false;
+  }
+  if (real === rootRealPath) return true;
+  const rel = relative(rootRealPath, real);
+  return rel !== '' && rel !== '..' && !rel.startsWith(`..${sep}`) && !isAbsolute(rel);
+}
+
+/** Warn (stderr) that a candidate was excluded because it is a symlink/junction or escapes the scan root. */
+function warnEscaped(entryPath: string): void {
+  process.stderr.write(
+    `warning: skipping "${entryPath}" — it is a symlink/junction, or resolves outside the logos directory. Symlinked content is never included in the manifest.\n`
+  );
+}
+
+/**
  * Find the first existing logo file for a slug under baseDir.
  * Probes extensions in IMAGE_EXTENSION_ORDER and returns the first hit,
  * or null if none exist.
+ *
+ * Matches case-INsensitively against the REAL directory listing — mirroring
+ * generateManifest's own `/^readme\./i` matcher against actual entries —
+ * instead of guessing a hardcoded-lowercase `readme.<ext>` path via
+ * existsSync. The old existsSync-based probe only "worked" for an
+ * uppercase/mixed-case file (e.g. README.PNG) by accident, on a
+ * case-insensitive filesystem (Windows/macOS). On a case-sensitive
+ * filesystem (Linux — this repo's own CI runs ubuntu-latest), that same
+ * existsSync(...,'readme.png') call returns false for a real README.PNG
+ * even though generateManifest correctly tracks it in the manifest — the
+ * two functions must agree on whether a logo "exists".
  */
 export function findLogoFile(slug: string, baseDir: string): { path: string; ext: string } | null {
+  const slugPath = join(baseDir, slug);
+  if (!existsSync(slugPath)) return null;
+
+  let entries: string[];
+  try {
+    entries = globSync('*', { cwd: slugPath, nodir: true, follow: false });
+  } catch {
+    return null;
+  }
+
+  const rootRealPath = safeRealpath(baseDir);
   for (const ext of IMAGE_EXTENSION_ORDER) {
-    const candidate = join(baseDir, slug, `readme.${ext}`);
-    if (existsSync(candidate)) {
-      return { path: candidate, ext };
+    const re = new RegExp(`^readme\\.${ext}$`, 'i');
+    const hit = entries.find(f => re.test(f));
+    if (!hit) continue;
+
+    const fullPath = join(slugPath, hit);
+    // Same containment guard as generateManifest (see isContained's doc) —
+    // a symlinked/junctioned "readme" must not be reported as a real asset.
+    if (!isContained(fullPath, rootRealPath)) {
+      warnEscaped(fullPath);
+      continue;
     }
+    return { path: fullPath, ext };
   }
   return null;
 }
@@ -140,12 +269,24 @@ export function findLogoFile(slug: string, baseDir: string): { path: string; ext
  * List the direct subfolder names under a slug (existence-based, not
  * filtered by content). Used by add-gallery/sync to discover or disambiguate
  * gallery collections without re-deriving the glob logic in generateManifest.
+ *
+ * Each candidate subfolder is verified via isContained (lstat + realpath
+ * containment against baseDir) before being reported — a symlinked/
+ * junctioned "gallery" folder must not be treated as real, whether this is
+ * called internally by generateManifest or externally (add-gallery, tests).
  */
 export function getGalleryFolders(slug: string, baseDir: string): string[] {
   const slugPath = join(baseDir, slug);
   if (!existsSync(slugPath)) return [];
+  const rootRealPath = safeRealpath(baseDir);
   return globSync('*/', { cwd: slugPath, follow: false })
     .map(d => d.replace(/\/$/, ''))
+    .filter(sub => {
+      const full = join(slugPath, sub);
+      const safe = isContained(full, rootRealPath);
+      if (!safe) warnEscaped(full);
+      return safe;
+    })
     .sort();
 }
 
@@ -168,9 +309,22 @@ export function getGalleryFolders(slug: string, baseDir: string): string[] {
  * produces identical file coverage to the old recursive one on current data.
  */
 export function generateManifest(logosDir: string): Manifest {
-  // follow:false throughout — never follow symlinks. A malicious or careless
-  // symlink under logos/ would otherwise be hashed and silently included.
-  const slugDirs = globSync('*/', { cwd: logosDir, follow: false }).map(d => d.replace(/\/$/, ''));
+  const logosRealPath = safeRealpath(logosDir);
+
+  // Containment guard (see isContained's doc comment above): `follow: false`
+  // does NOT stop this plain `*/` pattern from listing a symlinked/
+  // junctioned slug directory, so every candidate is independently verified
+  // via lstat + realpath containment before it is trusted as "inside
+  // logos/". This is the actual symlink defense for this function — not the
+  // glob option.
+  const slugDirs = globSync('*/', { cwd: logosDir, follow: false })
+    .map(d => d.replace(/\/$/, ''))
+    .filter(slug => {
+      const full = join(logosDir, slug);
+      const safe = isContained(full, logosRealPath);
+      if (!safe) warnEscaped(full);
+      return safe;
+    });
 
   const found: Array<{ file: string; key: string; role: AssetRole; gallery?: string }> = [];
 
@@ -178,9 +332,14 @@ export function generateManifest(logosDir: string): Manifest {
     const slugPath = join(logosDir, slug);
 
     // Primary: direct child files literally named readme.<ext>.
-    const rootFiles = globSync('*', { cwd: slugPath, nodir: true, follow: false }).filter(
-      f => IMAGE_EXTENSIONS.has(extname(f).toLowerCase()) && /^readme\./i.test(f)
-    );
+    const rootFiles = globSync('*', { cwd: slugPath, nodir: true, follow: false })
+      .filter(f => IMAGE_EXTENSIONS.has(extname(f).toLowerCase()) && /^readme\./i.test(f))
+      .filter(f => {
+        const full = join(slugPath, f);
+        const safe = isContained(full, logosRealPath);
+        if (!safe) warnEscaped(full);
+        return safe;
+      });
     for (const f of rootFiles) {
       const rel = `${slug}/${f}`;
       found.push({ file: rel, key: `logos/${rel}`.replace(/\\/g, '/'), role: 'primary' });
@@ -188,11 +347,17 @@ export function generateManifest(logosDir: string): Manifest {
 
     // Gallery: one direct subfolder level; files directly inside it (no
     // further nesting is tracked — keeps the scan bounded, not recursive).
+    // getGalleryFolders already applies its own containment check to `sub`.
     for (const sub of getGalleryFolders(slug, logosDir)) {
       const subPath = join(slugPath, sub);
-      const galleryFiles = globSync('*', { cwd: subPath, nodir: true, follow: false }).filter(f =>
-        IMAGE_EXTENSIONS.has(extname(f).toLowerCase())
-      );
+      const galleryFiles = globSync('*', { cwd: subPath, nodir: true, follow: false })
+        .filter(f => IMAGE_EXTENSIONS.has(extname(f).toLowerCase()))
+        .filter(f => {
+          const full = join(subPath, f);
+          const safe = isContained(full, logosRealPath);
+          if (!safe) warnEscaped(full);
+          return safe;
+        });
       for (const f of galleryFiles) {
         const rel = `${slug}/${sub}/${f}`;
         found.push({ file: rel, key: `logos/${rel}`.replace(/\\/g, '/'), role: 'gallery', gallery: sub });

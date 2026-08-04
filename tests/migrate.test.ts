@@ -10,12 +10,13 @@
  *   - 'already pointing at brand' skip path
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, statSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, statSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { runMigrate } from '../src/commands/migrate.js';
 
 const BRAND_BASE = 'https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main/logos';
+const JOURNAL_NAME = '.brand-migrate.journal.json';
 
 let tempDir: string;
 let logosDir: string;
@@ -80,6 +81,40 @@ describe('runMigrate — dry-run safety', () => {
 
     expect(after).toBe(before);
     expect(afterContent).toBe(beforeContent);
+  });
+});
+
+describe('runMigrate — --dry-run --resume must be a true preview (F-e9cfd56a)', () => {
+  it('does NOT restore journal entries or touch the journal when --dry-run and --resume are combined', async () => {
+    // No logo seeded for 'alpha', so the main migrate loop is a no-op —
+    // this isolates the resume/restore behavior, matching TEST-001's style.
+    const repoDir = seedRepo('alpha', { 'README.md': 'CORRUPTED HALF-WRITTEN CONTENT\n' });
+    const readmePath = join(repoDir, 'README.md');
+    const original = README_WITH_LOCAL_LOGO('alpha');
+    const journalPath = join(reposDir, JOURNAL_NAME);
+    writeFileSync(
+      journalPath,
+      JSON.stringify([{ path: readmePath, original, ts: '2026-01-01T00:00:00.000Z' }], null, 2) + '\n',
+      'utf-8',
+    );
+
+    await runMigrate({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      dryRun: true,
+      resume: true,
+    });
+
+    // Dry-run must be a true preview: the corrupted README is UNCHANGED...
+    expect(readFileSync(readmePath, 'utf-8')).toBe('CORRUPTED HALF-WRITTEN CONTENT\n');
+    // ...and the journal must still exist, untouched, so a REAL --resume
+    // later can still restore it.
+    expect(existsSync(journalPath)).toBe(true);
+    const entries = JSON.parse(readFileSync(journalPath, 'utf-8')) as Array<{ path: string; original: string }>;
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.path).toBe(readmePath);
+    expect(entries[0]?.original).toBe(original);
   });
 });
 

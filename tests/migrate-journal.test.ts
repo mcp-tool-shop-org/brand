@@ -25,6 +25,7 @@ import {
   mkdirSync,
   writeFileSync,
   readFileSync,
+  readdirSync,
   rmSync,
   existsSync,
 } from 'node:fs';
@@ -282,5 +283,114 @@ describe('migrate journal persists on write failure (TEST-002)', () => {
     expect(entries).toHaveLength(1);
     expect(entries[0]?.path).toBe(readmePath);
     expect(entries[0]?.original).toBe(original);
+  });
+});
+
+// TEST-005 — the --resume restore path's OWN write can fail too (permission
+// denied, disk full, locked file). Previously that failure was a best-effort
+// console.error with nothing tracked, and the very next line unconditionally
+// wiped the ENTIRE journal regardless — silently and permanently destroying
+// the only backup of the pre-migration content for that entry. Force
+// atomicWrite's tmp write to fail during the RESTORE itself (not the main
+// write path) via the same directory-collision trick TEST-002 uses.
+describe('migrate --resume when a restore write fails (F-ff1c46f0)', () => {
+  it('keeps the journal entry instead of wiping it when atomicWrite throws during a restore', async () => {
+    const repoDir = seedRepo('alpha', { 'README.md': 'CORRUPTED HALF-WRITTEN CONTENT\n' });
+    const readmePath = join(repoDir, 'README.md');
+    const original = README_WITH_LOCAL_LOGO('alpha');
+    const journalPath = join(reposDir, JOURNAL_NAME);
+    writeFileSync(
+      journalPath,
+      JSON.stringify([{ path: readmePath, original, ts: '2026-01-01T00:00:00.000Z' }], null, 2) + '\n',
+      'utf-8',
+    );
+
+    // Read of readmePath still succeeds; atomicWrite's writeFileSync to
+    // `${readmePath}.brand-tmp` hits EISDIR because that path is a directory
+    // — the restore itself now fails, not the main migrate loop.
+    mkdirSync(`${readmePath}.brand-tmp`, { recursive: true });
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      throw new Error(`__EXIT__:${code}`);
+    }) as never);
+    let logCalls: unknown[][] = [];
+    let errCalls: unknown[][] = [];
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false, resume: true });
+    } catch {
+      // Expected: a failed resume now surfaces as a non-zero exit instead
+      // of silently succeeding.
+    } finally {
+      // Capture call history BEFORE mockRestore() — restoring clears it.
+      logCalls = logSpy.mock.calls;
+      errCalls = errSpy.mock.calls;
+      logSpy.mockRestore();
+      errSpy.mockRestore();
+      exitSpy.mockRestore();
+    }
+
+    // The restore failed, so the journal entry for readmePath must survive
+    // — wiping it (the old unconditional writeJournal(repos, [])) would
+    // destroy the only backup of the pre-migration content with no way to
+    // recover it.
+    expect(existsSync(journalPath)).toBe(true);
+    const entries = JSON.parse(readFileSync(journalPath, 'utf-8')) as Array<{ path: string; original: string }>;
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.path).toBe(readmePath);
+    expect(entries[0]?.original).toBe(original);
+
+    // The target file must NOT have been touched (the restore write failed).
+    expect(readFileSync(readmePath, 'utf-8')).toBe('CORRUPTED HALF-WRITTEN CONTENT\n');
+
+    // And the failure must be surfaced somewhere (console today; also
+    // tracked in the JSON result/exit code per the source fix), not silently
+    // swallowed.
+    const allOutput = [...logCalls, ...errCalls].flat().map(String).join('\n');
+    expect(allOutput).toContain(readmePath);
+  });
+});
+
+// The journal is the ONLY backup of pre-migration README content. Previously
+// readJournal's catch body was empty (comment only: "surface but don't
+// crash"), so a corrupted-but-present journal (e.g. truncated by an earlier
+// hard crash) was silently treated as "no crash-recovery data exists at
+// all" — a subsequent --resume reported nothing to restore, with zero
+// indication that unrecoverable state was actually discarded.
+describe('migrate corrupt journal handling (F-dbc18187)', () => {
+  it('warns loudly and preserves an unparseable journal file instead of silently discarding it', async () => {
+    const journalPath = join(reposDir, JOURNAL_NAME);
+    writeFileSync(journalPath, 'THIS IS NOT VALID JSON {{{', 'utf-8');
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    let logCalls: unknown[][] = [];
+    let errCalls: unknown[][] = [];
+    try {
+      // No logo/repo seeded — this isolates the corrupt-journal read, which
+      // happens before any per-repo work.
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false, resume: true });
+    } finally {
+      // Capture call history BEFORE mockRestore() — restoring clears it.
+      logCalls = logSpy.mock.calls;
+      errCalls = errSpy.mock.calls;
+      logSpy.mockRestore();
+      errSpy.mockRestore();
+    }
+
+    // The corrupt file must not be left sitting unlabeled at the canonical
+    // journal path as though nothing happened.
+    expect(existsSync(journalPath)).toBe(false);
+
+    // A preserved copy must exist alongside it for manual recovery — the
+    // ONLY backup of pre-migration content must not simply vanish.
+    const preserved = readdirSync(reposDir).filter(name => name.includes('.corrupt-'));
+    expect(preserved.length).toBeGreaterThan(0);
+    expect(readFileSync(join(reposDir, preserved[0]!), 'utf-8')).toBe('THIS IS NOT VALID JSON {{{');
+
+    // And the operator must be warned loudly — even without --quiet.
+    const allOutput = [...logCalls, ...errCalls].flat().map(String).join('\n');
+    expect(allOutput.toLowerCase()).toContain('corrupt');
   });
 });
