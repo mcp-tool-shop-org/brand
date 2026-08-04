@@ -265,6 +265,31 @@ describe('brand audit --json', () => {
       expect((json!.issues as unknown[]).length).toBeGreaterThan(0);
     }
   });
+
+  // F-09eddfab — full-skip (every slug had no local clone under --repos)
+  // must be a distinct, non-zero-exit operator/config error, not folded into
+  // the same ok:true clean-pass JSON shape as a genuinely fully-inspected
+  // run. Strict purity per F-c16826d1: the payload must still be exactly
+  // one clean JSON document even on this error path.
+  it('exits 2 with ok:false when every slug has no local clone under --repos (F-09eddfab)', () => {
+    seedLogo('alpha', 'png');
+    seedLogo('beta', 'png');
+    // Deliberately do NOT create any repo clones under tempDir.
+
+    const r = runCli(
+      'audit',
+      '--repos', tempDir,
+      '--logos', logosDir,
+      '--brand-base', BRAND_BASE,
+      '--json'
+    );
+    expect(r.status).toBe(2);
+    const json = assertPureJson(r.stdout);
+    expect(json.ok).toBe(false);
+    expect(json.reposChecked).toBe(0);
+    expect(json.reposTotal).toBe(2);
+    expect(json.skippedNoClone).toBe(2);
+  });
 });
 
 describe('brand migrate --json', () => {

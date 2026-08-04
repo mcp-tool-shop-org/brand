@@ -67,6 +67,125 @@ describe('brand manifest (CLI happy path)', () => {
   });
 });
 
+// F-0b8e6404 (CRITICAL) — a missing/mistyped --logos silently produced an
+// EMPTY manifest ({assets: {}}) with no error, which generate mode then
+// wrote straight over whatever was already on disk. A one-character typo in
+// a CI script (e.g. "logoss" instead of "logos") destroyed the entire
+// integrity record while printing a green success line and exiting 0.
+// runManifest() had no existsSync guard on opts.logos, unlike stats.ts and
+// audit.ts, which both already treat a missing --logos as an operator error
+// (exit 2). This is the permanent regression guard: it seeds a REAL
+// manifest, runs `manifest` with a bad --logos, and asserts the manifest
+// file is byte-for-byte UNCHANGED on disk and the exit code is 2.
+describe('brand manifest (bad --logos does not destroy an existing manifest)', () => {
+  it('exits 2 and leaves the manifest file BYTE-FOR-BYTE UNCHANGED when --logos does not exist (generate mode)', () => {
+    seedLogo('alpha', 'png');
+    // Legitimate run first — produces a real, non-empty manifest on disk.
+    expect(runCli('manifest', '--logos', logosDir, '--output', manifestPath).status).toBe(0);
+    const before = readFileSync(manifestPath, 'utf-8');
+    expect(JSON.parse(before).assets['logos/alpha/readme.png']).toBeDefined();
+
+    // Re-run with a typo'd/non-existent --logos, same --output. This is the
+    // exact "in-place regenerate" workflow a CI script would run.
+    const badLogos = join(tempDir, 'logoss'); // typo — does not exist
+    const r = runCli('manifest', '--logos', badLogos, '--output', manifestPath);
+
+    expect(r.status).toBe(2);
+    const combined = r.stdout + r.stderr;
+    expect(combined).toMatch(/logos directory not found/i);
+
+    const after = readFileSync(manifestPath, 'utf-8');
+    expect(after).toBe(before);
+    expect(JSON.parse(after).assets['logos/alpha/readme.png']).toBeDefined();
+  });
+
+  // Same CRITICAL finding — the guard must also protect --check mode (its
+  // OTHER caller), not just generate mode. Before the fix, a bad --logos
+  // under --check made generateManifest() return {assets: {}}, so every
+  // real stored asset was reported as spurious "removed" drift (exit 1) --
+  // actively misleading, since the manifest is fine and --logos is wrong.
+  it('exits 2 (not spurious "removed" drift) when --logos does not exist under --check', () => {
+    seedLogo('alpha', 'png');
+    expect(runCli('manifest', '--logos', logosDir, '--output', manifestPath).status).toBe(0);
+    const before = readFileSync(manifestPath, 'utf-8');
+
+    const badLogos = join(tempDir, 'logoss');
+    const r = runCli('manifest', '--logos', badLogos, '--output', manifestPath, '--check');
+
+    expect(r.status).toBe(2);
+    const combined = r.stdout + r.stderr;
+    expect(combined).toMatch(/logos directory not found/i);
+    expect(combined).not.toMatch(/removed|out of date/i);
+
+    // --check never writes, but confirm the on-disk manifest is untouched too.
+    expect(readFileSync(manifestPath, 'utf-8')).toBe(before);
+  });
+});
+
+// Zero-asset overwrite guard — companion protection for the same CRITICAL
+// finding. --logos can EXIST but still resolve to zero assets (an emptied
+// directory, or a real-but-wrong path), which silently overwrote a
+// previously non-empty manifest with {assets: {}} just as destructively as
+// the missing-path case, without an existsSync failure to catch it.
+describe('brand manifest (zero-asset overwrite guard)', () => {
+  it('exits 2 and leaves the manifest UNCHANGED when --logos exists but is now empty (would zero out a non-empty manifest)', () => {
+    seedLogo('alpha', 'png');
+    expect(runCli('manifest', '--logos', logosDir, '--output', manifestPath).status).toBe(0);
+    const before = readFileSync(manifestPath, 'utf-8');
+
+    // Empty the (still-existing) logos directory — simulates an accidentally
+    // emptied directory rather than a mistyped path.
+    rmSync(join(logosDir, 'alpha'), { recursive: true, force: true });
+
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath);
+
+    expect(r.status).toBe(2);
+    const combined = r.stdout + r.stderr;
+    expect(combined).toMatch(/refusing to overwrite/i);
+
+    const after = readFileSync(manifestPath, 'utf-8');
+    expect(after).toBe(before);
+    expect(JSON.parse(after).assets['logos/alpha/readme.png']).toBeDefined();
+  });
+
+  it('does NOT block a legitimate empty result when there is no prior manifest to lose (first-run bootstrap)', () => {
+    // No prior manifest at all, and an empty (but existing) logos dir.
+    expect(existsSync(manifestPath)).toBe(false);
+
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath);
+
+    expect(r.status).toBe(0);
+    expect(existsSync(manifestPath)).toBe(true);
+    const stored = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+    expect(Object.keys(stored.assets)).toHaveLength(0);
+  });
+
+  it('does NOT block re-writing an empty result when the prior manifest was ALREADY empty (no known-good data at risk)', () => {
+    // First write: logos dir is empty -> manifest.json already has 0 assets.
+    expect(runCli('manifest', '--logos', logosDir, '--output', manifestPath).status).toBe(0);
+    expect(JSON.parse(readFileSync(manifestPath, 'utf-8')).assets).toEqual({});
+
+    // Second write: still empty -> must succeed again (nothing to lose).
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath);
+    expect(r.status).toBe(0);
+  });
+
+  it('--json reports the zero-asset-overwrite error with the previous asset count', () => {
+    seedLogo('alpha', 'png');
+    seedLogo('beta', 'png');
+    expect(runCli('manifest', '--logos', logosDir, '--output', manifestPath).status).toBe(0);
+    rmSync(logosDir, { recursive: true, force: true });
+    mkdirSync(logosDir, { recursive: true });
+
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath, '--json');
+    expect(r.status).toBe(2);
+    const json = JSON.parse(r.stdout);
+    expect(json.ok).toBe(false);
+    expect(json.error).toBe('zero-asset-overwrite');
+    expect(json.previousCount).toBe(2);
+  });
+});
+
 describe('brand manifest --check', () => {
   it('exits 0 when manifest matches disk (clean)', () => {
     seedLogo('alpha', 'png');
@@ -120,6 +239,23 @@ describe('brand manifest --check', () => {
     const combined = r.stdout + r.stderr;
     expect(combined).toMatch(/logos\/alpha\/readme\.png/);
     expect(combined).toMatch(/hash changed|changed/i);
+  });
+
+  // F-f4900c6e fallthrough guard (human --check mode) — converting
+  // process.exit(1) to `process.exitCode = 1; return;` is only safe with the
+  // explicit return. process.exit() used to hard-stop immediately; without
+  // the return, control would fall through to the "up to date" success
+  // message printed right after the drift error, even though drift was just
+  // reported. Deterministic (no timing/race dependency), unlike the
+  // stdout-truncation concern F-f4900c6e is ultimately about.
+  it('never prints "up to date" in the same run that reports drift (human --check mode)', () => {
+    seedLogo('alpha', 'png');
+    expect(runCli('manifest', '--logos', logosDir, '--output', manifestPath).status).toBe(0);
+    seedLogo('beta', 'png'); // added post-manifest -> drift
+
+    const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath, '--check');
+    expect(r.status).toBe(1);
+    expect(r.stdout + r.stderr).not.toMatch(/up to date/i);
   });
 
   // F-8aee4160 — missing manifest is an operator-config error, not drift;
