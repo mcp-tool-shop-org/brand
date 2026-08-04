@@ -394,3 +394,119 @@ describe('migrate corrupt journal handling (F-dbc18187)', () => {
     expect(allOutput.toLowerCase()).toContain('corrupt');
   });
 });
+
+const MIGRATE_LOCK_NAME = '.brand-migrate.lock';
+
+// F-4141e3e3 — readJournal/writeJournal perform a plain read-modify-write of
+// the shared journal sidecar with no locking. Two concurrent `brand migrate`
+// processes against the SAME --repos directory each independently read the
+// journal, append/remove their own entries in memory, and write the WHOLE
+// array back — whichever writeJournal call lands second silently overwrites
+// the other's just-written state, permanently losing that process's journal
+// entries. The fix is a whole-run lockfile (.brand-migrate.lock) held for
+// the entire runMigrate call. These tests simulate contention by pre-seeding
+// the lock file directly (the same technique the rest of this suite already
+// uses for crash/hazard simulation) rather than spawning real concurrent
+// processes.
+describe('migrate concurrent-run journal lock (F-4141e3e3)', () => {
+  it('fails loudly instead of racing when a live lock is already held for --repos', async () => {
+    seedLogo('alpha', 'png');
+    const repoDir = seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+    const readmePath = join(repoDir, 'README.md');
+    const before = readFileSync(readmePath, 'utf-8');
+
+    // Simulate a concurrent migrate already in flight: a fresh lock file
+    // naming a live pid. This test process's OWN pid is trivially "alive"
+    // (a process can always signal itself), so the fix's liveness check
+    // must treat this as genuine, un-reclaimable contention.
+    const lockPath = join(reposDir, MIGRATE_LOCK_NAME);
+    writeFileSync(lockPath, `${process.pid}:${Date.now()}`, 'utf-8');
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      throw new Error(`__EXIT__:${code}`);
+    }) as never);
+    let thrown: unknown;
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false });
+    } catch (err) {
+      thrown = err;
+    } finally {
+      logSpy.mockRestore();
+      errSpy.mockRestore();
+      exitSpy.mockRestore();
+    }
+
+    // Before this fix, a pre-existing lock file was never even looked at —
+    // migrate would proceed normally and race the journal for real.
+    expect(String(thrown)).toContain('__EXIT__:2');
+    // Refused before doing any real work — the README must be untouched,
+    // and the OTHER process's still-live lock must be left exactly as-is
+    // (never seized out from under a genuinely running process).
+    expect(readFileSync(readmePath, 'utf-8')).toBe(before);
+    expect(existsSync(lockPath)).toBe(true);
+  });
+
+  it('self-heals a stale lock (dead pid) and completes the migration normally', async () => {
+    seedLogo('alpha', 'png');
+    seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+
+    // An empirically-confirmed-dead pid (ESRCH) with a FRESH timestamp —
+    // proves liveness, not just age, is what's actually checked.
+    const lockPath = join(reposDir, MIGRATE_LOCK_NAME);
+    writeFileSync(lockPath, `999999999:${Date.now()}`, 'utf-8');
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false });
+    } finally {
+      logSpy.mockRestore();
+    }
+
+    const rewritten = readFileSync(join(reposDir, 'alpha', 'README.md'), 'utf-8');
+    expect(rewritten).toContain(`${BRAND_BASE}/alpha/readme.png`);
+    expect(existsSync(lockPath)).toBe(false);
+  });
+
+  it('does not leave a lock file behind after a normal successful run', async () => {
+    seedLogo('alpha', 'png');
+    seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false });
+    } finally {
+      logSpy.mockRestore();
+    }
+
+    expect(existsSync(join(reposDir, MIGRATE_LOCK_NAME))).toBe(false);
+  });
+
+  it('does not leave a lock file behind after a run that ends in failures (exit 3)', async () => {
+    seedLogo('alpha', 'png');
+    const repoDir = seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+    // Force atomicWrite's tmp write to fail (same trick TEST-002 above
+    // uses), so this run ends via the process.exit(3) failures path — a
+    // REAL exit call the try/finally alone would not reliably unwind
+    // through, exercising the process 'exit' listener backstop.
+    mkdirSync(`${join(repoDir, 'README.md')}.brand-tmp`, { recursive: true });
+
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      throw new Error(`__EXIT__:${code}`);
+    }) as never);
+    try {
+      await runMigrate({ repos: reposDir, logos: logosDir, brandBase: BRAND_BASE, dryRun: false });
+    } catch {
+      // Expected — process.exit(3) is mocked to throw.
+    } finally {
+      logSpy.mockRestore();
+      errSpy.mockRestore();
+      exitSpy.mockRestore();
+    }
+
+    expect(existsSync(join(reposDir, MIGRATE_LOCK_NAME))).toBe(false);
+  });
+});

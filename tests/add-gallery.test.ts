@@ -27,10 +27,10 @@ import {
   utimesSync,
   statSync,
 } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
-import { runAddGallery } from '../src/commands/add-gallery.js';
-import { readManifest } from '../src/manifest.js';
+import { runAddGallery, backupDirFor } from '../src/commands/add-gallery.js';
+import { readManifest, generateManifest } from '../src/manifest.js';
 
 let tempDir: string;
 let logosDir: string;
@@ -302,8 +302,11 @@ describe('runAddGallery — crash-safety swap ordering (F-7fef3209)', () => {
     // directory. Empirically confirmed on this filesystem: renaming a
     // directory onto an existing non-empty (or even empty) directory
     // throws — so this forces renameSync(targetDir, backupDir) to fail
-    // before the swap has done anything destructive.
-    const backupDir = `${targetDir}.brand-backup-${process.pid}-${FIXED_NOW}`;
+    // before the swap has done anything destructive. Computed via the
+    // real backupDirFor() helper (not hand-rolled) so this test can never
+    // silently drift from the reserved dot-prefixed naming convention the
+    // implementation actually uses (F-ea059f0e).
+    const backupDir = backupDirFor(targetDir);
     mkdirSync(backupDir, { recursive: true });
     writeFileSync(join(backupDir, 'occupied.txt'), 'collision');
 
@@ -318,6 +321,102 @@ describe('runAddGallery — crash-safety swap ordering (F-7fef3209)', () => {
     // before the backup rename has succeeded.
     expect(readdirSync(targetDir).sort()).toEqual(beforeFiles);
     expect(readFileSync(join(targetDir, 'a.png'), 'utf-8')).toBe(beforeContent);
+  });
+});
+
+// F-ea059f0e — the Stage A swap fix closed the "gallery briefly absent"
+// window but opened a new one: a leftover `.brand-backup-*`/staging sibling
+// (left behind by a hard kill between the two renames, or an rmSync that
+// throws) used to sit there indefinitely, and generateManifest() — called
+// automatically after every real add-gallery run — silently adopted it as a
+// SECOND, phantom gallery with zero name-filtering. That corrupted
+// manifest.json and later made a plain `brand sync <slug>` fail with
+// "ambiguous gallery" until a human found and deleted the directory by hand.
+// These tests simulate exactly that leftover state (rather than actually
+// killing the process mid-swap) and assert the manifest never gains a
+// phantom gallery entry, and that the stray directory is gone afterward.
+describe('runAddGallery — leftover backup dir is not adopted as a phantom gallery (F-ea059f0e)', () => {
+  it('self-heals a legacy-named leftover (pre-fix naming convention) instead of letting generateManifest adopt it', async () => {
+    seedSourceFile('a.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    // Simulate the exact post-crash artifact the finding reproduced: an
+    // interrupted run under the OLD (pre-fix) code left a sibling backup
+    // dir using the legacy, non-dot, never-cleaned-up naming convention,
+    // containing a real image file — indistinguishable from a legitimate
+    // gallery to an unfiltered directory scan. Pid 999999999 is an
+    // empirically-confirmed-dead pid on this platform (ESRCH), so the
+    // fix's liveness check reclaims it rather than presuming it belongs to
+    // another in-progress invocation.
+    const legacyLeftover = join(logosDir, 'widget', 'gallery.brand-backup-999999999-1690000000000');
+    mkdirSync(legacyLeftover, { recursive: true });
+    writeFileSync(join(legacyLeftover, 'orphan.png'), 'leftover-image-bytes');
+
+    // A real change, so this run does the staging+swap dance for real
+    // (not the nothing-to-do short-circuit) and calls generateManifest.
+    seedSourceFile('b.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    const manifest = readManifest(manifestPath);
+    const galleryNames = new Set(
+      Object.values(manifest.assets)
+        .map(a => a.gallery)
+        .filter((g): g is string => Boolean(g)),
+    );
+    // Only the real "gallery" folder must be present — the leftover must
+    // NEVER be adopted as a second, phantom gallery.
+    expect(galleryNames).toEqual(new Set(['gallery']));
+    for (const key of Object.keys(manifest.assets)) {
+      expect(key).not.toContain('brand-backup');
+    }
+
+    // And it self-heals: the stray directory itself is gone, not left
+    // sitting on disk for a human to eventually trip over.
+    expect(existsSync(legacyLeftover)).toBe(false);
+  });
+
+  it('self-heals a leftover using the current dot-prefixed staging/backup convention', async () => {
+    seedSourceFile('a.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    const targetDir = join(logosDir, 'widget', 'gallery');
+    // Same empirically-dead pid as the legacy-convention test above.
+    const currentConventionLeftover = join(dirname(targetDir), '.brand-backup-gallery-999999999-1690000000000');
+    mkdirSync(currentConventionLeftover, { recursive: true });
+    writeFileSync(join(currentConventionLeftover, 'orphan.png'), 'leftover-image-bytes');
+
+    seedSourceFile('b.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    expect(existsSync(currentConventionLeftover)).toBe(false);
+    const manifest = readManifest(manifestPath);
+    for (const key of Object.keys(manifest.assets)) {
+      expect(key).not.toContain('brand-backup');
+    }
+  });
+
+  it('a dot-prefixed reserved name is invisible to generateManifest\'s own gallery discovery, even called directly', async () => {
+    // Narrower proof of the specific mechanism the fix leans on: this talks
+    // to manifest.ts's generateManifest directly (an already-exported,
+    // in-domain-to-USE function — src/manifest.ts just cannot be EDITED by
+    // this domain), independent of add-gallery's self-heal cleanup, to
+    // confirm the reserved naming convention itself is invisible to the
+    // manifest scan as shipped today.
+    seedSourceFile('a.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    const targetDir = join(logosDir, 'widget', 'gallery');
+    const reservedDir = join(dirname(targetDir), '.brand-backup-gallery-1-1');
+    mkdirSync(reservedDir, { recursive: true });
+    writeFileSync(join(reservedDir, 'orphan.png'), 'leftover-image-bytes');
+
+    const manifest = generateManifest(logosDir);
+    const galleryNames = new Set(
+      Object.values(manifest.assets)
+        .map(a => a.gallery)
+        .filter((g): g is string => Boolean(g)),
+    );
+    expect(galleryNames).toEqual(new Set(['gallery']));
   });
 });
 
