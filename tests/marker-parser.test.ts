@@ -12,10 +12,13 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   findMarkerBlocks,
+  findMarkerBlocksVerbose,
   renderGalleryBlock,
   syncMarkerBlock,
+  describeSuppressedMarkerCandidate,
   MarkerParseError,
   type GalleryImageRef,
+  type SuppressedMarkerCandidate,
 } from '../src/utils/marker-parser.js';
 
 const fixture = (name: string) =>
@@ -307,6 +310,189 @@ describe('fenced-code-block awareness (F-75c9e0fc)', () => {
     expect(blocks).toHaveLength(1);
     expect(blocks[0].slug).toBe('real-slug');
     expect(blocks[0].innerContent).toContain('real/front.png');
+  });
+});
+
+// F-6d5e4ea9 — Stage A regression. computeCodeContextLines (added for
+// F-75c9e0fc above) had no way to signal "a fence was opened and never
+// closed" — once a fence opened, EVERY remaining line through EOF was
+// treated as code, so an ordinary typo (forgetting the closing ```) made a
+// real, well-formed marker later in the document vanish with zero
+// explanation. Two independent fixes live here:
+//   1. Parsing: an unclosed fence at EOF is retroactively treated as never
+//      having opened at all (deliberate divergence from CommonMark's actual
+//      "swallow to EOF" rendering rule — see code-context.ts's module doc
+//      for the spec citation and the justification for diverging).
+//   2. Silence: findMarkerBlocksVerbose gives suppressed candidates a
+//      reason + line numbers, mirroring readme-parser.ts's onReject/
+//      RejectedMatch mechanism, which this module had no equivalent of.
+describe('unclosed fence no longer swallows the document (F-6d5e4ea9)', () => {
+  it('finds a real marker that sits after a never-closed fence (case K)', () => {
+    const content = fixture('marker-unclosed-fence.md');
+    // Sanity: the fixture really has an opening fence with no closing pair.
+    expect(content.match(/```/g)?.length).toBe(1);
+    const blocks = findMarkerBlocks(content);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0].slug).toBe('my-tool');
+  });
+
+  it('reports zero suppressed candidates for the unclosed-fence document (the dangling fence is inert, not silently rejected)', () => {
+    const content = fixture('marker-unclosed-fence.md');
+    const { blocks, suppressed } = findMarkerBlocksVerbose(content);
+    expect(blocks).toHaveLength(1);
+    expect(suppressed).toEqual([]);
+  });
+
+  it('still finds the same marker when the ONLY difference is that the fence is properly closed (the important pair — proves closed-vs-unclosed is the only variable that matters)', () => {
+    // Identical in shape to marker-unclosed-fence.md, but with the closing
+    // ``` present. This case never depended on the fix (it always worked),
+    // but pairing it directly against case K documents that the fix's
+    // effect is scoped to the missing fence, not some other difference.
+    const closed =
+      '# My Tool\n\n## Install\n\n```bash\nnpm install my-tool\n```\n\n## Gallery\n\n' +
+      '<!-- brand:gallery:start slug="my-tool" -->\n<!-- brand:gallery:end -->\n\n## License\n\nMIT\n';
+    const blocks = findMarkerBlocks(closed);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0].slug).toBe('my-tool');
+  });
+
+  it('still ignores a marker genuinely INSIDE a closed fence — does not regress Stage A (F-75c9e0fc)', () => {
+    // Reuses the existing Stage A fixture rather than re-deriving it: the
+    // marker sits inside a fence that DOES close, so it must stay
+    // suppressed exactly as before this fix.
+    const content = fixture('marker-in-fenced-block.md');
+    expect(findMarkerBlocks(content)).toEqual([]);
+  });
+
+  it('findMarkerBlocksVerbose reports reason + line numbers for a marker suppressed by a CLOSED fence', () => {
+    const content = fixture('marker-in-fenced-block.md');
+    const { blocks, suppressed } = findMarkerBlocksVerbose(content);
+    expect(blocks).toEqual([]);
+    expect(suppressed).toHaveLength(2);
+
+    const start = suppressed.find((c) => c.markerKind === 'start');
+    expect(start).toMatchObject({
+      line: 6,
+      reason: 'in-fenced-code-block',
+      fenceOpenLine: 5,
+      slug: 'pirate-raiders-3d-2',
+    });
+
+    const end = suppressed.find((c) => c.markerKind === 'end');
+    expect(end).toMatchObject({
+      line: 7,
+      reason: 'in-fenced-code-block',
+      fenceOpenLine: 5,
+    });
+  });
+
+  it('findMarkerBlocksVerbose reports reason + line numbers for a marker suppressed by a 4-space-INDENTED code block', () => {
+    // Inline content (no dedicated fixture needed) — symmetry check that
+    // the indented path reports just as richly as the fenced path. Start
+    // and end share ONE indented line (like marker-same-line.md elsewhere
+    // in this file) so the case exercises only the code-context gate being
+    // tested here, not the separate (pre-existing, out-of-scope) gap where
+    // a multi-LINE indented run's continuation lines aren't recognized as
+    // code — see indentedStart tracking in code-context.ts.
+    const content =
+      'Intro text.\n\n    <!-- brand:gallery:start slug="indented-example" --><!-- brand:gallery:end -->\n\nMore text.\n';
+    const { blocks, suppressed } = findMarkerBlocksVerbose(content);
+    expect(blocks).toEqual([]);
+    expect(suppressed).toHaveLength(2);
+
+    const start = suppressed.find((c) => c.markerKind === 'start');
+    expect(start).toMatchObject({
+      reason: 'in-indented-code-block',
+      indentedBlockStartLine: 3,
+      slug: 'indented-example',
+    });
+    const end = suppressed.find((c) => c.markerKind === 'end');
+    expect(end).toMatchObject({
+      reason: 'in-indented-code-block',
+      indentedBlockStartLine: 3,
+    });
+  });
+
+  it('findMarkerBlocksVerbose.blocks matches findMarkerBlocks exactly for the same input (no divergence between the two entry points)', () => {
+    const content = fixture('marker-valid-single.md');
+    expect(findMarkerBlocksVerbose(content).blocks).toEqual(findMarkerBlocks(content));
+  });
+
+  it('syncMarkerBlock names the suppressed candidate in its "not found" error for a closed-fence-only document', () => {
+    const content = fixture('marker-in-fenced-block.md');
+    expect(() =>
+      syncMarkerBlock(content, 'pirate-raiders-3d-2', undefined, 'INJECTED'),
+    ).toThrow(/No brand:gallery marker block found.*inside a code block opened at line 5/s);
+  });
+
+  it('does not report a suppressed-candidate hint for an UNRELATED slug (avoids noise)', () => {
+    const content = fixture('marker-in-fenced-block.md');
+    // The fixture's only (suppressed) marker is slug="pirate-raiders-3d-2" —
+    // asking sync for a totally different slug should not fabricate a hint
+    // pointing at an unrelated example.
+    let message = '';
+    try {
+      syncMarkerBlock(content, 'totally-different-slug', undefined, 'INJECTED');
+    } catch (err) {
+      message = (err as Error).message;
+    }
+    expect(message).toContain('No brand:gallery marker block found for slug="totally-different-slug"');
+    expect(message).not.toContain('pirate-raiders-3d-2');
+  });
+
+  describe('describeSuppressedMarkerCandidate', () => {
+    it('describes a fenced suppression with the slug and both line numbers', () => {
+      const candidate: SuppressedMarkerCandidate = {
+        markerKind: 'start',
+        line: 42,
+        reason: 'in-fenced-code-block',
+        fenceOpenLine: 8,
+        slug: 'my-tool',
+      };
+      expect(describeSuppressedMarkerCandidate(candidate)).toBe(
+        'a brand:gallery:start slug="my-tool" at line 42 is inside a code block opened at line 8',
+      );
+    });
+
+    it('describes an indented suppression without a slug (end markers carry none)', () => {
+      const candidate: SuppressedMarkerCandidate = {
+        markerKind: 'end',
+        line: 12,
+        reason: 'in-indented-code-block',
+        indentedBlockStartLine: 10,
+      };
+      expect(describeSuppressedMarkerCandidate(candidate)).toBe(
+        'a brand:gallery:end at line 12 is inside a 4-space-indented code block starting at line 10',
+      );
+    });
+  });
+});
+
+// UTF-8 BOM — a BOM can only ever appear as the literal first character of
+// a document, and only ever affects the two `^`-anchored regexes inside
+// code-context.ts's computeCodeContext (fence-open / indented-line). When
+// line 0 itself opens a fence, an unstripped BOM sits in front of those
+// anchors and defeats the match, wrongly leaving a documentation example
+// OUT of code context — so a marker EXAMPLE on line 0 of a BOM-prefixed
+// README was wrongly treated as live (F-6d5e4ea9, part 2).
+describe('UTF-8 BOM on a fence-opening first line (F-6d5e4ea9)', () => {
+  it('still ignores a marker example inside a fence that opens on line 1 of a BOM-prefixed document', () => {
+    const content = fixture('bom-fenced-marker-example.md');
+    // Sanity: the fixture really starts with the BOM and really opens a
+    // fence on its very first line.
+    expect(content.charCodeAt(0)).toBe(0xfeff);
+    expect(findMarkerBlocks(content)).toEqual([]);
+  });
+
+  it('findMarkerBlocksVerbose still explains the suppression on the BOM-prefixed fence (fenceOpenLine points at line 1)', () => {
+    const content = fixture('bom-fenced-marker-example.md');
+    const { suppressed } = findMarkerBlocksVerbose(content);
+    const start = suppressed.find((c) => c.markerKind === 'start');
+    expect(start).toMatchObject({
+      reason: 'in-fenced-code-block',
+      fenceOpenLine: 1,
+      slug: 'doc-example-only',
+    });
   });
 });
 

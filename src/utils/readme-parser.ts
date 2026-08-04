@@ -25,7 +25,7 @@
  * README (the largest real README in mcp-tool-shop-org is ~80 KB).
  */
 
-import { computeCodeContextLines } from './code-context.js';
+import { computeCodeContext, type CodeContextInfo } from './code-context.js';
 
 /** Maximum input size accepted by the parser, in bytes (5 MB). */
 export const MAX_README_BYTES = 5_000_000;
@@ -60,6 +60,22 @@ export interface RejectedMatch {
   src: string;
   /** Which gate rejected this candidate. */
   reason: RejectionReason;
+  /**
+   * F-6d5e4ea9: when reason === 'in-code-block' and the code context is a
+   * FENCE, the 1-indexed line the enclosing fence's opening delimiter is
+   * on — e.g. "found a real logo, but it's inside a code block opened at
+   * line 8" instead of a bare "in-code-block" with no way to locate the
+   * fence. This fence, by construction, always found a matching close
+   * before EOF — an unclosed fence no longer produces an 'in-code-block'
+   * rejection at all (see code-context.ts's module doc: this parser
+   * deliberately treats a never-closed fence as not-code, rather than
+   * silently swallowing everything through EOF the way strict CommonMark
+   * rendering does).
+   */
+  fenceOpenLine?: number;
+  /** Same as fenceOpenLine, but when the code context is a 4-space-indented
+   *  block: the 1-indexed line the indented run began. */
+  indentedBlockStartLine?: number;
 }
 
 /**
@@ -246,7 +262,7 @@ function forEachLogoImg(
   // Code-block state (fenced ```/~~~ + 4-space-indented), precomputed once
   // per document by the module shared with marker-parser.ts so the two
   // parsers can never silently diverge on what counts as "code" (F-75c9e0fc).
-  const codeContextLines = computeCodeContextLines(lines);
+  const codeContext = computeCodeContext(lines);
 
   // Cross-line anchor state. True at line i if an <a> opened on a prior line
   // has not been closed by the end of line i-1. Computed lazily inside the
@@ -260,7 +276,8 @@ function forEachLogoImg(
     const line = lines[i];
     if (line === undefined) continue;
 
-    const inCodeContext = codeContextLines[i] ?? false;
+    const contextInfo: CodeContextInfo | undefined = codeContext[i];
+    const inCodeContext = contextInfo?.inCode ?? false;
 
     // Scan for <img> regardless of code context, so we can emit rejections.
     const re = new RegExp(IMG_SRC_RE.source, IMG_SRC_RE.flags);
@@ -286,11 +303,19 @@ function forEachLogoImg(
       // "in-code-block" as the reason (which is the more actionable signal
       // than "not-logo" for an <img> in a doc example).
       if (inCodeContext) {
+        // F-6d5e4ea9: name exactly which fence/indented run is responsible,
+        // instead of a bare "in-code-block" the operator has to hunt for.
         onReject?.({
           line: i + 1,
           content: line,
           src,
           reason: 'in-code-block',
+          ...(contextInfo?.kind === 'fenced'
+            ? { fenceOpenLine: (contextInfo.fenceOpenLine ?? i) + 1 }
+            : {}),
+          ...(contextInfo?.kind === 'indented'
+            ? { indentedBlockStartLine: (contextInfo.indentedBlockStartLine ?? i) + 1 }
+            : {}),
         });
         continue;
       }
@@ -459,6 +484,10 @@ export function findLogoImgTags(content: string): LogoMatch[] {
  * (in `<a>`), Gate 3 (badge pattern), or Gate 4 (src doesn't look like a
  * logo). Gates are checked in order; `reason` is the FIRST gate that
  * rejected.
+ *
+ * F-6d5e4ea9: a Gate-0 rejection also carries `fenceOpenLine` or
+ * `indentedBlockStartLine` (see {@link RejectedMatch}) so a caller can say
+ * exactly which code block is responsible instead of a bare "in-code-block".
  *
  * Throws if `content.length > MAX_README_BYTES`.
  */

@@ -200,6 +200,99 @@ describe('findLogoImgTags', () => {
   });
 });
 
+// F-6d5e4ea9 — Stage A regression, the readme-parser.ts side of the same
+// bug fixed in marker-parser.test.ts (both share code-context.ts). An
+// unclosed fence used to swallow every remaining line through EOF as code,
+// so a real logo anywhere after a forgotten closing ``` silently vanished —
+// rejected with the same generic "in-code-block" reason as a genuinely
+// fenced documentation example, with no way to tell the two apart. Fixed by
+// (1) treating a never-closed-by-EOF fence as not creating a code region at
+// all (see code-context.ts's module doc for the CommonMark-divergence
+// justification), and (2) RejectedMatch now carries fenceOpenLine /
+// indentedBlockStartLine so a genuine (closed-fence) rejection names
+// exactly which code block is responsible.
+describe('unclosed fence no longer swallows the document (F-6d5e4ea9)', () => {
+  it('finds a real logo that sits after a never-closed fence', () => {
+    const content = fixture('logo-unclosed-fence.md');
+    // Sanity: the fixture really has an opening fence with no closing pair.
+    expect(content.match(/```/g)?.length).toBe(1);
+    const matches = findLogoImgTags(content);
+    expect(matches).toHaveLength(1);
+    expect(matches[0].src).toBe('assets/logo.png');
+  });
+
+  it('reports zero rejected candidates for the unclosed-fence document (the dangling fence is inert, not silently rejected)', () => {
+    const content = fixture('logo-unclosed-fence.md');
+    const { matches, rejected } = findAllImgTags(content);
+    expect(matches).toHaveLength(1);
+    expect(rejected).toEqual([]);
+  });
+
+  it('still ignores a logo genuinely INSIDE a closed fence — does not regress Stage A', () => {
+    // Reuses the existing fenced-code-block.md fixture rather than
+    // re-deriving it: the <img> sits inside a fence that DOES close, so it
+    // must stay rejected exactly as before this fix.
+    const content = fixture('fenced-code-block.md');
+    expect(findLogoImgTags(content)).toEqual([]);
+  });
+
+  it('findAllImgTags reports fenceOpenLine for an <img> rejected by a CLOSED fence', () => {
+    const content = fixture('fenced-code-block.md');
+    const { matches, rejected } = findAllImgTags(content);
+    expect(matches).toEqual([]);
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0]).toMatchObject({
+      line: 6,
+      reason: 'in-code-block',
+      fenceOpenLine: 5,
+    });
+  });
+
+  it('findAllImgTags reports indentedBlockStartLine for an <img> rejected by a 4-space-indented block', () => {
+    // Strengthens the existing indented-4sp.md coverage (does not replace
+    // or weaken the existing "matches has length 0" assertion elsewhere in
+    // this file) with the new diagnostic field.
+    const content = fixture('indented-4sp.md');
+    const { rejected } = findAllImgTags(content);
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0]).toMatchObject({
+      line: 5,
+      reason: 'in-code-block',
+      indentedBlockStartLine: 5,
+    });
+  });
+});
+
+// UTF-8 BOM — a BOM can only ever appear as the literal first character of
+// a document, and only ever affects the two `^`-anchored regexes inside
+// code-context.ts's computeCodeContext (fence-open / indented-line). When
+// line 0 itself opens a fence, an unstripped BOM sits in front of those
+// anchors and defeats the match, wrongly leaving a documentation example
+// OUT of code context — so a logo EXAMPLE on line 0 of a BOM-prefixed
+// README was wrongly treated as live (F-6d5e4ea9, part 2). This is
+// DIFFERENT from the existing bom.md test above, whose BOM-prefixed first
+// line is a plain `<p align="center">` — never a fence/indent line, so it
+// never exercised the `^`-anchored regexes at all.
+describe('UTF-8 BOM on a fence-opening first line (F-6d5e4ea9)', () => {
+  it('still ignores a logo example inside a fence that opens on line 1 of a BOM-prefixed document', () => {
+    const content = fixture('bom-fenced-logo-example.md');
+    // Sanity: the fixture really starts with the BOM and really opens a
+    // fence on its very first line.
+    expect(content.charCodeAt(0)).toBe(0xfeff);
+    expect(findLogoImgTags(content)).toEqual([]);
+  });
+
+  it('findAllImgTags still explains the rejection on the BOM-prefixed fence (fenceOpenLine points at line 1)', () => {
+    const content = fixture('bom-fenced-logo-example.md');
+    const { rejected } = findAllImgTags(content);
+    expect(rejected).toHaveLength(1);
+    expect(rejected[0]).toMatchObject({
+      reason: 'in-code-block',
+      fenceOpenLine: 1,
+    });
+  });
+});
+
 // F-22a69b96 — HTML-comment awareness. forEachLogoImg's Gate 0 only checked
 // fenced/indented CODE blocks; there was no HTML-comment tracking at all, so
 // an <img> a human deliberately disabled by wrapping it in an HTML comment

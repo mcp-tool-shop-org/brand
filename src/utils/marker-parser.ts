@@ -42,7 +42,7 @@
  *    (numeric-aware) sort — never relies on filesystem readdir order.
  */
 
-import { computeCodeContextLines } from './code-context.js';
+import { computeCodeContext, type CodeContextInfo } from './code-context.js';
 
 const START_TAG = 'brand:gallery:start';
 const END_TAG = 'brand:gallery:end';
@@ -117,6 +117,60 @@ export interface MarkerBlock {
   innerStartIndex: number;
   /** Character offset in the document immediately BEFORE the end marker's opening `<!--`. */
   innerEndIndex: number;
+}
+
+/**
+ * Why a marker-shaped candidate was excluded from the live scan (F-6d5e4ea9).
+ * Mirrors readme-parser.ts's RejectedMatch/RejectionReason mechanism, which
+ * marker-parser.ts had no equivalent of until now — a marker inside a code
+ * block was silently dropped with no return value distinguishing "found
+ * nothing" from "found something, here is why it doesn't count."
+ */
+export type SuppressedMarkerReason = 'in-fenced-code-block' | 'in-indented-code-block';
+
+export interface SuppressedMarkerCandidate {
+  /** Whether the candidate is a start or end marker occurrence. */
+  markerKind: 'start' | 'end';
+  /** 1-indexed line the candidate marker itself sits on. */
+  line: number;
+  /** Why this candidate was excluded from the live marker scan. */
+  reason: SuppressedMarkerReason;
+  /**
+   * Best-effort `slug` attribute for a suppressed START marker — parsed
+   * leniently and NEVER throws (unlike parseAttrs on a live marker):
+   * a documentation example is not held to the same attribute-grammar
+   * standard as a real one. Undefined if attrs are missing/malformed, or
+   * this candidate is an 'end' marker (which carries no attributes).
+   */
+  slug?: string;
+  /** 1-indexed line the enclosing fence's OPENING delimiter is on. Only set
+   *  when reason === 'in-fenced-code-block'. This fence, by construction,
+   *  always found a matching close before EOF — see code-context.ts's
+   *  module doc for why an unclosed fence never produces a suppressed
+   *  candidate at all (it is treated as not-code instead). */
+  fenceOpenLine?: number;
+  /** 1-indexed line the enclosing 4-space-indented run began. Only set when
+   *  reason === 'in-indented-code-block'. */
+  indentedBlockStartLine?: number;
+}
+
+/**
+ * Renders one SuppressedMarkerCandidate into a human-readable sentence, e.g.
+ *   `a brand:gallery:start slug="my-tool" at line 42 is inside a code block opened at line 8`
+ * Exported so callers outside this module (e.g. sync.ts's "no marker block
+ * found" error) can surface the identical phrasing without reimplementing
+ * it — see syncMarkerBlock below for the in-domain caller that already uses
+ * this.
+ */
+export function describeSuppressedMarkerCandidate(candidate: SuppressedMarkerCandidate): string {
+  const label =
+    candidate.markerKind === 'start'
+      ? `a brand:gallery:start${candidate.slug ? ` slug="${candidate.slug}"` : ''}`
+      : 'a brand:gallery:end';
+  if (candidate.reason === 'in-fenced-code-block') {
+    return `${label} at line ${candidate.line} is inside a code block opened at line ${candidate.fenceOpenLine}`;
+  }
+  return `${label} at line ${candidate.line} is inside a 4-space-indented code block starting at line ${candidate.indentedBlockStartLine}`;
 }
 
 /**
@@ -221,23 +275,64 @@ function lineAt(content: string, offset: number): number {
  *    `-->`, never a single backtracking regex over the whole comment span.
  *  - F-75c9e0fc (fenced-code-block awareness): a marker whose LINE falls
  *    inside a fenced (```/~~~) or 4-space-indented code block is a
- *    documentation example, not a live marker, and is silently skipped —
- *    mirroring readme-parser.ts's Gate 0 exactly (shared via
+ *    documentation example, not a live marker, and is excluded from the
+ *    live scan — mirroring readme-parser.ts's Gate 0 exactly (shared via
  *    code-context.ts, not a second divergent implementation). This repo's
  *    own README.md shipped with exactly this bug: a ```html usage example
  *    showing the marker pair was treated as a live block.
+ *
+ * If `onSuppressed` is provided, a marker-shaped occurrence excluded by the
+ * code-context gate is reported there (reason + line numbers) instead of
+ * silently vanishing (F-6d5e4ea9) — mirroring readme-parser.ts's
+ * onReject/RejectedMatch mechanism, which this module had no equivalent of
+ * before. Only occurrences that are otherwise well-formed (a start marker
+ * with SOME closing `-->` before EOF) are reported; something that isn't a
+ * well-formed marker comment at all was never a "candidate" to begin with,
+ * code context or not — same as the pre-existing behavior for a live
+ * unterminated comment (see the closeIdx === -1 branch below).
  */
-function scanRawMarkers(content: string): RawMarker[] {
+function scanRawMarkers(
+  content: string,
+  onSuppressed?: (candidate: SuppressedMarkerCandidate) => void,
+): RawMarker[] {
   const markers: RawMarker[] = [];
   const lines = content.split('\n');
-  const codeContextLines = computeCodeContextLines(lines);
+  const codeContext = computeCodeContext(lines);
+
+  const reportSuppressed = (
+    markerKind: 'start' | 'end',
+    line: number,
+    slug: string | undefined,
+  ): void => {
+    if (!onSuppressed) return;
+    const info: CodeContextInfo | undefined = codeContext[line];
+    if (!info || !info.inCode) return;
+    if (info.kind === 'indented') {
+      onSuppressed({
+        markerKind,
+        line: line + 1,
+        reason: 'in-indented-code-block',
+        indentedBlockStartLine: (info.indentedBlockStartLine ?? line) + 1,
+        ...(slug !== undefined ? { slug } : {}),
+      });
+      return;
+    }
+    // kind === 'fenced' — the only other kind computeCodeContext produces
+    // for an inCode:true line.
+    onSuppressed({
+      markerKind,
+      line: line + 1,
+      reason: 'in-fenced-code-block',
+      fenceOpenLine: (info.fenceOpenLine ?? line) + 1,
+      ...(slug !== undefined ? { slug } : {}),
+    });
+  };
 
   START_ANCHOR_RE.lastIndex = 0;
   let m: RegExpExecArray | null;
   while ((m = START_ANCHOR_RE.exec(content)) !== null) {
     const anchorEnd = m.index + m[0].length;
     const line = lineAt(content, m.index);
-    if (codeContextLines[line]) continue; // F-75c9e0fc
 
     // Linear scan for the literal closing delimiter — O(n), no
     // backtracking, regardless of what (or how much) sits between the tag
@@ -253,19 +348,39 @@ function scanRawMarkers(content: string): RawMarker[] {
       continue;
     }
 
+    const attrsRaw = content.slice(anchorEnd, closeIdx);
+
+    if (codeContext[line]?.inCode) {
+      // F-75c9e0fc: a documentation example, not a live marker. F-6d5e4ea9:
+      // tell the caller WHY, best-effort — parseAttrs must NEVER throw here,
+      // since a documentation example is not held to the live-marker
+      // attribute grammar (e.g. it may have no slug at all).
+      let slug: string | undefined;
+      try {
+        slug = parseAttrs(attrsRaw, `line ${line + 1}`).slug;
+      } catch {
+        slug = undefined;
+      }
+      reportSuppressed('start', line, slug);
+      continue;
+    }
+
     markers.push({
       kind: 'start',
       index: m.index,
       endIndex: closeIdx + 3,
       line,
-      attrsRaw: content.slice(anchorEnd, closeIdx),
+      attrsRaw,
     });
   }
 
   END_RE.lastIndex = 0;
   while ((m = END_RE.exec(content)) !== null) {
     const line = lineAt(content, m.index);
-    if (codeContextLines[line]) continue; // F-75c9e0fc
+    if (codeContext[line]?.inCode) {
+      reportSuppressed('end', line, undefined);
+      continue;
+    }
 
     markers.push({
       kind: 'end',
@@ -280,25 +395,18 @@ function scanRawMarkers(content: string): RawMarker[] {
 }
 
 /**
- * Finds all valid marker blocks in `content`.
- *
- * Throws MarkerParseError on:
- *   - nested start markers (a second start before the open one's end)
- *   - an unclosed start marker (no matching end before EOF)
- *   - a stray end marker with no open start
- *   - malformed slug/gallery attribute syntax
- *   - duplicate blocks: two complete, non-overlapping pairs for the
- *     identical slug+gallery combination in the same document
- *
- * A document with no markers returns an empty array without throwing. A
- * document containing markers only for other slugs still returns those
- * blocks — callers are responsible for filtering by the slug/gallery they
- * care about (see syncMarkerBlock).
- *
- * Throws a plain Error if `content.length > MAX_MARKER_DOC_BYTES` (5 MB) —
- * defense-in-depth mirroring readme-parser.ts's MAX_README_BYTES guard.
+ * Shared implementation behind findMarkerBlocks/findMarkerBlocksVerbose.
+ * `onSuppressed`, when provided, receives every marker-shaped occurrence the
+ * code-context gate excluded from the live scan (F-6d5e4ea9) — see
+ * scanRawMarkers's doc comment. Structural validation (nested/unclosed/
+ * duplicate/malformed-attrs) applies identically regardless of whether
+ * `onSuppressed` is provided: suppressed candidates are never considered
+ * "live" markers, so they can never trigger or resolve a structural error.
  */
-export function findMarkerBlocks(content: string): MarkerBlock[] {
+function findMarkerBlocksInternal(
+  content: string,
+  onSuppressed?: (candidate: SuppressedMarkerCandidate) => void,
+): MarkerBlock[] {
   if (content.length > MAX_MARKER_DOC_BYTES) {
     throw new Error(
       `marker-parser: refusing to parse document of ${content.length} bytes ` +
@@ -307,7 +415,7 @@ export function findMarkerBlocks(content: string): MarkerBlock[] {
     );
   }
 
-  const raw = scanRawMarkers(content);
+  const raw = scanRawMarkers(content, onSuppressed);
   const blocks: MarkerBlock[] = [];
 
   let openStart: RawMarker | null = null;
@@ -391,6 +499,56 @@ export function findMarkerBlocks(content: string): MarkerBlock[] {
   }
 
   return blocks;
+}
+
+/**
+ * Finds all valid marker blocks in `content`.
+ *
+ * Throws MarkerParseError on:
+ *   - nested start markers (a second start before the open one's end)
+ *   - an unclosed start marker (no matching end before EOF)
+ *   - a stray end marker with no open start
+ *   - malformed slug/gallery attribute syntax
+ *   - duplicate blocks: two complete, non-overlapping pairs for the
+ *     identical slug+gallery combination in the same document
+ *
+ * A document with no markers returns an empty array without throwing. A
+ * document containing markers only for other slugs still returns those
+ * blocks — callers are responsible for filtering by the slug/gallery they
+ * care about (see syncMarkerBlock).
+ *
+ * Throws a plain Error if `content.length > MAX_MARKER_DOC_BYTES` (5 MB) —
+ * defense-in-depth mirroring readme-parser.ts's MAX_README_BYTES guard.
+ *
+ * Use {@link findMarkerBlocksVerbose} to also introspect marker-shaped
+ * candidates that were excluded by the fenced/indented code-context gate
+ * (F-6d5e4ea9) — the mirror of readme-parser.ts's findLogoImgTags/
+ * findAllImgTags pair.
+ */
+export function findMarkerBlocks(content: string): MarkerBlock[] {
+  return findMarkerBlocksInternal(content);
+}
+
+/**
+ * Finds all valid marker blocks in `content`, AND introspects marker-shaped
+ * candidates that were excluded by the fenced/indented code-context gate —
+ * a `<!-- brand:gallery:start -->` (or `:end`) that regex-matches but whose
+ * line sits inside a code block. `blocks` is exactly what
+ * {@link findMarkerBlocks} returns (same structural-error throws, same
+ * shape). `suppressed` carries a `reason` + line numbers per candidate,
+ * mirroring readme-parser.ts's `findAllImgTags` (F-6d5e4ea9) — useful for
+ * turning "no marker block found" into "found one, here is why it doesn't
+ * count" (see syncMarkerBlock below).
+ */
+export function findMarkerBlocksVerbose(content: string): {
+  blocks: MarkerBlock[];
+  suppressed: SuppressedMarkerCandidate[];
+} {
+  const suppressed: SuppressedMarkerCandidate[] = [];
+  const blocks = findMarkerBlocksInternal(content, (candidate) => {
+    suppressed.push(candidate);
+  });
+  return { blocks, suppressed };
 }
 
 export interface GalleryImageRef {
@@ -509,6 +667,14 @@ function dominantEol(content: string): '\r\n' | '\n' {
  * MarkerParseError if the document's markers are malformed per the rules
  * documented on findMarkerBlocks.
  *
+ * F-6d5e4ea9: the "not found" error is no longer a bare dead end. It uses
+ * findMarkerBlocksVerbose internally, and when a suppressed candidate for
+ * the SAME slug exists (a start marker regex-matched but was excluded
+ * because it sits inside a code block), the message names exactly where
+ * and why — "found a brand:gallery:start ... but it is inside a code block
+ * opened at line N" — instead of leaving the operator to guess whether they
+ * ever added a marker at all.
+ *
  * Splices at CHARACTER offsets, not line-array indices (F-b5e9bc8c). The
  * previous implementation split the WHOLE document into a line array and
  * sliced `lines.slice(0, startLine + 1)` / `lines.slice(endLine)`. When a
@@ -530,13 +696,31 @@ export function syncMarkerBlock(
   gallery: string | undefined,
   newInnerContent: string,
 ): string {
-  const blocks = findMarkerBlocks(content);
+  const suppressed: SuppressedMarkerCandidate[] = [];
+  const blocks = findMarkerBlocksInternal(content, (candidate) => {
+    suppressed.push(candidate);
+  });
   const match = blocks.find((b) => b.slug === slug && (b.gallery ?? undefined) === (gallery ?? undefined));
 
   if (!match) {
-    throw new Error(
-      `No brand:gallery marker block found for slug="${slug}"${gallery ? ` gallery="${gallery}"` : ''}.`,
+    const base = `No brand:gallery marker block found for slug="${slug}"${gallery ? ` gallery="${gallery}"` : ''}.`;
+    // Only candidates that at least LOOK like they're for the same slug (or
+    // whose slug couldn't be determined at all, e.g. a malformed example)
+    // are worth naming here — a suppressed marker for an unrelated slug
+    // would be noise, not a hint.
+    const relevant = suppressed.filter(
+      (c) => c.markerKind === 'start' && (c.slug === undefined || c.slug === slug),
     );
+    const hint = relevant.length > 0
+      ? ' ' +
+        relevant
+          .map((c) => {
+            const sentence = describeSuppressedMarkerCandidate(c);
+            return sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
+          })
+          .join(' ')
+      : '';
+    throw new Error(base + hint);
   }
 
   const eol = dominantEol(content);
