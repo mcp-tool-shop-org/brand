@@ -6,3 +6,33 @@ tests/fixtures/*.md text eol=lf
 # Exception: the CRLF fixture must preserve its CRLF line endings on every
 # platform. Mark as binary so git never normalises it.
 tests/fixtures/crlf.md binary
+
+# Brand asset formats tracked by src/manifest.ts (see SUPPORTED_FORMATS).
+# Raster formats get a global `binary` rule (== `-text -diff`): there is no
+# useful text diff for PNG/JPG/WEBP anywhere in this repo, so disabling git's
+# text-vs-binary content-sniffing heuristic everywhere is strictly safer with
+# no downside, and simpler than scoping it.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+
+# *.svg is scoped to logos/** ONLY -- do NOT widen this to a bare `*.svg`.
+# SVG is genuine text (XML), so marking it binary looks like a mistake at
+# first glance, but it is deliberate exactly where it applies. manifest.ts's
+# generateManifest() only ever scans logosDir (default "logos" -- see the
+# --logos option default in src/cli.ts), and every asset it finds under
+# there gets a SHA-256 in manifest.json that `brand verify` checks byte for
+# byte. This rig runs with core.autocrlf=true, a common Windows default;
+# without this rule, checkout would rewrite a tracked logos/**/*.svg's line
+# endings, changing its hash and failing `brand verify` on a clean,
+# untampered clone. It is latent today (0 svg/webp assets exist under
+# logos/ yet) and becomes live the day anyone adds one.
+#
+# Site SVGs (site/public/favicon.svg, site/src/assets/logo.svg, and any
+# others under site/**) are NEVER read by manifest.ts -- assets/** isn't
+# either, every CLI command defaults --logos to the literal "logos" dir --
+# so a bare `*.svg binary` would cost reviewers readable diffs on those
+# files for zero correctness benefit. Keeping the rule scoped to logos/**
+# preserves text diffs everywhere the hash-stability argument doesn't apply.
+logos/**/*.svg binary

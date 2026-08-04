@@ -29,6 +29,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
@@ -74,12 +75,21 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          BRANCH="auto/sync-logos-$(date -u +%Y%m%d)-${{ github.run_id }}"
-          git checkout -b "$BRANCH"
+          # Stable branch name (not date/run_id-suffixed) so every daily run
+          # updates the SAME branch instead of minting a new one. Previously
+          # each run created auto/sync-logos-<date>-<run_id>, which meant a
+          # brand-new PR every single day the sync found changes — 31+ open
+          # auto-sync PRs accumulated with nobody merging or closing them.
+          # `-B` + `push --force` below intentionally overwrite the branch's
+          # prior content each run (this also subsumes the old run_id suffix's
+          # original purpose of avoiding a same-day-rerun push collision —
+          # force-push never collides).
+          BRANCH="auto/sync-logos"
+          git checkout -B "$BRANCH"
           git add logos/ manifest.json
           git diff --cached --quiet && { echo 'nothing to commit'; exit 0; }
           git commit -m "chore: sync org logos ($(date -u +%Y-%m-%d))"
-          git push -u origin "$BRANCH"
+          git push --force -u origin "$BRANCH"
           # `gh pr create` fails hard when the repo setting "Allow GitHub Actions
           # to create and approve pull requests" is OFF and no SYNC_PAT is set —
           # which used to fail the daily run red AND leave a dated orphan branch
@@ -99,7 +109,15 @@ jobs:
           **Review:** Check the diff for any unexpected additions or hash changes before merging.
           EOF
           )
-          if gh pr create \
+          # Dedup by branch, mirroring the label-based dedup the "Open issue on
+          # verify failure" step already does below: an open PR on this stable
+          # branch was just updated in place by the force-push above, so
+          # creating another would only duplicate it.
+          existing=$(gh pr list --state open --head "$BRANCH" --json number --jq 'length')
+          if [ "${existing:-0}" -gt 0 ]; then
+            echo "Open PR already tracks $BRANCH — force-push above updated it in place; not creating a duplicate."
+            echo "pr_opened=true" >> "$GITHUB_OUTPUT"
+          elif gh pr create \
             --title "chore: sync org logos ($(date -u +%Y-%m-%d))" \
             --body "$PR_BODY"; then
             echo "pr_opened=true" >> "$GITHUB_OUTPUT"
