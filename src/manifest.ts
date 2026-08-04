@@ -266,6 +266,49 @@ export function findLogoFile(slug: string, baseDir: string): { path: string; ext
 }
 
 /**
+ * Reserved scratch-directory name patterns for `add-gallery`'s transient
+ * swap scratch (the staging dir + backup dir it creates during its
+ * rename-based directory swap — see src/commands/add-gallery.ts). These are
+ * NEVER user content: they exist only for the instant between "copy into
+ * staging" and "rename into place," and must be invisible to anything that
+ * walks a slug directory looking for real galleries.
+ *
+ * Why this denylist exists — defense in depth, NOT the primary mechanism:
+ * add-gallery.ts's stagingDirFor/backupDirFor helpers already name these
+ * dirs with a leading dot, which is why glob's default `dot: false` behavior
+ * already excludes them from the wildcard directory-listing pattern below —
+ * that naming choice is the PRIMARY defense, and add-gallery.ts owns it
+ * (this file only cross-references it). But nothing on THIS side enforced
+ * the invariant: a future `dot: true` option, a glob major-version upgrade
+ * that changes the default, or a differently-named/legacy scratch dir would
+ * silently reintroduce the bug this guards against — generateManifest()
+ * adopting a leftover swap-scratch dir left behind by a process that died
+ * mid-swap as a second, phantom "gallery," corrupting manifest.json and
+ * making a later `brand sync <slug>` fail with "ambiguous gallery" until a
+ * human finds and deletes the directory by hand. Proved by the wave-3 audit;
+ * tracked as F-ea059f0e.
+ *
+ * Two forms are matched, both anchored to add-gallery's own vocabulary:
+ *   - the current reserved-prefix form: a dot-prefixed sibling named exactly
+ *     `.brand-staging-<pid>-<timestamp>` or `.brand-backup-<pid>-<timestamp>`
+ *     (stagingDirFor/backupDirFor in add-gallery.ts).
+ *   - the legacy suffix form: the scratch marker appended directly onto the
+ *     target gallery folder's own name (e.g.
+ *     `turnarounds.brand-staging-12345-1690000000000`), as left behind by an
+ *     older build that predates the dot-prefix fix — still possible to find
+ *     on disk as a leftover from an interrupted run of that older code.
+ */
+export const GALLERY_SCRATCH_DIR_PATTERNS: readonly RegExp[] = [
+  /^\.brand-(staging|backup)-/,
+  /\.brand-(staging|backup)-\d+-\d+$/,
+];
+
+/** True if `name` matches one of GALLERY_SCRATCH_DIR_PATTERNS (see doc above). */
+function isGalleryScratchDir(name: string): boolean {
+  return GALLERY_SCRATCH_DIR_PATTERNS.some(re => re.test(name));
+}
+
+/**
  * List the direct subfolder names under a slug (existence-based, not
  * filtered by content). Used by add-gallery/sync to discover or disambiguate
  * gallery collections without re-deriving the glob logic in generateManifest.
@@ -274,6 +317,11 @@ export function findLogoFile(slug: string, baseDir: string): { path: string; ext
  * containment against baseDir) before being reported — a symlinked/
  * junctioned "gallery" folder must not be treated as real, whether this is
  * called internally by generateManifest or externally (add-gallery, tests).
+ *
+ * Also excludes add-gallery's own transient swap-scratch dirs (see
+ * GALLERY_SCRATCH_DIR_PATTERNS above) — defense in depth so a leftover
+ * `.brand-staging-*`/`.brand-backup-*` sibling from a process that died
+ * mid-swap is never adopted as a phantom gallery (F-ea059f0e).
  */
 export function getGalleryFolders(slug: string, baseDir: string): string[] {
   const slugPath = join(baseDir, slug);
@@ -282,6 +330,10 @@ export function getGalleryFolders(slug: string, baseDir: string): string[] {
   return globSync('*/', { cwd: slugPath, follow: false })
     .map(d => d.replace(/\/$/, ''))
     .filter(sub => {
+      // Defense in depth (F-ea059f0e): reject add-gallery's transient swap
+      // scratch dirs explicitly, rather than relying on glob's default
+      // dot-file exclusion as the only reason they're invisible here today.
+      if (isGalleryScratchDir(sub)) return false;
       const full = join(slugPath, sub);
       const safe = isContained(full, rootRealPath);
       if (!safe) warnEscaped(full);
