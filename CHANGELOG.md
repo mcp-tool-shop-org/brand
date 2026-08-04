@@ -1,6 +1,56 @@
 # Changelog
 
-## 1.0.7 — 2026-07-04
+## 1.0.8 — 2026-08-04
+
+Second full dogfood swarm on the shipped v1.0.7 product. Two audit/amend cycles (Stage A bug/security, Stage B/C proactive + humanization) across five domains in isolated worktrees, each finding severity-triaged by the coordinator and the wave-2 artifact corroborated by a five-seat non-Claude jury (18/18 criteria, 0 fails). Tests **237 → 362**. Both waves cleared the deterministic floor (lint + typecheck + tests + build).
+
+The headline is that a mature, previously-swarmed repo still had a command that destroyed its own integrity record and reported success.
+
+### Fixed — integrity
+
+- **`brand manifest` no longer wipes the manifest on a mistyped `--logos`.** With a non-existent path it wrote `{"assets": {}}` over an existing manifest, printed `✓ Manifest written (0 assets)` in green, and exited **0** — a one-character typo in a CI script silently destroyed the repo's entire tamper-detection record. It now exits 2 naming the bad path, mirroring the guard `audit`/`stats`/`migrate` already had. (v1.0.7 fixed exactly this class in those three commands and missed `manifest` — the only one of the four that *writes*.) A companion guard refuses to overwrite a non-empty manifest with a zero-asset result even when the path does exist.
+- **`generateManifest` no longer absorbs symlinked content from outside the logos root.** `follow: false` was believed to prevent this, but that option only governs `**` traversal and the code uses `*/` and `*`; a directory junction under `logos/` had its contents hashed in as legitimate assets and verified clean forever after. Replaced with a real `lstatSync` + `realpathSync` containment check at all four scan sites. The comment that claimed protection now describes what is actually enforced.
+- **`add-gallery`'s swap scratch directories are no longer adopted as a phantom gallery.** A crash mid-swap left a sibling directory that `generateManifest` then recorded as a second gallery, corrupting `manifest.json` and breaking `brand sync` with "ambiguous gallery" until a human deleted it by hand. Scratch dirs now use reserved dot-prefixed names, stale ones self-heal when their owning process is confirmed dead, and `getGalleryFolders` carries an explicit denylist so the exclusion does not rest on a `glob` default.
+- **`manifest --check` and `verify` now agree on exit codes** — 2 for a missing or malformed manifest, 1 reserved for genuine drift. The test that had been loosened to `expect([1,2]).toContain(...)` is tightened to the single correct value.
+
+### Fixed — content safety
+
+- **`brand sync` rejects a `--slug` that is not a single safe path segment.** `--slug ../..` escaped `--repos` entirely and could rewrite a README outside the intended tree; `add-gallery` had a `validateSlug` guard and `sync` did not. The implementation is now shared rather than duplicated, so the two cannot drift apart again.
+- **`brand migrate --dry-run --resume` is actually dry.** The resume block never consulted `opts.dryRun`, so a "preview" overwrote every journaled README and deleted the journal.
+- **`migrate --resume` no longer discards journal entries whose restore failed** — the journal is the only backup of pre-migration content, and it was being wiped unconditionally, invisibly under `--json`/`--quiet`.
+- **`--brand-base` is HTML-attribute-escaped** before being spliced into an `<img src>`, closing an injection into every README a migration touches.
+- **Concurrent `sync` runs on one README, and concurrent `migrate` runs sharing one journal, no longer silently lose a write** — per-README and per-journal atomic lockfiles with stale-lock self-healing; live contention fails loudly instead of clobbering.
+
+### Fixed — parser correctness
+
+- **Markers inside fenced or indented code blocks are no longer treated as live.** The tool misparsed its own README, whose ` ```html ` example shows the marker syntax.
+- **An unclosed fence no longer suppresses every marker after it.** Closing the bug above introduced this one: a README whose install snippet was missing its closing fence made every later marker invisible, and `sync` reported "no marker found" — indistinguishable from never having written one. An unclosed fence is now treated as never having opened a code region, a deliberate divergence from CommonMark rendering documented in the module (this is a classifier, not a renderer).
+- **Multi-line indented code blocks suppress every line, not just the first.** The gate was `prevLineBlank && isIndented(line)`, and "after a blank line" describes where a run *starts*, not every line in it. In an indented marker example the `start` was suppressed while the `end` below it stayed live — a dangling end with no matching start.
+- **A suppressed marker can now explain itself.** `findMarkerBlocksVerbose` reports `{reason, fenceOpenLine, line, slug}`, so "your marker is inside a code block opened at line 8" replaces a silent no-op.
+- **Catastrophic backtracking in the marker regex** — 7.57s on a 5,000-char adversarial input, past 60s at 10,000 — replaced with a fixed-width anchor plus a linear scan. Same input now resolves in 0ms.
+- `syncMarkerBlock` splices by character offset, so a start+end pair on one physical line no longer duplicates the marker line and orphans content.
+- A commented-out `<img>` is no longer resurrected and rewritten.
+
+### Fixed — CI and supply chain
+
+- **Two high-severity advisories were failing every CI run.** `npm audit --audit-level=high` runs before typecheck/build/test, so `brace-expansion` (3 DoS advisories) and `postcss` (path traversal / arbitrary `.map` disclosure) aborted the job and made **every PR in the repo unmergeable**, including 31 accumulated auto-sync PRs. Bumped to 5.0.9 and 8.5.25 within existing semver ranges; `package.json` unchanged.
+- **The daily sync no longer opens a new PR every day.** It minted `auto/sync-logos-<date>-<run_id>` and called `gh pr create` unconditionally, with no "is one already open?" check — while the issue-creation step in the same file deduped by label. It now force-pushes a stable branch and checks for an open PR first.
+- **The sync workflow no longer deletes an open PR's head ref.** Under the stable-branch scheme, `gh pr create` failing for *any* reason — including a transient API error — severed the branch. `--force-with-lease` replaces `--force` so a human's fixup commit is not silently destroyed.
+- `issues: write` added to the sync job (its failure-alerting step 403'd in the documented `GITHUB_TOKEN` fallback), and the `SYNC_PAT` scope documentation updated to match.
+- **The coverage gate was decorative and now fires.** `vitest.config.ts` declared thresholds and claimed to "close the coverage threshold gate", but no workflow ever passed `--coverage`. Wired into a single matrix leg (coverage cost paid once, not three times) and *verified red* under a forced-unattainable threshold before shipping.
+- **`npm audit` gained a reviewed-exception valve instead of an all-or-nothing wall** — `.github/audit-allowlist.json` (empty) plus a checker that fails closed on every ambiguous path and expires entries automatically, so a future advisory is escalated through a reviewed PR rather than by disabling the step under time pressure.
+- Compensators documented for `release.yml`'s two irreversible actions (`npm publish`, `gh release create`), per the workflow standards.
+- `.gitattributes` declares every tracked asset format binary, including `logos/**/*.svg` — SVG is text, and under `core.autocrlf=true` a checkout would rewrite its line endings, changing its SHA-256 and failing `brand verify` on a clean clone of an untampered repo.
+
+### Fixed — operator experience
+
+- `stats` counts gallery-only slugs as present on disk, stops leaking human text to stderr in `--json` mode, gained the `ok` field every sibling already had, and honours `--quiet` (previously a no-op).
+- `audit` exits 2 instead of reporting success when `--repos` matched no clones at all — a broken CI checkout read as a clean audit — and its brand-base check is anchored rather than an unanchored substring that failed open on an empty value.
+- Usage errors exit 2 rather than Commander's default 1; `process.exitCode` replaces `process.exit()` so `--json` payloads cannot be truncated on a piped stdout.
+
+### Repository
+
+31 stale auto-sync PRs consolidated into one (verified lossless: the union of all 31 was exactly the 4 logos the newest carried), an obsolete OIDC PR closed as already-implemented, and merged branches pruned — 41 open PRs down to 8. Registry now at 220 verified assets.
 
 Full 10-phase dogfood swarm on the shipped v1.0.6 product — bug/security (Stage A) + proactive/humanization/visual (Stage B/C/D) + feature pass, each finding adversarially cross-verified. **0 CRITICAL / 0 HIGH survived** (mature repo; verifiers deflated 6 over-rated severities). Tests **205 → 237**; scorecard holds **50/50**.
 
