@@ -122,21 +122,26 @@ describe('brand manifest --check', () => {
     expect(combined).toMatch(/hash changed|changed/i);
   });
 
-  it('exits 1 with a clear error when the manifest file does not exist', () => {
+  // F-8aee4160 — missing manifest is an operator-config error, not drift;
+  // exit 2 (matching verify.ts's contract for the identical ENOENT case),
+  // reserving exit 1 strictly for actual drift (added/removed/hashChanged).
+  it('exits 2 with a clear error when the manifest file does not exist', () => {
     seedLogo('alpha', 'png');
     // Don't write a manifest. --check should fail clearly.
     const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath, '--check');
-    expect(r.status).toBe(1);
+    expect(r.status).toBe(2);
     const combined = r.stdout + r.stderr;
     expect(combined).toMatch(/No manifest|not found|generate one/i);
   });
 
-  it('exits 1 with a friendly message when the manifest is malformed JSON (F-CORE-010)', () => {
+  // F-8aee4160 — malformed JSON is an operator error, not drift; exit 2
+  // (matching verify.ts's contract for the identical ManifestParseError).
+  it('exits 2 with a friendly message when the manifest is malformed JSON (F-CORE-010)', () => {
     seedLogo('alpha', 'png');
     writeFileSync(manifestPath, '{ not valid json', 'utf-8');
 
     const r = runCli('manifest', '--logos', logosDir, '--output', manifestPath, '--check');
-    expect(r.status).toBe(1);
+    expect(r.status).toBe(2);
     const combined = r.stdout + r.stderr;
     expect(combined).toMatch(/not valid JSON|invalid JSON/i);
   });

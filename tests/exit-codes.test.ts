@@ -153,11 +153,10 @@ describe('manifest --check exit codes', () => {
       '--check'
     );
     // "No manifest found. Run `brand manifest` to generate one." is an
-    // operator-config issue, not a drift signal — should be exit 2.
-    // Note: current implementation returns 1; this test pins the intended
-    // contract. If still returning 1 when this test runs, Core agent
-    // needs to differentiate.
-    expect([1, 2]).toContain(r.status);
+    // operator-config issue, not a drift signal — exit 2 (F-8aee4160).
+    // Same category verify.ts already classifies as exit 2 for the identical
+    // ENOENT-on-the-manifest-itself condition; manifest-cmd.ts now matches.
+    expect(r.status).toBe(2);
   });
 
   it('exits 2 when manifest is malformed JSON', () => {
@@ -170,14 +169,19 @@ describe('manifest --check exit codes', () => {
       '--check'
     );
     // Malformed JSON is an operator error (or upstream tamper of the
-    // manifest itself, in which case the operator should know).
-    expect([1, 2]).toContain(r.status);
+    // manifest itself, in which case the operator should know) — exit 2,
+    // matching verify.ts's contract for the same ManifestParseError (F-8aee4160).
+    expect(r.status).toBe(2);
   });
 
-  // CORE-1 — valid JSON object missing `assets` must route through
-  // ManifestParseError (exit 1 in --check mode: drift/malformed), NOT the
-  // generic exit-3 TypeError crash the missing guard used to produce.
-  it('exits 1 (not exit-3 crash) when manifest is valid JSON but missing "assets"', () => {
+  // CORE-1 / F-8aee4160 — valid JSON object missing `assets` routes through
+  // ManifestParseError, the SAME error type as malformed-JSON-syntax above,
+  // so it gets the same exit code: 2 (operator error), NOT the generic
+  // exit-3 TypeError crash the missing guard used to produce, and NOT the
+  // drift-equivalent exit 1 this used to collapse into before F-8aee4160.
+  // verify.ts already treats this identical scenario as exit 2 (see the
+  // 'verify exit codes' describe block above) — manifest-cmd.ts now agrees.
+  it('exits 2 (operator error, matching verify\'s contract) when manifest is valid JSON but missing "assets"', () => {
     seedLogo('alpha', 'png');
     writeFileSync(manifestPath, '{"version":"1.0","algorithm":"sha256"}', 'utf-8');
     const r = runCli(
@@ -186,7 +190,7 @@ describe('manifest --check exit codes', () => {
       '--output', manifestPath,
       '--check'
     );
-    expect(r.status).toBe(1);
+    expect(r.status).toBe(2);
   });
 });
 
