@@ -156,11 +156,34 @@ filtering and mipmap generation all blend.
 
 Stating the constraint in a schema is not enforcing it. **Specify a check that can fail:**
 
-**CHECK-CAT.** For every channel with `categorical: true`, assert the **served bytes** decode to
-a colour set that is a subset of `palette`. Runs after: `add-model` ingest, `manifest`
-regeneration, the Astro build, and any future texture-optimisation pass. Non-zero exit halts the
-step. Written against the *specification* — "is anything outside the declared palette" — not
+**CHECK-CAT.** For every channel with `categorical: true`, assert the colour set is a subset of
+`palette`. Written against the *specification* — "is anything outside the declared palette" — not
 against a defect someone happened to notice.
+
+*Strengthened in step 2 (2026-08-04). This spec originally said "decode to a colour set", which
+would have been a **sample**: decode every pixel, collect distinct colours, needs an image
+decoder dependency, and only ever describes what the file happens to contain.*
+
+**What shipped is a proof.** Categorical channels must be **indexed PNG (IHDR colour type 3)**.
+In an indexed PNG the pixel data is indices into the PLTE chunk, so the set of colours the image
+*can possibly contain* IS the PLTE. Reading PLTE and asserting `PLTE ⊆ palette` therefore proves
+every pixel is in the declared palette **by construction** — sound rather than sampled,
+O(palette entries) rather than O(pixels), and with no new dependency (`src/png-palette.ts` parses
+chunks; it does not decode). It also moves fabrication from *detectable after the fact* to harder
+at the format level: any re-encode to truecolour or to a lossy format changes the colour type,
+which the reader reports and `add-model` refuses.
+
+A non-indexed categorical channel is **refused, not checked loosely.** A check that silently
+degrades from a proof to a sample and still returns `ok` is an unenforceable guarantee, which is
+worse than no check.
+
+> **⚠ Downstream requirement this creates.** Subjects must export categorical channels as
+> indexed PNG. facet's `E09-display-copy.md` currently specifies those channels as "lossless"
+> without naming the encoding — that is now under-specified and needs a facet-side amendment
+> before E09 runs. Flagged rather than edited here: E09 is committed and ruled, and amending it
+> is facet's call.
+
+Runs at `add-model` ingest (the first leg of the induction below). Non-zero exit halts the step.
 
 **CHECK-MIP.** `sampler.minFilter = NEAREST` is a declaration, not proof that mips were never
 generated. Verify the rendered result, not the setting. Three acceptable resolutions, strongest
