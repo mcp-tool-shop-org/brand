@@ -4,6 +4,42 @@ name: Release
 # creates the GitHub Release. The npm Trusted Publisher is bound to THIS file
 # name (release.yml) — do not rename it or the binding breaks. Supersedes the
 # token-based publish.yml (retired 2026-06-20).
+#
+# Compensators (org workflow standard NAMED_COMPENSATORS — both steps below
+# are irreversible tool calls; this table is mandatory and not skippable):
+#
+#   Action: npm publish --provenance --access public
+#   Undo:   Within npm's ~72-hour post-publish window, AND only while nothing
+#           else depends on this version yet:
+#             npm unpublish @mcptoolshop/brand@<version>
+#           Outside that window — the realistic case, since a bad release is
+#           rarely caught same-day — npm's registry deliberately disallows
+#           removing a version others may already depend on. The real remedy:
+#             npm deprecate @mcptoolshop/brand@<version> "<reason> -- use <next-version> instead"
+#           Post-rollback state: the tarball still exists and prior installs
+#           keep resolving it, but `npm install`/`npm add` surface the
+#           deprecation warning and stop being offered it as latest. No
+#           command undoes an install someone already made of the bad version.
+#           Owner: mcp-tool-shop (npm account holder + GitHub org owner).
+#
+#   Action: gh release create <tag> ... --verify-tag
+#   Undo:   Preferred — keep the tag and the Release object (the npm
+#           provenance attestation is bound to that exact tag/commit, so
+#           deleting the tag breaks after-the-fact provenance verification for
+#           whatever already published against it) and mark it instead:
+#             gh release edit <tag> --notes "Superseded by vX.Y.Z -- do not use"
+#           If the Release object itself truly must go:
+#             gh release delete <tag> --yes
+#           Only add `--cleanup-tag` to that if the git tag itself should also
+#           go — that's what breaks provenance verification above, so avoid it
+#           unless the tag was created by mistake and nothing was published
+#           against it yet.
+#           Post-rollback state: `gh release edit` leaves the tag, the
+#           Release, and npm provenance verification all intact with the
+#           notes now warning users off; `gh release delete` removes the
+#           Release object (and the tag too, if --cleanup-tag was added) from
+#           the Releases page, but does not touch the npm package itself.
+#           Owner: mcp-tool-shop (GitHub org owner).
 
 on:
   push:

@@ -1,0 +1,4 @@
+{
+  "description": "Reviewed, time-boxed npm-audit exceptions, enforced by scripts/check-audit-allowlist.mjs from ci.yml. Procedure: open a normal PR adding an entry below with the advisory's numeric id (the `source` field from `npm audit --json`), the affected package, a reason it can't be fixed immediately, your GitHub username as approvedBy, today's date as addedOn, and expiresOn no more than ~30 days out. A maintainer reviews and merges that PR like any other change -- the exception is recorded in git history, not typed into a runner console under time pressure. Once expiresOn passes, the exception silently stops applying and the advisory blocks CI again until it is renewed (with a fresh justification) or fixed for real. Remove the entry the moment a real fix lands -- this file is a documented escalation valve, not a place to bury advisories indefinitely.",
+  "exceptions": []
+}

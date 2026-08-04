@@ -47,11 +47,36 @@ jobs:
       - run: npm ci
       - name: npm audit (high)
         id: audit
-        run: npm audit --audit-level=high
+        # Bare `npm audit --audit-level=high` has no escape hatch: the instant
+        # any dependency (incl. a transitive one entirely outside this repo's
+        # control) gets a new high/critical advisory published upstream, every
+        # PR on every Node version goes red with no way to unblock unrelated
+        # work while a real fix is prepared — this happened for real
+        # (brace-expansion + postcss), fixed only by a manual dependency bump
+        # under time pressure. Reviewed, time-boxed exceptions now live in
+        # .github/audit-allowlist.json (empty by default — nothing is waived
+        # today) and are enforced by scripts/check-audit-allowlist.mjs; see
+        # either file's header for the full add-an-exception procedure. Any
+        # advisory not listed there, or listed but past its expiry, still
+        # fails the build exactly like bare `npm audit` did before.
+        run: |
+          set +e
+          npm audit --audit-level=high --json > audit-report.json
+          AUDIT_EXIT=$?
+          set -e
+          node scripts/check-audit-allowlist.mjs audit-report.json .github/audit-allowlist.json "$AUDIT_EXIT"
         continue-on-error: false
       - run: npm run typecheck
       - run: npm run build
-      - run: npm test
+      - name: Test (with coverage)
+        # Only one matrix leg pays the coverage-instrumentation cost, not all
+        # three — CI minutes matter. Node 22 is this repo's baseline version
+        # (matches the other single-Node jobs below and release.yml).
+        if: matrix.node-version == 22
+        run: npm run test:ci
+      - name: Test
+        if: matrix.node-version != 22
+        run: npm test
       - name: Write CI summary
         if: always()
         run: |

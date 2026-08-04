@@ -2,9 +2,19 @@
 #
 # Required setup (one of):
 #   (a) Org/repo setting "Allow GitHub Actions to create and approve pull requests" must be ON, OR
-#   (b) Provide a `SYNC_PAT` repository secret (PAT) with `contents:write` and `pull-requests:write`
-#       scopes. The PAT path also triggers downstream CI on the auto-PR (the default GITHUB_TOKEN
-#       does not).
+#   (b) Provide a `SYNC_PAT` repository secret (PAT) with `contents:write`,
+#       `pull-requests:write`, AND `issues:write` scopes (a classic PAT with
+#       the blanket `repo` scope covers all three). issues:write is required
+#       for the "Open issue on verify failure" step's `gh issue list` /
+#       `gh issue create` calls -- a PAT missing it still 403s on that step
+#       even though the job's own `permissions:` block below already grants
+#       issues:write to GITHUB_TOKEN. The PAT path also triggers downstream
+#       CI on the auto-PR (the default GITHUB_TOKEN does not).
+#
+#       NOTE: the job `permissions:` block only governs the auto-generated
+#       GITHUB_TOKEN: it has no effect on SYNC_PAT's own scopes. These two
+#       lists are documented in different places and can drift independently
+#       -- cross-check them against each other whenever either changes.
 #
 # The workflow prefers SYNC_PAT when available and falls back to GITHUB_TOKEN.
 name: Sync org logos
@@ -80,23 +90,45 @@ jobs:
           # each run created auto/sync-logos-<date>-<run_id>, which meant a
           # brand-new PR every single day the sync found changes — 31+ open
           # auto-sync PRs accumulated with nobody merging or closing them.
-          # `-B` + `push --force` below intentionally overwrite the branch's
-          # prior content each run (this also subsumes the old run_id suffix's
-          # original purpose of avoiding a same-day-rerun push collision —
-          # force-push never collides).
+          # `-B` + `push --force-with-lease` below intentionally overwrite the
+          # branch's prior bot-authored content each run (this also subsumes
+          # the old run_id suffix's original purpose of avoiding a same-day
+          # rerun push collision — force-pushing never collides).
+          #
+          # Trade-off: this branch is a STABLE, shared name, so it may be the
+          # head ref of an open, human-reviewed PR. If a reviewer pushes a
+          # fixup commit directly onto it between scheduled runs, plain
+          # `--force` would silently discard that commit. `--force-with-lease`
+          # refuses to push when the remote tip has moved since the fetch
+          # immediately below, so a human's commit makes THIS run fail loudly
+          # instead of vanishing quietly. That fetch narrows the race window
+          # (fetch, then push moments later) but does not close it completely
+          # — a push landing in that gap is still possible, just far less
+          # likely than with no fetch at all (the old code never fetched, so
+          # it always overwrote blind).
           BRANCH="auto/sync-logos"
+          # actions/checkout only fetches the ref that triggered this run
+          # (main, for schedule/workflow_dispatch) — never this stable side
+          # branch — so without an explicit fetch here, git has no local
+          # record of the branch's real remote tip and --force-with-lease
+          # below would have nothing to compare against. `|| true`: the
+          # branch may not exist yet on the very first run.
+          git fetch origin "$BRANCH:refs/remotes/origin/$BRANCH" 2>/dev/null || true
           git checkout -B "$BRANCH"
           git add logos/ manifest.json
           git diff --cached --quiet && { echo 'nothing to commit'; exit 0; }
           git commit -m "chore: sync org logos ($(date -u +%Y-%m-%d))"
-          git push --force -u origin "$BRANCH"
+          git push --force-with-lease="$BRANCH" -u origin "$BRANCH"
           # `gh pr create` fails hard when the repo setting "Allow GitHub Actions
           # to create and approve pull requests" is OFF and no SYNC_PAT is set —
-          # which used to fail the daily run red AND leave a dated orphan branch
-          # behind every single day. Degrade gracefully instead: warn loudly with
-          # the exact remediation, delete the just-pushed branch so it never
-          # accumulates as cruft, and exit 0. Once the setting/secret is in place
-          # the same step opens PRs normally; until then the run is a clean amber.
+          # this used to fail the daily run red AND (under the old per-run
+          # dated-branch design) leave an orphan branch behind every single
+          # day. Degrade gracefully instead: warn loudly with the likely
+          # remediation, leave the already-pushed branch in place (the else
+          # branch below intentionally no longer deletes it — see its
+          # comment), and exit 0. Once the setting/secret is in place the same
+          # step opens PRs normally; until then the run is a clean amber and
+          # the stable branch is simply reused next time.
           PR_BODY=$(cat <<'EOF'
           ## Auto-sync
 
@@ -107,6 +139,12 @@ jobs:
           - `manifest.json` regenerated
 
           **Review:** Check the diff for any unexpected additions or hash changes before merging.
+
+          **Do not push commits directly to this branch.** The next scheduled
+          run force-pushes it (via `--force-with-lease`) and will FAIL loudly
+          if your commit is on top by then, rather than silently overwriting
+          it — but it also won't merge your fix in. Make manual changes in a
+          separate branch/PR instead.
           EOF
           )
           # Dedup by branch, mirroring the label-based dedup the "Open issue on
@@ -122,8 +160,21 @@ jobs:
             --body "$PR_BODY"; then
             echo "pr_opened=true" >> "$GITHUB_OUTPUT"
           else
-            echo "::warning title=Sync PR not opened::gh pr create was denied. Enable Settings -> Actions -> General -> 'Allow GitHub Actions to create and approve pull requests', or add a SYNC_PAT secret (contents:write + pull-requests:write). Orphan branch $BRANCH deleted; the next daily run retries automatically."
-            git push origin --delete "$BRANCH" || true
+            # `gh pr create` can fail for reasons other than the permissions
+            # gap the warning used to assume: a transient API error, rate
+            # limiting, or a race where the dedup check above missed an
+            # already-open PR because of search-index lag right after the
+            # force-push. This branch is STABLE (auto/sync-logos, reused
+            # every run — see the comment above, not a per-run dated branch),
+            # so it may be the head ref of a currently-open, possibly
+            # human-reviewed PR. It is intentionally left in place — deleting
+            # it here could sever that PR's head ref, and under the
+            # stable-branch design a delete buys no cruft-avoidance benefit
+            # anyway (the next run's checkout -B + force-push recreates or
+            # overwrites it unconditionally regardless of whether it exists).
+            # The commit was already force-pushed above either way, so
+            # nothing is lost by leaving the branch as-is.
+            echo "::warning title=Sync PR not opened::gh pr create failed. This may mean 'Allow GitHub Actions to create and approve pull requests' is OFF and no SYNC_PAT is set (Settings -> Actions -> General), or it may be a transient error (API/rate-limit/index-lag). Branch $BRANCH was force-pushed and left in place -- open the PR manually if needed, or re-run this workflow."
             echo "pr_opened=false" >> "$GITHUB_OUTPUT"
           fi
 
