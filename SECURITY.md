@@ -53,16 +53,25 @@ If a malicious or unexpected change lands in the repo — for example, the daily
 
 This is a brand asset management tool. Its threat model covers:
 
-- **Integrity verification** — SHA-256 manifest detects tampered or corrupted logos
-- **Supply chain** — CI verifies manifest on every push; drift fails the build; workflow `uses:` pinned to commit SHAs; `npm audit --audit-level=high` runs in CI; Dependabot tracks both npm and github-actions ecosystems
+- **Integrity verification** — the SHA-256 manifest detects **accidental** change: an overwrite, a corrupted file, drift between disk and manifest, an upstream repo publishing a bad image. See the limit below — it does **not** stop a deliberate same-repo tamper.
+- **Supply chain** — CI verifies manifest on every push; drift fails the build; workflow `uses:` pinned to commit SHAs; `npm audit --audit-level=high` runs in CI (with a time-boxed, reviewed exception file rather than an all-or-nothing wall); Dependabot tracks both npm and github-actions ecosystems
 - **README migration safety** — dry-run mode, multi-gate regex filtering, badge collision guards
 - **Auto-sync hardening** — `scripts/sync-org-logos.sh` enforces size cap (10 MB), timeout (30 s), and magic-byte MIME check on every downloaded asset; non-images are rejected
+- **Divergence tripwire** — the daily sync compares each registry logo against its upstream repo. A registry copy that differs from upstream *without* an upstream change is reported (labelled issue + step summary), never silently overwritten. Because the comparison source is the org's repos, an attacker holding write access to **this** repo alone cannot suppress the signal.
+
+### The limit of the manifest — read this before trusting it
+
+**A SHA-256 manifest cannot defend against an attacker who can also regenerate it.** Anyone with write access to this repo can swap a logo, run `brand manifest`, and commit both; `brand verify` will then pass, because the hash proves the tree is *internally consistent*, not that it is *authentic*. Integrity here means "these bytes are the bytes the manifest records", not "these bytes were approved by a maintainer".
+
+Closing that gap is a matter of repository controls, not hashing. `.github/SECURITY-CONTROLS.md` tracks which are enabled: required PR review with `CODEOWNERS`, `enforce_admins`, required signed commits, and the divergence tripwire above.
+
+Cryptographic signing (cosign/sigstore) was deliberately **not** adopted: consumers fetch logos from `raw.githubusercontent.com` at HEAD and verify nothing, so a signature no one checks adds no protection. It becomes worthwhile only alongside consumer-side verification, which this tool does not yet ship.
 
 ## What This Project Does NOT Do
 
-- No network requests from the CLI (all operations are local filesystem)
 - No data collection or telemetry
 - No code execution from logo files
+- No network requests by default. The single exception is `brand audit --remote`, which is strictly opt-in: without that flag no network call is made, and the flag exists so an operator can audit a 100+ repo org without cloning all of it.
 - No secrets or credentials in the codebase
 
 ## Supported Versions

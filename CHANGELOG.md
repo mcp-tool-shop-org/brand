@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.1.0 — 2026-08-04
+
+Feature pass from the dogfood swarm's feature audit, plus an honesty pass on the security claims. Tests **362 → 421**.
+
+The audit turned up a number worth leading with: **134 of 194 registry slugs (69%) matched no repo in any of the three orgs**, and `logos/original_voice-soundboard/` sat next to `logos/voice-soundboard/` — a rename that rotted silently. `stats` reported "manifest and disk are in sync", which was true and useless, because nothing ever compared the registry to the org. Three of the four additions below exist to close that.
+
+### Added
+
+- **`brand remove <slug> [--gallery <name>]`** — there was no removal path at all; deleting a slug meant a hand-run `rm -rf` plus a remembered `brand manifest`, with none of the safety `add-gallery` already had. Requires an explicit `--yes` (the refusal names the file count, byte total, and exact re-run command), offers a "did you mean" hint on an unknown slug, validates the slug before any path join, and deletes via rename-away → regenerate manifest → delete-or-restore-on-failure. `--dry-run` is proven inert by test, not just by inspection.
+- **`brand history <slug>`** — answers "when did this logo change, and to what?" from git, newest first: sha, date, author, subject, and each asset's hash before → after, classified added/changed/removed. `--limit`, `--gallery`, `--json`. Git is invoked with argument arrays, never a shell string; a missing git, a non-repo, and a repo with zero commits are all clean exit-2 operator errors.
+- **`brand audit --remote --org <org>`** — audits a whole org without cloning it, reusing the same README checks as local mode (one implementation, two sources). Adds org reconciliation: `org-repo-renamed` resolves GitHub's redirect and reports the **new** name rather than a false orphan, alongside `org-repo-archived` and `org-repo-not-found`. Nothing is auto-deleted — every hint points at `brand remove`. Degrades per-repo on failure, backs off on rate limits, and exits 2 naming the env var when no token is set.
+- **Divergence tripwire in the daily sync** — when a registry logo differs from its upstream repo, the sync now asks whether the last commit to touch that file was its own, and reports a mismatch as suspicious via a deduplicated labelled issue instead of silently overwriting it. It never auto-reverts; destroying the evidence would defeat the point.
+- **`.github/CODEOWNERS`** covering `logos/**`, `manifest.json`, `.github/**`, `scripts/**` — advisory until branch protection requires code-owner review, and the file says so rather than implying protection it doesn't have.
+- **`.github/SECURITY-CONTROLS.md`** — the operator-facing threat model, with a measured enabled/not-enabled table.
+
+### Changed — honesty
+
+- **The README and SECURITY.md no longer claim the manifest stops tampering.** It doesn't: anyone with write access can swap a logo, run `brand manifest`, and commit both, after which `verify` passes. The hash proves the tree is internally consistent, not that its contents were approved. Both documents now say exactly that, name what does close the gap (repository controls plus the tripwire), and record why cosign/sigstore was deliberately declined — consumers fetch from `raw.githubusercontent.com` at HEAD and verify nothing, so a signature nobody checks is decoration until consumer-side verification ships.
+- **"No network calls / fully offline" is corrected.** It was true and is no longer: `brand audit --remote` reaches the network. The claim is now "none by default", with the one opt-in exception named and every other command listed as offline.
+
+### Fixed
+
+- `audit`'s full-skip exit-2 guard assumed local mode's "0 inspected implies 0 issues" invariant, which is false in remote mode — an orphaned slug has 0 READMEs inspected and 1 genuine finding.
+
 ## 1.0.8 — 2026-08-04
 
 Second full dogfood swarm on the shipped v1.0.7 product. Two audit/amend cycles (Stage A bug/security, Stage B/C proactive + humanization) across five domains in isolated worktrees, each finding severity-triaged by the coordinator and the wave-2 artifact corroborated by a five-seat non-Claude jury (18/18 criteria, 0 fails). Tests **237 → 362**. Both waves cleared the deterministic floor (lint + typecheck + tests + build).

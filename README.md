@@ -63,6 +63,21 @@ brand stats --json
 # Audit repos for broken refs, badge collisions, indentation traps
 brand audit --repos /path/to/clones
 
+# Audit against the live org without cloning anything, and reconcile the
+# registry against it — reports renamed, archived, and orphaned slugs.
+# Opt-in network access; needs GH_TOKEN or GITHUB_TOKEN.
+brand audit --remote --org mcp-tool-shop-org
+
+# Show a slug's asset history from git — added/changed/removed, with hashes
+brand history <slug>
+brand history <slug> --limit 5 --json
+
+# Remove a slug (or just one of its galleries). Destructive, so --yes is
+# required; --dry-run shows exactly what would go first.
+brand remove <slug> --dry-run
+brand remove <slug> --yes
+brand remove <slug> --gallery turnarounds --yes
+
 # Migrate READMEs to point at brand repo (dry run first)
 brand migrate --repos /path/to/clones --dry-run
 brand migrate --repos /path/to/clones
@@ -148,12 +163,14 @@ brand sync --slug pirate-raiders-3d-2 --repos /path/to/clones
 | Aspect | Detail |
 |--------|--------|
 | **Data touched** | Logo and gallery image files in `logos/` (read), `manifest.json` (read/write), README files (read/write during migration and sync — `sync` only ever rewrites content between `brand:gallery:start`/`end` markers) |
-| **Data NOT touched** | No telemetry, no analytics, no network calls (including `sync` — it's a pure function of the local manifest + local README), no code execution from logo/gallery files |
-| **Permissions** | Read: logo/gallery files, manifest, READMEs. Write: manifest.json, READMEs (migrate/sync only) |
-| **Network** | None — fully offline CLI tool |
+| **Data NOT touched** | No telemetry, no analytics, no code execution from logo/gallery files |
+| **Permissions** | Read: logo/gallery files, manifest, READMEs. Write: manifest.json, READMEs (migrate/sync only), and `logos/<slug>/` (`remove` only, which requires `--yes`) |
+| **Network** | None by default. `brand audit --remote` is the single exception and is strictly opt-in — without that flag, no network call is made. `sync`, `verify`, `manifest`, `stats`, `migrate`, `add-gallery`, `remove`, and `history` are all fully offline. |
 | **Telemetry** | None collected or sent |
 
-Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Any mismatch — accidental overwrite, tampering, drift — fails the build. Only image files (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) are tracked; non-image files under `logos/` are ignored.
+Every logo is tracked by SHA-256 hash in `manifest.json`. CI runs `brand manifest --check` on every push that touches `logos/` or `manifest.json`. Only image files (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) are tracked; non-image files under `logos/` are ignored.
+
+**What the hash does and does not prove.** A mismatch catches an accidental overwrite, a corrupted file, or drift between disk and manifest — the everyday failures. It does **not** stop a deliberate tamper: anyone with write access can swap a logo, run `brand manifest`, and commit both, after which `verify` passes. The hash proves the tree is internally consistent, not that its contents were approved. What actually closes that gap is repository controls plus the daily sync's divergence tripwire, which cross-checks every registry logo against its upstream repo — see [SECURITY.md](SECURITY.md#the-limit-of-the-manifest--read-this-before-trusting-it) and [`.github/SECURITY-CONTROLS.md`](.github/SECURITY-CONTROLS.md).
 
 Vulnerability reports go to GitHub's [private advisory channel](https://github.com/mcp-tool-shop-org/brand/security/advisories/new). See [SECURITY.md](SECURITY.md) for the full policy and [docs/handbook.md](docs/handbook.md) for the migration handbook.
 

@@ -165,22 +165,6 @@ program
   .option('--logos <path>', 'Path to logos directory', 'logos')
   .option('--json', 'Emit a single JSON object describing the result')
   .action(async (slug, opts) => {
-    // src/commands/remove.ts is owned by the commands-write agent (wave-6
-    // cross-domain build: core owns cli.ts wiring, commands-write owns the
-    // command implementation) and may not exist yet in this worktree. A
-    // plain literal `import('./commands/remove.js')` would make `tsc` raise
-    // TS2307 whenever that file is absent, which fails `npm run build` —
-    // and since `pretest` runs the build, that takes down `npm test` for
-    // EVERY command in this file, not just this one. `@ts-ignore` (not
-    // `@ts-expect-error`) is deliberate: it suppresses the "cannot find
-    // module" error while the file is missing AND stays completely inert
-    // (no "unused directive" complaint, verified empirically) once
-    // commands-write's branch lands the real file — so this line needs no
-    // follow-up edit either way. Option surface + RemoveOptions contract
-    // above confirmed directly against commands-write's own wave-6 output
-    // (F-FEAT-remove skipped note): runRemove({ slug, gallery?, dryRun?,
-    // yes?, logos?, json?, quiet?, verbose? }).
-    // @ts-ignore -- cross-domain sibling module, see comment above
     const { runRemove } = await import('./commands/remove.js');
     await runRemove(withGlobals({ ...opts, slug }, program));
   });
