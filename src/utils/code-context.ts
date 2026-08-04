@@ -19,9 +19,10 @@
  *    fence character (` or ~) must match to close; a ``` fence is not
  *    closed by ~~~ and vice versa.
  *  - A line beginning with 4+ spaces (or a tab) immediately after a blank
- *    line is an indented code block. This is a proxy for CommonMark's real
- *    block-context rule (not list/blockquote-aware) — good enough for real
- *    READMEs.
+ *    line OPENS an indented code block, and every following indented line
+ *    stays in that same block until a non-indented line closes it. This is
+ *    a proxy for CommonMark's real block-context rule (not list/blockquote-
+ *    aware) — good enough for real READMEs.
  *
  * F-6d5e4ea9 (Stage A regression, fixed here) — two independent bugs:
  *
@@ -78,6 +79,44 @@
  *    file, so a marker/logo inside it was wrongly treated as live. Fixed by
  *    stripping a leading BOM before testing line 0 against either regex —
  *    scoped to line 0 only, since a BOM elsewhere in a line is not a BOM.
+ *
+ * MULTI-LINE INDENTED RUNS (a sibling fix, reconciled here from a parallel
+ * branch — found while fixing F-6d5e4ea9 above and deliberately split out
+ * to keep that change scoped; landed independently as commit `1dc2c8d` on
+ * `salvage/multiline-indent-fix` and merged into this rewrite rather than
+ * superseded by it). The indented-block test used to be
+ * `prevLineBlank && isIndented(line)`, evaluated fresh on every line, where
+ * `prevLineBlank` reflects only the IMMEDIATELY PRECEDING line's blankness.
+ * That gate can only ever admit the FIRST line of an indented run: line 2
+ * of the same run sees `prevLineBlank === false`, because line 1 of the run
+ * was not itself blank. So every line after the first in a 2+ line indented
+ * documentation example was classified as live — a logo `<img>` or
+ * `brand:gallery` marker sitting on the run's second (or later) line would
+ * be rewritten or spliced into, inside what is plainly a code block. The
+ * marker case is the worst instance: a marker pair is inherently
+ * multi-line, so a start marker opening a run could be correctly
+ * suppressed while its matching end marker one or two lines below stayed
+ * live — a dangling end marker with no matching start.
+ *
+ * "After a blank line" is a property of where a run STARTS, not of every
+ * line in it, so run membership needed to become its own piece of state —
+ * mirroring how `inFencedBlock` already tracks fences — rather than being
+ * re-derived from `prevLineBlank` alone on every line. Below, that state is
+ * folded into `indentedStart` itself (`null` when not in a run, the run's
+ * 0-indexed opening line otherwise) so the SAME variable that answers "are
+ * we in a run" also answers "since which line" — no second boolean to keep
+ * in sync. Two guards keep this from over-firing:
+ *  - A fence delimiter line, and every line of fenced CONTENT, resets
+ *    `indentedStart` to null — indentation inside a fence is just fenced
+ *    content and must never leak an open indented run past the closing
+ *    delimiter.
+ *  - A run only OPENS after a blank line — an indented line following an
+ *    ordinary paragraph is a lazy paragraph continuation (prose per
+ *    CommonMark), not a fresh code block.
+ * Note a blank line closes a run, but the next indented line simply opens a
+ * fresh one (its own `prevLineBlank` is now true), so a documentation
+ * example split by a blank line stays code throughout — as two separate
+ * runs rather than one continuous one.
  */
 
 /** Which kind of code context a line falls into. */
@@ -102,14 +141,17 @@ export interface CodeContextInfo {
    *  point 1), so there is no "was it ever closed?" flag to expose here. */
   fenceOpenLine?: number;
   /** 0-indexed line where the current contiguous 4-space-indented run
-   *  began. Only present when kind === 'indented'. */
+   *  began. Only present when kind === 'indented'. Stable across every
+   *  line of a multi-line run — always the line that OPENED the run, never
+   *  the current line (see the module doc's "MULTI-LINE INDENTED RUNS"
+   *  section). */
   indentedBlockStartLine?: number;
 }
 
 /**
  * Computes per-line code-context info for `lines`. See module doc for the
- * fence/indent detection rules and the F-6d5e4ea9 unclosed-fence and BOM
- * fixes.
+ * fence/indent detection rules, the F-6d5e4ea9 unclosed-fence and BOM
+ * fixes, and the sibling multi-line indented-run fix.
  */
 export function computeCodeContext(lines: readonly string[]): CodeContextInfo[] {
   const result: CodeContextInfo[] = [];
@@ -159,16 +201,30 @@ export function computeCodeContext(lines: readonly string[]): CodeContextInfo[] 
       // fenceOpenLine holds the line that opened it.
       result.push({ inCode: true, kind: 'fenced', fenceOpenLine: fenceOpenLine as number });
       prevLineBlank = line.trim().length === 0;
+      // Indentation inside a fence is just fenced content — it must not
+      // leak an open indented run past the closing delimiter (see module
+      // doc, "MULTI-LINE INDENTED RUNS").
+      indentedStart = null;
       continue;
     }
 
-    // 4-space-indented code block: previous line blank AND this line starts
-    // with 4+ spaces or a tab.
-    const isIndented = prevLineBlank && /^(?: {4,}|\t)/.test(line);
-    if (isIndented) {
+    // 4-space-indented code block. A run OPENS on an indented line that
+    // follows a blank line, and CONTINUES through every subsequent indented
+    // line regardless of THAT line's own predecessor; any non-indented line
+    // closes it. `indentedStart` doubles as the run-membership flag
+    // (non-null means "currently in a run") and the run's remembered start
+    // line, so line 2+ of a run is never re-tested against `prevLineBlank`
+    // alone — see module doc, "MULTI-LINE INDENTED RUNS".
+    const isIndented = /^(?: {4,}|\t)/.test(line);
+    if (isIndented && (prevLineBlank || indentedStart !== null)) {
+      // Either opening a fresh run right here (stamp its start line) or
+      // continuing one already open (keep the original start line).
       if (indentedStart === null) indentedStart = i;
       result.push({ inCode: true, kind: 'indented', indentedBlockStartLine: indentedStart });
     } else {
+      // A non-indented line closes any open run. An indented line that does
+      // NOT follow a blank line and isn't already part of an open run is a
+      // lazy paragraph continuation — prose, not code.
       indentedStart = null;
       result.push({ inCode: false });
     }

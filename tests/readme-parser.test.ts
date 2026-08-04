@@ -186,6 +186,95 @@ describe('findLogoImgTags', () => {
       expect(matches).toHaveLength(0);
     });
 
+    // MULTI-LINE indented runs (sibling fix, reconciled from commit 1dc2c8d
+    // on salvage/multiline-indent-fix — see code-context.ts's module doc,
+    // "MULTI-LINE INDENTED RUNS"). `indented-4sp.md` above has exactly ONE
+    // indented line, which is why it kept passing while every line after the
+    // first in a longer run was misclassified as live: the old gate re-tested
+    // "was the previous line blank?" on each line, and that is only ever true
+    // for the line that OPENS the run.
+    it('does NOT match any <img> in a MULTI-LINE 4-space-indented block', () => {
+      const content = fixture('indented-4sp-multiline.md');
+      // Sanity: three indented example tags plus one real un-indented logo.
+      expect(content.match(/<img/g)?.length).toBe(4);
+      const matches = findLogoImgTags(content);
+      // Only the real logo — none of the three indented example lines.
+      expect(matches).toHaveLength(1);
+      expect(matches[0].src).toBe('assets/logo.png');
+      expect(matches[0].content).toContain('RealLogo');
+    });
+
+    it('reports EVERY line of a multi-line indented run as in-code-block', () => {
+      const { matches, rejected } = findAllImgTags(
+        fixture('indented-4sp-multiline.md'),
+      );
+      expect(matches.map((m) => m.src)).toEqual(['assets/logo.png']);
+      const inCode = rejected.filter((r) => r.reason === 'in-code-block');
+      expect(inCode.map((r) => r.src)).toEqual([
+        'assets/logo-a.png',
+        'assets/logo-b.png',
+        'assets/logo-c.png',
+      ]);
+    });
+
+    it('reports the SAME indentedBlockStartLine for every line of a multi-line run (genuinely tracks the run start, not the current line)', () => {
+      // Guards the dead-logic regression this fix replaces: before the port,
+      // indentedBlockStartLine could never differ from the current line
+      // index, because the gate never admitted a second line into a run.
+      const { rejected } = findAllImgTags(fixture('indented-4sp-multiline.md'));
+      const inCode = rejected.filter((r) => r.reason === 'in-code-block');
+      expect(inCode).toHaveLength(3);
+      for (const r of inCode) {
+        // The run opens on 0-indexed line 4 -> 1-indexed line 5.
+        expect(r.indentedBlockStartLine).toBe(5);
+      }
+    });
+
+    it('never rewrites a src inside a multi-line indented run', () => {
+      const content = fixture('indented-4sp-multiline.md');
+      const result = rewriteLogoSrc(content, BRAND_URL);
+      // The three indented example srcs survive byte-for-byte.
+      expect(result).toContain('<p><img src="assets/logo-a.png"');
+      expect(result).toContain('<p><img src="assets/logo-b.png"');
+      expect(result).toContain('<p><img src="assets/logo-c.png"');
+      // Only the real logo was rewritten.
+      expect(result).toContain(BRAND_URL);
+      expect(result.match(new RegExp(BRAND_URL, 'g'))?.length).toBe(1);
+    });
+
+    it('closes an indented run at the blank line (a later real logo still matches)', () => {
+      // Guards the opposite failure: run-tracking state must not leak past
+      // the end of the block and swallow the rest of the document.
+      const content = [
+        '# Title',
+        '',
+        '    <p><img src="assets/example-a.png" alt="A" width="400"></p>',
+        '    <p><img src="assets/example-b.png" alt="B" width="400"></p>',
+        '',
+        '<p><img src="assets/logo.png" alt="RealLogo" width="400"></p>',
+        '',
+      ].join('\n');
+      const matches = findLogoImgTags(content);
+      expect(matches).toHaveLength(1);
+      expect(matches[0].src).toBe('assets/logo.png');
+    });
+
+    it('treats an indented line after a paragraph as prose, not a code block', () => {
+      // An indented line that does NOT follow a blank line is a lazy
+      // paragraph continuation in CommonMark — a run may only OPEN after a
+      // blank line, so run-tracking must not start one here.
+      const content = [
+        '# Title',
+        '',
+        'Intro paragraph.',
+        '    <p><img src="assets/logo.png" alt="RealLogo" width="400"></p>',
+        '',
+      ].join('\n');
+      const matches = findLogoImgTags(content);
+      expect(matches).toHaveLength(1);
+      expect(matches[0].src).toBe('assets/logo.png');
+    });
+
     it('finds a real logo above a fenced block (only the real logo, not the example)', () => {
       const content = fixture('fenced-and-real-logo.md');
       // Sanity: fixture has TWO <img> tags total (one real, one in fence).

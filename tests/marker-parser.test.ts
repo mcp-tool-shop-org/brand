@@ -496,6 +496,72 @@ describe('UTF-8 BOM on a fence-opening first line (F-6d5e4ea9)', () => {
   });
 });
 
+// Multi-line INDENTED code-block awareness — sibling of the F-6d5e4ea9 fence
+// work in code-context.ts, reconciled here from commit 1dc2c8d on
+// salvage/multiline-indent-fix (found while fixing F-6d5e4ea9 and split out
+// to keep that change scoped — see code-context.ts's module doc, "MULTI-LINE
+// INDENTED RUNS"). The shared indented-block gate re-tested "was the previous
+// line blank?" on every line, and that is only ever true for the line that
+// OPENS a run, so only the FIRST line of an indented example counted as code.
+// A marker pair is inherently multi-line, which makes this the worst case:
+// the start marker on the run's first line was suppressed while the end
+// marker below it was treated as live, leaving a dangling end with no
+// matching start.
+describe('multi-line indented-code-block awareness', () => {
+  it('ignores a marker pair shown as a 4-space-indented documentation example', () => {
+    const content = fixture('marker-indented-multiline.md');
+    // Sanity: the fixture really contains the pair, indented.
+    expect(content).toContain('    <!-- brand:gallery:start');
+    expect(content).toContain('    <!-- brand:gallery:end');
+    expect(findMarkerBlocks(content)).toEqual([]);
+  });
+
+  it('does not let syncMarkerBlock splice into the indented documentation example', () => {
+    const content = fixture('marker-indented-multiline.md');
+    expect(() =>
+      syncMarkerBlock(content, 'pirate-raiders-3d-2', undefined, 'INJECTED'),
+    ).toThrow(/No brand:gallery marker block found/);
+  });
+
+  it('still finds a real marker block below an indented example in the same document', () => {
+    // Guards the opposite failure: run-tracking state must not leak past
+    // the blank line that closes the indented block.
+    const content = [
+      '# Title',
+      '',
+      '    <!-- brand:gallery:start slug="example-slug" -->',
+      '    <!-- brand:gallery:end -->',
+      '',
+      '<!-- brand:gallery:start slug="real-slug" -->',
+      '<p><img src="real/front.png" alt="Real"></p>',
+      '<!-- brand:gallery:end -->',
+      '',
+    ].join('\n');
+    const blocks = findMarkerBlocks(content);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0].slug).toBe('real-slug');
+    expect(blocks[0].innerContent).toContain('real/front.png');
+  });
+
+  it('reports the SAME indentedBlockStartLine for both the start and end marker of a suppressed multi-line run (genuinely tracks the run start, not the current line)', () => {
+    // Guards the dead-logic regression this fix replaces: before the port,
+    // indentedBlockStartLine could never differ from the current line index,
+    // so the end marker (on a later line) would have wrongly reported ITS
+    // OWN line as the run's start instead of the run's actual opening line.
+    const content = fixture('marker-indented-multiline.md');
+    const { blocks, suppressed } = findMarkerBlocksVerbose(content);
+    expect(blocks).toEqual([]);
+    expect(suppressed).toHaveLength(2);
+
+    const start = suppressed.find((c) => c.markerKind === 'start');
+    const end = suppressed.find((c) => c.markerKind === 'end');
+    // The run opens on 0-indexed line 4 -> 1-indexed line 5, for BOTH the
+    // start marker (same line) and the end marker (two lines later).
+    expect(start).toMatchObject({ reason: 'in-indented-code-block', indentedBlockStartLine: 5 });
+    expect(end).toMatchObject({ reason: 'in-indented-code-block', indentedBlockStartLine: 5 });
+  });
+});
+
 // F-b5e9bc8c — splice by character offset, not line-array index. A start
 // and end marker sharing ONE physical line previously duplicated that line
 // (lines.slice(0, startLine+1) and lines.slice(endLine) both included it),
