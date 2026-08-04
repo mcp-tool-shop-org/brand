@@ -276,3 +276,208 @@ describe('parseAttrs missing-slug error enrichment (PARSE-02)', () => {
     }
   });
 });
+
+// F-75c9e0fc — fenced-code-block awareness. scanRawMarkers previously had NO
+// fence/indented-code-block tracking at all (unlike readme-parser.ts's Gate
+// 0), so a ```html usage example showing the marker pair was treated as a
+// live block. This exact bug was live in this repo's own shipped README.md.
+describe('fenced-code-block awareness (F-75c9e0fc)', () => {
+  it('ignores a marker pair shown as a fenced ```html documentation example', () => {
+    const content = fixture('marker-in-fenced-block.md');
+    // Sanity: the fixture really contains the marker pair inside a fence.
+    expect(content).toContain('```html');
+    expect(content).toContain('brand:gallery:start');
+    const blocks = findMarkerBlocks(content);
+    expect(blocks).toEqual([]);
+  });
+
+  it('does not let syncMarkerBlock splice into the fenced documentation example', () => {
+    const content = fixture('marker-in-fenced-block.md');
+    // No REAL marker block exists in this document (the only occurrence is
+    // fenced) — syncMarkerBlock must report "not found", not silently
+    // rewrite the fence.
+    expect(() =>
+      syncMarkerBlock(content, 'pirate-raiders-3d-2', undefined, 'INJECTED'),
+    ).toThrow(/No brand:gallery marker block found/);
+  });
+
+  it('still finds a real marker block that sits outside a fenced example in the same document', () => {
+    const content = fixture('marker-fenced-and-real.md');
+    const blocks = findMarkerBlocks(content);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0].slug).toBe('real-slug');
+    expect(blocks[0].innerContent).toContain('real/front.png');
+  });
+});
+
+// F-b5e9bc8c — splice by character offset, not line-array index. A start
+// and end marker sharing ONE physical line previously duplicated that line
+// (lines.slice(0, startLine+1) and lines.slice(endLine) both included it),
+// orphaning the new content outside any marker pair and permanently
+// bricking the file for future syncs (findMarkerBlocks would then throw
+// MarkerParseError('duplicate') on the corrupted output).
+describe('same-line start+end marker splice (F-b5e9bc8c)', () => {
+  it('splices cleanly by character offset when start+end share one physical line (no duplication)', () => {
+    const content = fixture('marker-same-line.md');
+    const result = syncMarkerBlock(content, 'x', undefined, 'NEW CONTENT');
+
+    // Exactly one start and one end marker in the output — no duplication.
+    expect(result.match(/brand:gallery:start/g)?.length).toBe(1);
+    expect(result.match(/brand:gallery:end/g)?.length).toBe(1);
+    expect(result).toContain('NEW CONTENT');
+    // Surrounding content preserved.
+    expect(result).toContain('Before text.');
+    expect(result).toContain('After text.');
+  });
+
+  it('does not orphan new content outside the marker pair (re-parses to exactly one clean block)', () => {
+    const content = fixture('marker-same-line.md');
+    const result = syncMarkerBlock(content, 'x', undefined, 'NEW CONTENT');
+
+    // The previously-bricked failure mode: findMarkerBlocks on the synced
+    // output threw MarkerParseError('duplicate') because the marker line
+    // was duplicated. It must not throw now, and must find the new content
+    // back inside a single clean block.
+    const blocks = findMarkerBlocks(result);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0].slug).toBe('x');
+    expect(blocks[0].innerContent).toBe('NEW CONTENT');
+  });
+
+  it('is idempotent: syncing the already-synced same-line output again is a no-op', () => {
+    const content = fixture('marker-same-line.md');
+    const first = syncMarkerBlock(content, 'x', undefined, 'NEW CONTENT');
+    const second = syncMarkerBlock(first, 'x', undefined, 'NEW CONTENT');
+    expect(second).toBe(first);
+  });
+});
+
+// F-1513f9b6 — ReDoS. The old START_RE had three adjacent quantifiers
+// (`\s+`, a lazy `[^>]*?`, and a trailing `\s*`) all able to match the same
+// whitespace run. On an unclosed start marker followed by a long run of
+// non-`>` text, the audit measured 7.78s to fail a single match at 5,000
+// adversarial characters, and 10,000 did not complete within 60+ seconds
+// (force-killed). Each test below sets an explicit low vitest timeout so a
+// regression fails FAST instead of hanging the suite.
+describe('ReDoS regression (F-1513f9b6)', () => {
+  it(
+    'does not catastrophically backtrack at the exact audit-measured size (5,000 adversarial chars)',
+    () => {
+      const adversarial = '<!-- brand:gallery:start' + ' '.repeat(5_000) + 'nomatch';
+      const content = `# doc\n\n${adversarial}\n\nMore text after.\n`;
+
+      const start = Date.now();
+      const blocks = findMarkerBlocks(content);
+      const elapsed = Date.now() - start;
+
+      // Unclosed comment (no closing `-->` anywhere) — correctly not
+      // recognized as a marker, no throw.
+      expect(blocks).toEqual([]);
+      expect(elapsed).toBeLessThan(500);
+    },
+    5_000,
+  );
+
+  it(
+    'stays fast well past the size that used to hang 60+ seconds (20,000 adversarial chars)',
+    () => {
+      const adversarial = '<!-- brand:gallery:start' + ' '.repeat(20_000) + 'nomatch';
+
+      const start = Date.now();
+      const blocks = findMarkerBlocks(adversarial);
+      const elapsed = Date.now() - start;
+
+      expect(blocks).toEqual([]);
+      expect(elapsed).toBeLessThan(500);
+    },
+    5_000,
+  );
+});
+
+// F-7af8d8d9 — mixed-EOL preservation. `content.includes('\r\n') ? '\r\n' :
+// '\n'` was a mere EXISTENCE check: a single stray CRLF line anywhere in an
+// otherwise all-LF document flipped EVERY line in the output to CRLF,
+// including lines completely unrelated to the gallery block. Existing CRLF
+// tests only covered pure-LF and pure-CRLF documents.
+describe('mixed-EOL preservation (F-7af8d8d9)', () => {
+  it('computes the TRUE dominant EOL (58 LF lines + 1 stray CRLF) instead of flipping the whole file on ANY \\r\\n presence', () => {
+    const strayLine = 'A stray Windows-pasted line.\r\n';
+    const fillerBlock = (label: string, count: number) =>
+      Array.from({ length: count }, (_, i) => `${label} ${i}.\n`).join('');
+
+    const content =
+      `# Title\n\n` +
+      fillerBlock('Filler line', 20) +
+      strayLine +
+      fillerBlock('More filler', 19) +
+      `\n<!-- brand:gallery:start slug="x" -->\nOLD\n<!-- brand:gallery:end -->\n\n` +
+      fillerBlock('Trailing filler', 18);
+
+    // Sanity: exactly one CRLF occurrence, comfortably outnumbered by LF-only lines.
+    const crlfCount = (content.match(/\r\n/g) ?? []).length;
+    expect(crlfCount).toBe(1);
+
+    const newInner = renderGalleryBlock([{ url: 'https://x/new.png', alt: 'new' }]);
+    const result = syncMarkerBlock(content, 'x', undefined, newInner);
+
+    // Dominant style (LF) wins for the freshly-inserted content...
+    expect(result).toContain('new.png');
+    expect(result).not.toContain('OLD');
+    // ...and the stray CRLF line elsewhere is preserved byte-for-byte, not
+    // "fixed" and not used to flip the rest of the document to CRLF.
+    expect(result).toContain(strayLine);
+    expect((result.match(/\r\n/g) ?? []).length).toBe(1);
+  });
+});
+
+// Idempotence — "sync claims byte-identical output across runs on unchanged
+// input." Applying syncMarkerBlock a second time with the SAME rendered
+// content must be a byte-identical no-op.
+describe('idempotence — sync twice on unchanged input is a no-op', () => {
+  it('produces byte-identical output when syncMarkerBlock is applied twice with the same content', () => {
+    const content = fixture('marker-valid-single.md');
+    const newInner = renderGalleryBlock([{ url: 'https://x/new.png', alt: 'new' }]);
+    const first = syncMarkerBlock(content, 'pirate-raiders-3d-2', undefined, newInner);
+    const second = syncMarkerBlock(first, 'pirate-raiders-3d-2', undefined, newInner);
+    expect(second).toBe(first);
+  });
+
+  it('is idempotent across a CRLF document too', () => {
+    const content =
+      `# Title\r\n\r\n<!-- brand:gallery:start slug="x" -->\r\n` +
+      `  <img src="https://x/old.png" alt="old" width="200">\r\n` +
+      `<!-- brand:gallery:end -->\r\n\r\nMore text.\r\n`;
+    const newInner = renderGalleryBlock([{ url: 'https://x/new.png', alt: 'new' }]);
+    const first = syncMarkerBlock(content, 'x', undefined, newInner);
+    const second = syncMarkerBlock(first, 'x', undefined, newInner);
+    expect(second).toBe(first);
+  });
+});
+
+// Composite duplicate-check key regression. findMarkerBlocks disambiguates
+// blocks by joining slug+gallery into one Map key. slug/gallery come
+// straight from the README's marker attributes and are NOT character-
+// validated on this path (validateSlug in add-gallery.ts rejects
+// `/ \ : * ? " < > |` and `..`, but never spaces, and isn't called here at
+// all), so the join delimiter itself must be collision-proof — a printable
+// delimiter like a plain space lets two DIFFERENT (slug, gallery) pairs
+// produce the same joined string. This must not throw a spurious
+// 'duplicate' MarkerParseError for two legitimately different blocks.
+describe('composite duplicate-check key must not collide on user-controlled values', () => {
+  it('treats slug="foo" gallery="bar baz" and slug="foo bar" gallery="baz" as two DIFFERENT blocks (a space-joined key would collide)', () => {
+    // A space-joined key would produce the IDENTICAL string "foo bar baz"
+    // for both blocks below ("foo" + " " + "bar baz" === "foo bar" + " " +
+    // "baz"), so findMarkerBlocks would incorrectly throw
+    // MarkerParseError('duplicate') for two blocks that are not duplicates
+    // at all — they have different slugs.
+    const content =
+      `<!-- brand:gallery:start slug="foo" gallery="bar baz" -->\nFIRST\n<!-- brand:gallery:end -->\n\n` +
+      `<!-- brand:gallery:start slug="foo bar" gallery="baz" -->\nSECOND\n<!-- brand:gallery:end -->\n`;
+
+    const blocks = findMarkerBlocks(content);
+
+    expect(blocks).toHaveLength(2);
+    expect(blocks[0]).toMatchObject({ slug: 'foo', gallery: 'bar baz', innerContent: 'FIRST' });
+    expect(blocks[1]).toMatchObject({ slug: 'foo bar', gallery: 'baz', innerContent: 'SECOND' });
+  });
+});

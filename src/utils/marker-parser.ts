@@ -42,17 +42,46 @@
  *    (numeric-aware) sort — never relies on filesystem readdir order.
  */
 
+import { computeCodeContextLines } from './code-context.js';
+
 const START_TAG = 'brand:gallery:start';
 const END_TAG = 'brand:gallery:end';
 
+/** Maximum input size accepted by the parser, in bytes (5 MB) — mirrors
+ *  readme-parser.ts's MAX_README_BYTES. Guards against feeding a binary
+ *  file or generated artifact through the scanner. Defense-in-depth: the
+ *  primary ReDoS fix is START_ANCHOR_RE below, not this cap (see F-1513f9b6). */
+export const MAX_MARKER_DOC_BYTES = 5_000_000;
+
 /**
- * Matches a start marker line/fragment:
+ * Matches ONLY the fixed-literal anchor of a start marker tag name — e.g.
+ * the `<!-- brand:gallery:start` prefix of:
  *   <!-- brand:gallery:start slug="x" -->
  *   <!-- brand:gallery:start slug="x" gallery="y" -->
- * Attribute order is NOT fixed (slug/gallery may appear in either order).
- * Captures the raw attribute string for further validation.
+ * The variable-length attribute fragment and its closing `-->` are found
+ * via a linear `indexOf` scan in scanRawMarkers, NOT by this regex.
+ *
+ * The trailing lookahead `(?=\s|-->)` requires whatever follows "start" to
+ * be either whitespace (the normal case — attrs or trailing space follow)
+ * or the literal closer with zero attrs (`...start-->`). This preserves the
+ * old regex's behavior of NOT recognizing a lookalike tag name (e.g.
+ * `brand:gallery:starting`) as a marker.
+ *
+ * ReDoS fix (F-1513f9b6): the previous single regex —
+ *   /<!--\s*brand:gallery:start((?:\s+[^>]*?)?)\s*-->/g
+ * — had THREE quantifiers (`\s+`, a lazy `[^>]*?`, and a trailing `\s*`) all
+ * able to match characters from the SAME whitespace run, separated only by
+ * optional-group boundaries. On a start marker with no closing `-->` before
+ * EOF, the engine had to explore every way of partitioning that run across
+ * the three quantifiers before it could give up — polynomial blowup in the
+ * run length. Measured: 7.78s for a single failed match at 5,000 adversarial
+ * characters; 10,000 characters did not complete in 60+ seconds and had to
+ * be force-killed. Splitting the match into a fixed-width anchor (this
+ * regex — a single `\s*` before a fixed literal, no ambiguity, O(n)) plus a
+ * linear `indexOf` search for the literal `-->` (also O(n), no backtracking
+ * at all) removes the ambiguity entirely, regardless of input shape.
  */
-const START_RE = /<!--\s*brand:gallery:start((?:\s+[^>]*?)?)\s*-->/g;
+const START_ANCHOR_RE = /<!--\s*brand:gallery:start(?=\s|-->)/g;
 const END_RE = /<!--\s*brand:gallery:end\s*-->/g;
 
 /** Recognizes a well-formed `key="value"` attribute pair. */
@@ -79,6 +108,15 @@ export interface MarkerBlock {
   endLine: number;
   /** Current content between the markers (excluding the marker lines themselves). */
   innerContent: string;
+  /**
+   * Character offset in the document immediately AFTER the start marker's
+   * closing `-->`. Used by syncMarkerBlock to splice by character offset
+   * rather than by line-array index (F-b5e9bc8c) — see its comment for why
+   * line-index splicing corrupts a start+end pair that shares one line.
+   */
+  innerStartIndex: number;
+  /** Character offset in the document immediately BEFORE the end marker's opening `<!--`. */
+  innerEndIndex: number;
 }
 
 /**
@@ -174,28 +212,66 @@ function lineAt(content: string, offset: number): number {
   return line;
 }
 
+/**
+ * Scans `content` for start/end marker occurrences.
+ *
+ * Two hardening fixes live here:
+ *  - F-1513f9b6 (ReDoS): start markers are found via a fixed-width anchor
+ *    (START_ANCHOR_RE) plus a linear `indexOf` search for the closing
+ *    `-->`, never a single backtracking regex over the whole comment span.
+ *  - F-75c9e0fc (fenced-code-block awareness): a marker whose LINE falls
+ *    inside a fenced (```/~~~) or 4-space-indented code block is a
+ *    documentation example, not a live marker, and is silently skipped —
+ *    mirroring readme-parser.ts's Gate 0 exactly (shared via
+ *    code-context.ts, not a second divergent implementation). This repo's
+ *    own README.md shipped with exactly this bug: a ```html usage example
+ *    showing the marker pair was treated as a live block.
+ */
 function scanRawMarkers(content: string): RawMarker[] {
   const markers: RawMarker[] = [];
+  const lines = content.split('\n');
+  const codeContextLines = computeCodeContextLines(lines);
 
-  START_RE.lastIndex = 0;
+  START_ANCHOR_RE.lastIndex = 0;
   let m: RegExpExecArray | null;
-  while ((m = START_RE.exec(content)) !== null) {
+  while ((m = START_ANCHOR_RE.exec(content)) !== null) {
+    const anchorEnd = m.index + m[0].length;
+    const line = lineAt(content, m.index);
+    if (codeContextLines[line]) continue; // F-75c9e0fc
+
+    // Linear scan for the literal closing delimiter — O(n), no
+    // backtracking, regardless of what (or how much) sits between the tag
+    // name and its close (F-1513f9b6).
+    const closeIdx = content.indexOf('-->', anchorEnd);
+    if (closeIdx === -1) {
+      // No closing delimiter anywhere before EOF: not a well-formed HTML
+      // comment at all, so (matching the old regex's behavior when it
+      // could never complete a match) this occurrence is not recognized as
+      // a marker. This is distinct from findMarkerBlocks's 'unclosed'
+      // error, which is about a well-formed start COMMENT with no matching
+      // END MARKER later in the document.
+      continue;
+    }
+
     markers.push({
       kind: 'start',
       index: m.index,
-      endIndex: m.index + m[0].length,
-      line: lineAt(content, m.index),
-      attrsRaw: m[1] ?? '',
+      endIndex: closeIdx + 3,
+      line,
+      attrsRaw: content.slice(anchorEnd, closeIdx),
     });
   }
 
   END_RE.lastIndex = 0;
   while ((m = END_RE.exec(content)) !== null) {
+    const line = lineAt(content, m.index);
+    if (codeContextLines[line]) continue; // F-75c9e0fc
+
     markers.push({
       kind: 'end',
       index: m.index,
       endIndex: m.index + m[0].length,
-      line: lineAt(content, m.index),
+      line,
     });
   }
 
@@ -218,8 +294,19 @@ function scanRawMarkers(content: string): RawMarker[] {
  * document containing markers only for other slugs still returns those
  * blocks — callers are responsible for filtering by the slug/gallery they
  * care about (see syncMarkerBlock).
+ *
+ * Throws a plain Error if `content.length > MAX_MARKER_DOC_BYTES` (5 MB) —
+ * defense-in-depth mirroring readme-parser.ts's MAX_README_BYTES guard.
  */
 export function findMarkerBlocks(content: string): MarkerBlock[] {
+  if (content.length > MAX_MARKER_DOC_BYTES) {
+    throw new Error(
+      `marker-parser: refusing to parse document of ${content.length} bytes ` +
+        `(MAX_MARKER_DOC_BYTES = ${MAX_MARKER_DOC_BYTES}). Pass a smaller input or ` +
+        `raise the limit if this is a legitimate README.`,
+    );
+  }
+
   const raw = scanRawMarkers(content);
   const blocks: MarkerBlock[] = [];
 
@@ -259,6 +346,8 @@ export function findMarkerBlocks(content: string): MarkerBlock[] {
       startLine: openStart.line,
       endLine: marker.line,
       innerContent,
+      innerStartIndex: openStart.endIndex,
+      innerEndIndex: marker.index,
     });
 
     openStart = null;
@@ -273,9 +362,22 @@ export function findMarkerBlocks(content: string): MarkerBlock[] {
 
   // Duplicate check: two complete, non-overlapping pairs for the identical
   // slug+gallery combination.
+  //
+  // The composite key joins two USER-CONTROLLED strings (slug/gallery come
+  // straight from the README's marker attributes, unvalidated on this path —
+  // validateSlug in add-gallery.ts rejects `/ \ : * ? " < > |` and `..`, but
+  // never spaces, and isn't called here at all). A printable delimiter like
+  // a space is NOT collision-proof: slug="foo" gallery="bar baz" and
+  // slug="foo bar" gallery="baz" would both join to "foo bar baz" and be
+  // treated as the same block, throwing a spurious 'duplicate' error for two
+  // legitimately different ones. `\u0000` (NUL) is the conventional fix for
+  // exactly this — it cannot appear in either field, so distinct
+  // (slug, gallery) pairs can never collide. Do NOT "clean up" this escape
+  // back to a literal character; see the composite-key regression test
+  // below for the exact collision this prevents.
   const seen = new Map<string, MarkerBlock>();
   for (const block of blocks) {
-    const key = `${block.slug} ${block.gallery ?? ''}`;
+    const key = `${block.slug}\u0000${block.gallery ?? ''}`;
     const existing = seen.get(key);
     if (existing) {
       throw new MarkerParseError(
@@ -374,6 +476,31 @@ export function renderGalleryBlock(images: GalleryImageRef[]): string {
 }
 
 /**
+ * Computes the TRUE dominant end-of-line style by counting CRLF pairs vs.
+ * bare-LF occurrences and picking whichever is strictly more frequent (a
+ * tie, including the zero-newline case, defaults to LF).
+ *
+ * Fixes F-7af8d8d9: the previous `content.includes('\r\n') ? '\r\n' : '\n'`
+ * was a mere EXISTENCE check — a single stray CRLF line anywhere in an
+ * otherwise all-LF document flipped the ENTIRE file to CRLF. This only
+ * decides the style of the freshly-inserted content between the markers
+ * now (see syncMarkerBlock) — content outside the spliced span is copied
+ * verbatim from the original string and keeps whatever line-ending mix it
+ * already had, byte-for-byte, regardless of what dominates.
+ */
+function dominantEol(content: string): '\r\n' | '\n' {
+  let crlf = 0;
+  let lf = 0;
+  for (let i = 0; i < content.length; i++) {
+    if (content[i] === '\n') {
+      if (content[i - 1] === '\r') crlf++;
+      else lf++;
+    }
+  }
+  return crlf > lf ? '\r\n' : '\n';
+}
+
+/**
  * Replaces the content of the marker block matching slug+gallery with
  * newInnerContent. Preserves everything else in `content` byte-for-byte.
  *
@@ -381,6 +508,21 @@ export function renderGalleryBlock(images: GalleryImageRef[]): string {
  * found" condition the caller maps to its own exit-code contract), or
  * MarkerParseError if the document's markers are malformed per the rules
  * documented on findMarkerBlocks.
+ *
+ * Splices at CHARACTER offsets, not line-array indices (F-b5e9bc8c). The
+ * previous implementation split the WHOLE document into a line array and
+ * sliced `lines.slice(0, startLine + 1)` / `lines.slice(endLine)`. When a
+ * start and end marker shared ONE physical line, that line was included in
+ * BOTH halves — duplicating the marker line and orphaning the new content
+ * between two now-complete (empty) marker pairs, which then made the VERY
+ * NEXT findMarkerBlocks call throw MarkerParseError('duplicate') — the file
+ * was permanently bricked for automated sync. Splicing at
+ * `match.innerStartIndex` (right after the start marker's `-->`) and
+ * `match.innerEndIndex` (right before the end marker's `<!--`) has no such
+ * overlap regardless of whether the markers share a line, and — as a side
+ * effect — leaves everything outside that exact span byte-for-byte
+ * untouched (no whole-document line-split/rejoin to normalize unrelated
+ * EOLs; see dominantEol above for F-7af8d8d9).
  */
 export function syncMarkerBlock(
   content: string,
@@ -397,20 +539,13 @@ export function syncMarkerBlock(
     );
   }
 
-  // Preserve the document's line-ending style. renderGalleryBlock always emits
-  // LF-joined markup; splicing that verbatim into a CRLF-authored consuming
-  // README produced a file with mixed line endings (LF inside the machine-owned
-  // block, CRLF everywhere else) — a noisy whole-block diff and a wrinkle in the
-  // "content outside the markers is untouched byte-for-byte" contract. Detect
-  // the dominant EOL, split on `\r?\n`, and re-join everything with it so the
-  // written file is uniform. For pure-LF and pure-CRLF documents (the real
-  // cases) the surrounding content is byte-identical to the original; a
-  // pre-existing mixed-EOL file is normalized to its dominant ending.
-  const eol = content.includes('\r\n') ? '\r\n' : '\n';
-  const lines = content.split(/\r?\n/);
-  const before = lines.slice(0, match.startLine + 1);
-  const after = lines.slice(match.endLine);
-  const middle = newInnerContent.length > 0 ? newInnerContent.split(/\r?\n/) : [];
+  const eol = dominantEol(content);
+  const before = content.slice(0, match.innerStartIndex);
+  const after = content.slice(match.innerEndIndex);
+  const middle =
+    newInnerContent.length > 0
+      ? eol + newInnerContent.split(/\r?\n/).join(eol) + eol
+      : eol;
 
-  return [...before, ...middle, ...after].join(eol);
+  return before + middle + after;
 }
