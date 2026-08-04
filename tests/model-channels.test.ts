@@ -240,6 +240,33 @@ describe('stats does not miscount model assets as canonical logos', () => {
     expect(result.galleryCount).toBe(0);
     expect(result.manifestEntries).toBe(4);
   });
+
+  it('shows the primary count in human output when models exist but galleries do not', async () => {
+    // Regression for a display gap this change introduced: the split block was
+    // gated on galleryCount alone, so a model-only registry printed
+    // "Manifest entries: 4 / Model assets: 3" and left the primary
+    // unexplained — the exact mystery the block exists to prevent.
+    const { runStats } = await import('../src/commands/stats.js');
+
+    writeModelDir('subject-a', { 'asset.glb': 'g', 'ch_flat.webp': 'w', 'view.json': '{}' });
+    const manifestPath = join(tempDir, 'manifest.json');
+    writeFileSync(manifestPath, JSON.stringify(generateManifest(logosDir), null, 2));
+
+    const lines: string[] = [];
+    const logSpy = vi.spyOn(console, 'log').mockImplementation((...args: unknown[]) => {
+      lines.push(args.map(String).join(' '));
+    });
+    try {
+      await runStats({ logos: logosDir, manifest: manifestPath });
+    } finally {
+      logSpy.mockRestore();
+    }
+
+    const text = lines.join('\n');
+    expect(text).toMatch(/Primary logos:\s+\S*1/);
+    expect(text).toMatch(/Model assets:\s+\S*3/);
+    expect(text).not.toMatch(/Gallery images/);
+  });
 });
 
 describe('view.json schema', () => {

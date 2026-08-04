@@ -152,6 +152,25 @@ program
     await runAddGallery(withGlobals({ ...opts, slug, sourceDir }, program));
   });
 
+// add-model sits beside add-gallery: same shape (register a source directory
+// under a slug), same swap-based safety, same --dry-run/--json contract. It is
+// the only safe door into the model role — see src/commands/add-model.ts for
+// the gates it carries and why each is a refusal rather than a warning.
+program
+  .command('add-model')
+  .description('Install a 3D model and its switchable channels for a slug, with ingest gates')
+  .argument('<slug>', 'Slug under logos/ to attach the model to')
+  .requiredOption('--from <dir>', 'Directory holding asset.glb, ch_<id>.<ext> and view.json')
+  .option('--dry-run', 'Run every gate and preview the install without modifying anything', false)
+  .option('--yes', 'Confirm a real (non-dry-run) install — required for any write', false)
+  .option('--logos <path>', 'Path to logos directory', 'logos')
+  .option('--manifest <path>', 'Path to manifest.json', 'manifest.json')
+  .option('--json', 'Emit a single JSON object describing the result')
+  .action(async (slug, opts) => {
+    const { runAddModel } = await import('./commands/add-model.js');
+    await runAddModel(withGlobals({ ...opts, slug }, program));
+  });
+
 // Placed directly after add-gallery (and before sync) — remove and
 // add-gallery are the two commands that mutate logos/ directly, per the
 // commands-write agent's own placement note (wave-6 F-FEAT-remove).

@@ -203,20 +203,21 @@ export async function runStats(opts: StatsOptions): Promise<void> {
   console.log('');
   console.log(`  Logos on disk:     ${chalk.cyan(String(result.totalLogos))}`);
   console.log(`  Manifest entries:  ${chalk.cyan(String(result.manifestEntries))}`);
-  // Model-channel assets get their own line, shown only when present so a
-  // registry without them prints byte-identically to before this role existed.
-  // Without this line their count would be invisible: they are excluded from
-  // primaryCount by design, so they would otherwise appear only inside the
-  // "Manifest entries" total with nothing explaining the gap.
-  if (result.modelCount > 0) {
-    console.log(`    Model assets:    ${chalk.cyan(String(result.modelCount))}`);
+  // Surface the role split so the gap between the two counts above
+  // (primaries-on-disk vs all-manifest-assets) is never a mystery. Shown when
+  // ANY non-primary role is present -- originally galleries only, now models
+  // too. The condition is deliberately "gallery OR model" rather than two
+  // independent blocks: a registry with models but no galleries would
+  // otherwise print "Manifest entries: 5 / Model assets: 4" and leave the
+  // remaining primary unexplained, which is exactly the mystery this block was
+  // written to prevent. A registry with neither stays terse, and one with
+  // galleries only prints byte-identically to before the model role existed.
+  const hasNonPrimary = result.galleryCount > 0 || result.modelCount > 0;
+  if (hasNonPrimary) {
+    console.log(`    Primary logos:   ${chalk.cyan(String(result.primaryCount))}`);
   }
-  // Surface the primary/gallery split so the gap between the two counts above
-  // (primaries-on-disk vs all-manifest-assets) is never a mystery. Only shown
-  // when galleries actually exist, so a gallery-free registry stays terse.
   if (result.galleryCount > 0) {
     const galleryFolders = Object.keys(result.galleries).length;
-    console.log(`    Primary logos:   ${chalk.cyan(String(result.primaryCount))}`);
     console.log(`    Gallery images:  ${chalk.cyan(String(result.galleryCount))} ${chalk.dim(`(across ${galleryFolders} gal${galleryFolders === 1 ? 'lery' : 'leries'})`)}`);
     // --quiet wins over --verbose (matches audit.ts's identical precedence
     // for its per-issue fix hint) -- the per-gallery breakdown is exactly
@@ -227,6 +228,9 @@ export async function runStats(opts: StatsOptions): Promise<void> {
         console.log(chalk.dim(`      - ${gk}: ${count}`));
       }
     }
+  }
+  if (result.modelCount > 0) {
+    console.log(`    Model assets:    ${chalk.cyan(String(result.modelCount))}`);
   }
   console.log('');
 
