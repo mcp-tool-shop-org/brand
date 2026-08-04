@@ -666,3 +666,399 @@ describe('runAudit', () => {
     expect(joined).toMatch(/Audit clean/i);
   });
 });
+
+/**
+ * runAudit --remote / org reconciliation tests — F-FEAT-audit-remote,
+ * F-FEAT-org-reconcile.
+ *
+ * Per this wave's brief: NEVER hit the live network in tests. Every test
+ * below injects opts.fetchImpl (a fake matching runAudit's structural
+ * FetchLike contract — status/redirected/url/headers.get/json()) so no test
+ * makes a real HTTP call. Fixtures model GitHub's REST API responses for:
+ *   - GET /repos/{org}/{slug}         — existence / archived / rename-redirect
+ *   - GET /repos/{org}/{slug}/readme  — base64-encoded README content
+ */
+type TestFetchImpl = NonNullable<Parameters<typeof runAudit>[0]['fetchImpl']>;
+
+interface FakeResponseInit {
+  status: number;
+  redirected?: boolean;
+  url?: string;
+  headers?: Record<string, string>;
+  body?: unknown;
+}
+
+/** Build a MinimalResponse-shaped fake — see audit.ts's FetchLike/MinimalResponse doc comment for why this is a plain object rather than a real Response (redirected/url aren't settable on a real one). */
+function fakeResponse(init: FakeResponseInit) {
+  const headerMap = new Map(
+    Object.entries(init.headers ?? {}).map(([k, v]) => [k.toLowerCase(), v]),
+  );
+  return {
+    status: init.status,
+    redirected: init.redirected ?? false,
+    url: init.url ?? '',
+    headers: { get: (name: string) => headerMap.get(name.toLowerCase()) ?? null },
+    json: async () => init.body ?? {},
+  };
+}
+
+/** GitHub Contents API shape for GET /repos/{org}/{repo}/readme — base64-encode like the real API does, so fetchRemoteReadme's decode path is exercised for real. */
+function readmeApiBody(content: string, name = 'README.md'): { name: string; content: string; encoding: string } {
+  return { name, content: Buffer.from(content, 'utf-8').toString('base64'), encoding: 'base64' };
+}
+
+/** A live, non-archived repos-endpoint response. */
+function liveRepoResponse(archived = false): ReturnType<typeof fakeResponse> {
+  return fakeResponse({ status: 200, body: { archived } });
+}
+
+/** A rename-redirect repos-endpoint response — fetch followed the redirect (default behavior), landing on the NEW repo's data. */
+function renamedRepoResponse(newFullName: string): ReturnType<typeof fakeResponse> {
+  return fakeResponse({ status: 200, redirected: true, body: { full_name: newFullName } });
+}
+
+const notFoundResponse = (): ReturnType<typeof fakeResponse> => fakeResponse({ status: 404 });
+
+/** A rate-limited response (primary limit exhausted). resetInSeconds defaults far enough in the future to produce a stable, parseable ISO string. */
+function rateLimitedResponse(resetInSeconds = 3600): ReturnType<typeof fakeResponse> {
+  const resetEpoch = Math.floor(Date.now() / 1000) + resetInSeconds;
+  return fakeResponse({ status: 403, headers: { 'x-ratelimit-remaining': '0', 'x-ratelimit-reset': String(resetEpoch) } });
+}
+
+describe('runAudit --remote (F-FEAT-audit-remote)', () => {
+  const ORG = 'mcp-tool-shop-org';
+
+  beforeEach(() => {
+    // Isolate from whatever the host/CI shell may already have set — every
+    // test in this block controls its own token presence explicitly.
+    delete process.env.GH_TOKEN;
+    delete process.env.GITHUB_TOKEN;
+  });
+
+  afterEach(() => {
+    delete process.env.GH_TOKEN;
+    delete process.env.GITHUB_TOKEN;
+  });
+
+  it('exits 2 naming GH_TOKEN/GITHUB_TOKEN when --remote is set and neither is configured — and never calls fetch', async () => {
+    seedLogo('alpha', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn();
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBe(2);
+    const joined = stdout.join('\n');
+    expect(joined).toMatch(/GH_TOKEN/);
+    expect(joined).toMatch(/GITHUB_TOKEN/);
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it('exits 2 when --remote is set with a token but --org is missing/empty', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('alpha', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn();
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: '   ', // whitespace/empty — same bad-flag treatment as an omitted flag
+      fetchImpl,
+    });
+    expect(code).toBe(2);
+    expect(stdout.join('\n')).toMatch(/--org/);
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it('omitting --remote makes zero network calls, even if a fetchImpl is (harmlessly) provided', async () => {
+    seedLogo('alpha', 'png');
+    seedRepo('alpha', {
+      'README.md': `<p align="center"><img src="${BRAND_BASE}/logos/alpha/readme.png" alt="alpha"></p>\n`,
+    });
+    const fetchImpl: TestFetchImpl = vi.fn();
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      // remote intentionally omitted
+      fetchImpl,
+    });
+    expect(code).toBeNull();
+    expect(stdout.join('\n')).toMatch(/Audit clean/i);
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it('F-FEAT-org-reconcile: reports org-repo-not-found (orphan) for a slug matching no repo in the org, high severity, exit 1', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('ghost-slug', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn(async () => notFoundResponse());
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[org-repo-not-found]');
+    expect(joined).toContain('ghost-slug');
+    expect(joined).not.toContain('[org-repo-renamed]');
+  });
+
+  it('F-FEAT-org-reconcile: a rename-redirect is reported as a rename with the new name, NOT as an orphan', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('old-slug-name', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.includes('/readme')) throw new Error('should not fetch README for a renamed repo');
+      return renamedRepoResponse(`${ORG}/new-slug-name`);
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBe(1); // medium severity still blocks the gate
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[org-repo-renamed]');
+    expect(joined).toContain('new-slug-name');
+    expect(joined).not.toContain('[org-repo-not-found]');
+  });
+
+  it('F-FEAT-org-reconcile: reports org-repo-archived for an archived repo', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('archived-slug', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.includes('/readme')) throw new Error('should not fetch README for an archived repo');
+      return liveRepoResponse(true);
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBe(1);
+    expect(stdout.join('\n')).toContain('[org-repo-archived]');
+  });
+
+  it('a live, non-archived repo whose README has no logo reuses the existing no-logo-ref finding (new source, same audit)', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('live-no-logo', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.endsWith('/readme')) return fakeResponse({ status: 200, body: readmeApiBody('# No logo here\n') });
+      return liveRepoResponse(false);
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[no-logo-ref]');
+    expect(joined).not.toContain('org-repo-');
+  });
+
+  it('a live repo whose README correctly embeds the brand logo passes clean via the remote source', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('live-clean', 'png');
+    const readme = `<p align="center"><img src="${BRAND_BASE}/logos/live-clean/readme.png" alt="live-clean"></p>\n`;
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.endsWith('/readme')) return fakeResponse({ status: 200, body: readmeApiBody(readme) });
+      return liveRepoResponse(false);
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBeNull();
+    const joined = stdout.join('\n');
+    expect(joined).toMatch(/Audit clean/i);
+    expect(joined).toMatch(/Remote reconciliation/i);
+  });
+
+  it('F-FEAT-audit-remote: one repo\'s network failure degrades per-repo and does NOT abort the run', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('bad-repo', 'png');
+    seedLogo('good-repo', 'png');
+    const goodReadme = `<p align="center"><img src="${BRAND_BASE}/logos/good-repo/readme.png" alt="good-repo"></p>\n`;
+
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.includes('bad-repo')) throw new Error('simulated DNS/timeout failure');
+      if (url.endsWith('/readme')) return fakeResponse({ status: 200, body: readmeApiBody(goodReadme) });
+      return liveRepoResponse(false);
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    // remote-fetch-failed is high severity -> blocks the gate, but the run
+    // still completed (both slugs were attempted) rather than aborting.
+    expect(code).toBe(1);
+    const joined = stdout.join('\n');
+    expect(joined).toContain('[remote-fetch-failed]');
+    expect(joined).toContain('bad-repo');
+    // good-repo must have been reached and found clean — proof the failure
+    // on bad-repo did not stop the loop (mirrors brand-core-03's local-mode
+    // "one unreadable README keeps walking" contract). A fully clean repo
+    // never appears in the grouped issues report at all.
+    expect(joined).not.toContain('good-repo');
+    expect(fetchImpl.mock.calls.length).toBeGreaterThanOrEqual(3); // bad-repo(1) + good-repo(repo+readme=2)
+  });
+
+  it('F-FEAT-audit-remote: rate limiting stops further requests ("don\'t hammer") and reports clearly with exit 3', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('first', 'png');
+    seedLogo('second', 'png');
+    seedLogo('third', 'png');
+
+    const fetchImpl: TestFetchImpl = vi.fn(async () => rateLimitedResponse());
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: ORG,
+      fetchImpl,
+    });
+    expect(code).toBe(3);
+    const joined = stdout.join('\n');
+    expect(joined).toMatch(/rate limit/i);
+    // The critical assertion: exactly ONE request was made in total, no
+    // matter how many slugs exist — every request after the first 403 must
+    // be skipped, not attempted and re-failed.
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+  });
+
+  it('F-FEAT-org-reconcile: multi-org fallback — an org that 404s falls through to the next configured org', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('multi-org-slug', 'png');
+    const readme = `<p align="center"><img src="${BRAND_BASE}/logos/multi-org-slug/readme.png" alt="multi-org-slug"></p>\n`;
+
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.includes('/repos/org-a/multi-org-slug') && !url.endsWith('/readme')) return notFoundResponse();
+      if (url.includes('/repos/org-b/multi-org-slug/readme')) return fakeResponse({ status: 200, body: readmeApiBody(readme) });
+      if (url.includes('/repos/org-b/multi-org-slug')) return liveRepoResponse(false);
+      throw new Error(`unexpected URL in test fetch mock: ${url}`);
+    });
+
+    const code = await runAndCaptureExit({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: BRAND_BASE,
+      remote: true,
+      org: 'org-a,org-b',
+      fetchImpl,
+    });
+    expect(code).toBeNull();
+    expect(stdout.join('\n')).toMatch(/Audit clean/i);
+  });
+
+  it('--json purity on a clean remote run: raw stdout is exactly one JSON document with remote/org/reconciliation fields', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('json-clean', 'png');
+    const readme = `<p align="center"><img src="${BRAND_BASE}/logos/json-clean/readme.png" alt="json-clean"></p>\n`;
+    const fetchImpl: TestFetchImpl = vi.fn(async (url: string) => {
+      if (url.endsWith('/readme')) return fakeResponse({ status: 200, body: readmeApiBody(readme) });
+      return liveRepoResponse(false);
+    });
+
+    const writes: string[] = [];
+    const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(((chunk: unknown) => {
+      writes.push(String(chunk));
+      return true;
+    }) as never);
+    try {
+      await runAudit({
+        repos: reposDir,
+        logos: logosDir,
+        brandBase: BRAND_BASE,
+        remote: true,
+        org: ORG,
+        json: true,
+        fetchImpl,
+      });
+    } finally {
+      writeSpy.mockRestore();
+    }
+    expect(process.exitCode ?? 0).toBe(0);
+    process.exitCode = undefined;
+
+    // Strict purity (F-c16826d1 discipline): the raw stdout must be EXACTLY
+    // one JSON document, no fallback brace-scan, no leftover chatter.
+    expect(writes).toHaveLength(1);
+    expect(() => JSON.parse(writes[0]!)).not.toThrow();
+    const json = JSON.parse(writes[0]!) as Record<string, unknown>;
+    expect(json.ok).toBe(true);
+    expect(json.remote).toBe(true);
+    expect(json.org).toBe(ORG);
+    expect(json.reconciliation).toEqual({ renamed: 0, archived: 0, notFound: 0 });
+  });
+
+  it('--json on a remote run with an orphan: ok:false, exit 1, reconciliation.notFound:1, still pure JSON', async () => {
+    process.env.GH_TOKEN = 'test-token';
+    seedLogo('json-orphan', 'png');
+    const fetchImpl: TestFetchImpl = vi.fn(async () => notFoundResponse());
+
+    const writes: string[] = [];
+    const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(((chunk: unknown) => {
+      writes.push(String(chunk));
+      return true;
+    }) as never);
+    try {
+      await runAudit({
+        repos: reposDir,
+        logos: logosDir,
+        brandBase: BRAND_BASE,
+        remote: true,
+        org: ORG,
+        json: true,
+        fetchImpl,
+      });
+    } finally {
+      writeSpy.mockRestore();
+    }
+    expect(process.exitCode).toBe(1);
+    process.exitCode = undefined;
+
+    expect(writes).toHaveLength(1);
+    const json = JSON.parse(writes[0]!) as Record<string, unknown>;
+    expect(json.ok).toBe(false);
+    expect(json.reconciliation).toEqual({ renamed: 0, archived: 0, notFound: 1 });
+    expect(Array.isArray(json.issues)).toBe(true);
+    expect((json.issues as Array<{ issue: string }>).some(i => i.issue === 'org-repo-not-found')).toBe(true);
+  });
+});
