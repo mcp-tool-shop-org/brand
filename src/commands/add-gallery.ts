@@ -25,8 +25,13 @@
  *     anti-pattern) — they're skipped with a warning.
  *   - Only IMAGE_EXTENSIONS files are considered; everything else in
  *     source-dir is silently skipped (informational note only).
- *   - Multi-file writes use a staging temp dir + atomic rename-in swap, so a
- *     crash mid-copy can never leave the gallery folder half-updated.
+ *   - Multi-file writes use a staging dir + backup-rename swap: the existing
+ *     gallery folder is renamed to a backup name (never deleted outright),
+ *     the newly staged folder takes its place, and only then is the backup
+ *     removed — so a crash at any point still leaves either the original or
+ *     the replacement resolvable as "the real gallery" under a predictable
+ *     name, never neither. A run where nothing actually changed skips this
+ *     dance entirely (no restaging, no fresh mtimes, no crash exposure).
  */
 
 import chalk from 'chalk';
@@ -104,14 +109,22 @@ function naturalCompare(a: string, b: string): number {
   return 0;
 }
 
+// Characters that are unsafe in a single path segment. Beyond the separators
+// and "..", Windows also reserves : * ? " < > | in filenames — a colon in
+// particular is a plausible fat-finger (e.g. pasting a Windows path fragment
+// like "C:foo" as a slug), and left unvalidated it reaches an un-guarded
+// mkdirSync() and crashes with a raw ENOENT/opaque OS error (exit 3) instead
+// of a clean operator error (exit 2). See F-3aff2618.
+const INVALID_SEGMENT_CHARS = /[/\\:*?"<>|]/;
+
 /** Validate a slug is a safe, single path segment. */
-function validateSlug(slug: string): void {
+export function validateSlug(slug: string): void {
   if (!slug || slug.trim().length === 0) {
     throw new OperatorError('slug must be a non-empty string.');
   }
-  if (slug.includes('/') || slug.includes('\\') || slug.includes('..') || slug === '.' ) {
+  if (INVALID_SEGMENT_CHARS.test(slug) || slug.includes('..') || slug === '.') {
     throw new OperatorError(
-      `slug "${slug}" is not a valid path segment (no "/", "\\", or "..").`
+      `slug "${slug}" is not a valid path segment (no /, \\, :, *, ?, ", <, >, |, or ..).`
     );
   }
 }
@@ -121,9 +134,9 @@ function validateGalleryName(name: string): void {
   if (!name || name.trim().length === 0) {
     throw new OperatorError('--gallery-name must be a non-empty string.');
   }
-  if (name.includes('/') || name.includes('\\') || name.includes('..') || name === '.') {
+  if (INVALID_SEGMENT_CHARS.test(name) || name.includes('..') || name === '.') {
     throw new OperatorError(
-      `--gallery-name "${name}" is not a valid path segment (no "/", "\\", or "..").`
+      `--gallery-name "${name}" is not a valid path segment (no /, \\, :, *, ?, ", <, >, |, or ..).`
     );
   }
 }
@@ -229,10 +242,14 @@ function validateOrder(order: string[], images: string[]): void {
 /**
  * Reconcile the target gallery folder to match the desired final state
  * (sourceDir's images, renamed per resolveFinalNames). Uses a staging temp
- * dir + atomic swap: every new/changed file is first fully written into a
- * staging directory; only once staging succeeds completely do we swap it
- * into place, so a crash mid-copy can never leave the gallery folder
- * half-updated.
+ * dir + backup-rename swap: every new/changed file is first fully written
+ * into a staging directory; only once staging succeeds completely do we
+ * swap it into place by renaming the existing target to a backup name
+ * (never deleting it outright), moving staging into the target name, and
+ * only then removing the backup — so a crash at any point still leaves
+ * either the original or the replacement resolvable under a predictable
+ * name, never neither. Returns early, before touching disk at all, when
+ * added/updated/removed are all empty (nothing to do).
  */
 function reconcile(
   sourceDir: string,
@@ -278,14 +295,25 @@ function reconcile(
     return { added, updated, removed, skippedNonImage: [], skippedSubdirs: [] };
   }
 
-  // Staging-dir + atomic-swap discipline: build the full desired target
-  // state in a sibling staging dir first. Only on full success do we
-  // remove stale files and copy new files into the real target — but to
-  // truly avoid a half-updated window, we build the ENTIRE final folder
-  // contents in staging, then swap staging <-> target via rename.
+  // Nothing-to-do short-circuit: when the target is already byte-for-byte in
+  // sync, skip the staging/swap dance entirely. Without this, EVERY real run
+  // — including a no-op re-run — deleted and fully recreated targetDir,
+  // which (a) hit the crash window below on every single invocation instead
+  // of only on runs with real changes, and (b) gave every gallery file a
+  // fresh mtime on every run even when content was unchanged, spuriously
+  // invalidating any downstream cache/CDN keyed off Last-Modified.
+  // (F-7215ff77)
+  if (added.length === 0 && updated.length === 0 && removed.length === 0) {
+    return { added, updated, removed, skippedNonImage: [], skippedSubdirs: [] };
+  }
+
+  // Staging-dir + swap discipline: build the full desired target state in a
+  // sibling staging dir first. Only on full success do we swap it into place.
   const stagingDir = `${targetDir}.brand-staging-${process.pid}-${Date.now()}`;
+  const backupDir = `${targetDir}.brand-backup-${process.pid}-${Date.now()}`;
   mkdirSync(stagingDir, { recursive: true });
 
+  let renamedTargetAway = false;
   try {
     // Copy every desired file (changed or not) into staging so staging is
     // a complete, correct snapshot of the target's final state.
@@ -294,20 +322,39 @@ function reconcile(
       copyFileSync(join(sourceDir, original), join(stagingDir, finalName));
     }
 
-    // Swap: remove old target (if any), then rename staging into place.
-    // On the same volume, rename is atomic; the only non-atomic edge is
-    // between rmSync(targetDir) and renameSync(staging), which is the same
-    // trade-off migrate.ts's atomicWrite makes for single files — here we
-    // minimize the window by doing the rm immediately before the rename
-    // with no other work in between.
+    // Swap: never delete the existing gallery outright. Rename it out of
+    // the way first (recoverable under a well-known backup name), rename
+    // the fully-built staging dir into the now-vacant target name, and only
+    // THEN remove the backup. At every instant either <targetDir> or
+    // <backupDir> resolves to a complete, valid gallery folder — unlike the
+    // previous rm-then-rename sequence, a crash here never leaves the
+    // gallery folder simply absent with only an unlabeled staging dir as
+    // the only evidence it ever existed. (F-7fef3209)
     if (targetExists) {
-      rmSync(targetDir, { recursive: true, force: true });
+      renameSync(targetDir, backupDir);
+      renamedTargetAway = true;
     }
     renameSync(stagingDir, targetDir);
+    if (renamedTargetAway) {
+      try {
+        rmSync(backupDir, { recursive: true, force: true });
+      } catch {
+        /* best-effort cleanup — a leftover .brand-backup-* dir is harmless clutter, not data loss */
+      }
+    }
   } catch (err) {
+    // If the target was already renamed out of the way but the swap did not
+    // finish, put it back so the gallery folder is never left missing under
+    // its expected name.
+    if (renamedTargetAway && existsSync(backupDir)) {
+      try {
+        renameSync(backupDir, targetDir);
+      } catch {
+        /* best-effort restore; the original is still recoverable under backupDir's name */
+      }
+    }
     // Best-effort cleanup of the staging dir on failure so we don't leak
-    // `.brand-staging-*` siblings; the real target is left untouched
-    // because we only rm it right before a rename we're about to attempt.
+    // `.brand-staging-*` siblings.
     try {
       rmSync(stagingDir, { recursive: true, force: true });
     } catch {

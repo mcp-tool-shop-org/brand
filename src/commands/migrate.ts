@@ -7,6 +7,11 @@
  *     the original content of every README touched so a SIGINT or crash
  *     leaves a recovery trail. After successful write the entry is removed.
  *     On startup, if entries remain from a prior run, --resume restores them.
+ *   - --dry-run --resume is a true preview: it prints what WOULD be restored
+ *     but never writes a README or touches the journal. A restore failure
+ *     during a real --resume keeps that entry in the journal (instead of
+ *     wiping the whole journal unconditionally) and is surfaced as a
+ *     failure in the console summary, the --json result, and the exit code.
  *   - Per-repo try/catch: one repo's failure does NOT abort the others.
  *   - Categorical skip reasons (no-clone / no-logo-file / multi-logo / already-migrated)
  *     surfaced as counts in the summary AND in the JSON output.
@@ -73,9 +78,34 @@ function readJournal(reposDir: string): JournalEntry[] {
     const parsed = JSON.parse(readFileSync(path, 'utf-8'));
     if (Array.isArray(parsed)) return parsed as JournalEntry[];
   } catch {
-    // Corrupt journal — surface but don't crash; treat as empty.
+    // Corrupt journal — this is the ONLY backup of pre-migration README
+    // content, so silently discarding it would hide a real loss of
+    // crash-recovery data. Surface loudly (even outside --quiet — this
+    // indicates lost recovery data, not routine chatter) and preserve the
+    // unparseable file for manual inspection instead of letting it be
+    // silently overwritten by the next writeJournal() call. (F-dbc18187)
+    console.error(chalk.red(
+      `\n  ! Corrupt journal at ${path} — could not parse as JSON. Treating as empty ` +
+      `(any crash-recovery data it held may be lost). The file has been renamed to ` +
+      `preserve it for manual inspection; it will not be silently overwritten.\n`
+    ));
+    preserveCorruptJournal(path);
   }
   return [];
+}
+
+/**
+ * Rename an unparseable journal file out of the way so it survives the next
+ * writeJournal() call instead of being silently discarded/overwritten.
+ * Best-effort: if even the rename fails, the console warning above already
+ * surfaced the loss.
+ */
+function preserveCorruptJournal(path: string): void {
+  try {
+    renameSync(path, `${path}.corrupt-${Date.now()}`);
+  } catch {
+    /* best-effort — the console warning above is the primary signal */
+  }
 }
 
 function writeJournal(reposDir: string, entries: JournalEntry[]): void {
@@ -137,36 +167,6 @@ export async function runMigrate(opts: MigrateOptions): Promise<void> {
   const brandPrefix = opts.brandBase.replace(/\/+$/, '');
   const isBrandSrc = (src: string): boolean => src.includes(brandPrefix);
 
-  // --- Resume: restore any half-applied migration from a prior interrupted run ---
-  let resumed = 0;
-  const existingJournal = readJournal(opts.repos);
-  if (opts.resume && existingJournal.length > 0) {
-    if (!opts.json && !opts.quiet) {
-      console.log(chalk.cyan(`\n  Resuming from journal: ${existingJournal.length} README(s) to restore.\n`));
-    }
-    for (const entry of existingJournal) {
-      try {
-        if (existsSync(entry.path)) {
-          atomicWrite(entry.path, entry.original);
-          resumed++;
-        }
-      } catch (err) {
-        // Best-effort restore; we'll surface as a failure on the summary
-        const e = err as NodeJS.ErrnoException;
-        if (!opts.json && !opts.quiet) {
-          console.error(chalk.red(`  ! could not restore ${entry.path}: ${e.message}`));
-        }
-      }
-    }
-    // Drop the journal after a resume — what's done is done.
-    writeJournal(opts.repos, []);
-  } else if (existingJournal.length > 0 && !opts.json && !opts.quiet) {
-    console.error(chalk.yellow(
-      `\n  ! ${JOURNAL_NAME} found at ${opts.repos} — a prior migrate appears to have been interrupted.\n` +
-      `    Re-run with --resume to restore the original READMEs, or delete the journal manually.\n`
-    ));
-  }
-
   let total = 0;
   let updated = 0;
   let skipped = 0;
@@ -181,6 +181,75 @@ export async function runMigrate(opts: MigrateOptions): Promise<void> {
 
   if (opts.dryRun && !opts.json && !opts.quiet) {
     console.log(chalk.cyan('\n  DRY RUN — no files will be modified.\n'));
+  }
+
+  // --- Resume: restore any half-applied migration from a prior interrupted run ---
+  // `--dry-run --resume` MUST be a true preview: nothing in the dry-run
+  // branch below writes to disk or touches the journal. Previously the
+  // restore-and-wipe sequence ran unconditionally regardless of
+  // opts.dryRun, so a "preview" run silently performed real, permanent
+  // writes (every journaled README overwritten with its pre-migration
+  // original) and really deleted the journal. (F-e9cfd56a)
+  let resumed = 0;
+  const existingJournal = readJournal(opts.repos);
+  if (opts.resume && existingJournal.length > 0) {
+    if (opts.dryRun) {
+      if (!opts.json && !opts.quiet) {
+        console.log(chalk.cyan(
+          `  Would resume from journal: ${existingJournal.length} README(s) would be restored:\n`
+        ));
+        for (const entry of existingJournal) {
+          console.log(`    ~ ${entry.path}`);
+        }
+        console.log('');
+      }
+      // Preview only — count what WOULD be restored; touch nothing.
+      resumed = existingJournal.length;
+    } else {
+      if (!opts.json && !opts.quiet) {
+        console.log(chalk.cyan(`\n  Resuming from journal: ${existingJournal.length} README(s) to restore.\n`));
+      }
+      const handledPaths = new Set<string>();
+      for (const entry of existingJournal) {
+        try {
+          if (existsSync(entry.path)) {
+            atomicWrite(entry.path, entry.original);
+            resumed++;
+          }
+          // Whether or not the file still existed, this entry is handled —
+          // safe to drop from the journal below.
+          handledPaths.add(entry.path);
+        } catch (err) {
+          // Restore failed — leave this entry IN the journal (a future
+          // --resume can retry it) and surface the failure everywhere
+          // failures are surfaced: console, the JSON result, and the exit
+          // code. Previously this was a best-effort console.error gated
+          // behind !json && !quiet with NOTHING tracked, and the very next
+          // line unconditionally wiped the whole journal regardless —
+          // silently and permanently destroying the only backup of the
+          // pre-migration content for this entry. (F-ff1c46f0)
+          const e = err as NodeJS.ErrnoException;
+          failures.push({
+            slug: entry.path,
+            code: e.code,
+            message: `resume restore failed: ${e.message}`,
+          });
+          if (!opts.json && !opts.quiet) {
+            console.error(chalk.red(`  ! could not restore ${entry.path}: ${e.message}`));
+          }
+        }
+      }
+      // Drop only the entries that were actually handled — entries whose
+      // restore failed stay in the journal so their recovery data isn't
+      // lost, instead of the previous unconditional writeJournal([]).
+      const remaining = existingJournal.filter(e => !handledPaths.has(e.path));
+      writeJournal(opts.repos, remaining);
+    }
+  } else if (existingJournal.length > 0 && !opts.json && !opts.quiet) {
+    console.error(chalk.yellow(
+      `\n  ! ${JOURNAL_NAME} found at ${opts.repos} — a prior migrate appears to have been interrupted.\n` +
+      `    Re-run with --resume to restore the original READMEs, or delete the journal manually.\n`
+    ));
   }
 
   const showProgress = !opts.json && !opts.quiet && isTTY();

@@ -261,6 +261,66 @@ describe('runAddGallery — idempotent reconciliation', () => {
   });
 });
 
+describe('runAddGallery — no-op short-circuit when nothing changed (F-7215ff77)', () => {
+  it('does not touch the target directory or file on disk when re-run against an unchanged source-dir', async () => {
+    seedSourceFile('a.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    const targetDir = join(logosDir, 'widget', 'gallery');
+    const targetFile = join(targetDir, 'a.png');
+    const beforeDirMtime = statSync(targetDir).mtimeMs;
+    const beforeFileMtime = statSync(targetFile).mtimeMs;
+
+    // Wait long enough that a rebuild-in-place would be detectable.
+    await new Promise(r => setTimeout(r, 20));
+
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+
+    // Before the fix, EVERY real run — even a genuine no-op — deleted and
+    // fully recreated targetDir via the staging+rename swap. That gives the
+    // directory itself a new mtime (fresh inode from the rename) AND gives
+    // every file inside a new mtime (freshly copied), even though nothing
+    // in added/updated/removed changed.
+    expect(statSync(targetDir).mtimeMs).toBe(beforeDirMtime);
+    expect(statSync(targetFile).mtimeMs).toBe(beforeFileMtime);
+  });
+});
+
+describe('runAddGallery — crash-safety swap ordering (F-7fef3209)', () => {
+  it('leaves the existing gallery completely untouched when the backup-rename step fails', async () => {
+    seedSourceFile('a.png');
+    await runAddGallery({ slug: 'widget', sourceDir, logos: logosDir });
+    seedSourceFile('b.png'); // a real change, so this run does NOT hit the nothingToDo short-circuit
+
+    const targetDir = join(logosDir, 'widget', 'gallery');
+    const beforeFiles = readdirSync(targetDir).sort();
+    const beforeContent = readFileSync(join(targetDir, 'a.png'), 'utf-8');
+
+    const FIXED_NOW = 1735689600000;
+    const dateSpy = vi.spyOn(Date, 'now').mockReturnValue(FIXED_NOW);
+    // Pre-collide the exact backup path the fix uses, as a non-empty
+    // directory. Empirically confirmed on this filesystem: renaming a
+    // directory onto an existing non-empty (or even empty) directory
+    // throws — so this forces renameSync(targetDir, backupDir) to fail
+    // before the swap has done anything destructive.
+    const backupDir = `${targetDir}.brand-backup-${process.pid}-${FIXED_NOW}`;
+    mkdirSync(backupDir, { recursive: true });
+    writeFileSync(join(backupDir, 'occupied.txt'), 'collision');
+
+    try {
+      await expectExit(3, () => runAddGallery({ slug: 'widget', sourceDir, logos: logosDir }));
+    } finally {
+      dateSpy.mockRestore();
+    }
+
+    // The original gallery must be completely unharmed — the destructive
+    // part of the old rm-then-rename swap must never get a chance to run
+    // before the backup rename has succeeded.
+    expect(readdirSync(targetDir).sort()).toEqual(beforeFiles);
+    expect(readFileSync(join(targetDir, 'a.png'), 'utf-8')).toBe(beforeContent);
+  });
+});
+
 describe('runAddGallery — --order', () => {
   it('applies zero-padded numeric-prefix renaming so natural sort matches the requested order', async () => {
     seedSourceFile('zebra.png');
@@ -446,6 +506,22 @@ describe('runAddGallery — operator errors (exit 2)', () => {
   it('exits 2 for an invalid slug containing ".."', async () => {
     seedSourceFile('a.png');
     await expectExit(2, () => runAddGallery({ slug: '../escape', sourceDir, logos: logosDir }));
+  });
+
+  // F-3aff2618 — a slug like "C:foo" (a plausible fat-finger, e.g. pasting a
+  // Windows path fragment) previously passed validation, then crashed an
+  // un-guarded mkdirSync() with a raw OS error, surfacing as an opaque exit
+  // 3 ("Unexpected error") instead of a clean, actionable exit 2.
+  it('exits 2 (not a raw crash) for a slug containing ":"', async () => {
+    seedSourceFile('a.png');
+    await expectExit(2, () => runAddGallery({ slug: 'C:foo', sourceDir, logos: logosDir }));
+  });
+
+  it('exits 2 (not a raw crash) for a --gallery-name containing ":"', async () => {
+    seedSourceFile('a.png');
+    await expectExit(2, () =>
+      runAddGallery({ slug: 'widget', sourceDir, logos: logosDir, galleryName: 'name:stream' })
+    );
   });
 
   it('exits 2 for an empty slug', async () => {
