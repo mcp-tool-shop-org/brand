@@ -257,6 +257,45 @@ describe('runSync — operator errors (exit 2)', () => {
   });
 });
 
+describe('runSync — path traversal / invalid slug (F-5cbd78ab, regression guard F-044cae9d)', () => {
+  it('exits 2 for a slug containing ".."', async () => {
+    // No manifest/gallery/README seeded at all — validation must reject the
+    // slug before any of that is ever touched.
+    const code = await runAndCaptureExit(baseOpts({ slug: '../../outside' }));
+    expect(code).toBe(2);
+  });
+
+  it('refuses a traversal-shaped slug and never writes outside --repos', async () => {
+    // Nest repos so the escape has real path segments to walk past.
+    const nestedRepos = join(reposDir, 'nested-root', 'repos');
+    mkdirSync(nestedRepos, { recursive: true });
+
+    const slug = '../../outside-escape-target';
+    // Compute exactly where a successful traversal would land using the
+    // SAME join() the command uses internally — self-consistent regardless
+    // of nesting depth, so this doesn't depend on hand-derived path math.
+    const escapeDir = join(nestedRepos, slug);
+    mkdirSync(escapeDir, { recursive: true });
+    const escapeReadmePath = join(escapeDir, 'README.md');
+    const canaryContent = markerReadme('outside-escape-target', undefined, 'CANARY — must not change');
+    writeFileSync(escapeReadmePath, canaryContent, 'utf-8');
+
+    // A fully realistic, otherwise-valid setup, so this test would still
+    // catch a regression even if some future refactor reordered checks —
+    // it isn't passing merely because manifest/gallery resolution failed
+    // first for an unrelated reason.
+    const filenames = ['front.png'];
+    seedGalleryFolder('alpha', 'turnarounds', filenames);
+    writeManifest(buildManifest('alpha', 'turnarounds', filenames), manifestPath);
+
+    const code = await runAndCaptureExit(baseOpts({ repos: nestedRepos, slug, gallery: 'turnarounds' }));
+
+    expect(code).toBe(2);
+    // The canary outside --repos must be byte-for-byte untouched.
+    expect(readFileSync(escapeReadmePath, 'utf-8')).toBe(canaryContent);
+  });
+});
+
 describe('runSync — --json output', () => {
   it('emits a single JSON object with the expected shape on success', async () => {
     const filenames = ['front.png'];
