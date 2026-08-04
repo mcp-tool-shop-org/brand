@@ -46,7 +46,7 @@ import {
   readFileSync,
 } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join, extname, basename } from 'node:path';
+import { join, extname, basename, dirname } from 'node:path';
 import { generateManifest, writeManifest, IMAGE_EXTENSIONS } from '../manifest.js';
 
 export interface AddGalleryOptions {
@@ -240,6 +240,168 @@ function validateOrder(order: string[], images: string[]): void {
 }
 
 /**
+ * Reserved naming convention for this command's own internal
+ * staging/backup directories, used during the swap in reconcile() below.
+ *
+ * Prefixed with "." so they are invisible BY DEFAULT to manifest.ts's
+ * getGalleryFolders()/generateManifest() directory scan: both call
+ * globSync('*\/', { cwd, follow: false }) with no `dot` option, and the
+ * `glob` package (empirically confirmed against the ^13.0.6 range this
+ * repo depends on) does not match dot-prefixed entries unless `dot: true`
+ * is passed — neither call opts in. This closes the "phantom gallery"
+ * half of F-ea059f0e without requiring any change to manifest.ts: a
+ * leftover staging/backup dir can no longer be discovered as a second
+ * gallery folder for the slug, regardless of why it was left behind (a
+ * hard kill between the two renames, or an rmSync that throws — see
+ * cleanupStaleSiblings below for the other half of the fix).
+ *
+ * This IS a real, verified mitigation today, but it is also an implicit
+ * contract — it depends on manifest.ts's CURRENT glob call shape, which
+ * this file cannot enforce since src/manifest.ts is outside this
+ * command's domain. See this wave's swarm output for the explicit
+ * denylist manifest.ts should also carry so the exclusion stops being
+ * implicit and can't silently regress if that file's glob options ever
+ * change.
+ */
+export function stagingDirFor(targetDir: string): string {
+  return join(dirname(targetDir), `.brand-staging-${basename(targetDir)}-${process.pid}-${Date.now()}`);
+}
+export function backupDirFor(targetDir: string): string {
+  return join(dirname(targetDir), `.brand-backup-${basename(targetDir)}-${process.pid}-${Date.now()}`);
+}
+
+/**
+ * Prefix matchers for BOTH the current dot-prefixed convention (see
+ * stagingDirFor/backupDirFor above) and the legacy convention used before
+ * F-ea059f0e (a bare `<targetBaseName>.brand-staging-`/`.brand-backup-`
+ * sibling, with no leading dot). A crash under the OLD code could still
+ * have left a legacy-named leftover on disk before this fix ever shipped;
+ * matching both conventions means that leftover self-heals on the very
+ * next invocation too, not just leftovers created by the new code.
+ */
+function stalePrefixesFor(targetDir: string): string[] {
+  const base = basename(targetDir);
+  return [
+    `.brand-staging-${base}-`,
+    `.brand-backup-${base}-`,
+    `${base}.brand-staging-`,
+    `${base}.brand-backup-`,
+  ];
+}
+
+/**
+ * Best-effort liveness check for the pid embedded in a reserved sibling's
+ * own name (see parseReservedSiblingPid below). Signal 0 sends nothing but
+ * still reports ESRCH ("no such process") vs. success/EPERM — supported
+ * cross-platform by Node, confirmed on this repo's target platforms. Any
+ * error OTHER than EPERM (e.g. ESRCH, or an out-of-range pid rejected
+ * before a signal is even attempted) is treated as "not alive", so an
+ * unparseable or clearly-bogus pid defaults to being reclaimable rather
+ * than permanently protected.
+ *
+ * Not shared with sync.ts's/migrate.ts's own copy of this same check —
+ * kept independent per file-ownership boundaries, the same rule
+ * atomicWrite's doc comment documents elsewhere in this command set.
+ */
+function isProcessAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (err) {
+    const e = err as NodeJS.ErrnoException;
+    return e.code === 'EPERM';
+  }
+}
+
+/**
+ * Extract the pid embedded in a reserved staging/backup sibling's own
+ * name (both conventions encode it as `...-<pid>-<timestamp>`, see
+ * stagingDirFor/backupDirFor/stalePrefixesFor above), or null if `name`
+ * does not match any reserved prefix or the pid segment isn't parseable.
+ */
+function parseReservedSiblingPid(name: string, targetDir: string): number | null {
+  for (const prefix of stalePrefixesFor(targetDir)) {
+    if (!name.startsWith(prefix)) continue;
+    const rest = name.slice(prefix.length); // "<pid>-<timestamp>"
+    const dashIdx = rest.indexOf('-');
+    if (dashIdx === -1) continue;
+    const pidStr = rest.slice(0, dashIdx);
+    if (!/^\d+$/.test(pidStr)) continue;
+    const pid = Number(pidStr);
+    if (Number.isFinite(pid)) return pid;
+  }
+  return null;
+}
+
+/**
+ * Remove any staging/backup sibling directories left over from a previous
+ * interrupted reconcile() for this exact targetDir — self-heals
+ * regardless of WHY the previous run didn't finish (a hard kill between
+ * the two renames, or an rmSync that threw and used to be silently
+ * swallowed behind a comment calling the leftover "harmless clutter").
+ *
+ * That claim was empirically false (F-ea059f0e): generateManifest(),
+ * called automatically after every real add-gallery run, has zero
+ * name-filtering on direct subfolders of a slug and silently adopts a
+ * leftover as a second, phantom gallery — corrupting manifest.json and
+ * later making a plain `brand sync <slug>` fail with "ambiguous gallery"
+ * until a human finds and deletes the stray directory by hand.
+ *
+ * A candidate is only reclaimed when the pid embedded in its OWN name
+ * (see parseReservedSiblingPid) is confirmed dead, or isn't parseable at
+ * all. A sibling whose embedded pid IS still alive is presumed to belong
+ * to another in-progress invocation of this same command actively writing
+ * into its own staging dir right now — never reclaimed, regardless of how
+ * long it has been running. This is deliberately a liveness check, not an
+ * age/timeout heuristic: unlike a lock file (an inert marker, safe to
+ * reclaim once its holder is confirmed gone), a staging dir may be under
+ * active, ongoing write — seizing it out from under a slow-but-live
+ * process would be actively destructive, not merely impolite.
+ *
+ * Runs BEFORE reconcile does anything else in the real (non-dry-run)
+ * path, INCLUDING when added/updated/removed all come back empty — a
+ * "nothing to do" re-run is in fact the MOST likely shape of the very
+ * next invocation after a crash (the swap itself already completed; only
+ * the final backup removal was interrupted), so gating this on "there's
+ * real work to do" would miss the single most common recovery case. This
+ * is safe to run unconditionally because it only ever touches sibling
+ * directories matching the reserved naming convention AND owned by a
+ * confirmed-dead pid — never targetDir itself and never a live sibling —
+ * so it cannot reintroduce the mtime-churn problem the nothing-to-do
+ * short-circuit below exists to prevent (F-7215ff77).
+ */
+function cleanupStaleSiblings(targetDir: string): void {
+  const parent = dirname(targetDir);
+  if (!existsSync(parent)) return;
+
+  const prefixes = stalePrefixesFor(targetDir);
+  let entryNames: string[];
+  try {
+    entryNames = readdirSync(parent, { withFileTypes: true })
+      .filter(e => e.isDirectory())
+      .map(e => e.name);
+  } catch {
+    return; // best-effort — a transient listing failure just means the next run retries
+  }
+
+  for (const name of entryNames) {
+    if (!prefixes.some(p => name.startsWith(p))) continue;
+
+    const pid = parseReservedSiblingPid(name, targetDir);
+    if (pid !== null && isProcessAlive(pid)) continue; // belongs to a live, in-progress run — never touch it
+
+    try {
+      rmSync(join(parent, name), { recursive: true, force: true });
+    } catch {
+      // Best-effort: if this ALSO fails (e.g. an AV scanner or search
+      // indexer holding a handle open), the NEXT invocation retries the
+      // same cleanup instead of adopting the leftover — unlike the old
+      // swallowed-and-forgotten catch{}, this one is retried, not permanent.
+    }
+  }
+}
+
+/**
  * Reconcile the target gallery folder to match the desired final state
  * (sourceDir's images, renamed per resolveFinalNames). Uses a staging temp
  * dir + backup-rename swap: every new/changed file is first fully written
@@ -295,6 +457,12 @@ function reconcile(
     return { added, updated, removed, skippedNonImage: [], skippedSubdirs: [] };
   }
 
+  // Self-heal BEFORE anything else in the real-run path: clear out any
+  // staging/backup siblings a previous interrupted run left behind for
+  // THIS targetDir. See cleanupStaleSiblings's doc comment for why this
+  // runs even when nothing else below is about to change. (F-ea059f0e)
+  cleanupStaleSiblings(targetDir);
+
   // Nothing-to-do short-circuit: when the target is already byte-for-byte in
   // sync, skip the staging/swap dance entirely. Without this, EVERY real run
   // — including a no-op re-run — deleted and fully recreated targetDir,
@@ -309,8 +477,8 @@ function reconcile(
 
   // Staging-dir + swap discipline: build the full desired target state in a
   // sibling staging dir first. Only on full success do we swap it into place.
-  const stagingDir = `${targetDir}.brand-staging-${process.pid}-${Date.now()}`;
-  const backupDir = `${targetDir}.brand-backup-${process.pid}-${Date.now()}`;
+  const stagingDir = stagingDirFor(targetDir);
+  const backupDir = backupDirFor(targetDir);
   mkdirSync(stagingDir, { recursive: true });
 
   let renamedTargetAway = false;
@@ -339,7 +507,18 @@ function reconcile(
       try {
         rmSync(backupDir, { recursive: true, force: true });
       } catch {
-        /* best-effort cleanup — a leftover .brand-backup-* dir is harmless clutter, not data loss */
+        // Best-effort cleanup. If this throws (e.g. a Windows AV scanner or
+        // search indexer briefly holding the directory open — not only a
+        // hard-kill scenario), the backup dir is left on disk under its
+        // RESERVED, dot-prefixed name (see backupDirFor above) — invisible
+        // to manifest.ts's gallery discovery by construction, and
+        // self-healed by cleanupStaleSiblings on the very next invocation
+        // of this command for this same gallery. This is NOT harmless
+        // clutter to leave indefinitely (an earlier version of this
+        // comment claimed exactly that, and F-ea059f0e proved it false —
+        // generateManifest used to silently adopt a leftover as a second,
+        // phantom gallery) — but it is also no longer either adopted or a
+        // permanent orphan.
       }
     }
   } catch (err) {

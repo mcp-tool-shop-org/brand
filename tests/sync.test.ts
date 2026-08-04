@@ -12,7 +12,7 @@
  *   - --json output shape
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { runSync, type SyncOptions } from '../src/commands/sync.js';
@@ -293,6 +293,96 @@ describe('runSync — path traversal / invalid slug (F-5cbd78ab, regression guar
     expect(code).toBe(2);
     // The canary outside --repos must be byte-for-byte untouched.
     expect(readFileSync(escapeReadmePath, 'utf-8')).toBe(canaryContent);
+  });
+});
+
+// F-38e339d9 — two concurrent `brand sync` processes targeting DIFFERENT
+// galleries of the SAME README each used to read the same pre-image,
+// independently compute their own gallery's update from it, and whichever
+// wrote SECOND silently reverted the FIRST process's already-successful
+// write — both exited 0, neither printed a warning. The fix is a per-README
+// lockfile (<readme>.brand-sync-lock) held across the whole read-compute-
+// write cycle. These tests simulate contention by pre-seeding the lock file
+// directly (the same technique the rest of this suite uses for crash/hazard
+// simulation) rather than spawning real concurrent processes.
+describe('runSync — concurrent-write lock (F-38e339d9)', () => {
+  it('fails loudly instead of silently racing when a live lock is already held for the same README', async () => {
+    const filenames = ['front.png'];
+    seedGalleryFolder('alpha', 'turnarounds', filenames);
+    writeManifest(buildManifest('alpha', 'turnarounds', filenames), manifestPath);
+    const readmePath = seedReadme('alpha', markerReadme('alpha', 'turnarounds', 'STALE'));
+
+    // Simulate a concurrent sync already in flight: a fresh lock file
+    // naming a live pid. This test process's OWN pid is trivially "alive"
+    // (a process can always signal itself), so the fix's liveness check
+    // must treat this as genuine, un-reclaimable contention.
+    writeFileSync(`${readmePath}.brand-sync-lock`, `${process.pid}:${Date.now()}`, 'utf-8');
+    const before = readFileSync(readmePath, 'utf-8');
+
+    const code = await runAndCaptureExit(baseOpts({ gallery: 'turnarounds' }));
+
+    // Before this fix, a pre-existing lock file was never even looked at —
+    // sync would proceed normally, exit 0, and overwrite the README.
+    expect(code).not.toBe(0);
+    expect(readFileSync(readmePath, 'utf-8')).toBe(before);
+
+    const printed = [...logSpy.mock.calls, ...errorSpy.mock.calls].flat().map(String).join('\n');
+    expect(printed.toLowerCase()).toContain('sync');
+  });
+
+  it('self-heals a stale lock (dead pid) and completes the sync normally', async () => {
+    const filenames = ['front.png'];
+    seedGalleryFolder('alpha', 'turnarounds', filenames);
+    writeManifest(buildManifest('alpha', 'turnarounds', filenames), manifestPath);
+    const readmePath = seedReadme('alpha', markerReadme('alpha', 'turnarounds', 'STALE'));
+
+    // An empirically-confirmed-dead pid (ESRCH) with a FRESH timestamp —
+    // proves liveness, not just age, is what's actually checked.
+    writeFileSync(`${readmePath}.brand-sync-lock`, `999999999:${Date.now()}`, 'utf-8');
+
+    const code = await runAndCaptureExit(baseOpts({ gallery: 'turnarounds' }));
+    expect(code).toBe(0);
+    expect(readFileSync(readmePath, 'utf-8')).toContain('front.png');
+    expect(existsSync(`${readmePath}.brand-sync-lock`)).toBe(false);
+  });
+
+  it('self-heals a lock old enough to be stale even when the pid happens to be alive', async () => {
+    const filenames = ['front.png'];
+    seedGalleryFolder('alpha', 'turnarounds', filenames);
+    writeManifest(buildManifest('alpha', 'turnarounds', filenames), manifestPath);
+    const readmePath = seedReadme('alpha', markerReadme('alpha', 'turnarounds', 'STALE'));
+
+    // This process's own pid (definitely alive) but a timestamp well past
+    // SYNC_LOCK_STALE_MS.
+    writeFileSync(`${readmePath}.brand-sync-lock`, `${process.pid}:${Date.now() - 999_999}`, 'utf-8');
+
+    const code = await runAndCaptureExit(baseOpts({ gallery: 'turnarounds' }));
+    expect(code).toBe(0);
+  });
+
+  it('does not leave a lock file behind after a normal successful sync', async () => {
+    const filenames = ['front.png'];
+    seedGalleryFolder('alpha', 'turnarounds', filenames);
+    writeManifest(buildManifest('alpha', 'turnarounds', filenames), manifestPath);
+    const readmePath = seedReadme('alpha', markerReadme('alpha', 'turnarounds', 'STALE'));
+
+    await runAndCaptureExit(baseOpts({ gallery: 'turnarounds' }));
+    expect(existsSync(`${readmePath}.brand-sync-lock`)).toBe(false);
+  });
+
+  it('does not leave a lock file behind after an operator-error exit (e.g. --check drift, exit 1)', async () => {
+    const filenames = ['front.png', 'side.png'];
+    seedGalleryFolder('alpha', 'turnarounds', filenames);
+    writeManifest(buildManifest('alpha', 'turnarounds', filenames), manifestPath);
+    const readmePath = seedReadme('alpha', markerReadme('alpha', 'turnarounds', 'old/front.png'));
+
+    const code = await runAndCaptureExit(baseOpts({ gallery: 'turnarounds', check: true }));
+    expect(code).toBe(1);
+    // process.exit(1) here is a REAL exit path (mocked to throw in tests) —
+    // this pins that the lock is released via the try/finally even though
+    // this specific exit never reaches fail()'s process.on('exit') backstop
+    // path any differently than a normal return would.
+    expect(existsSync(`${readmePath}.brand-sync-lock`)).toBe(false);
   });
 });
 

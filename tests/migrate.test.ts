@@ -315,3 +315,69 @@ describe('runMigrate — skip path', () => {
     expect(after).toBe(before);
   });
 });
+
+// F-710290dd (HIGH, security) — the operator-supplied --brand-base was
+// interpolated into an <img src="..."> attribute with NO escaping, so a
+// value containing a quote could close the attribute early and inject
+// arbitrary markup into every README the migration touches.
+// renderGalleryBlock (marker-parser.ts, added in v1.0.7) already
+// HTML-escapes gallery url/alt for exactly this hazard — the fix here
+// applies that same escaping to newSrc before it reaches rewriteLogoSrc,
+// which splices its input verbatim with no escaping of its own.
+describe('runMigrate — --brand-base HTML-attribute injection (F-710290dd)', () => {
+  it('escapes a quote-bearing --brand-base so it cannot break out of the <img src="..."> attribute', async () => {
+    seedLogo('alpha', 'png');
+    const repoDir = seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+
+    // A quote closes the src attribute early; onerror= would become a
+    // live, separate HTML attribute instead of inert text inside src, if
+    // this were spliced in unescaped.
+    const maliciousBase = 'https://evil.example.com/x" onerror="alert(1)" data-x="';
+
+    await runMigrate({
+      repos: reposDir,
+      logos: logosDir,
+      brandBase: maliciousBase,
+      dryRun: false,
+    });
+
+    const rewritten = readFileSync(join(repoDir, 'README.md'), 'utf-8');
+
+    // The raw (unescaped) injection pattern must never appear.
+    expect(rewritten).not.toContain('" onerror="alert(1)"');
+    // The escaped form must appear instead — quotes turned into inert
+    // &quot; entities within the single src attribute's text value.
+    expect(rewritten).toContain('&quot; onerror=&quot;alert(1)&quot;');
+
+    // Structural proof: strip out the ENTIRE src="..." attribute (value
+    // included) and confirm no "onerror=" token survives in what's left.
+    // This is the part a naive substring/regex check on the whole tag
+    // can't distinguish: /\bonerror\s*=/ matches "onerror=" whether it's a
+    // live, separate attribute OR (as here) inert text safely embedded
+    // inside src's own escaped value — only removing the value first tells
+    // them apart. Because the value is properly &quot;-escaped, it
+    // contains no raw `"`, so `[^"]*` correctly consumes the WHOLE value in
+    // one match rather than stopping at an injected quote.
+    const imgTagMatch = rewritten.match(/<img\s[^>]*>/);
+    expect(imgTagMatch).not.toBeNull();
+    const imgTag = imgTagMatch![0];
+    const withoutSrcAttr = imgTag.replace(/\bsrc\s*=\s*"[^"]*"/, '');
+    // Confirms a src="..." attribute was actually found and removed
+    // (otherwise withoutSrcAttr would just equal imgTag unchanged).
+    expect(withoutSrcAttr.length).toBeLessThan(imgTag.length);
+    expect(withoutSrcAttr).not.toMatch(/\bonerror\s*=/);
+  });
+
+  it('escapes <, >, and & the same way marker-parser.ts\'s escapeAttr does', async () => {
+    seedLogo('alpha', 'png');
+    const repoDir = seedRepo('alpha', { 'README.md': README_WITH_LOCAL_LOGO('alpha') });
+
+    const base = 'https://evil.example.com/<script>&x</script>';
+
+    await runMigrate({ repos: reposDir, logos: logosDir, brandBase: base, dryRun: false });
+
+    const rewritten = readFileSync(join(repoDir, 'README.md'), 'utf-8');
+    expect(rewritten).not.toContain('<script>');
+    expect(rewritten).toContain('&lt;script&gt;&amp;x&lt;/script&gt;');
+  });
+});
