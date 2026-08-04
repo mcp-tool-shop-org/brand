@@ -10,8 +10,9 @@ import { deflateSync } from 'node:zlib';
 
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
-const CRC_TABLE: number[] = (() => {
-  const table: number[] = [];
+const CRC_TABLE = (() => {
+  /** @type {number[]} */
+  const table = [];
   for (let n = 0; n < 256; n++) {
     let c = n;
     for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
@@ -20,13 +21,15 @@ const CRC_TABLE: number[] = (() => {
   return table;
 })();
 
-function crc32(buf: Buffer): number {
+/** @param {Buffer} buf @returns {number} */
+function crc32(buf) {
   let c = 0xffffffff;
-  for (const byte of buf) c = CRC_TABLE[(c ^ byte) & 0xff]! ^ (c >>> 8);
+  for (const byte of buf) c = CRC_TABLE[(c ^ byte) & 0xff] ^ (c >>> 8);
   return (c ^ 0xffffffff) >>> 0;
 }
 
-function chunk(type: string, data: Buffer): Buffer {
+/** @param {string} type @param {Buffer} data @returns {Buffer} */
+function chunk(type, data) {
   const len = Buffer.alloc(4);
   len.writeUInt32BE(data.length);
   const typeAndData = Buffer.concat([Buffer.from(type, 'ascii'), data]);
@@ -35,7 +38,8 @@ function chunk(type: string, data: Buffer): Buffer {
   return Buffer.concat([len, typeAndData, crc]);
 }
 
-function ihdr(width: number, height: number, colourType: number): Buffer {
+/** @param {number} width @param {number} height @param {number} colourType @returns {Buffer} */
+function ihdr(width, height, colourType) {
   const d = Buffer.alloc(13);
   d.writeUInt32BE(width, 0);
   d.writeUInt32BE(height, 4);
@@ -47,10 +51,11 @@ function ihdr(width: number, height: number, colourType: number): Buffer {
   return chunk('IHDR', d);
 }
 
-function hexToRgb(hex: string): [number, number, number] {
+/** @param {string} hex @returns {[number, number, number]} */
+function hexToRgb(hex) {
   const m = /^#([0-9a-fA-F]{6})$/.exec(hex);
   if (!m) throw new Error(`bad hex ${hex}`);
-  const n = parseInt(m[1]!, 16);
+  const n = parseInt(m[1], 16);
   return [(n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff];
 }
 
@@ -58,13 +63,14 @@ function hexToRgb(hex: string): [number, number, number] {
  * An INDEXED PNG whose PLTE is exactly `palette`. `rows` are palette indices;
  * defaults to a 2x2 cycling through the palette.
  */
-export function indexedPng(palette: string[], rows?: number[][]): Buffer {
+/** @param {string[]} palette @param {number[][]} [rows] @returns {Buffer} */
+export function indexedPng(palette, rows) {
   const pixels = rows ?? [
     [0, palette.length > 1 ? 1 : 0],
     [palette.length > 1 ? 1 : 0, 0],
   ];
   const height = pixels.length;
-  const width = pixels[0]!.length;
+  const width = pixels[0].length;
 
   const plteData = Buffer.concat(palette.map(c => Buffer.from(hexToRgb(c))));
   // Each scanline is prefixed with its filter byte (0 = None).
@@ -80,7 +86,8 @@ export function indexedPng(palette: string[], rows?: number[][]): Buffer {
 }
 
 /** A TRUECOLOUR PNG (colour type 2) — has no PLTE, so no palette bound exists. */
-export function truecolourPng(colours: string[]): Buffer {
+/** @param {string[]} colours @returns {Buffer} */
+export function truecolourPng(colours) {
   const width = colours.length;
   const raw = Buffer.concat([
     Buffer.from([0]),

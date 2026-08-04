@@ -20,7 +20,7 @@ import { tmpdir } from 'node:os';
 import { runAddModel } from '../src/commands/add-model.js';
 import { generateManifest, writeManifest, readManifest, MODEL_DIR } from '../src/manifest.js';
 import { readPngInfo, checkCategoricalPalette, PngParseError } from '../src/png-palette.js';
-import { indexedPng, truecolourPng } from './_helpers/png-builder.js';
+import { indexedPng, truecolourPng } from './_helpers/png-builder.mjs';
 
 const PALETTE = ['#000000', '#3b7dd8', '#d8a13b'];
 

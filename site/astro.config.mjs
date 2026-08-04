@@ -1,6 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+// Stages logos/<slug>/model/* into public/ before the build, then asserts the
+// bytes reached dist/ unchanged. Leg 1 of the conformance induction — see
+// integrations/model-passthrough.mjs for why staging and asserting have to be
+// separate steps for the assert to be capable of failing at all.
+import modelPassthrough from './integrations/model-passthrough.mjs';
 
 // Tailwind is wired via @tailwindcss/postcss (see postcss.config.mjs).
 // We moved off @tailwindcss/vite because that plugin doesn't yet support
@@ -15,6 +20,7 @@ export default defineConfig({
   base: '/brand',
   trailingSlash: 'always',
   integrations: [
+    modelPassthrough(),
     starlight({
       title: 'Brand',
       disable404Route: true,
