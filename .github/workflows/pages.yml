@@ -3,16 +3,37 @@ name: Deploy site to GitHub Pages
 on:
   push:
     branches: [main]
+    # The published site is NOT a pure function of site/. Its build reads the
+    # repo root: model-views.mjs imports the compiled schema from dist/ (built
+    # from src/), discovers viewer pages by walking logos/<slug>/model/, and the
+    # passthrough integration cross-checks its output against manifest.json.
+    # Gating on 'site/**' alone means adding a model view.json under logos/
+    # changes what the site should publish while triggering no deploy — the
+    # live site silently stays a version behind, with nothing red to notice.
     paths:
       - 'site/**'
+      - 'src/**'
+      - 'logos/**'
+      - 'manifest.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
       - '.github/workflows/pages.yml'
   # PR-gated build (no deploy) so a build-breaking site edit or a /site
   # Dependabot bump fails CI on the PR instead of only surfacing post-merge
   # during the live Pages deploy. The deploy job + Pages-specific steps are
   # gated to non-PR events below.
   pull_request:
+    # Same list as the push trigger, for the same reason: a PR touching only
+    # src/ or logos/ can still break or change this build.
     paths:
       - 'site/**'
+      - 'src/**'
+      - 'logos/**'
+      - 'manifest.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -36,10 +57,30 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: site/package-lock.json
+          # Both lockfiles: this job installs the root package as well as the
+          # site (see "Build root package" below).
+          cache-dependency-path: |
+            package-lock.json
+            site/package-lock.json
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
         if: github.event_name != 'pull_request'
+
+      - name: Install root dependencies
+        # Root install is deterministic (`npm ci`) — unlike the site install
+        # below, nothing here trips the rollup optional-deps bug.
+        run: npm ci
+
+      - name: Build root package
+        # site/src/lib/model-views.mjs imports parseModelView from
+        # ../../../dist/model-view.js — deliberately one schema implementation
+        # shared by the ingest gate and the viewer, so the site can never render
+        # a view that `add-model` would have refused. dist/ is gitignored, so on
+        # a clean runner it does not exist until tsc runs and the Astro build
+        # dies with "Could not resolve ../../../dist/model-view.js". It built
+        # locally only because dist/ was left over from an earlier build — which
+        # is exactly why this step is the workflow's job and not the author's.
+        run: npm run build
 
       - name: Install site dependencies
         working-directory: site
