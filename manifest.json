@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-03T07:02:40.693Z",
+  "generated": "2026-08-08T20:28:53.103Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -456,6 +456,12 @@
     "logos/escape-the-valley/readme.png": {
       "hash": "sha256:d8c551e8418a03c26213ce01d0b68e37dd3f3785343b5c33445a6aabf94d9ec0",
       "size": 1479510,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/facet/readme.png": {
+      "hash": "sha256:ebdb333c7606d3d76952dd9899b9318676e43dc3e2ee5d2b736eb033267fdfc9",
+      "size": 1067365,
       "format": "png",
       "role": "primary"
     },
