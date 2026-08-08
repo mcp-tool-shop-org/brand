@@ -158,6 +158,24 @@ brand sync --slug pirate-raiders-3d-2 --repos /path/to/clones
 3. Commit both the logo and `manifest.json` together
 4. CI verifies the manifest on push
 
+Step 2 is easy to forget and nothing local used to complain — the logo commits
+fine, the site still builds, the tests still pass, and the failure only shows up
+in CI after the push. So a `pre-commit` hook now does it for you: stage a change
+under `logos/`, and it regenerates and stages `manifest.json` in the same commit.
+
+It installs itself on `npm install` (via `prepare` → [`scripts/install-hooks.mjs`](scripts/install-hooks.mjs),
+which points `core.hooksPath` at [`.githooks/`](.githooks/)). To install it by hand:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hook needs `dist/` built (`npm run build`) since it runs the CLI, and it
+declines to guess when `logos/` has unstaged changes — the manifest is hashed
+from the working tree, so if that disagrees with what you're committing, the
+hashes it writes would describe bytes the commit doesn't contain. `git commit
+--no-verify` skips it, and CI still enforces the same invariant.
+
 ## Security
 
 | Aspect | Detail |

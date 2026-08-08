@@ -1,0 +1,153 @@
+#!/bin/sh
+#
+# pre-commit — manifest.json must never lag logos/.
+#
+# Why this exists: commit 3a8fbfd added logos/facet/readme.png and did not
+# regenerate manifest.json. Nothing local complained, and the defect was caught
+# only by the CI `integrity` job after the push — on main, going red. Every
+# other check stayed green, because manifest.json is the only artifact in this
+# repo that reads logos/ as a *set*: the site build doesn't, and the test suite
+# uses its own fixtures under tests/. So "I added a logo and CI passed" is not
+# a signal that anything verified the addition.
+#
+# This hook moves that detection from after-the-push to before-the-commit. It
+# is deliberately narrow: it has an opinion only when logos/ is staged, and its
+# only opinion is "the manifest must describe exactly what is being committed."
+#
+# Installation: `npm run prepare` points core.hooksPath at .githooks/, so a
+# fresh clone picks this up on `npm install` with no extra step (see
+# scripts/install-hooks.mjs).
+#
+# Bypass: `git commit --no-verify`. CI enforces the identical invariant, so a
+# bypass defers the failure to the push rather than removing it.
+
+set -eu
+
+cd "$(git rev-parse --show-toplevel)"
+
+# Fast path. Neither side of the invariant is being committed, so there is
+# nothing this hook can have an opinion about — and the overwhelming majority
+# of commits land here, so it must cost nothing.
+#
+# No --diff-filter: additions, modifications, deletions and renames under
+# logos/ ALL change the manifest. manifest.json is in the trigger as well as
+# logos/ because the invariant is symmetric: staging a manifest that does not
+# describe logos/ is the same defect as staging a logo the manifest does not
+# describe, and a hand-edit of this generated file should not pass unchecked.
+if [ -z "$(git diff --cached --name-only -- logos manifest.json)" ]; then
+  exit 0
+fi
+
+CLI="dist/cli.js"
+
+if [ ! -f "$CLI" ]; then
+  echo "" >&2
+  echo "  pre-commit: cannot verify manifest integrity — $CLI is missing." >&2
+  echo "" >&2
+  echo "  logos/ is staged, so manifest.json probably needs regenerating, but" >&2
+  echo "  the CLI that computes it has not been built (dist/ is gitignored, so" >&2
+  echo "  a fresh clone never has it)." >&2
+  echo "" >&2
+  echo "  Fix: npm run build" >&2
+  echo "" >&2
+  exit 1
+fi
+
+# `brand manifest` hashes the WORKING TREE (manifest.ts uses readFileSync); the
+# commit records the INDEX. When those two disagree under logos/, a manifest
+# regenerated here would describe bytes that are not in the commit — producing
+# a commit that passes this hook and then fails CI on a clean checkout. That is
+# precisely the failure this hook exists to prevent, so it must not be papered
+# over.
+#
+# Verifying the index directly would mean materialising it (git checkout-index)
+# on every logo commit; logos/ is ~270 MiB, so that cost is not payable here.
+# Instead: establish that the working tree and the index AGREE for logos/, at
+# which point hashing the working tree is exact. When they don't agree, stop
+# and say so — an ambiguous state is never treated as a pass.
+UNSTAGED="$(git diff --name-only -- logos)"
+UNTRACKED="$(git ls-files --others --exclude-standard -- logos)"
+
+if [ -n "$UNSTAGED" ] || [ -n "$UNTRACKED" ]; then
+  echo "" >&2
+  echo "  pre-commit: logos/ has changes that are NOT staged, so the manifest" >&2
+  echo "  cannot be computed for this commit." >&2
+  echo "" >&2
+  echo "  The manifest is hashed from the files on disk, but the commit records" >&2
+  echo "  only what is staged. Regenerating now would write hashes for bytes" >&2
+  echo "  this commit does not contain — it would pass here and fail CI." >&2
+  echo "" >&2
+  if [ -n "$UNSTAGED" ]; then
+    echo "  Modified, not staged:" >&2
+    printf '    %s\n' $UNSTAGED >&2
+  fi
+  if [ -n "$UNTRACKED" ]; then
+    echo "  Untracked:" >&2
+    printf '    %s\n' $UNTRACKED >&2
+  fi
+  echo "" >&2
+  echo "  Fix: stage them (git add logos), or set them aside" >&2
+  echo "       (git stash push -- logos), then commit again." >&2
+  echo "" >&2
+  exit 1
+fi
+
+# --json, not the human output, because this hook needs to report drift in its
+# own words: the human text ends with "To fix: re-run `brand manifest`", which
+# is exactly what the hook is about to do for you, and printing it immediately
+# before "regenerated and added" reads like a failure. The JSON shape
+# (CheckJsonResult in src/commands/manifest-cmd.ts) is the documented machine
+# contract and is already relied on by the org's other drift gate.
+#
+# Exit-code contract, also from manifest-cmd.ts:
+#   0 = manifest matches logos/     1 = real drift
+#   2 = operator error (missing / malformed manifest)
+#   3 = unexpected IO failure
+# Only 1 is auto-fixable. 2 and 3 mean something is wrong that regenerating
+# would mask rather than repair, so they fail closed.
+CHECK_JSON="$(node "$CLI" manifest --check --logos logos --output manifest.json --json 2>&1)" && CHECK_RC=0 || CHECK_RC=$?
+
+if [ "$CHECK_RC" -eq 0 ]; then
+  exit 0
+fi
+
+if [ "$CHECK_RC" -ne 1 ]; then
+  echo "" >&2
+  echo "  pre-commit: manifest --check exited $CHECK_RC — that is not ordinary" >&2
+  echo "  drift, so the manifest was NOT regenerated (doing so would hide it)." >&2
+  echo "" >&2
+  node -e '
+    try {
+      const r = JSON.parse(process.argv[1]);
+      console.error("  " + (r.message || r.error || "unknown error"));
+      if (r.path && !r.message) console.error("  path: " + r.path);
+    } catch {
+      // Not JSON at all -- a node crash or a stack trace. Show it verbatim
+      // rather than swallowing it behind a parse failure.
+      console.error(process.argv[1]);
+    }
+  ' "$CHECK_JSON" >&2
+  echo "" >&2
+  exit 1
+fi
+
+# Real drift, and the working tree is known to match the index. The manifest is
+# pure derived data — there is no version of it a human would want other than
+# the one computed from logos/ — so regenerate and stage it rather than making
+# the committer run one command and try again.
+echo "" >&2
+echo "  pre-commit: logos/ changed, so manifest.json was stale:" >&2
+node -e '
+  const r = JSON.parse(process.argv[1]);
+  for (const k of r.added)       console.error("    + " + k);
+  for (const k of r.removed)     console.error("    - " + k + "  (removed)");
+  for (const k of r.hashChanged) console.error("    ~ " + k + "  (contents changed)");
+' "$CHECK_JSON" >&2
+
+node "$CLI" manifest --logos logos --output manifest.json > /dev/null
+git add manifest.json
+
+echo "" >&2
+echo "  pre-commit: manifest.json regenerated and added to this commit." >&2
+echo "" >&2
+exit 0

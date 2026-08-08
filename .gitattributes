@@ -7,6 +7,16 @@ tests/fixtures/*.md text eol=lf
 # platform. Mark as binary so git never normalises it.
 tests/fixtures/crlf.md binary
 
+# Hook scripts must check out with LF endings everywhere. Git executes them
+# through sh, and with core.autocrlf=true (this rig's setting, and a common
+# Windows default) the shebang line checks out as `#!/bin/sh\r` -- the kernel
+# then looks for an interpreter literally named "sh\r" and the hook dies with
+# "bad interpreter". The failure is per-clone and invisible in the diff, so it
+# would present as "the hook just doesn't run for me" while every reviewer sees
+# a correct-looking file. Same argument as the tests/fixtures rule above: git
+# must not rewrite bytes that something other than a human diff depends on.
+.githooks/* text eol=lf
+
 # Brand asset formats tracked by src/manifest.ts (see SUPPORTED_FORMATS).
 # Raster formats get a global `binary` rule (== `-text -diff`): there is no
 # useful text diff for PNG/JPG/WEBP anywhere in this repo, so disabling git's
