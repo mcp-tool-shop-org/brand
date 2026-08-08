@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Added — repo tooling
+
+- **`pre-commit` hook keeping `manifest.json` in lockstep with `logos/`.** Commit `3a8fbfd` added `logos/facet/readme.png` without regenerating the manifest; nothing local complained, and the `integrity` job caught it only after the push, on main. Staging anything under `logos/` (or `manifest.json`) now regenerates and stages the manifest in the same commit. It declines rather than guesses when `logos/` has unstaged changes — the manifest is hashed from the working tree, so regenerating against a divergent index would write hashes for bytes the commit doesn't contain, passing locally and failing CI. Installs on `npm install` via `prepare`; `--no-verify` skips it and CI still enforces the same invariant.
+
+No change to the published package — `.githooks/` and `scripts/` aren't in `files`, and `prepare` doesn't run for registry tarball installs.
+
 ## 1.1.1 — 2026-08-04
 
 ### Fixed

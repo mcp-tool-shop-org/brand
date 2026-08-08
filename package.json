@@ -37,6 +37,7 @@
     "provenance": true
   },
   "scripts": {
+    "prepare": "node scripts/install-hooks.mjs",
     "build": "tsc",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
