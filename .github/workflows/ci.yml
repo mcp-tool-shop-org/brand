@@ -19,6 +19,21 @@ on:
       # clone. A change here can break verify for every consumer while
       # touching no other path in this list.
       - '.gitattributes'
+      # Three paths this workflow executes or reads that nothing above matches:
+      # the audit gate's script, its allowlist data (note '.github/workflows/**'
+      # does NOT cover '.github/audit-allowlist.json'), and the vitest config
+      # holding the coverage thresholds the Node 22 leg enforces. Without these,
+      # editing what CI *does* triggers nothing — so the commit that weakens or
+      # breaks a gate is precisely the commit that never runs it. Waiving an
+      # advisory in the allowlist is the sharp case: its whole purpose is to
+      # change a red build to green, and it could do so unobserved.
+      #
+      # .githooks/** is deliberately NOT here. CI does not run git hooks, so a
+      # change there cannot alter any result on this runner; gating on it would
+      # spend minutes for no signal.
+      - 'scripts/**'
+      - '.github/audit-allowlist.json'
+      - 'vitest.config.ts'
   pull_request:
     paths:
       - 'src/**'
@@ -31,6 +46,9 @@ on:
       - '.github/workflows/**'
       # Same reasoning as the push trigger above.
       - '.gitattributes'
+      - 'scripts/**'
+      - '.github/audit-allowlist.json'
+      - 'vitest.config.ts'
   workflow_dispatch:
 
 concurrency:

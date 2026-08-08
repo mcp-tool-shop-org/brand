@@ -6,6 +6,10 @@
 
 - **`pre-commit` hook keeping `manifest.json` in lockstep with `logos/`.** Commit `3a8fbfd` added `logos/facet/readme.png` without regenerating the manifest; nothing local complained, and the `integrity` job caught it only after the push, on main. Staging anything under `logos/` (or `manifest.json`) now regenerates and stages the manifest in the same commit. It declines rather than guesses when `logos/` has unstaged changes — the manifest is hashed from the working tree, so regenerating against a divergent index would write hashes for bytes the commit doesn't contain, passing locally and failing CI. Installs on `npm install` via `prepare`; `--no-verify` skips it and CI still enforces the same invariant.
 
+### Fixed — repo tooling
+
+- **CI now triggers on the files CI itself runs.** `scripts/**`, `.github/audit-allowlist.json`, and `vitest.config.ts` were absent from `ci.yml`'s path filters, so editing what CI *does* triggered nothing: the audit gate's script, the advisory waivers it reads (`.github/workflows/**` does not match `.github/audit-allowlist.json`), and the coverage thresholds the Node 22 leg enforces could all change without a single run. The allowlist is the sharp case — its whole purpose is turning a red build green, and it could have done so unobserved. `.githooks/**` is deliberately excluded: CI does not run git hooks, so gating on it would spend minutes for no signal.
+
 No change to the published package — `.githooks/` and `scripts/` aren't in `files`, and `prepare` doesn't run for registry tarball installs.
 
 ## 1.1.1 — 2026-08-04
