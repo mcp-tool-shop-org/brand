@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-08T20:28:53.103Z",
+  "generated": "2026-08-13T18:00:35.112Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -204,6 +204,12 @@
     "logos/ally-demo-python/readme.png": {
       "hash": "sha256:539ee4a51e4dd465ce389b6db360d5c10999f531a2f1651d0a12884fd47baf53",
       "size": 2309037,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/armature/readme.png": {
+      "hash": "sha256:4ccac30c33c884cd4c81e4bd9ac2c193f035e16292b112f8452ee48d179f614f",
+      "size": 69275,
       "format": "png",
       "role": "primary"
     },
