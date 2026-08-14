@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-13T18:00:35.112Z",
+  "generated": "2026-08-14T19:36:18.978Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -390,6 +390,12 @@
     "logos/comfy-headless/readme.png": {
       "hash": "sha256:17c48ddafe75359e0bb4c20f7c9a7313851ab9fb80e8cb15a88c9367abc41ad4",
       "size": 1611689,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/comfy-preflight/readme.png": {
+      "hash": "sha256:70b2ef06de720c383f6f3bc24b451704c53eb002b94b4c450f68b44b6d36fa16",
+      "size": 52285,
       "format": "png",
       "role": "primary"
     },
