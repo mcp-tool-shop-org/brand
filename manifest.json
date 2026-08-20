@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-20T16:38:20.263Z",
+  "generated": "2026-08-20T18:21:49.314Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1298,6 +1298,12 @@
     "logos/vscode-voice-soundboard/readme.png": {
       "hash": "sha256:ccef98473794459c969446ed9582e935311d2a2483c9b63381437d6668926399",
       "size": 1621847,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/watchdog/readme.png": {
+      "hash": "sha256:20e07b41a00fe73cd6e57f4eb1295fe403536d302743bea3349792e79f071c44",
+      "size": 1002063,
       "format": "png",
       "role": "primary"
     },
