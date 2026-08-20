@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-14T20:27:13.173Z",
+  "generated": "2026-08-20T05:13:52.822Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -956,6 +956,12 @@
     "logos/pirate-raiders-sprite-pack/readme.png": {
       "hash": "sha256:c9e0f46964c90633f4ce8667c56a7a8133f15d3b748a0c91b5eb6bea7b2036dd",
       "size": 688911,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/plain-sight/readme.png": {
+      "hash": "sha256:1eb7a9122ae65e22f7bf420bb4890594411e90575565dd3b976561f8422820fb",
+      "size": 85465,
       "format": "png",
       "role": "primary"
     },
