@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-21T15:34:09.835Z",
+  "generated": "2026-08-22T05:04:44.352Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -676,10 +676,24 @@
       "role": "primary"
     },
     "logos/motif/readme.png": {
-      "hash": "sha256:72bf957c9aae033a770e246c49b4ba2634e61865dc8ab8499edcd45a74d4084f",
-      "size": 340710,
+      "hash": "sha256:f2210096115b693c6eeab6327466338910ca1ecac6852389cdff2918a9145454",
+      "size": 84583,
       "format": "png",
       "role": "primary"
+    },
+    "logos/motif/source/lockup-grok-imagine-2.0-raw.png": {
+      "hash": "sha256:412694e5df984a86fafa8f6a7425c679d3d1bad2c1f25842b9345534718fc377",
+      "size": 207472,
+      "format": "png",
+      "role": "gallery",
+      "gallery": "source"
+    },
+    "logos/motif/source/mark-nano-banana-pro-raw.png": {
+      "hash": "sha256:ddbbf3149e0e069aae5ba9958db2163f35324b534b68be5a025fdae2d7bd8eb7",
+      "size": 850093,
+      "format": "png",
+      "role": "gallery",
+      "gallery": "source"
     },
     "logos/multi-claude/readme.png": {
       "hash": "sha256:5955212d849d0ed41167c48ca42bce67766fcde9fa761dca5f0f588dfde7bd67",
