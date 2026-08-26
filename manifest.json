@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-22T05:04:44.352Z",
+  "generated": "2026-08-26T22:43:22.397Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -528,6 +528,12 @@
     "logos/goblin-sprite-pack/readme.png": {
       "hash": "sha256:0342c5a648557134aaf3965880003a14f5c967f32922559135a5876fd741665e",
       "size": 1984098,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/grok-bot-os/readme.png": {
+      "hash": "sha256:4473bccfe01429e75ba11e247f459411a8360123798094b0ecfe397eaad4b78a",
+      "size": 66461,
       "format": "png",
       "role": "primary"
     },
