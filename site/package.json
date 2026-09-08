@@ -9,12 +9,12 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.40.0",
+    "@astrojs/starlight": "^0.42.0",
     "@google/model-viewer": "^4.3.1",
     "@mcptoolshop/site-theme": "^2.2.0",
-    "@tailwindcss/postcss": "^4.3.1",
+    "@tailwindcss/postcss": "^4.3.3",
     "astro": "^6.3.3",
     "tailwindcss": "^4.3.1",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   }
 }
