@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-08T13:47:21.220Z",
+  "generated": "2026-09-08T16:54:23.160Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1126,12 +1126,6 @@
     "logos/saints-mile/readme.png": {
       "hash": "sha256:bb6cddaaa2e1c47af5d37c074695c813c22976df74ce5c5469608ed385ee4a5b",
       "size": 3307959,
-      "format": "png",
-      "role": "primary"
-    },
-    "logos/schumann-surface/readme.png": {
-      "hash": "sha256:7a7bd01de6bd8e902ee5d2cc060279ce47578a4375e92c74f8d3ed92611a4797",
-      "size": 53888,
       "format": "png",
       "role": "primary"
     },
