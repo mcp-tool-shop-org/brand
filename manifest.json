@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-09T05:39:17.579Z",
+  "generated": "2026-09-09T06:02:30.211Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1274,8 +1274,8 @@
       "role": "primary"
     },
     "logos/tool-compass/readme.png": {
-      "hash": "sha256:08f7695400f60455006379cedab778ed69ecabc981d4ab3bebc6eb7760eb9609",
-      "size": 445816,
+      "hash": "sha256:4f817de1acf03c2f9389eb9fe7e838cef350e32722bc2fcfa1c505fa32229429",
+      "size": 430174,
       "format": "png",
       "role": "primary"
     },
