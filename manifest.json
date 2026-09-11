@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-10T10:44:31.210Z",
+  "generated": "2026-09-11T00:30:25.723Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -604,8 +604,14 @@
       "role": "primary"
     },
     "logos/mcp-arcade-cabinets/readme.png": {
-      "hash": "sha256:4a8ca33fcd0e70b2230ca740aef767c06a91a17c87cea77ff11a790a166a5930",
-      "size": 914119,
+      "hash": "sha256:21bc99b5d19c14ca10f26d31d3feb6eb23397718f226fa98c585f460430665ba",
+      "size": 357566,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/mcp-arcade/readme.png": {
+      "hash": "sha256:528788a48f6c616d9a5d0379fc636a62b15d1913f8d5ba42058d8950590dbe4f",
+      "size": 459043,
       "format": "png",
       "role": "primary"
     },
