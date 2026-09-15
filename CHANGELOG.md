@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added — logos
+
+- **ai-playtest** (`logos/ai-playtest/readme.png`) — square neon gamepad lockup
+  with a neural-net core and the `ai-playtest` wordmark. Canonical primary for
+  `mcp-tool-shop-org/ai-playtest`.
+
 ### Fixed — logos
 
 - **tool-compass `readme.png` is the Director banner again** (2000×800). The previous commit square-padded it to 2000×2000; that is not the README mark. `lockup.png` was already the banner and is unchanged.

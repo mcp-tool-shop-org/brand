@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-11T10:32:20.094Z",
+  "generated": "2026-09-15T04:17:28.114Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -186,6 +186,12 @@
     "logos/ai-music-sheets/readme.png": {
       "hash": "sha256:1786fd2ca6bfc320f7b68057fc79a717e0c11550e63d2a7b095ffb83e50934bc",
       "size": 1112103,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/ai-playtest/readme.png": {
+      "hash": "sha256:8bc4cf1f821783dda31210c23145b9ae3c3c8ede62fd46bcc9169c3bd3087aa8",
+      "size": 977384,
       "format": "png",
       "role": "primary"
     },
