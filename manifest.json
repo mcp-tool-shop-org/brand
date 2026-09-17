@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-08-26T22:43:22.397Z",
+  "generated": "2026-09-15T18:58:52.437Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -186,6 +186,12 @@
     "logos/ai-music-sheets/readme.png": {
       "hash": "sha256:1786fd2ca6bfc320f7b68057fc79a717e0c11550e63d2a7b095ffb83e50934bc",
       "size": 1112103,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/ai-playtest/readme.png": {
+      "hash": "sha256:8bc4cf1f821783dda31210c23145b9ae3c3c8ede62fd46bcc9169c3bd3087aa8",
+      "size": 977384,
       "format": "png",
       "role": "primary"
     },
@@ -600,6 +606,18 @@
     "logos/mcp-app-builder/readme.png": {
       "hash": "sha256:224417a8e5b7bad505402d701e4f46df191ea919af27401361761925bd5710ba",
       "size": 21170,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/mcp-arcade-cabinets/readme.png": {
+      "hash": "sha256:7cd1a03d8460c9532e81bd4dbdf8d7e9d1008dc013d1980dcfda84d2b47b85f8",
+      "size": 511943,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/mcp-arcade/readme.png": {
+      "hash": "sha256:528788a48f6c616d9a5d0379fc636a62b15d1913f8d5ba42058d8950590dbe4f",
+      "size": 459043,
       "format": "png",
       "role": "primary"
     },
@@ -1274,8 +1292,8 @@
       "role": "primary"
     },
     "logos/tool-compass/readme.png": {
-      "hash": "sha256:61a81ed1065319aaffcab3d673b6be01b3115626054a98c48176982dfdd34a9f",
-      "size": 1074710,
+      "hash": "sha256:4f817de1acf03c2f9389eb9fe7e838cef350e32722bc2fcfa1c505fa32229429",
+      "size": 430174,
       "format": "png",
       "role": "primary"
     },
