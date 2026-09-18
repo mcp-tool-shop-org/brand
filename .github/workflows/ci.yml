@@ -11,6 +11,9 @@ on:
       - 'logos/**'
       - 'manifest.json'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
       # .gitattributes governs how logos/** are checked out (eol translation,
       # binary marking, LFS filters) and `brand verify` hashes exactly those
       # bytes. See the file's own logos/**/*.svg rule: it exists because
@@ -44,6 +47,9 @@ on:
       - 'logos/**'
       - 'manifest.json'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
       # Same reasoning as the push trigger above.
       - '.gitattributes'
       - 'scripts/**'

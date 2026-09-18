@@ -6,13 +6,16 @@ import starlight from '@astrojs/starlight';
 // integrations/model-passthrough.mjs for why staging and asserting have to be
 // separate steps for the assert to be capable of failing at all.
 import modelPassthrough from './integrations/model-passthrough.mjs';
+import tailwindcss from '@tailwindcss/vite';
 
-// Tailwind is wired via @tailwindcss/postcss (see postcss.config.mjs).
-// We moved off @tailwindcss/vite because that plugin doesn't yet support
-// Vite 7's Rolldown-based resolve bindings (the `tsconfigPaths` field
-// went missing in the Vite-7 binding shape) — withastro/astro#16542.
-// The PostCSS variant uses the same `@import "tailwindcss"` source CSS,
-// just routed through Astro's PostCSS pipeline instead.
+// Tailwind is wired via @tailwindcss/vite, the same way as every other site
+// in the org. This file used to route it through @tailwindcss/postcss
+// instead, citing withastro/astro#16542 (the Vite-7 Rolldown resolve binding
+// lacked `tsconfigPaths`). On astro 7.3.3 + vite 7.3.6 that no longer holds:
+// 56 sibling repos build clean on @tailwindcss/vite with this exact stack,
+// while the PostCSS route fails here -- `@import "tailwindcss"` is resolved
+// as a relative FILE and the build dies on ENOENT for `site/tailwindcss`.
+// Measured 2026-09-17 by switching exactly this and rebuilding.
 
 // https://astro.build/config
 export default defineConfig({
@@ -47,4 +50,7 @@ export default defineConfig({
       customCss: ['./src/styles/starlight-custom.css'],
     }),
   ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
