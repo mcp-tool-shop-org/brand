@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-15T18:58:52.437Z",
+  "generated": "2026-09-21T02:16:39.868Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -198,6 +198,12 @@
     "logos/ai-rpg-engine/readme.png": {
       "hash": "sha256:34eb1921ecf5e83ad4b4f9b82b4ea51fa74fe4b19fb7ab6c3867410f38ec8100",
       "size": 305848,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/ai-rpg-stage/readme.png": {
+      "hash": "sha256:58f30b1410ecf94f94b33115b37e47f68f1d509f60faadf0594c704fab0837cc",
+      "size": 1215429,
       "format": "png",
       "role": "primary"
     },
