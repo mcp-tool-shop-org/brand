@@ -1,0 +1,430 @@
+{
+  "authored": [
+    ".claude/",
+    ".githooks/",
+    ".github/",
+    "assets/",
+    "docs/",
+    "site/"
+  ],
+  "breaks": [
+    {
+      "doors": 5,
+      "importedBy": [
+        "site"
+      ],
+      "importedByTests": [
+        "tests"
+      ],
+      "kind": "part",
+      "name": "src",
+      "partLabel": "src"
+    },
+    {
+      "doors": 3,
+      "importedBy": [],
+      "importedByTests": [
+        "tests"
+      ],
+      "kind": "part",
+      "name": "site",
+      "partLabel": "the site"
+    },
+    {
+      "doors": 2,
+      "importedBy": [],
+      "importedByTests": [],
+      "kind": "part",
+      "name": "scripts",
+      "partLabel": "scripts"
+    },
+    {
+      "doors": 2,
+      "importedBy": [],
+      "importedByTests": [],
+      "kind": "part",
+      "name": "tests",
+      "partLabel": "tests"
+    },
+    {
+      "kind": "place",
+      "readers": [
+        "site",
+        "src"
+      ],
+      "target": "logos/",
+      "writers": [
+        ".github",
+        "src"
+      ]
+    },
+    {
+      "kind": "place",
+      "readers": [
+        ".github",
+        "site",
+        "src"
+      ],
+      "target": "manifest.json",
+      "writers": [
+        ".github"
+      ]
+    }
+  ],
+  "changes": {
+    "first": true
+  },
+  "changesTogether": [],
+  "changesTogetherNote": [
+    "2 files changed together with their own tests, as expected.",
+    "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
+  ],
+  "changesTogetherWithTests": 2,
+  "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf",
+  "defaultBranch": "main",
+  "derived": "11 parts, mostly TypeScript (40 files). Work enters through 5 doors; the busiest is Sync org logos, which reaches 2 parts and commits into the repository (CI reaches 4 but commits nothing). It publishes to npm. People run brand.",
+  "doors": [
+    {
+      "checks": [
+        "src/"
+      ],
+      "checksCount": 1,
+      "file": ".github/workflows/ci.yml",
+      "id": ".github/workflows/ci.yml",
+      "landings": [
+        "logos/"
+      ],
+      "name": "CI",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "scripts",
+          "depth": 0,
+          "files": 1
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 20
+        },
+        {
+          "boundary": "site",
+          "depth": 1,
+          "files": 1
+        }
+      ],
+      "runs": [
+        "scripts/check-audit-allowlist.mjs",
+        "tests/add-gallery.test.ts",
+        "tests/add-model.test.ts",
+        "tests/audit.test.ts",
+        "tests/exit-codes.test.ts",
+        "tests/history.test.ts",
+        "tests/json-output.test.ts",
+        "tests/manifest-cmd.test.ts",
+        "tests/manifest.test.ts",
+        "tests/marker-parser.test.ts",
+        "tests/migrate-journal.test.ts",
+        "tests/migrate.test.ts",
+        "tests/model-channels.test.ts",
+        "tests/model-passthrough.test.ts",
+        "tests/readme-parser.test.ts",
+        "tests/remove-swap-failure.test.ts",
+        "tests/remove.test.ts",
+        "tests/stats.test.ts",
+        "tests/sync.test.ts",
+        "tests/verify.test.ts"
+      ],
+      "runsCount": 20,
+      "sends": [],
+      "stages": [],
+      "triggers": [
+        "on a pull request touching 15 paths",
+        "on a push touching 15 paths",
+        "or by hand"
+      ]
+    },
+    {
+      "checks": [
+        "src/"
+      ],
+      "checksCount": 1,
+      "file": ".github/workflows/release.yml",
+      "id": ".github/workflows/release.yml",
+      "landings": [
+        "logos/"
+      ],
+      "name": "Release",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 20
+        },
+        {
+          "boundary": "site",
+          "depth": 1,
+          "files": 1
+        }
+      ],
+      "runs": [
+        "tests/add-gallery.test.ts",
+        "tests/add-model.test.ts",
+        "tests/audit.test.ts",
+        "tests/exit-codes.test.ts",
+        "tests/history.test.ts",
+        "tests/json-output.test.ts",
+        "tests/manifest-cmd.test.ts",
+        "tests/manifest.test.ts",
+        "tests/marker-parser.test.ts",
+        "tests/migrate-journal.test.ts",
+        "tests/migrate.test.ts",
+        "tests/model-channels.test.ts",
+        "tests/model-passthrough.test.ts",
+        "tests/readme-parser.test.ts",
+        "tests/remove-swap-failure.test.ts",
+        "tests/remove.test.ts",
+        "tests/stats.test.ts",
+        "tests/sync.test.ts",
+        "tests/verify.test.ts"
+      ],
+      "runsCount": 19,
+      "sends": [
+        "publishes to npm",
+        "creates a GitHub release"
+      ],
+      "stages": [],
+      "triggers": [
+        "when a tag matching `v*` is pushed",
+        "or by hand"
+      ]
+    },
+    {
+      "checks": [
+        "src/"
+      ],
+      "checksCount": 1,
+      "file": ".github/workflows/pages.yml",
+      "id": ".github/workflows/pages.yml",
+      "landings": [],
+      "name": "Deploy site to GitHub Pages",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 5
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        }
+      ],
+      "runs": [
+        "site/astro.config.mjs",
+        "site/src/"
+      ],
+      "runsCount": 2,
+      "sends": [
+        "deploys the site"
+      ],
+      "stages": [],
+      "triggers": [
+        "on a pull request touching 8 paths",
+        "on a push to main touching 8 paths",
+        "or by hand"
+      ]
+    },
+    {
+      "checks": [
+        "src/"
+      ],
+      "checksCount": 1,
+      "file": ".github/workflows/sync.yml",
+      "id": ".github/workflows/sync.yml",
+      "landings": [
+        "logos/",
+        "manifest.json"
+      ],
+      "name": "Sync org logos",
+      "pushes": true,
+      "reach": [
+        {
+          "boundary": "scripts",
+          "depth": 0,
+          "files": 1
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        }
+      ],
+      "runs": [
+        "scripts/sync-org-logos.sh"
+      ],
+      "runsCount": 1,
+      "sends": [
+        "opens an issue",
+        "opens a pull request"
+      ],
+      "stages": [
+        "logos/",
+        "manifest.json"
+      ],
+      "triggers": [
+        "on a schedule (`0 6 * * *`)",
+        "or by hand"
+      ]
+    },
+    {
+      "checks": [],
+      "checksCount": 0,
+      "file": "package.json",
+      "id": "package.json#brand",
+      "kind": "command",
+      "landings": [
+        "logos/"
+      ],
+      "name": "brand",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        }
+      ],
+      "runs": [
+        "src/cli.ts"
+      ],
+      "runsCount": 1,
+      "sends": [],
+      "stages": [],
+      "triggers": []
+    }
+  ],
+  "duplicates": [],
+  "duplicatesLead": null,
+  "duplicatesNote": [],
+  "edges": [
+    {
+      "from": "site",
+      "fromTests": false,
+      "to": "src"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "to": "site"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "to": "src"
+    }
+  ],
+  "generated": [
+    {
+      "place": "logos/",
+      "writers": [
+        ".github/workflows/sync.yml",
+        "src/commands/remove.ts"
+      ]
+    },
+    {
+      "place": "manifest.json",
+      "writers": [
+        ".github/workflows/sync.yml"
+      ]
+    }
+  ],
+  "generatedAt": "2026-09-23T22:26:43.537Z",
+  "limits": [
+    "1 file uses syntax the parser cannot read, so what it imports is not known: a NUL character inside a string (1).",
+    "20 writes and 57 reads use paths built at run time and are not named here.",
+    "8 reads go to the directory the command is run in or the home directory, not to this repository.",
+    "8 commands are built at run time and not followed, 6 of them in tests.",
+    "Readers marked (found by text) come from scanning unparsed files.",
+    "Statistics confidence is low: fewer than 20 source files reach 10 revisions in the window."
+  ],
+  "mainDoor": ".github/workflows/sync.yml",
+  "partLabels": {
+    ".claude": ".claude",
+    ".githooks": ".githooks",
+    ".github": ".github",
+    "assets": "assets",
+    "docs": "docs",
+    "logos": "logos",
+    "root": "the repository root",
+    "scripts": "scripts",
+    "site": "the site",
+    "src": "src",
+    "tests": "tests"
+  },
+  "parts": 11,
+  "readers": [
+    {
+      "readers": [
+        ".claude/context/current-priorities.md (found by text)",
+        ".github/SECURITY-CONTROLS.md (found by text)",
+        "site/integrations/model-passthrough.mjs",
+        "site/scripts/check-deployed-bytes.mjs",
+        "site/src/content/docs/handbook/reference.md (found by text)",
+        "src (4 files)"
+      ],
+      "target": "logos/"
+    },
+    {
+      "readers": [
+        ".github/workflows/ci.yml",
+        "site/integrations/model-passthrough.mjs",
+        "site/scripts/check-deployed-bytes.mjs",
+        "src/commands/add-gallery.ts",
+        "src/commands/audit.ts",
+        "src/commands/remove.ts"
+      ],
+      "target": "manifest.json"
+    }
+  ],
+  "repo": "mcp-tool-shop-org/brand",
+  "sequences": [],
+  "startDoor": ".github/workflows/ci.yml",
+  "startHere": [
+    ".github/workflows/ci.yml",
+    "scripts/check-audit-allowlist.mjs",
+    "site/integrations/model-passthrough.mjs",
+    "logos/"
+  ],
+  "summary": null,
+  "summaryFrom": null,
+  "testFiles": 59,
+  "testedBy": {
+    "scripts": 0,
+    "src": 16
+  },
+  "unnamedWrites": 20,
+  "unread": [],
+  "unreadNote": [],
+  "untested": [
+    {
+      "part": "scripts",
+      "partLabel": "scripts",
+      "testedBy": 0
+    }
+  ],
+  "untestedNote": [],
+  "written": 2
+}
