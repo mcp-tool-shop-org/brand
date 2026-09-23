@@ -1,0 +1,1407 @@
+{
+  "boundaries": [
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": ".claude",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": ".githooks",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": ".github",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "assets",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "docs",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "logos",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "root",
+      "qualifyingSourceCommits": 1,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "scripts",
+      "qualifyingSourceCommits": 2,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": [
+          "tests"
+        ]
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "site",
+      "qualifyingSourceCommits": 6,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [
+          "tests"
+        ],
+        "importsOnly": [
+          "site"
+        ]
+      },
+      "cohesion": 0,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "src",
+      "qualifyingSourceCommits": 22,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [
+          "src"
+        ],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": 0,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "tests",
+      "qualifyingSourceCommits": 22,
+      "rebaseline": null
+    }
+  ],
+  "churn": {
+    "definition": "commits is how many commits in the window touch the file, including merges and commits dropped from coupling. lines is added plus deleted in those commits.",
+    "files": [
+      {
+        "commits": 5,
+        "lines": 117,
+        "path": ".gitattributes"
+      },
+      {
+        "commits": 1,
+        "lines": 153,
+        "path": ".githooks/pre-commit"
+      },
+      {
+        "commits": 2,
+        "lines": 86,
+        "path": ".github/CODEOWNERS"
+      },
+      {
+        "commits": 2,
+        "lines": 234,
+        "path": ".github/SECURITY-CONTROLS.md"
+      },
+      {
+        "commits": 1,
+        "lines": 4,
+        "path": ".github/audit-allowlist.json"
+      },
+      {
+        "commits": 3,
+        "lines": 101,
+        "path": ".github/dependabot.yml"
+      },
+      {
+        "commits": 12,
+        "lines": 133,
+        "path": ".github/workflows/ci.yml"
+      },
+      {
+        "commits": 13,
+        "lines": 109,
+        "path": ".github/workflows/pages.yml"
+      },
+      {
+        "commits": 4,
+        "lines": 184,
+        "path": ".github/workflows/publish.yml"
+      },
+      {
+        "commits": 4,
+        "lines": 150,
+        "path": ".github/workflows/release.yml"
+      },
+      {
+        "commits": 11,
+        "lines": 491,
+        "path": ".github/workflows/sync.yml"
+      },
+      {
+        "commits": 5,
+        "lines": 15,
+        "path": ".gitignore"
+      },
+      {
+        "commits": 13,
+        "lines": 233,
+        "path": "CHANGELOG.md"
+      },
+      {
+        "commits": 3,
+        "lines": 248,
+        "path": "README.es.md"
+      },
+      {
+        "commits": 3,
+        "lines": 264,
+        "path": "README.fr.md"
+      },
+      {
+        "commits": 3,
+        "lines": 298,
+        "path": "README.hi.md"
+      },
+      {
+        "commits": 3,
+        "lines": 252,
+        "path": "README.it.md"
+      },
+      {
+        "commits": 3,
+        "lines": 258,
+        "path": "README.ja.md"
+      },
+      {
+        "commits": 7,
+        "lines": 142,
+        "path": "README.md"
+      },
+      {
+        "commits": 3,
+        "lines": 258,
+        "path": "README.pt-BR.md"
+      },
+      {
+        "commits": 3,
+        "lines": 270,
+        "path": "README.zh.md"
+      },
+      {
+        "commits": 3,
+        "lines": 22,
+        "path": "SCORECARD.md"
+      },
+      {
+        "commits": 2,
+        "lines": 68,
+        "path": "SECURITY.md"
+      },
+      {
+        "commits": 4,
+        "lines": 21,
+        "path": "SHIP_GATE.md"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "assets/logo.jpg"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "assets/portlight-ships/before-after.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "assets/portlight-ships/damage-generalisation.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "assets/portlight-ships/fleet.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "assets/portlight-ships/turnaround.png"
+      },
+      {
+        "commits": 2,
+        "lines": 59,
+        "path": "docs/handbook.md"
+      },
+      {
+        "commits": 5,
+        "lines": 481,
+        "path": "docs/model-channels-spec.md"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/ai-jam-sessions/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/ai-playtest/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/ai-rpg-engine/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/ai-rpg-stage/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/armature/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/backprop-trace/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/backpropagate/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/claude-rpg/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/claude-synergy/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/code-bearings/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/codecomfy-vscode/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/comfy-headless/readme.png"
+      },
+      {
+        "commits": 3,
+        "lines": 0,
+        "path": "logos/comfy-preflight/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/creator-studio-os/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/datagates/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/db-cluster/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/edgepacks/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/facet/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/fantasy-heroes-sprite-pack/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/fantasy-villains-sprite-pack/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/forkable/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/forkctl/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/goblin-sprite-pack/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/grok-bot-os/icon.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/grok-bot-os/og.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/grok-bot-os/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/knowledge-core/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/loadout-os/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/mcp-arcade-cabinets/ghost-readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/mcp-arcade-cabinets/hero.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/mcp-arcade-cabinets/icon.png"
+      },
+      {
+        "commits": 3,
+        "lines": 0,
+        "path": "logos/mcp-arcade-cabinets/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/mcp-arcade-cabinets/vibe-typer-icon.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/mcp-arcade-cabinets/vibe-typer-readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/mcp-arcade/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/mcp-stress-test/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/monster-pack/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/motif/icon.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/motif/icon.svg"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/motif/mark.svg"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/motif/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/motif/source/lockup-grok-imagine-2.0-raw.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/motif/source/mark-nano-banana-pro-raw.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/ollama-intern-mcp/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/berserker.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/bombardier.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/bosun.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/breaker.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/brig-keeper.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/cabin-kid.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/cannoneer.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/captain.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/cook.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/diver.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/first-mate.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/harpooner.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/juggernaut.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/marine.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/marksman.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/navigator.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/poisoner.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/quartermaster.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/reaver.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/rigger.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/sawbones.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/sea-witch.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/smuggler.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/stormcaller.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/swashbuckler.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/pirate-raiders-3d-2/turnarounds/tide-cultist.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/pirate-raiders-sprite-pack/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/plain-sight/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/registry-stats/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/repo-dataset/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/repo-knowledge/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/repomesh/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/research-os/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/research-packs/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/rig-bridge/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/roll/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/schumann-surface/readme.png"
+      },
+      {
+        "commits": 4,
+        "lines": 0,
+        "path": "logos/sensor-humor/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/sovereign/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/sprite-foundry-packs/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/sprite-foundry/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/star-freight-client/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/storyboard-os/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/style-dataset-lab/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/synthesis/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/taste-compiler/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/taste-engine/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/terminal-tutor/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/tinytrainer/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/tool-compass/lockup.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/tool-compass/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/trellis-sprite-pipeline/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/watchdog/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/websketch-ir/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/xrpl-creator-capsule/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/zombie-sprite-pack/readme.png"
+      },
+      {
+        "commits": 47,
+        "lines": 1479,
+        "path": "manifest.json"
+      },
+      {
+        "commits": 14,
+        "lines": 4040,
+        "path": "package-lock.json"
+      },
+      {
+        "commits": 15,
+        "lines": 59,
+        "path": "package.json"
+      },
+      {
+        "commits": 1,
+        "lines": 29,
+        "path": "png-builder.mjs}"
+      },
+      {
+        "commits": 1,
+        "lines": 132,
+        "path": "scripts/check-audit-allowlist.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 60,
+        "path": "scripts/install-hooks.mjs"
+      },
+      {
+        "commits": 3,
+        "lines": 348,
+        "path": "scripts/sync-org-logos.sh"
+      },
+      {
+        "commits": 2,
+        "lines": 121,
+        "path": "site/DEPS.md"
+      },
+      {
+        "commits": 5,
+        "lines": 71,
+        "path": "site/astro.config.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 222,
+        "path": "site/integrations/model-passthrough.mjs"
+      },
+      {
+        "commits": 10,
+        "lines": 18595,
+        "path": "site/package-lock.json"
+      },
+      {
+        "commits": 9,
+        "lines": 37,
+        "path": "site/package.json"
+      },
+      {
+        "commits": 2,
+        "lines": 20,
+        "path": "site/postcss.config.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 12,
+        "path": "site/public/favicon.svg"
+      },
+      {
+        "commits": 1,
+        "lines": 131,
+        "path": "site/scripts/check-deployed-bytes.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 18,
+        "path": "site/src/assets/logo.svg"
+      },
+      {
+        "commits": 1,
+        "lines": 4,
+        "path": "site/src/content.config.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 98,
+        "path": "site/src/content/docs/handbook/beginners.md"
+      },
+      {
+        "commits": 3,
+        "lines": 113,
+        "path": "site/src/content/docs/handbook/getting-started.md"
+      },
+      {
+        "commits": 1,
+        "lines": 28,
+        "path": "site/src/content/docs/handbook/index.md"
+      },
+      {
+        "commits": 4,
+        "lines": 283,
+        "path": "site/src/content/docs/handbook/reference.md"
+      },
+      {
+        "commits": 1,
+        "lines": 69,
+        "path": "site/src/content/docs/handbook/security.md"
+      },
+      {
+        "commits": 1,
+        "lines": 72,
+        "path": "site/src/lib/model-views.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 266,
+        "path": "site/src/pages/[slug]/view.astro"
+      },
+      {
+        "commits": 1,
+        "lines": 36,
+        "path": "site/src/pages/index.astro"
+      },
+      {
+        "commits": 4,
+        "lines": 126,
+        "path": "site/src/site-config.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 46,
+        "path": "site/src/styles/starlight-custom.css"
+      },
+      {
+        "commits": 9,
+        "lines": 406,
+        "path": "src/cli.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 1155,
+        "path": "src/commands/add-gallery.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 426,
+        "path": "src/commands/add-model.ts"
+      },
+      {
+        "commits": 11,
+        "lines": 2561,
+        "path": "src/commands/audit.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 475,
+        "path": "src/commands/history.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 439,
+        "path": "src/commands/manifest-cmd.ts"
+      },
+      {
+        "commits": 8,
+        "lines": 2200,
+        "path": "src/commands/migrate.ts"
+      },
+      {
+        "commits": 3,
+        "lines": 1046,
+        "path": "src/commands/remove.ts"
+      },
+      {
+        "commits": 8,
+        "lines": 489,
+        "path": "src/commands/stats.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 1039,
+        "path": "src/commands/sync.ts"
+      },
+      {
+        "commits": 4,
+        "lines": 192,
+        "path": "src/commands/verify.ts"
+      },
+      {
+        "commits": 9,
+        "lines": 1115,
+        "path": "src/manifest.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 203,
+        "path": "src/model-view.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 169,
+        "path": "src/png-palette.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 586,
+        "path": "src/utils/code-context.ts"
+      },
+      {
+        "commits": 8,
+        "lines": 1483,
+        "path": "src/utils/marker-parser.ts"
+      },
+      {
+        "commits": 7,
+        "lines": 1004,
+        "path": "src/utils/readme-parser.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 65,
+        "path": "tests/_helpers/global-setup.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 175,
+        "path": "tests/_helpers/make-cube-fixture.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 95,
+        "path": "tests/_helpers/png-builder.ts"
+      },
+      {
+        "commits": 7,
+        "lines": 961,
+        "path": "tests/add-gallery.test.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 334,
+        "path": "tests/add-model.test.ts"
+      },
+      {
+        "commits": 11,
+        "lines": 1694,
+        "path": "tests/audit.test.ts"
+      },
+      {
+        "commits": 7,
+        "lines": 457,
+        "path": "tests/exit-codes.test.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 24,
+        "path": "tests/fixtures/bom-fenced-logo-example.md"
+      },
+      {
+        "commits": 2,
+        "lines": 24,
+        "path": "tests/fixtures/bom-fenced-marker-example.md"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "tests/fixtures/bom.md"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "tests/fixtures/crlf.md"
+      },
+      {
+        "commits": 1,
+        "lines": 15,
+        "path": "tests/fixtures/fenced-and-real-logo.md"
+      },
+      {
+        "commits": 1,
+        "lines": 13,
+        "path": "tests/fixtures/fenced-code-block.md"
+      },
+      {
+        "commits": 1,
+        "lines": 10,
+        "path": "tests/fixtures/fenced-tilde.md"
+      },
+      {
+        "commits": 3,
+        "lines": 21,
+        "path": "tests/fixtures/img-in-html-comment.md"
+      },
+      {
+        "commits": 1,
+        "lines": 20,
+        "path": "tests/fixtures/indented-4sp-multiline.md"
+      },
+      {
+        "commits": 1,
+        "lines": 8,
+        "path": "tests/fixtures/indented-4sp.md"
+      },
+      {
+        "commits": 2,
+        "lines": 32,
+        "path": "tests/fixtures/logo-unclosed-fence.md"
+      },
+      {
+        "commits": 1,
+        "lines": 32,
+        "path": "tests/fixtures/manifests/v1.0-frozen.json"
+      },
+      {
+        "commits": 1,
+        "lines": 7,
+        "path": "tests/fixtures/marker-different-slug.md"
+      },
+      {
+        "commits": 1,
+        "lines": 11,
+        "path": "tests/fixtures/marker-duplicate.md"
+      },
+      {
+        "commits": 3,
+        "lines": 51,
+        "path": "tests/fixtures/marker-fenced-and-real.md"
+      },
+      {
+        "commits": 3,
+        "lines": 51,
+        "path": "tests/fixtures/marker-in-fenced-block.md"
+      },
+      {
+        "commits": 1,
+        "lines": 17,
+        "path": "tests/fixtures/marker-indented-multiline.md"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "tests/fixtures/marker-malformed-attrs.md"
+      },
+      {
+        "commits": 1,
+        "lines": 11,
+        "path": "tests/fixtures/marker-nested.md"
+      },
+      {
+        "commits": 1,
+        "lines": 7,
+        "path": "tests/fixtures/marker-none.md"
+      },
+      {
+        "commits": 1,
+        "lines": 22,
+        "path": "tests/fixtures/marker-relocated.md"
+      },
+      {
+        "commits": 3,
+        "lines": 21,
+        "path": "tests/fixtures/marker-same-line.md"
+      },
+      {
+        "commits": 2,
+        "lines": 30,
+        "path": "tests/fixtures/marker-unclosed-fence.md"
+      },
+      {
+        "commits": 1,
+        "lines": 6,
+        "path": "tests/fixtures/marker-unclosed.md"
+      },
+      {
+        "commits": 1,
+        "lines": 11,
+        "path": "tests/fixtures/marker-valid-single.md"
+      },
+      {
+        "commits": 1,
+        "lines": 20,
+        "path": "tests/fixtures/model-views/degenerate.view.json"
+      },
+      {
+        "commits": 1,
+        "lines": 58,
+        "path": "tests/fixtures/model-views/rich.view.json"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "tests/fixtures/self-closing.md"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "tests/fixtures/single-quote.md"
+      },
+      {
+        "commits": 1,
+        "lines": 330,
+        "path": "tests/history.test.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 755,
+        "path": "tests/json-output.test.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 454,
+        "path": "tests/manifest-cmd.test.ts"
+      },
+      {
+        "commits": 8,
+        "lines": 0,
+        "path": "tests/manifest.test.ts"
+      },
+      {
+        "commits": 9,
+        "lines": 1331,
+        "path": "tests/marker-parser.test.ts"
+      },
+      {
+        "commits": 7,
+        "lines": 848,
+        "path": "tests/migrate-journal.test.ts"
+      },
+      {
+        "commits": 7,
+        "lines": 525,
+        "path": "tests/migrate.test.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 358,
+        "path": "tests/model-channels.test.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 122,
+        "path": "tests/model-passthrough.test.ts"
+      },
+      {
+        "commits": 8,
+        "lines": 576,
+        "path": "tests/readme-parser.test.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 108,
+        "path": "tests/remove-swap-failure.test.ts"
+      },
+      {
+        "commits": 3,
+        "lines": 960,
+        "path": "tests/remove.test.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 696,
+        "path": "tests/stats.test.ts"
+      },
+      {
+        "commits": 6,
+        "lines": 621,
+        "path": "tests/sync.test.ts"
+      },
+      {
+        "commits": 4,
+        "lines": 175,
+        "path": "tests/verify.test.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 6,
+        "path": "tsconfig.json"
+      },
+      {
+        "commits": 2,
+        "lines": 86,
+        "path": "vitest.config.ts"
+      }
+    ]
+  },
+  "confidence": {
+    "level": "low",
+    "reason": "fewer than 20 source files reach 10 revisions in the window"
+  },
+  "generatedAt": "2026-09-23T22:26:43.537Z",
+  "generatedFrom": {
+    "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf"
+  },
+  "pairs": [
+    {
+      "a": "site/package-lock.json",
+      "b": "site/package.json",
+      "either": 9,
+      "shared": 8,
+      "strength": 0.888889
+    },
+    {
+      "a": "src/commands/audit.ts",
+      "b": "tests/audit.test.ts",
+      "either": 6,
+      "shared": 6,
+      "strength": 1
+    },
+    {
+      "a": "src/utils/marker-parser.ts",
+      "b": "tests/marker-parser.test.ts",
+      "either": 6,
+      "shared": 5,
+      "strength": 0.833333
+    }
+  ],
+  "parameters": {
+    "appliedChangesetLimit": 50,
+    "changeset": 50,
+    "changesetFraction": 0.25,
+    "cohesionDrop": 0.2,
+    "couplingPopulation": "source",
+    "fallenShared": 3,
+    "floor": "fallen",
+    "floorHeld": false,
+    "floorTrigger": "revision-depth",
+    "headDate": "2026-09-20T22:16:40-04:00",
+    "inScopeFiles": 385,
+    "pinnedStart": null,
+    "priorFloor": null,
+    "qualifyingCommits": 158,
+    "qualifyingMinimum": 30,
+    "revisions": 5,
+    "shared": 10,
+    "sharedFloorUsed": 3,
+    "since": "2026-03-25T02:16:40.000Z",
+    "sourceExtensions": [
+      ".js",
+      ".mjs",
+      ".cjs",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".mts",
+      ".cts",
+      ".py"
+    ],
+    "sourceFileReach": 20,
+    "sourceFileRise": 25,
+    "sourceFilesReachingStrongFloor": 0,
+    "strength": 0.5,
+    "windowDays": 180
+  },
+  "strengthDefinition": "strength is the shared qualifying commits divided by either. either is the number of qualifying commits that touch either file."
+}

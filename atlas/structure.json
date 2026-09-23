@@ -1,0 +1,3556 @@
+{
+  "boundaries": [
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "fda2b1321d6face961e832bd604e4b771781447af302a50cf2781a6feec4bfb9",
+          "path": ".claude/context/brand-rules.md"
+        },
+        {
+          "hash": "3274426048c7ab66edb9aba4148cc36394c968a7cbf7b9bf110ab4b5b06d250a",
+          "path": ".claude/context/current-priorities.md"
+        },
+        {
+          "hash": "7681ede1851cc935ed3444a406b695ce3dac7d6b41bff4ce342f65509530ff96",
+          "path": ".claude/context/product-brief.md"
+        },
+        {
+          "hash": "5c77b6492c1d346d2751ec36ad2f9347ac9e3aab183b55151f8fcb4c2bbb6cb1",
+          "path": ".claude/context/repo-map.md"
+        },
+        {
+          "hash": "8ac4fe1c80f02525508811f04b8dfc6ce8b9232df48e0f439a1133101bc4973a",
+          "path": ".claude/workflows/protect-brand-truth.md"
+        }
+      ],
+      "globs": [
+        ".claude/**"
+      ],
+      "importConfidence": "full",
+      "name": ".claude",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "5bdce2bd027fa04245da264730233178b5fc68ad4650a4fc6b690e10a72ed536",
+          "path": ".githooks/pre-commit"
+        }
+      ],
+      "globs": [
+        ".githooks/**"
+      ],
+      "importConfidence": "full",
+      "name": ".githooks",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "e8eea24ab3239877b18d1148daec099de5e6d6dfc699004632263a2aa214dcf9",
+          "path": ".github/CODEOWNERS"
+        },
+        {
+          "hash": "a48e678f7cf76362cf2fe269e033c7da136ffbba4aa39cbe1c0b05c7cc95cf19",
+          "path": ".github/SECURITY-CONTROLS.md"
+        },
+        {
+          "hash": "a5ab82fdd36858818331e2c20703c9eab48afb8062c7e2c027aa78c13225b6d0",
+          "path": ".github/audit-allowlist.json"
+        },
+        {
+          "hash": "95a334f4640d8a1ed118bac5a6aebfbaf409b18b598970f7fabf26c86624d0d0",
+          "path": ".github/dependabot.yml"
+        },
+        {
+          "hash": "15c9012272b7634ff8b76d7f7456ae2d4a453595e235dd089ddfe1619aa16572",
+          "path": ".github/workflows/ci.yml"
+        },
+        {
+          "hash": "db25bcb0606f0e413db78c5ae46cf547b541bcacfd4943ffa2b5f47a710a877a",
+          "path": ".github/workflows/pages.yml"
+        },
+        {
+          "hash": "425ec4f22aa6b9993d1d1cca75fb54b2d4f87bffb5beaa85d054469816990ba1",
+          "path": ".github/workflows/release.yml"
+        },
+        {
+          "hash": "5f1de4acf9d33affe92de4e5ed6f28e19d67e824e3ee71c71658ab6121ac278a",
+          "path": ".github/workflows/sync.yml"
+        }
+      ],
+      "globs": [
+        ".github/**"
+      ],
+      "importConfidence": "full",
+      "name": ".github",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "d24a64e18407d4dcbb68975811bfd888ff6f22eea3fc4429e78f8dfd2aa32c17",
+          "path": "assets/logo.jpg"
+        },
+        {
+          "hash": "71d0f976ade2b0bdf738c3631015a6de1e1e53310929afeb9dd7fd624a0621b8",
+          "path": "assets/portlight-ships/before-after.png"
+        },
+        {
+          "hash": "d3b037a095401ab7496dc89164e7a14299140ab1a14394e95fbbbdebb2a63e29",
+          "path": "assets/portlight-ships/damage-generalisation.png"
+        },
+        {
+          "hash": "fa845bcaa17dc4a81afb40f4711ca5f857c31ded75d7ba3b775e2c7da98fb95d",
+          "path": "assets/portlight-ships/fleet.png"
+        },
+        {
+          "hash": "b5dd37c0c3ca10c0970b6e98896d83f10b410b6306b4401e011bff28b249929f",
+          "path": "assets/portlight-ships/turnaround.png"
+        }
+      ],
+      "globs": [
+        "assets/**"
+      ],
+      "importConfidence": "full",
+      "name": "assets",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "d51e1cd71457bc6b9678ee412e6ae226556b4b7da88b9b3feb5fe1009e815ddf",
+          "path": "docs/handbook.md"
+        },
+        {
+          "hash": "913c31e38f0455b4fb6076090cd2a50a150a2b61af63dbd0221484a16239ba1d",
+          "path": "docs/model-channels-spec.md"
+        }
+      ],
+      "globs": [
+        "docs/**"
+      ],
+      "importConfidence": "full",
+      "name": "docs",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "6423e014b74f406658e98a9039965933e7e929971dc55aa64a1e59680a0e9498",
+          "path": "logos/.github/readme.png"
+        },
+        {
+          "hash": "7c8a7aeaf36ed9b87528e70a85c3c93581dd4f943d1c1f09d0d06be429f730d4",
+          "path": "logos/Attestia-Desktop/readme.png"
+        },
+        {
+          "hash": "7c8a7aeaf36ed9b87528e70a85c3c93581dd4f943d1c1f09d0d06be429f730d4",
+          "path": "logos/Attestia/readme.png"
+        },
+        {
+          "hash": "56f16046ee7d1c6e410d655ff5a0b4c097e620706ec7c481eea9f326ccb48e1f",
+          "path": "logos/ClaimLedger/readme.png"
+        },
+        {
+          "hash": "7a1a88b0365ef64e915cf08bd3d9fccc4d25de89210d2ccabc6de4da6eb7bd78",
+          "path": "logos/CodeClone-Desktop/readme.png"
+        },
+        {
+          "hash": "83598e06aad9db2d5a751dbb7905a697926e5cc64c03b3c01884aaa7c79da489",
+          "path": "logos/ConsensusOS/readme.png"
+        },
+        {
+          "hash": "8f61fccdda9db6fda4b35e5b16fa76300b7f20cd0972e5ba6923a33e93fe8931",
+          "path": "logos/CreatorLedger/readme.png"
+        },
+        {
+          "hash": "e4aa393745311eea726b0440d715c1bca6b1aea62bbdff20ab18fab612a18078",
+          "path": "logos/DeterministicMouseTrainingEngine/readme.png"
+        },
+        {
+          "hash": "3e4e7839bd995f6f427ae7d4edd8dede45b3363e88c8b8338712d725b82a6ea5",
+          "path": "logos/GlyphStudio/readme.jpg"
+        },
+        {
+          "hash": "818793e704f65a9c5483f16d578ec3319e78f01708654ce2296103b0834400af",
+          "path": "logos/InControl-Desktop/readme.png"
+        },
+        {
+          "hash": "670985233c51666ae298f53781cbf1e7b6a1359672da76e165fbea349077f2e2",
+          "path": "logos/LeaseGate-Lite/readme.jpg"
+        },
+        {
+          "hash": "beaf246f65f1e29cc3c8013ed7c5dec72d6a1b5460e3f538156cc65e500d5d48",
+          "path": "logos/LeaseGate/readme.png"
+        },
+        {
+          "hash": "07248e2dc711341c122e0de69b21f59427fce73b0a7a16ca156db4788bcfef6d",
+          "path": "logos/LoKey-Typer/readme.png"
+        },
+        {
+          "hash": "364a71178d4ab944905b8cd677405965ac629b51968793989d66e04edae0b08e",
+          "path": "logos/MouseTrainer/readme.png"
+        },
+        {
+          "hash": "b5db1ef46130be16d90559db6968386f142a60880c81b242e552ead7e70ebf32",
+          "path": "logos/NextLedger/readme.png"
+        },
+        {
+          "hash": "5afa45d48907d047e704afd6dac855ea8e9a5d88da32c6f97c7acbb9ed3397a5",
+          "path": "logos/Registrum/readme.png"
+        },
+        {
+          "hash": "ed2498cb76ba7f884fb0aebc19c76889c46637d452a67ea32f1c462b9a63462d",
+          "path": "logos/ScalarScope-Desktop/readme.png"
+        },
+        {
+          "hash": "cf70508c4637870ce43cd69bbb88a431103d866a84b38f7189a986b9d0c3b03d",
+          "path": "logos/ScalarScope/readme.png"
+        },
+        {
+          "hash": "b48587459b4c3afe19465422ed942ca7a86de801592eedf431454684da677cc6",
+          "path": "logos/ThrottleAI/readme.jpg"
+        },
+        {
+          "hash": "a0ff810acd48cf0d825d156b8995377610a897d714399796462faad7fd318172",
+          "path": "logos/ToolShopStudio/readme.png"
+        },
+        {
+          "hash": "d45e2eb3a395beea920a0a0132ad7ab4dde0433bb0eed92e29099b3e14e34331",
+          "path": "logos/Trace/readme.png"
+        },
+        {
+          "hash": "4e9e83e174fd333fec18dfae9efac20d43f83eee470536e83c7a65a108de5999",
+          "path": "logos/VectorCaliper/readme.png"
+        },
+        {
+          "hash": "228258c8fbdff0b899d920312f4970724abe13b034f767beecf120cf0d4bb3f9",
+          "path": "logos/a11y-assist/readme.png"
+        },
+        {
+          "hash": "ffed43f2230b19ebb14804896df73aac40b2749a431c713ba8076edf7826d7dd",
+          "path": "logos/a11y-ci/readme.png"
+        },
+        {
+          "hash": "f04b0a0c7b897dee354ab17536438e2e1df8c12d7a5e50e4bf4ddd81327bc1f8",
+          "path": "logos/a11y-demo-site/readme.png"
+        },
+        {
+          "hash": "fd069d1a2fcdc5c39b583a7bf2f07b823e5f6dc634022640a07993fa5fe613f3",
+          "path": "logos/a11y-evidence-engine/readme.png"
+        },
+        {
+          "hash": "f7e1325a84f918cc2ca1cf355daf822759793066e9c2af8537bf2806ad9c15c6",
+          "path": "logos/a11y-lint/readme.png"
+        },
+        {
+          "hash": "25ad0e6cc8ebc992e39cd67c8ae3395bf9c3a9bbc59e302edc3059467671afd6",
+          "path": "logos/a11y-mcp-tools/readme.png"
+        },
+        {
+          "hash": "8b81e67f667f0a380f8f3d596ef85369969d27d7fa44462f50986e8c712e17a8",
+          "path": "logos/accessibility-suite/readme.png"
+        },
+        {
+          "hash": "831469201e2a9469320e22155897b89c0ae7874a750208b557a655f05b8672d5",
+          "path": "logos/ai-jam-sessions/readme.png"
+        },
+        {
+          "hash": "3b0683ec08127c9713c419ba7770f2f68ac611bd9180100584a25fbd3b66f7f5",
+          "path": "logos/ai-loadout/readme.png"
+        },
+        {
+          "hash": "1786fd2ca6bfc320f7b68057fc79a717e0c11550e63d2a7b095ffb83e50934bc",
+          "path": "logos/ai-music-sheets/readme.png"
+        },
+        {
+          "hash": "8bc4cf1f821783dda31210c23145b9ae3c3c8ede62fd46bcc9169c3bd3087aa8",
+          "path": "logos/ai-playtest/readme.png"
+        },
+        {
+          "hash": "34eb1921ecf5e83ad4b4f9b82b4ea51fa74fe4b19fb7ab6c3867410f38ec8100",
+          "path": "logos/ai-rpg-engine/readme.png"
+        },
+        {
+          "hash": "58f30b1410ecf94f94b33115b37e47f68f1d509f60faadf0594c704fab0837cc",
+          "path": "logos/ai-rpg-stage/readme.png"
+        },
+        {
+          "hash": "10b83bd07ae700d3c3211ad86ce8a7c841b5e67304e9216a888bc17c15562298",
+          "path": "logos/ai-ui/readme.png"
+        },
+        {
+          "hash": "539ee4a51e4dd465ce389b6db360d5c10999f531a2f1651d0a12884fd47baf53",
+          "path": "logos/ally-demo-python/readme.png"
+        },
+        {
+          "hash": "4ccac30c33c884cd4c81e4bd9ac2c193f035e16292b112f8452ee48d179f614f",
+          "path": "logos/armature/readme.png"
+        },
+        {
+          "hash": "887f58509014d21630ad3e89748c44d467fe5903e0a2636dc1ddc418128a5e46",
+          "path": "logos/artifact/readme.png"
+        },
+        {
+          "hash": "1f0ff0e5fafc2db9c07054bd6ea91381d35b21b56d3f6cfe20b4b5e354a3c3ab",
+          "path": "logos/aspire-ai/readme.png"
+        },
+        {
+          "hash": "645963f51c2e864f58c600ad43905de4756bfc551f35a18f4dc64df4ece10c58",
+          "path": "logos/audiobooker/readme.jpg"
+        },
+        {
+          "hash": "77d42d622df71a844e50195f73d079da7ab4b40ed14ff942e56f87ca4eccfd23",
+          "path": "logos/avatar-face-mvp/readme.png"
+        },
+        {
+          "hash": "fc811d9887ac4c921eaa255aa7f876485d82cc330691d77568a4915a079d32f2",
+          "path": "logos/backprop-trace/readme.png"
+        },
+        {
+          "hash": "c93e188ec4259bb965183b12df30562c2b11a7dacb9c4278ff50492d1f033e94",
+          "path": "logos/backprop/readme.png"
+        },
+        {
+          "hash": "ca1a753e1f8aa5ab8d8717c4303e40fb35cb5bee4fe6b32d7185bda004231b9f",
+          "path": "logos/backpropagate/readme.png"
+        },
+        {
+          "hash": "d79081d725d1bac4617f5de3ae36cb76a8ed393c06f87076852057cf6fa30859",
+          "path": "logos/brain-dev/readme.png"
+        },
+        {
+          "hash": "99d919c0f7ef5a87efabd4025e08286ebedd0c893eec30fdb5b930ce1a3062b6",
+          "path": "logos/build-governor/readme.png"
+        },
+        {
+          "hash": "55bc223b640a3c056a30deacc70c4279341d85b10db1363b98778112d124f8c8",
+          "path": "logos/cannon-archive/readme.png"
+        },
+        {
+          "hash": "e8431620154faa947b4209ca792843196aefa982032d3083755738d8e0b49b40",
+          "path": "logos/civility-kernel/readme.png"
+        },
+        {
+          "hash": "9a69b2c9410d11774e8798ed9a1d72094f0ebda3189f44ac58882f064059984d",
+          "path": "logos/claude-collaborate/readme.png"
+        },
+        {
+          "hash": "3e70f386b96a42fcb623b3e6b998b7700b3322a36ea188ee3335ffc35d866ddd",
+          "path": "logos/claude-guardian/readme.png"
+        },
+        {
+          "hash": "93659b7531fed34f325740aa45df86162dc2943aa751ac2b615351837d06d77c",
+          "path": "logos/claude-hook-debug/readme.png"
+        },
+        {
+          "hash": "12ecec9428431544fca6ebff729e12703e6ec78d422f2f9dab55f1f0c3999131",
+          "path": "logos/claude-memories/readme.png"
+        },
+        {
+          "hash": "734d9b66655cc25817baacdde31b23feedf7cdc3d825d232f90be8a2da643ad7",
+          "path": "logos/claude-rpg/readme.png"
+        },
+        {
+          "hash": "cdcdd802fb51414cf21afeff36416fa1400d6b3d4197167dcad1cbc2510b275d",
+          "path": "logos/claude-rules/readme.png"
+        },
+        {
+          "hash": "c13d268f95dc7e86eec7442cdff5f963c37f12b0cfe127fefe7fea1a120769dd",
+          "path": "logos/claude-session-copilot/readme.png"
+        },
+        {
+          "hash": "fcb3d466774f16d1c28f7e9436ae91999c4ce29cad7f816afceac472712285f1",
+          "path": "logos/claude-sfx/readme.jpg"
+        },
+        {
+          "hash": "88998b65f345e4f31c1c8570a9cebf448b774a88ac5416830281b52e929c7a84",
+          "path": "logos/claude-synergy/readme.png"
+        },
+        {
+          "hash": "4fff531d78115803dbbd1c22e002211273ae79a71e600e118273a1c065646a80",
+          "path": "logos/claude-toolstack/readme.png"
+        },
+        {
+          "hash": "6882d76556c669296b943f77c587ffc874740932d4f47e5c2b553b314ebb0f57",
+          "path": "logos/clearance-opinion-engine/readme.png"
+        },
+        {
+          "hash": "ccb32b327b8e76bf0c70b78ff31123b9dcdc5c74d948ae64e651b39ec14d6a84",
+          "path": "logos/code-batch/readme.png"
+        },
+        {
+          "hash": "2d60076547dab2d6309dba5e6c3ee0dc051a5674bf20b778866b1a3034643ffd",
+          "path": "logos/code-bearings/readme.png"
+        },
+        {
+          "hash": "d1a0b37ee21cace70c74d965e9c0621775f29e30ecd80054404a594fa6be8d0c",
+          "path": "logos/code-covered/readme.png"
+        },
+        {
+          "hash": "38f223062acefde8ce0a83db4bcf0c52a8eb11366c4f4d9b026ddaff64495c68",
+          "path": "logos/codeclone-suite/readme.png"
+        },
+        {
+          "hash": "1020a37478cb18527708e3cbd2941787504885571aa4be1ff78f79b8f170aa9f",
+          "path": "logos/codecomfy-vscode/readme.png"
+        },
+        {
+          "hash": "3a930ebc868ea47c0adaf1883219ed80a23ffafc529ea556491aa9975733b983",
+          "path": "logos/codeteam-suite/readme.png"
+        },
+        {
+          "hash": "bf057f75d6c5d7802b5b31f90ee08db091e10328113a2a1b1b6aa41576eb38b2",
+          "path": "logos/codeteam/readme.png"
+        },
+        {
+          "hash": "17876da60a432d5b7ea087dd6763883e9660314e56588875bff74f2069fb71e5",
+          "path": "logos/comfy-headless/readme.png"
+        },
+        {
+          "hash": "39e334f587a060d997d2f7147eb172e8adf4f4526b25c3f0ca927f3d50748c61",
+          "path": "logos/comfy-preflight/readme.png"
+        },
+        {
+          "hash": "8438fd9d4581b05b645712f741ae150992da32db6c4e8f9c8596ba39de79462b",
+          "path": "logos/commandui/readme.png"
+        },
+        {
+          "hash": "87ccdaf9e9bc2710e4f4ef2d66afe618d8c5594cf7bd6ee0c292c643aa3a7fe5",
+          "path": "logos/context-window-manager/readme.png"
+        },
+        {
+          "hash": "784bbc11da7b41f1973049a6699a805d34d88bd875700e3a30f55ac1f4e7e7e5",
+          "path": "logos/control-room/readme.png"
+        },
+        {
+          "hash": "bd86fc589bfb892f00feead131295c98ba3e712fcdc8bf51d194e0352be34557",
+          "path": "logos/creator-studio-os/readme.png"
+        },
+        {
+          "hash": "bbdcf55ac5bf0e5537ac445c50b4035126b326d24642f8109f70bc7c9326fcfd",
+          "path": "logos/cursor-assist/readme.jpg"
+        },
+        {
+          "hash": "749b6a3bbeb34fca7e5aa6f16948ad4ea12e8b0a625982ca27018c72ea168990",
+          "path": "logos/datagates/readme.png"
+        },
+        {
+          "hash": "454793231c420c0e478743ab826d97b35f4c3656330473e540d3dd2a4700056d",
+          "path": "logos/db-cluster/readme.png"
+        },
+        {
+          "hash": "b2033ddc52c8ddef7bb822d3b6eacdaf60550242fa7fc4dd55132f65b4c30234",
+          "path": "logos/deltamind/readme.png"
+        },
+        {
+          "hash": "7d2a25d78b944079a478471e20b6d5165d5cba30d8c1e4accef0d97af573da90",
+          "path": "logos/dev-op-typer/readme.png"
+        },
+        {
+          "hash": "1f8a0b06ec2abd53cc7567ea128ad2ae622fb7d1731163503384d702dcc58009",
+          "path": "logos/dogfood-labs/readme.png"
+        },
+        {
+          "hash": "4eb9b1fb372ef22d9af449fb6ae6d49b2263e38e6b64ed7042d39a9e59333417",
+          "path": "logos/edgepacks/readme.png"
+        },
+        {
+          "hash": "d8c551e8418a03c26213ce01d0b68e37dd3f3785343b5c33445a6aabf94d9ec0",
+          "path": "logos/escape-the-valley/readme.png"
+        },
+        {
+          "hash": "ebdb333c7606d3d76952dd9899b9318676e43dc3e2ee5d2b736eb033267fdfc9",
+          "path": "logos/facet/readme.png"
+        },
+        {
+          "hash": "bb1188ddb47afdcb50f01505fca1c4a268b062600c0efebe1ea041299d668fb7",
+          "path": "logos/fantasy-heroes-sprite-pack/readme.png"
+        },
+        {
+          "hash": "515b7b3c0e695a3c27b7069078d6873e04322a21ae2e927521c344ee2c318053",
+          "path": "logos/fantasy-villains-sprite-pack/readme.png"
+        },
+        {
+          "hash": "7285b354190a06cc58529b609363be8ffbf2632a9a5b51a81744bd598de45319",
+          "path": "logos/feature-reacher/readme.png"
+        },
+        {
+          "hash": "beadc5d7cf2f74246436a8ee4722cb8acec39263f02c6484de6f2e3e99045e3b",
+          "path": "logos/file-compass/readme.png"
+        },
+        {
+          "hash": "57a9e13902c306bfd7739778b86a6e3841d7399bce7a7f784f76d61356235c8f",
+          "path": "logos/flexiflow/readme.png"
+        },
+        {
+          "hash": "d658ae39291f30bf709e38c40b3d71755f6c831e1fb2704cf16201616e3f1274",
+          "path": "logos/forkable/readme.png"
+        },
+        {
+          "hash": "a4c63a7997a986aabc2d174d1ee786fc7e2b5a60a8f628f128a770238643bc1c",
+          "path": "logos/forkctl/readme.png"
+        },
+        {
+          "hash": "816d717198b1af6f2a76d6d33a7bdb6fe89b62fe22f64cdab46241e222487a11",
+          "path": "logos/game-dev-mcp/readme.png"
+        },
+        {
+          "hash": "0342c5a648557134aaf3965880003a14f5c967f32922559135a5876fd741665e",
+          "path": "logos/goblin-sprite-pack/readme.png"
+        },
+        {
+          "hash": "0c44028da3e4d78f07bc83dd7b45651a2588bb3be0b0b8c341675c7838f7947a",
+          "path": "logos/grok-bot-os/icon.png"
+        },
+        {
+          "hash": "bba39e34c12ecaaaac9a9284f1b001801e6288b8cba35a29b6a99f6a9074c05b",
+          "path": "logos/grok-bot-os/og.png"
+        },
+        {
+          "hash": "4473bccfe01429e75ba11e247f459411a8360123798094b0ecfe397eaad4b78a",
+          "path": "logos/grok-bot-os/readme.png"
+        },
+        {
+          "hash": "e1fba3ccee23e19a5ca2ddd57a67ac87e74c4ed33f53057503a56b210697c496",
+          "path": "logos/headless-wheel-builder/readme.png"
+        },
+        {
+          "hash": "db335e03f48d75bededd8c33b759e547e08bb7098f49da34adb4cca5ef88a69b",
+          "path": "logos/homebrew-core/readme.png"
+        },
+        {
+          "hash": "2717d66b8067f8d84e4e807f8c9cbee348b5f020441c71fada7168a8b863ea8e",
+          "path": "logos/homebrew-mcp-tools/readme.png"
+        },
+        {
+          "hash": "140416f61330a5c84da7c159ab2def564697832983b93e7a16aa85612dfa4649",
+          "path": "logos/integradio/readme.png"
+        },
+        {
+          "hash": "c3fd975d9bbc511ed2fccfaab82462587274385f01e79c5a549dab99be376d41",
+          "path": "logos/jam-session-plugin/readme.png"
+        },
+        {
+          "hash": "d2524b0e90c1e0d028831ede1211e974a9afde62d9ce0b0c2fd86adf76550d32",
+          "path": "logos/knowledge-core/readme.png"
+        },
+        {
+          "hash": "8ef30ee1c9a4fab997b299e1c9b424b8bbbfd85563d237af45a888d375684ff1",
+          "path": "logos/ledger-suite/readme.png"
+        },
+        {
+          "hash": "c3629292c735e4cd3775ad156c233a1f4d01510c95e2d2d85a5e83dd5715bffa",
+          "path": "logos/linux-dev-typer/readme.png"
+        },
+        {
+          "hash": "c394b89e2e2afdfb5403442afda1c03d4f2da0047428ee550f60ab4865b2363d",
+          "path": "logos/llm-sync-drive/readme.png"
+        },
+        {
+          "hash": "b386ec309af2773368ddc7038ff82a6432918d8ca24b2b7913c19eb0f7443480",
+          "path": "logos/loadout-os/readme.png"
+        },
+        {
+          "hash": "224417a8e5b7bad505402d701e4f46df191ea919af27401361761925bd5710ba",
+          "path": "logos/mcp-app-builder/readme.png"
+        },
+        {
+          "hash": "21bc99b5d19c14ca10f26d31d3feb6eb23397718f226fa98c585f460430665ba",
+          "path": "logos/mcp-arcade-cabinets/ghost-readme.png"
+        },
+        {
+          "hash": "008812a82aa6211f11b9be49e8ba0eecd24633b8be008c62a2a98f3bd885238b",
+          "path": "logos/mcp-arcade-cabinets/hero.png"
+        },
+        {
+          "hash": "1aaa69ff16042134c500373c1a5c3d95dd087ad64f2e652540c03cc415d4d307",
+          "path": "logos/mcp-arcade-cabinets/icon.png"
+        },
+        {
+          "hash": "7cd1a03d8460c9532e81bd4dbdf8d7e9d1008dc013d1980dcfda84d2b47b85f8",
+          "path": "logos/mcp-arcade-cabinets/readme.png"
+        },
+        {
+          "hash": "51b0e3bef9313266748bea29d9f9211707356bc736af2e90352c807338e50b3b",
+          "path": "logos/mcp-arcade-cabinets/vibe-typer-icon.png"
+        },
+        {
+          "hash": "3c97ba14228bf3458ca4ac491ec5ff8a22f63084dfb23120828f99ea27a844c9",
+          "path": "logos/mcp-arcade-cabinets/vibe-typer-readme.png"
+        },
+        {
+          "hash": "528788a48f6c616d9a5d0379fc636a62b15d1913f8d5ba42058d8950590dbe4f",
+          "path": "logos/mcp-arcade/readme.png"
+        },
+        {
+          "hash": "fd712b55d81cb4aa194f89d1835bbc64a758b65284326139f9742daf46915c34",
+          "path": "logos/mcp-aside/readme.png"
+        },
+        {
+          "hash": "029a79657ce098f6e0a272cd324d4cf070f85c9fe173483e65481a61e3a2f634",
+          "path": "logos/mcp-bouncer/readme.png"
+        },
+        {
+          "hash": "2c39a1414064f78b9fc149b1b29e153100f645cb4e9d95c71d8888e58d692051",
+          "path": "logos/mcp-examples/readme.png"
+        },
+        {
+          "hash": "c1883ce2196816b121c70d394d66c6820528ff67abe1a1775894584767f9d2d1",
+          "path": "logos/mcp-file-forge/readme.png"
+        },
+        {
+          "hash": "a5a59fa546100c8ec9fae87f725f493b4b4d34eb77ac18ad6f2ad5faa05f5706",
+          "path": "logos/mcp-personify/readme.png"
+        },
+        {
+          "hash": "c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+          "path": "logos/mcp-stress-test/readme.png"
+        },
+        {
+          "hash": "571a56191d2fee3d7738ed1637a1cdd9be5490f96b5040d77b27b82aace73e43",
+          "path": "logos/mcp-tool-registry/readme.png"
+        },
+        {
+          "hash": "a0ff810acd48cf0d825d156b8995377610a897d714399796462faad7fd318172",
+          "path": "logos/mcp-tool-shop.github.io/readme.png"
+        },
+        {
+          "hash": "455c05d45e74b0003101b8ab7e66b5d2c40ffd903f9db6be439c5573e0669ca4",
+          "path": "logos/mcp-voice-engine/readme.png"
+        },
+        {
+          "hash": "6d1b721e936c62069a3e1d086e8c336afe31ea6d3f569592e68e589c0ddd0e7e",
+          "path": "logos/mcp-voice-soundboard/readme.png"
+        },
+        {
+          "hash": "fd5325d154992cfbe17644302dd73018f26671e2c56cf8c05da5dcb53c6b5f50",
+          "path": "logos/mcpt/readme.png"
+        },
+        {
+          "hash": "8be5bcf8bf547e01b18ddb1452398cc392df431665f86a8203f2f4560a0cbd60",
+          "path": "logos/meta-content-system/readme.png"
+        },
+        {
+          "hash": "4fbe5fc4ae072a59971f6e316ce8e59e0856eaec9cfbc780cd2c408ebccc1ce0",
+          "path": "logos/monster-pack/readme.png"
+        },
+        {
+          "hash": "b728d6e3c02414a7dddf95b5a5e840034e8d9ceeb26a4f830d3498761fb2bfea",
+          "path": "logos/motif/icon.png"
+        },
+        {
+          "hash": "dc3a4b97325ce09a1e4e8d1f50ed1fa4e241804da15ffb4f3ddb06a7b0028dca",
+          "path": "logos/motif/icon.svg"
+        },
+        {
+          "hash": "21d382a32f35cffbef866c5a037c713b30573263136ed0d49f1d94579f74a4da",
+          "path": "logos/motif/mark.svg"
+        },
+        {
+          "hash": "f2210096115b693c6eeab6327466338910ca1ecac6852389cdff2918a9145454",
+          "path": "logos/motif/readme.png"
+        },
+        {
+          "hash": "412694e5df984a86fafa8f6a7425c679d3d1bad2c1f25842b9345534718fc377",
+          "path": "logos/motif/source/lockup-grok-imagine-2.0-raw.png"
+        },
+        {
+          "hash": "ddbbf3149e0e069aae5ba9958db2163f35324b534b68be5a025fdae2d7bd8eb7",
+          "path": "logos/motif/source/mark-nano-banana-pro-raw.png"
+        },
+        {
+          "hash": "5955212d849d0ed41167c48ca42bce67766fcde9fa761dca5f0f588dfde7bd67",
+          "path": "logos/multi-claude/readme.png"
+        },
+        {
+          "hash": "0f5eede4d5f6e10aa52c97c8e650b84368ec69f01584c7078bff63e4775e8ed4",
+          "path": "logos/nameops/readme.png"
+        },
+        {
+          "hash": "c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+          "path": "logos/nexus-attest/readme.png"
+        },
+        {
+          "hash": "29df4dfad063784a8ee9e7e04d1b84af62b5112a6ed4513cde16c2d7286b1aa5",
+          "path": "logos/nexus-control/readme.png"
+        },
+        {
+          "hash": "04e44ce9853dc25de2a89cc348a21474b78a73dd8d9a04377c3ae0500761ea8a",
+          "path": "logos/nexus-router-adapter-http/readme.png"
+        },
+        {
+          "hash": "7badba2213fa00f40d076bd59491706e04daf9e6dd019eb76aab84b9a2401449",
+          "path": "logos/nexus-router-adapter-stdout/readme.jpg"
+        },
+        {
+          "hash": "739c476319074feb6984b8edaf9d94bcd031e6b67600e56d26302cf3a84513e9",
+          "path": "logos/nexus-router/readme.png"
+        },
+        {
+          "hash": "c411ebe17ceb02ef336995b1349088b3d3f60776472f059ef191fc1094b64ffb",
+          "path": "logos/nexus-suite/readme.png"
+        },
+        {
+          "hash": "cfd2d5053ae7c04ebcfbfc18a40e78a7caf2d986d966728d24db3821a71f7027",
+          "path": "logos/npm-launcher/readme.png"
+        },
+        {
+          "hash": "f450a4a4481d45f8bdf467e7868066064fa9035f5e13ffb46ab3da79f94dd6d9",
+          "path": "logos/nullout/readme.png"
+        },
+        {
+          "hash": "31e4fb5dfb404f0b45043e26abf99f37b875892c32ce7f97ace686c6f5d1b63d",
+          "path": "logos/ollama-intern-mcp/readme.png"
+        },
+        {
+          "hash": "27c822443c8fa1cc485af1fa30ae0ba456e88c6353a7a1a0d495a6ee24f08fd9",
+          "path": "logos/original_voice-soundboard/readme.png"
+        },
+        {
+          "hash": "76cfad83fc99f31ae973eb6f215291d5fb6896ae8ee11b62bef357d8b85b74cd",
+          "path": "logos/pathway/readme.png"
+        },
+        {
+          "hash": "cb315ffd848f4b36e6ac0540901dd7494c66589ec632324e5b12c188809f0884",
+          "path": "logos/payroll-engine/readme.png"
+        },
+        {
+          "hash": "fe1447a143a9b1eb18c88985b0511087559aaa7bc35128d78f74dfdeabbeefab",
+          "path": "logos/pirate-raiders-3d-2/readme.png"
+        },
+        {
+          "hash": "20e4536a38c13d7cc31872152dfdf9230f9f15f0e597b4b606ef9ba2ef18ddb3",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/berserker.png"
+        },
+        {
+          "hash": "ceabfbd11dc817277a6c64555cc06ae671dd451db4e4c7654f2dab80ea3fe6b6",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/bombardier.png"
+        },
+        {
+          "hash": "c9bdeedab69d6c3ad456b03bc97605102dabbd0af1b45476f9571919e984cb3d",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/bosun.png"
+        },
+        {
+          "hash": "650f99e696e174f325805890a1f38b6d0fb9529f4d419c1b98e7fec4a8785a34",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/breaker.png"
+        },
+        {
+          "hash": "d4337cbaa48aade9bfbfb298b02e357fd2854eff08f47bda10766e3831aaa9d8",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/brig-keeper.png"
+        },
+        {
+          "hash": "95f8400f5b4271357407e16e4f6064e315f41a9909e22a6b5e93d5ca7bbc63ab",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/cabin-kid.png"
+        },
+        {
+          "hash": "26e5ed3a4c3d62cb7e198f2d28aed293c85e2abe0e075f962a4ac719dd488364",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/cannoneer.png"
+        },
+        {
+          "hash": "5204de0203aaed5c60983bbae9305397af84acea7ef0c5102a0dbd569434de62",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/captain.png"
+        },
+        {
+          "hash": "a84dad58c4b529b85c26761c464ec961251b63c3401886e1f06926c6493ac300",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/cook.png"
+        },
+        {
+          "hash": "2951579b010b8ddbcf500c34abcf698bd1439ce6cdf317b5c6cbc97a15eabdc8",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/diver.png"
+        },
+        {
+          "hash": "91308fb11b22b8aafe4c19c47ddc40fc1e0443ea5b393e76715c4d3dfb68367c",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/first-mate.png"
+        },
+        {
+          "hash": "c99f52e3fea7f4b65c220be6c9d4ee3b58396c4525a013433d2af75be14aff63",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/harpooner.png"
+        },
+        {
+          "hash": "2de841ab3fbb7e5bb04f739776c8b3893e1c34ea2c199179145340bf09ea48fc",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/juggernaut.png"
+        },
+        {
+          "hash": "28c017fb49d0b17a7f41f237a1ff34e5df68d74f624af3170c3260ddbfaa56ec",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/marine.png"
+        },
+        {
+          "hash": "1a496cd66987658564992d7782a80bc3320496b369b9519b492e60afaebcdf8f",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/marksman.png"
+        },
+        {
+          "hash": "15dca1015a9c13a585cee24a24e6205b4fa7d280ff9868e239b625ac93e1e7b1",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/navigator.png"
+        },
+        {
+          "hash": "22c7bb624003743e29ddeb66c221a0963a48cb6afacec0ce2914a1f5020f2ece",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/poisoner.png"
+        },
+        {
+          "hash": "0f61a4d7981ae612414ddae9f9b70bfef48867e0eb3b0560f567a5b058618c22",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/quartermaster.png"
+        },
+        {
+          "hash": "ac27f5d968367f293d7ac89eea346a424907b532420db1ed1b1cfa3d837dc3db",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/reaver.png"
+        },
+        {
+          "hash": "8102e00eee59fbb345c46ed6f321bab9fbac803adef0ad35e39007c5a279ecb1",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/rigger.png"
+        },
+        {
+          "hash": "62faf7380200873922e27803f8b71aea44e56f2b521f0c26391f3de369634725",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/sawbones.png"
+        },
+        {
+          "hash": "92cd61642f098ae82439fd67ec733dbe670828adea5b1c990938334a45966369",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/sea-witch.png"
+        },
+        {
+          "hash": "a5bc9fb4ce057a66c773a0549501ccc07cf96bbf7498a3118bdaf51dffd52de4",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/smuggler.png"
+        },
+        {
+          "hash": "0c115df669c25e039c07891cf4e11f384b099c53a180018e6875d74318d2622f",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/stormcaller.png"
+        },
+        {
+          "hash": "788292ead9d10ef17b71c753456225ff7a875a85574c05a2a851b4afdfece740",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/swashbuckler.png"
+        },
+        {
+          "hash": "50e8bd1d83b798503b5fbc09d10eabf1aa8f0ca5ba599d83c00d9f5df843be1a",
+          "path": "logos/pirate-raiders-3d-2/turnarounds/tide-cultist.png"
+        },
+        {
+          "hash": "c9e0f46964c90633f4ce8667c56a7a8133f15d3b748a0c91b5eb6bea7b2036dd",
+          "path": "logos/pirate-raiders-sprite-pack/readme.png"
+        },
+        {
+          "hash": "e12890cc80772757097ca31ecd177fe8ea1f1bfeeacd259765f1ea7cdd1059d8",
+          "path": "logos/plain-sight/readme.png"
+        },
+        {
+          "hash": "3a35253f83efe3656bc9b6bd1c583d9b2172689834fa5cd7f2718089f7632461",
+          "path": "logos/pocket-ledger/readme.png"
+        },
+        {
+          "hash": "2c0defc8ad462773443e004c8bc7ccca0f6e4edfea18e92cb55c87ac5d24680e",
+          "path": "logos/polyglot-mcp/readme.png"
+        },
+        {
+          "hash": "335376f8f97b64b8ae56eb1f0efde6e2c3e1a034e5b0c093144dabed1bbdeacb",
+          "path": "logos/portlight-desktop/readme.png"
+        },
+        {
+          "hash": "335376f8f97b64b8ae56eb1f0efde6e2c3e1a034e5b0c093144dabed1bbdeacb",
+          "path": "logos/portlight/readme.png"
+        },
+        {
+          "hash": "e893180cc116a4c68469db2059f4a315cb17146e6672a3cb674a006f95d5cb14",
+          "path": "logos/prov-engine-js/readme.png"
+        },
+        {
+          "hash": "62297a42c00e6cd00f2fbbf16406788efdc2748304f65060c53c2c84b15049a7",
+          "path": "logos/prov-spec/readme.png"
+        },
+        {
+          "hash": "b39817031c85e5132442aa074d188a32b8b174b879c261984d53792f1ba369e8",
+          "path": "logos/receipt-factory/readme.png"
+        },
+        {
+          "hash": "e569a07640bd8c0dd5f4bc3f011b53a1b7ea5743e373067d4c798fc53a58f55b",
+          "path": "logos/registry-pulse/readme.png"
+        },
+        {
+          "hash": "06499eb26f1e60288c36bb615d9f659865f303021d5866e9cfd8ee9794a0d382",
+          "path": "logos/registry-stats-vscode/readme.png"
+        },
+        {
+          "hash": "1ab17a5b94dfe5032b551f9594ca9d63eb82297954eeb2ad8cbbaf8e8d50b917",
+          "path": "logos/registry-stats/readme.png"
+        },
+        {
+          "hash": "cce7535c762ae0565673723e8c751f8a17d87b63a30037a02fcdb10d5b8fc03b",
+          "path": "logos/registry-sync/readme.png"
+        },
+        {
+          "hash": "d95e7e132db21cfdf871c630d125d35b78b639eab79a274104fe663012ac1fe6",
+          "path": "logos/repo-crawler-mcp/readme.png"
+        },
+        {
+          "hash": "f599b68103496f1017a15900a9e95513c7b9e3572fdbe97f2b5d206912ae7f7f",
+          "path": "logos/repo-dataset/readme.png"
+        },
+        {
+          "hash": "459d4b5e40660c25e223723db1ea16ebc94a109ed543152d385405b3eae6006b",
+          "path": "logos/repo-knowledge/readme.png"
+        },
+        {
+          "hash": "a28694b788f4645f90d705ab6d616a550c4cac67063034d1d9165f996001c0e0",
+          "path": "logos/repomesh/readme.png"
+        },
+        {
+          "hash": "777b019ca58bf6e5925ee39d40e7ea323d353514000f2d0eda75d032fa766495",
+          "path": "logos/research-os/readme.png"
+        },
+        {
+          "hash": "f62cd13b76b2238d680411e524a0e5a505fae1e3ed633ddff5c13bfbf1dd945c",
+          "path": "logos/research-packs/readme.png"
+        },
+        {
+          "hash": "0edfaca8019296f7da9cfed5946e65bf49c2d3a52c13909d5053d12ae9f62463",
+          "path": "logos/rig-bridge/readme.png"
+        },
+        {
+          "hash": "34697ede629f3c3f041cce7ed1a88771d44e616e85074d01d59767d64023712b",
+          "path": "logos/rippled-windows-debug/readme.png"
+        },
+        {
+          "hash": "3948769fccd6afbf3159f77f2f3796515d9dda50c07373b10a183b3b52f18b23",
+          "path": "logos/role-os/readme.png"
+        },
+        {
+          "hash": "f949f387cb443ed26baf77a792619dd976db163b3d90eaa6ebaf2e35a0f5f032",
+          "path": "logos/roll/readme.png"
+        },
+        {
+          "hash": "75ce67b6ea5cf8dabf2ea089e5765f21942ff9732f2639e4aed5bc19fb5fbf19",
+          "path": "logos/runforge-desktop/readme.png"
+        },
+        {
+          "hash": "d28b7bcce816e27a9061aca87d0352fb7738561d2906aa9167f7f2732198d309",
+          "path": "logos/runforge-vscode/readme.png"
+        },
+        {
+          "hash": "bb6cddaaa2e1c47af5d37c074695c813c22976df74ce5c5469608ed385ee4a5b",
+          "path": "logos/saints-mile/readme.png"
+        },
+        {
+          "hash": "4ff65e320a530ee6a3e54fb92761ebf5ce99c6893f6c95b2035c61eb79a257a5",
+          "path": "logos/sensor-humor/readme.png"
+        },
+        {
+          "hash": "69ee1cdc2732713942b84430d8a6e9b2d5ccc93369a9a8cc3a21882c6998ca16",
+          "path": "logos/shipcheck/readme.jpg"
+        },
+        {
+          "hash": "c731ad0fb7e3e371acc635a9340b0d6558e97f368b9c616d8167ab7658d7028c",
+          "path": "logos/siege-kit/readme.png"
+        },
+        {
+          "hash": "21821e3a1776b987364a3a31cf6801075ee0e5087af530df12b38933cd370afa",
+          "path": "logos/sonic-core/readme.png"
+        },
+        {
+          "hash": "691b051a7d3b91e4b585965c31506d6d7bf35f7aa90fde1b2da49da98f35a4b5",
+          "path": "logos/sonic-runtime/readme.png"
+        },
+        {
+          "hash": "e94e28d2036eef389dc863fa6d687c7b632b9ab96c8adef2ef668b0917dd57ca",
+          "path": "logos/soundboard-maui/readme.png"
+        },
+        {
+          "hash": "ada99010a1eb4a901751ed2d876b9d07b2bf82750c764cb874f52509b6ad35b0",
+          "path": "logos/soundboard-plugin/readme.jpg"
+        },
+        {
+          "hash": "16e91b87922eb85bc7b2bc5d2fe3fed981eb31fcd636be43c00780efeb9c5137",
+          "path": "logos/soundweave/readme.png"
+        },
+        {
+          "hash": "061d0fe804ed174be1df5d91be5d2fe54938833314d49567040717ef928f6fa0",
+          "path": "logos/sovereign/readme.png"
+        },
+        {
+          "hash": "a0a60c0ba5cb2a0782161fd9eebe8abcac91c714585b99589f700981aa3df52b",
+          "path": "logos/sovereignty/readme.png"
+        },
+        {
+          "hash": "d1274e0f98c6db70f81d06c77d2d431da09abbb6a15feafd2ec5e2d8a0943028",
+          "path": "logos/sprite-creator-studio/readme.png"
+        },
+        {
+          "hash": "d00ec45807b283ee83d7fc717c6507dc0b0129d0e87740b75ac9d5124136b90e",
+          "path": "logos/sprite-foundry-packs/readme.png"
+        },
+        {
+          "hash": "d00ec45807b283ee83d7fc717c6507dc0b0129d0e87740b75ac9d5124136b90e",
+          "path": "logos/sprite-foundry/readme.png"
+        },
+        {
+          "hash": "fa65ed32139ed1cd0ee655ab8bc3a9d43bde6766fee12e4617c02a267c511266",
+          "path": "logos/star-freight-client/readme.png"
+        },
+        {
+          "hash": "fa65ed32139ed1cd0ee655ab8bc3a9d43bde6766fee12e4617c02a267c511266",
+          "path": "logos/star-freight/readme.png"
+        },
+        {
+          "hash": "c3cf707bc3c5b6f9d45581d3db63195918951f1d305a906f4da89a5a94288c27",
+          "path": "logos/stillpoint/readme.png"
+        },
+        {
+          "hash": "ec1327abdf78f26e2d8fbe4a63f812ca55fb6ebf46ecc51a31e86b3e30906884",
+          "path": "logos/storyboard-os/readme.png"
+        },
+        {
+          "hash": "2e4fa9731486cd2bd86803c51d2690b1f007f430ed221806b0b31ca7da915948",
+          "path": "logos/stresskit-mcp/readme.png"
+        },
+        {
+          "hash": "8addaea094fdc980eb744ca5f54394c5767d21b25f4d0ac7deb5c5b7aadb9ef2",
+          "path": "logos/style-dataset-lab/readme.png"
+        },
+        {
+          "hash": "9bb3fee2a25458d5b829226f98a43e57cb490b92306333d2ae06a1ccf651e7e7",
+          "path": "logos/synthesis/readme.png"
+        },
+        {
+          "hash": "4baeb934ebee89360151db12199218db0fc62005fe08abaeb98efe565fcb38a4",
+          "path": "logos/taste-compiler/readme.png"
+        },
+        {
+          "hash": "3c3abe911f29818ae77f11c2edcc3671558611c9bb7268c902db5ea274aad804",
+          "path": "logos/taste-engine/readme.png"
+        },
+        {
+          "hash": "5cf0294dc54cab2bea04916ad5c420656722641da6921c82f06ff925a3d57b06",
+          "path": "logos/terminal-tutor/readme.png"
+        },
+        {
+          "hash": "a296d7b81ed0b4ed8d6051c757d71cb61d6bc0e4be107e8d6eadc6274883ef20",
+          "path": "logos/tinytrainer/readme.png"
+        },
+        {
+          "hash": "4f817de1acf03c2f9389eb9fe7e838cef350e32722bc2fcfa1c505fa32229429",
+          "path": "logos/tool-compass/lockup.png"
+        },
+        {
+          "hash": "4f817de1acf03c2f9389eb9fe7e838cef350e32722bc2fcfa1c505fa32229429",
+          "path": "logos/tool-compass/readme.png"
+        },
+        {
+          "hash": "4d10478016a5a4d1c70bc2fd6754c19445350c7bc49c536427e863bc02b8ae5e",
+          "path": "logos/tool-scan/readme.png"
+        },
+        {
+          "hash": "495bf41660de955b1a713e7a7b639a4d0b2d501a92dd67c768074655360af149",
+          "path": "logos/training-studio/readme.png"
+        },
+        {
+          "hash": "480546468539481d68b998a93116301e019a28a0db497f0680980d7f70301315",
+          "path": "logos/trellis-sprite-pipeline/readme.png"
+        },
+        {
+          "hash": "75d6bb452255512169ff4feea525d2b5d6bb9e147a6bb2149332b4fa23873805",
+          "path": "logos/venvkit/readme.png"
+        },
+        {
+          "hash": "a3189e211592d9986f6e176f7b7dd08c5a2e4230370332422135fca5eb18902b",
+          "path": "logos/vocal-synth-engine/readme.png"
+        },
+        {
+          "hash": "1ec7f965aec021dab4172a8ac9c8ffa95add3f8f2b326cb07b2d4476ce371739",
+          "path": "logos/voice-soundboard/readme.png"
+        },
+        {
+          "hash": "ccef98473794459c969446ed9582e935311d2a2483c9b63381437d6668926399",
+          "path": "logos/vscode-voice-soundboard/readme.png"
+        },
+        {
+          "hash": "20e07b41a00fe73cd6e57f4eb1295fe403536d302743bea3349792e79f071c44",
+          "path": "logos/watchdog/readme.png"
+        },
+        {
+          "hash": "e5e89098ed03769e7a76133523cf76f374102106769daa554d04a5672d91669d",
+          "path": "logos/websketch-cli/readme.png"
+        },
+        {
+          "hash": "e5e89098ed03769e7a76133523cf76f374102106769daa554d04a5672d91669d",
+          "path": "logos/websketch-demo/readme.png"
+        },
+        {
+          "hash": "5eb6eba7a047cc70a98dd42f548954a62096a0c419bdde14dfc710271dd2b87f",
+          "path": "logos/websketch-ir/readme.png"
+        },
+        {
+          "hash": "e5e89098ed03769e7a76133523cf76f374102106769daa554d04a5672d91669d",
+          "path": "logos/websketch-vscode/readme.png"
+        },
+        {
+          "hash": "d5821d224daabaac8a555c7df0f752f60612b18472012c5cf9b2485d634ec94c",
+          "path": "logos/winget-pkgs/readme.png"
+        },
+        {
+          "hash": "9dd3db1ec64e2499bcea681bbb8b5f9db26d9baf05f7376325e4e17975489893",
+          "path": "logos/witness/readme.png"
+        },
+        {
+          "hash": "92384d8a39db35816dd382f3f17db323e693b49aa5cf29b3db7e6ec011fa4070",
+          "path": "logos/world-forge/readme.png"
+        },
+        {
+          "hash": "a2ab17adb3c897e36f20f28c6401c8bdb9b4ebab000e42bbe5ebd74095646b19",
+          "path": "logos/xrpl-camp/readme.png"
+        },
+        {
+          "hash": "965cea881d1de70ed6ac87fe301d609968eb62ba2a6835660ddd936fbd630f58",
+          "path": "logos/xrpl-creator-capsule/readme.png"
+        },
+        {
+          "hash": "47339a4f519353782f95319e83bc799e55342d43ab5bfadf0f4352972a322602",
+          "path": "logos/xrpl-lab/readme.png"
+        },
+        {
+          "hash": "b87cd8e40b6173e3e987d6714cc0d1c50d95305fb56beff23197d460f6539cc2",
+          "path": "logos/zip-meta-map/readme.png"
+        },
+        {
+          "hash": "73999b826defae00bbe59a5b748c6667508ab41e54674ae4a149888f8c05d7d0",
+          "path": "logos/zombie-sprite-pack/readme.png"
+        }
+      ],
+      "globs": [
+        "logos/**"
+      ],
+      "importConfidence": "full",
+      "name": "logos",
+      "origin": "generated",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "d152fa8fc48cdd9342ebe2fd2b9b4ce6c191591de6f646c98cb6d4ce0959e329",
+          "path": ".gitattributes"
+        },
+        {
+          "hash": "40feddee0d66f920145b3f1ef79f2d80f05dd6c783c8f277fe67ad4118355862",
+          "path": ".gitignore"
+        },
+        {
+          "hash": "8da3b4a64045fda2786212c89bc7192ad3ea60cbd49f796414a77c5bee19a10e",
+          "path": "CHANGELOG.md"
+        },
+        {
+          "hash": "5ae6b3c8f446f0a7cb95176e4dadb91b68aaffb16b3be09f64f5de248b6a973a",
+          "path": "LICENSE"
+        },
+        {
+          "hash": "37a6b5f3812244c62fc51ed4185a0f55fe06832ac71aad9998c3ff202f242e88",
+          "path": "README.es.md"
+        },
+        {
+          "hash": "6b545d60d0c34f90eea7570083b9fb43b98fd4bf2168b4ece7b1fe486604a22e",
+          "path": "README.fr.md"
+        },
+        {
+          "hash": "81c407dcbba6c55547553012d1a8c212c99bb086e5faf6faddd27772e3ee6dd0",
+          "path": "README.hi.md"
+        },
+        {
+          "hash": "6818c388aa4200c4104c4cafa4cf288bc8deb29ee65865bc629a96c97c5ff1d9",
+          "path": "README.it.md"
+        },
+        {
+          "hash": "83c50ee2d6401a7f4c973dda774c8dd4da2cc88211981a074e7d57fc614ab837",
+          "path": "README.ja.md"
+        },
+        {
+          "hash": "ba225a48446eb5f5fb58fab7ccdeb2575d4c0890b953aea0d0122bf5ed3cd6a7",
+          "path": "README.md"
+        },
+        {
+          "hash": "bc309be748ebca937742abba515b719b6fa4a3c0b6da5db632b750d7bc3f7b99",
+          "path": "README.pt-BR.md"
+        },
+        {
+          "hash": "76178645515461e0a02b6d352c2af66d20d40374fbfb198a002c5a75eb6be55a",
+          "path": "README.zh.md"
+        },
+        {
+          "hash": "7ca11d4b3d2bf937d95e918db7bbb089e31deacebf206e9368763a92e2f4c568",
+          "path": "SCORECARD.md"
+        },
+        {
+          "hash": "b47570ee3503a93d2506493b1cd6194aa9cec288b520568323814d97790a22df",
+          "path": "SECURITY.md"
+        },
+        {
+          "hash": "f69208f7b3fd0211662ffc128b98b20d4815246c1890e2b348213a3859170fec",
+          "path": "SHIP_GATE.md"
+        },
+        {
+          "hash": "2a45a9c8ad49a70b2a559c0e5e4686bc9e451eb2d21abce9346a230dcc728ed0",
+          "path": "manifest.json"
+        },
+        {
+          "hash": "865ec93ee60e634d1e6f1ffb5bf5b75aac160273a5a1e95599b2f53219888189",
+          "path": "package-lock.json"
+        },
+        {
+          "hash": "83c277838220bd12fb52e56498c0b9f3e0a9f52463edf00852d934d22597079c",
+          "path": "package.json"
+        },
+        {
+          "hash": "e2d5bb58a61ebe65fa15505d29cb63636f1480b103edfc2ac2a61841f93d2d1c",
+          "path": "tsconfig.json"
+        },
+        {
+          "hash": "f0f3b4a6902488355518bbea8c7e437cb2d389bf43701812f00ec01342d65306",
+          "path": "vitest.config.ts"
+        }
+      ],
+      "globs": [
+        "*"
+      ],
+      "importConfidence": "full",
+      "name": "root",
+      "origin": "mixed",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 3,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "b39dbbffcdcb20649bb41dd6914a73867b661517d01371c030b080844c20db7a",
+          "path": "scripts/check-audit-allowlist.mjs"
+        },
+        {
+          "hash": "ad78c3dd784255e92fef37adc022fc43b5e7464fcfd3a67364d0834391f00b62",
+          "path": "scripts/install-hooks.mjs"
+        },
+        {
+          "hash": "b802bfcd68fd0d83f36e58455ebf83acc78d9a7efd41c1997e55cef62a13d230",
+          "path": "scripts/sync-org-logos.sh"
+        }
+      ],
+      "globs": [
+        "scripts/**"
+      ],
+      "importConfidence": "full",
+      "name": "scripts",
+      "origin": "authored",
+      "role": "code",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 5,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 1,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "64c9de458b1c996bc76005d06568ccb0ed71e791b680f03652dc63d78a9236c3",
+          "path": "site/DEPS.md"
+        },
+        {
+          "hash": "3f1f17d91619d59ce180057eb4a2de807a0149373697e74014aa040a5e9d86ff",
+          "importsFiles": [
+            "site/integrations/model-passthrough.mjs"
+          ],
+          "path": "site/astro.config.mjs"
+        },
+        {
+          "exports": [
+            "formatPassthroughFailure",
+            "modelPassthrough",
+            "verifyModelPassthrough"
+          ],
+          "hash": "77f811a16ee1d7102eb4197e61f9c13b13a7b76cd5e69971bf7e3269dd2019eb",
+          "path": "site/integrations/model-passthrough.mjs"
+        },
+        {
+          "hash": "bd3a78c1d08e555411099515b994bb1f2fd61bbc0410924d1e02ef5df7de115e",
+          "path": "site/package-lock.json"
+        },
+        {
+          "hash": "2120854610ff4388f2d6a9ce0f37a4ac69f7506ddf44fde889736b3284780cb4",
+          "path": "site/package.json"
+        },
+        {
+          "hash": "f4f90f018daaf9ec8c074de57382074ac5f8c63bf4ab62e8b969cec4b85e8a98",
+          "path": "site/public/favicon.svg"
+        },
+        {
+          "hash": "2487fa9f9335a32afadf2b9cc6b547e32f782d97c67ed6584fcdfec45d877c9d",
+          "path": "site/scripts/check-deployed-bytes.mjs"
+        },
+        {
+          "hash": "e140dcbcab34213bf707bf1ffc70f60447e048645d2201686da8cff680e66acb",
+          "path": "site/src/assets/logo.svg"
+        },
+        {
+          "hash": "bc65125f8105ce6260d49087abcf073880a5fd823497a7e2fb96dfcd7f21e428",
+          "path": "site/src/content.config.ts"
+        },
+        {
+          "hash": "b037a09aa8202634981b037bb464075bcf327bbac87beab75f24769034e08188",
+          "path": "site/src/content/docs/handbook/beginners.md"
+        },
+        {
+          "hash": "93b52de425ebd0a4e0d207e9cb36e4b8b36678c32d110def59e643e14c0eca02",
+          "path": "site/src/content/docs/handbook/getting-started.md"
+        },
+        {
+          "hash": "9a5914d8a58ef4408a7701995c74bb3c756c76b9edf3e598ac4eec998364295f",
+          "path": "site/src/content/docs/handbook/index.md"
+        },
+        {
+          "hash": "39eebf75fd3cb018198eef2bb9e70c290861cc190d00d86e16db707d1440683c",
+          "path": "site/src/content/docs/handbook/reference.md"
+        },
+        {
+          "hash": "052815d070b0bcbbd4ba2ae6e7baaf772bf8e6281247a0d96b8559a670933a01",
+          "path": "site/src/content/docs/handbook/security.md"
+        },
+        {
+          "exports": [
+            "loadModelViews"
+          ],
+          "hash": "d75953798b89c0fe841d04cfb822f786ae990974ee293e2a4cbfa222dc7fd027",
+          "importsFiles": [
+            "src/model-view.ts"
+          ],
+          "path": "site/src/lib/model-views.mjs"
+        },
+        {
+          "hash": "26793fbf7a39b7cda16e2cfb5685650eab7ae82066397ed97a0add9d4711384c",
+          "path": "site/src/pages/[slug]/view.astro"
+        },
+        {
+          "hash": "788712bf237317810c2098965373a69e935003b9e41d50ac2e8b8ce7b98b0028",
+          "path": "site/src/pages/index.astro"
+        },
+        {
+          "hash": "e9536b33cba885cacb07803f5d789320b266e734b8a6bef2b0f71742f8958456",
+          "path": "site/src/site-config.ts"
+        },
+        {
+          "hash": "5995279a40a9a63426a93feec129006b261cc7200426a398914d0317722ef19b",
+          "path": "site/src/styles/global.css"
+        },
+        {
+          "hash": "bcc943d60cb79f655484add470bfcd05cc392483bea07b68b776d58e6b1bdcd5",
+          "path": "site/src/styles/starlight-custom.css"
+        },
+        {
+          "hash": "61fc24492db9aef7ec38eb91cfeebaef96155014bb5f22648fd8ed2327c6cae2",
+          "path": "site/tsconfig.json"
+        }
+      ],
+      "globs": [
+        "site/**"
+      ],
+      "importConfidence": "full",
+      "name": "site",
+      "origin": "authored",
+      "outsideReads": 7,
+      "role": "site",
+      "testedBy": 1,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 49,
+      "dynamicSpawns": 2,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 19,
+      "entryPoints": [
+        "src/cli.ts"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "entry": "withGlobals",
+          "entryRule": 1,
+          "hash": "a36429f4346964e739d1225ed48196041d9b80379a6d698e8fe5c6c5ce16bbf8",
+          "importsFiles": [
+            "src/commands/add-gallery.ts",
+            "src/commands/add-model.ts",
+            "src/commands/audit.ts",
+            "src/commands/history.ts",
+            "src/commands/manifest-cmd.ts",
+            "src/commands/migrate.ts",
+            "src/commands/remove.ts",
+            "src/commands/stats.ts",
+            "src/commands/sync.ts",
+            "src/commands/verify.ts"
+          ],
+          "path": "src/cli.ts",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 48,
+                  "name": "opts",
+                  "target": null
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "withGlobals"
+            }
+          ]
+        },
+        {
+          "exports": [
+            "backupDirFor",
+            "runAddGallery",
+            "stagingDirFor",
+            "validateSlug"
+          ],
+          "hash": "faf77ebd6bb98aec9e042aa9197eda7b834bc592cbcda82b18c46afea08e5e60",
+          "importsFiles": [
+            "src/manifest.ts"
+          ],
+          "path": "src/commands/add-gallery.ts"
+        },
+        {
+          "exports": [
+            "runAddModel"
+          ],
+          "hash": "ba3dc363936d4f5e20b7529ca6e679c45478680716b90d563c6ee47002ef30ae",
+          "importsFiles": [
+            "src/commands/add-gallery.ts",
+            "src/manifest.ts",
+            "src/model-view.ts",
+            "src/png-palette.ts"
+          ],
+          "path": "src/commands/add-model.ts"
+        },
+        {
+          "exports": [
+            "runAudit"
+          ],
+          "hash": "9e0641f52c1b7e8f8a855e7c88684bffd42aa03ff19f6810ad80f3b63a9c0bba",
+          "importsFiles": [
+            "src/manifest.ts",
+            "src/utils/readme-parser.ts"
+          ],
+          "path": "src/commands/audit.ts"
+        },
+        {
+          "exports": [
+            "runHistory"
+          ],
+          "hash": "17385bf0c9a4a6fc9248d625b2cd6a84a17fc8e3b1e3043cb5f9ee1d324924cd",
+          "importsFiles": [
+            "src/commands/add-gallery.ts"
+          ],
+          "path": "src/commands/history.ts"
+        },
+        {
+          "exports": [
+            "runManifest"
+          ],
+          "hash": "43f300aaf02778e702ec370813f3c21fca9434a0c49bbcb6717d07c982a306a0",
+          "importsFiles": [
+            "src/manifest.ts"
+          ],
+          "path": "src/commands/manifest-cmd.ts"
+        },
+        {
+          "exports": [
+            "runMigrate"
+          ],
+          "hash": "4b1643b57fd4a663db61423806b5f08f7636a03f88590846d6d9af54312adac3",
+          "importsFiles": [
+            "src/manifest.ts",
+            "src/utils/readme-parser.ts"
+          ],
+          "path": "src/commands/migrate.ts"
+        },
+        {
+          "exports": [
+            "runRemove"
+          ],
+          "hash": "3d0ddb693debc974b232239835d19c1392d531439262de66f06ad1b31c3a3a62",
+          "importsFiles": [
+            "src/commands/add-gallery.ts",
+            "src/manifest.ts"
+          ],
+          "path": "src/commands/remove.ts"
+        },
+        {
+          "exports": [
+            "runStats"
+          ],
+          "hash": "0512d352728c9aee36a0960f46b65a0ebd8a21add8953873e08f76081502885b",
+          "importsFiles": [
+            "src/manifest.ts"
+          ],
+          "path": "src/commands/stats.ts"
+        },
+        {
+          "exports": [
+            "runSync"
+          ],
+          "hash": "5d20ac4bac25f3c8c749a5a0184947e24c9b9df16d4de672e9e7f5ba1c2bc4d3",
+          "importsFiles": [
+            "src/commands/add-gallery.ts",
+            "src/manifest.ts",
+            "src/utils/marker-parser.ts"
+          ],
+          "path": "src/commands/sync.ts"
+        },
+        {
+          "exports": [
+            "runVerify"
+          ],
+          "hash": "4e6c5123c473478fb745503e49e59e076e061fd1f2344d5fc2eec672fc46ebaf",
+          "importsFiles": [
+            "src/manifest.ts"
+          ],
+          "path": "src/commands/verify.ts"
+        },
+        {
+          "exports": [
+            "findLogoFile",
+            "findMisroledModelAssets",
+            "generateManifest",
+            "getFormatGlob",
+            "getGalleryFolders",
+            "hashFile",
+            "readManifest",
+            "verifyManifest",
+            "writeManifest"
+          ],
+          "hash": "799e11ea37fa04bb5054c18e5c2a2d1a12f4dd86317aee2be38ffcc20b5a4457",
+          "path": "src/manifest.ts"
+        },
+        {
+          "exports": [
+            "parseModelView"
+          ],
+          "hash": "75dda55c5c7c1991906910437f2c4adfa23f5b8c91084994e9214eba6c33c852",
+          "path": "src/model-view.ts"
+        },
+        {
+          "exports": [
+            "checkCategoricalPalette",
+            "readPngInfo"
+          ],
+          "hash": "12c87db2abc523a309edcd7502bf8aef03227e24522035ba2872068079e399de",
+          "path": "src/png-palette.ts"
+        },
+        {
+          "exports": [
+            "computeCodeContext",
+            "computeCodeContextLines"
+          ],
+          "hash": "22b2d626864f59a6728af877e4dbbcfff17c846f7e88ec866d96abe8cb9beb4b",
+          "path": "src/utils/code-context.ts"
+        },
+        {
+          "exports": [
+            "describeSuppressedMarkerCandidate",
+            "findMarkerBlocks",
+            "findMarkerBlocksVerbose",
+            "renderGalleryBlock",
+            "syncMarkerBlock"
+          ],
+          "hash": "6cc166f4802f30718acb2857c019cbb0acc1365faa8dbad6decc06d5ff2e70f0",
+          "importsFiles": [
+            "src/utils/code-context.ts"
+          ],
+          "path": "src/utils/marker-parser.ts"
+        },
+        {
+          "exports": [
+            "findAllImgTags",
+            "findLogoImgTags",
+            "rewriteLogoSrc"
+          ],
+          "hash": "83cbfc6fa6de72210fbe26f902d0dba4dfd7b2f60d9a0777d5042b388463640c",
+          "importsFiles": [
+            "src/utils/code-context.ts"
+          ],
+          "path": "src/utils/readme-parser.ts"
+        }
+      ],
+      "globs": [
+        "src/**"
+      ],
+      "importConfidence": "full",
+      "name": "src",
+      "origin": "authored",
+      "outsideReads": 1,
+      "role": "code",
+      "testedBy": 16,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 6,
+      "dynamicSpawnsInTests": 6,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "exports": [
+            "setup",
+            "teardown"
+          ],
+          "hash": "dfdce509b4cf611949cdd02031a61f6c063636ddac5fb7f020348b23511b051e",
+          "path": "tests/_helpers/global-setup.ts"
+        },
+        {
+          "hash": "856ab21b69dc623304900e178fbefd90e99bc507b91d43a26c72deb5e06ccf1a",
+          "importsFiles": [
+            "tests/_helpers/png-builder.mjs"
+          ],
+          "path": "tests/_helpers/make-cube-fixture.mjs"
+        },
+        {
+          "exports": [
+            "indexedPng",
+            "truecolourPng"
+          ],
+          "hash": "4907df6ec6dcff3d94d01d12d85727fc19803483bfd9a0dedf7563328716e3c8",
+          "path": "tests/_helpers/png-builder.mjs"
+        },
+        {
+          "hash": "5eb2e4afaa6a920a35880e6c30adb4b94481308afdc8b1602018ac389ad5c7ea",
+          "importsFiles": [
+            "src/commands/add-gallery.ts",
+            "src/manifest.ts"
+          ],
+          "path": "tests/add-gallery.test.ts"
+        },
+        {
+          "hash": "2cec78b39da384e40ea3a23090c3de50dc304933f6bf9eb3fffa9c667b47181b",
+          "importsFiles": [
+            "src/commands/add-model.ts",
+            "src/manifest.ts",
+            "src/png-palette.ts",
+            "tests/_helpers/png-builder.mjs"
+          ],
+          "path": "tests/add-model.test.ts"
+        },
+        {
+          "hash": "350cca5b77ea5611bf0e15022a5e9cbceb242419017dc15c2e2c0a51a17c337f",
+          "importsFiles": [
+            "src/commands/audit.ts",
+            "src/manifest.ts"
+          ],
+          "path": "tests/audit.test.ts"
+        },
+        {
+          "hash": "1d65e98b1669888224cd9f927bc08bbbb7ec5cedb0f715f05570f85e7fd075aa",
+          "path": "tests/exit-codes.test.ts"
+        },
+        {
+          "hash": "805fa5e2d02cd6134b131cdb12fea9bfc468f73d48fa85d129eb6763d9adabb4",
+          "path": "tests/fixtures/badge-in-a-tag.md"
+        },
+        {
+          "hash": "fb001753fa4b5edc843dfca00915695b69dd49f6ae94780901aa0745448ae2b1",
+          "path": "tests/fixtures/bom-fenced-logo-example.md"
+        },
+        {
+          "hash": "9a86a59a5227bec4454b169033563fb40b64998533ec2f852760d2a3942e5d03",
+          "path": "tests/fixtures/bom-fenced-marker-example.md"
+        },
+        {
+          "hash": "80bb42c40224b0be8153e2e90ce66d4de2a5a63d37dd3585424b8f8aef7bca2d",
+          "path": "tests/fixtures/bom.md"
+        },
+        {
+          "hash": "d1b038421bc33b0600cbee11cda66abd54310fdca2b6dfd67d563963bdd1f543",
+          "path": "tests/fixtures/crlf.md"
+        },
+        {
+          "hash": "cad982b2db7e38395fcf9d0a1b05ae2e0bbc55e538d18766fae084f2b1038598",
+          "path": "tests/fixtures/fenced-and-real-logo.md"
+        },
+        {
+          "hash": "20763d249bd791230a90eddab71526882e50daa88b8cab3c4d90e77d30e2e29d",
+          "path": "tests/fixtures/fenced-code-block.md"
+        },
+        {
+          "hash": "7bdff140daabade2e23b55ea6511de1d4093a00a6509a8f2b9b797162994d682",
+          "path": "tests/fixtures/fenced-tilde.md"
+        },
+        {
+          "hash": "bdb9c4cbbe5ea522867d522fe18532f4c3b6c69c39a19481fdc73c2b68b9305f",
+          "path": "tests/fixtures/img-in-html-comment.md"
+        },
+        {
+          "hash": "a1dafa327fc3dbe8df9266d20ca7256f7a924dde0775b9e5f0c9e5a39417b7c4",
+          "path": "tests/fixtures/indented-4sp-multiline.md"
+        },
+        {
+          "hash": "b3a1bfc589a8e4883232e0662e227fa1ae3e8be5599610cddcc8e194afdfc03e",
+          "path": "tests/fixtures/indented-4sp.md"
+        },
+        {
+          "hash": "fd742e144082f67a7325d6397fc3d74f453cf05d7e6dca1c91527fcc031d238a",
+          "path": "tests/fixtures/jpg-logo.md"
+        },
+        {
+          "hash": "88d50bdec98b6490d7f93b6991ce8c21e066ebd29d8892e28b9e13b388d1ed05",
+          "path": "tests/fixtures/logo-unclosed-fence.md"
+        },
+        {
+          "hash": "802f3bca578748753c04826164420e0b330cfefbad411c088a4e6899569b5ab9",
+          "path": "tests/fixtures/manifests/v1.0-frozen.json"
+        },
+        {
+          "hash": "6a3c0a93e53a59bbd9209b5ee021d0199c3404321514cb88ef533819a8f675ba",
+          "path": "tests/fixtures/marker-different-slug.md"
+        },
+        {
+          "hash": "02b05ece891b5e1cd48d8a3e8e13e31f2e8a28fcfed291b401c1614e774d266e",
+          "path": "tests/fixtures/marker-duplicate.md"
+        },
+        {
+          "hash": "10cc3983b304d8ff53c2a383d69a46676d8d2f051f099d43ea19bc5fe99b685e",
+          "path": "tests/fixtures/marker-fenced-and-real.md"
+        },
+        {
+          "hash": "ad1f62f338e0e7fe597741f48fcf60fa0f58f813cf41cf34d1d153cd064e780c",
+          "path": "tests/fixtures/marker-in-fenced-block.md"
+        },
+        {
+          "hash": "0929fd9b7ded2717f5fc41d8a4f03678012c9645d59be86b3d5fc179ae4729e7",
+          "path": "tests/fixtures/marker-indented-multiline.md"
+        },
+        {
+          "hash": "306f680e4c7b09c8e411ab3ea0bb6fef8fc54dc00915132e020373ce315e0ff5",
+          "path": "tests/fixtures/marker-malformed-attrs.md"
+        },
+        {
+          "hash": "4df0b45f787383a504445426db3e22cb6860457e5ba93aaffc75bbc1764fef31",
+          "path": "tests/fixtures/marker-nested.md"
+        },
+        {
+          "hash": "f4880a0cb3f9bc1833c649f43a2a2af68c577689ef27db699734d965bf421f17",
+          "path": "tests/fixtures/marker-none.md"
+        },
+        {
+          "hash": "7a33cb600ef7f3f4b8209fbcf3a7f88f99a2bf67f3f4b86baff63c63d80be971",
+          "path": "tests/fixtures/marker-relocated.md"
+        },
+        {
+          "hash": "8df06021068ec93b6e7d29b9c1edffb1f0785b5d9060bf5a83fe74defab7cd59",
+          "path": "tests/fixtures/marker-same-line.md"
+        },
+        {
+          "hash": "83487de3c95f34becbeb69976171c06f813aa9494051bbecfe9eaf1e12ac0cb7",
+          "path": "tests/fixtures/marker-unclosed-fence.md"
+        },
+        {
+          "hash": "02c045f3b6bd4a918570e70ba35307049f79f45ff0c81109ab37aea6d6762351",
+          "path": "tests/fixtures/marker-unclosed.md"
+        },
+        {
+          "hash": "275e06630168412a546819f1414bba2ade525c9e0e15ac4b5260d74fa53581df",
+          "path": "tests/fixtures/marker-valid-single.md"
+        },
+        {
+          "hash": "1af4b8788b792dd59b08e86de9d7c1c7c63cd59c9a7c47f84e332584647551d5",
+          "path": "tests/fixtures/model-views/degenerate.view.json"
+        },
+        {
+          "hash": "4924f35c0dbe5eed584e2c75f208ed752052d45c1115d78e6eca5f5aade242ef",
+          "path": "tests/fixtures/model-views/rich.view.json"
+        },
+        {
+          "hash": "d4586ec34b334ec02c5224e5b7956a146dbe3b996ef0cdf3e1a00e2e5606aab2",
+          "path": "tests/fixtures/multiple-logos.md"
+        },
+        {
+          "hash": "e9ca6c220f0c13d0e68fea76d643142b17524466cdf41ba7e46c8fc3c058a15c",
+          "path": "tests/fixtures/no-logo.md"
+        },
+        {
+          "hash": "5ef861e4866506a689cb63c8e8ccd92d795d63a2e950c514721db0555baa3202",
+          "path": "tests/fixtures/p-img-sameline.md"
+        },
+        {
+          "hash": "34cc3b870e6f0f352c79fc423d4118f1229e15e01b38a751dbd547a13d61cea4",
+          "path": "tests/fixtures/raw-github-url.md"
+        },
+        {
+          "hash": "668db32e9d47731dfbdb1ab1230abc4c3c538c072a97b94bb00f29f51a5e62c8",
+          "path": "tests/fixtures/self-closing.md"
+        },
+        {
+          "hash": "4ed7bcc47868a56f4464935a7dd8af3e7616a471d02a9c8932a0cd1d5520f4ba",
+          "path": "tests/fixtures/shields-logo-param.md"
+        },
+        {
+          "hash": "7e3ee5c3c6bcf438f11f6343f671ac5384a403251ed7785def06cb3e3524945a",
+          "path": "tests/fixtures/single-quote.md"
+        },
+        {
+          "hash": "fe61543a43b8edd25c5b09c0b0eafe0cf1191f21cac0239edd3519bbc0b989ce",
+          "path": "tests/fixtures/standalone-logo.md"
+        },
+        {
+          "hash": "a6dcd778625328f1e77175ad0bf6a4b8f606638fcfe9a8700e3f4e84ca21893a",
+          "importsFiles": [
+            "src/commands/history.ts"
+          ],
+          "path": "tests/history.test.ts"
+        },
+        {
+          "hash": "f82c6392ba34157f2aee518a04c965a502b9624e94bc0ca1310c71e2c824eb79",
+          "path": "tests/json-output.test.ts"
+        },
+        {
+          "hash": "5e2c585e1880ece049b976d00fe6079e7c51ee26f26bf42fd3921a324233ccdb",
+          "path": "tests/manifest-cmd.test.ts"
+        },
+        {
+          "hash": "5c1957b9b674f989d964ed7deaae46c628d6e54d03570954bd42fdfe73157f09",
+          "parseError": true,
+          "path": "tests/manifest.test.ts",
+          "unreadSyntax": "nul-character"
+        },
+        {
+          "hash": "ad0fb262282346babf1a9d55d03920a96715d1263c376cec95ed5106cfec2a0e",
+          "importsFiles": [
+            "src/utils/marker-parser.ts"
+          ],
+          "path": "tests/marker-parser.test.ts"
+        },
+        {
+          "hash": "6ed8842242552a1e42e05f236d50f4f343478651290548406be13688da27e828",
+          "importsFiles": [
+            "src/commands/migrate.ts"
+          ],
+          "path": "tests/migrate-journal.test.ts"
+        },
+        {
+          "hash": "55b98ceb28500aa693af1722eb4c3655a8d7500efc68a1ea71725d5b190d77e2",
+          "importsFiles": [
+            "src/commands/migrate.ts"
+          ],
+          "path": "tests/migrate.test.ts"
+        },
+        {
+          "hash": "e41870081bbf6d2742febb611befac1647c1fa3bf343ccb18b723f6f74c43e59",
+          "importsFiles": [
+            "src/commands/stats.ts",
+            "src/manifest.ts",
+            "src/model-view.ts"
+          ],
+          "path": "tests/model-channels.test.ts"
+        },
+        {
+          "hash": "91b896cb74f0250a3486ea196bc2ca962e72577b6b1eee4756af64d68cddc2e2",
+          "importsFiles": [
+            "site/integrations/model-passthrough.mjs"
+          ],
+          "path": "tests/model-passthrough.test.ts"
+        },
+        {
+          "hash": "703af487c7cd04a3c2e03260a243a1bbee69e6ab4faad1f1a6390aaf348b85b7",
+          "importsFiles": [
+            "src/utils/readme-parser.ts"
+          ],
+          "path": "tests/readme-parser.test.ts"
+        },
+        {
+          "hash": "a570a46ae90508db8f5f2923e404ebde99691c045239cf0cf2bf686a1f944f3e",
+          "importsFiles": [
+            "src/commands/remove.ts",
+            "src/manifest.ts"
+          ],
+          "path": "tests/remove-swap-failure.test.ts"
+        },
+        {
+          "hash": "cbb2e6f252450991132bcdff146c8738e53e95ed154de01ccd8fb1b3dd7550ac",
+          "importsFiles": [
+            "src/commands/remove.ts",
+            "src/manifest.ts"
+          ],
+          "path": "tests/remove.test.ts"
+        },
+        {
+          "hash": "d6781919296b9131a93c0e726410ec9796011dfdd4c12e67d1d51c5aa1b748f0",
+          "importsFiles": [
+            "src/commands/stats.ts",
+            "src/manifest.ts"
+          ],
+          "path": "tests/stats.test.ts"
+        },
+        {
+          "hash": "75e917d3519113d410c185176ad5bded16c88b1dbbe15e18addecb3c81d87d7e",
+          "importsFiles": [
+            "src/commands/sync.ts",
+            "src/manifest.ts"
+          ],
+          "path": "tests/sync.test.ts"
+        },
+        {
+          "hash": "890af32cd37943474df05c935731fed460de91ce73809f1c4e0fe53243834f5e",
+          "path": "tests/verify.test.ts"
+        }
+      ],
+      "globs": [
+        "tests/**"
+      ],
+      "importConfidence": "full",
+      "name": "tests",
+      "origin": "authored",
+      "role": "test",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    }
+  ],
+  "doors": [
+    {
+      "checksCount": 1,
+      "commands": [
+        {
+          "job": "lint-test-build",
+          "step": "2",
+          "text": "npm ci"
+        },
+        {
+          "job": "lint-test-build",
+          "step": "npm audit (high)",
+          "text": "set +e\nnpm audit --audit-level=high --json > audit-report.json\nAUDIT_EXIT=$?\nset -e\nnode scripts/check-audit-allowlist.mjs audit-report.json .github/audit-allowlist.json \"$AUDIT_EXIT\"\n"
+        },
+        {
+          "job": "lint-test-build",
+          "step": "4",
+          "text": "npm run typecheck"
+        },
+        {
+          "job": "lint-test-build",
+          "step": "5",
+          "text": "npm run build"
+        },
+        {
+          "job": "lint-test-build",
+          "step": "Test (with coverage)",
+          "text": "npm run test:ci"
+        },
+        {
+          "job": "lint-test-build",
+          "step": "Test",
+          "text": "npm test"
+        },
+        {
+          "job": "lint-test-build",
+          "step": "Write CI summary",
+          "text": "{\n  echo \"## CI summary (node ${{ matrix.node-version }})\"\n  echo \"\"\n  echo \"| Step | Result |\"\n  echo \"| --- | --- |\"\n  echo \"| npm audit (high) | ${{ steps.audit.outcome }} |\"\n  echo \"| typecheck / build / test | ${{ job.status }} |\"\n  echo \"| Commit | \\`${{ github.sha }}\\` |\"\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+        },
+        {
+          "job": "integrity",
+          "step": "2",
+          "text": "npm ci"
+        },
+        {
+          "job": "integrity",
+          "step": "3",
+          "text": "npm run build"
+        },
+        {
+          "job": "integrity",
+          "step": "Verify manifest integrity",
+          "text": "node dist/cli.js manifest --check --logos logos --output manifest.json"
+        },
+        {
+          "job": "integrity",
+          "step": "Write integrity summary",
+          "text": "{\n  echo \"## Manifest integrity\"\n  echo \"\"\n  if [ \"${{ steps.verify.outcome }}\" = \"success\" ]; then\n    echo \"Manifest hashes match every file in \\`logos/\\`.\"\n  else\n    echo \"Manifest verification FAILED — \\`logos/\\` and \\`manifest.json\\` are out of sync.\"\n  fi\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/ci.yml",
+      "landings": [
+        "logos"
+      ],
+      "mentions": [
+        {
+          "job": "lint-test-build",
+          "path": ".github/audit-allowlist.json"
+        },
+        {
+          "job": "integrity",
+          "path": "manifest.json"
+        }
+      ],
+      "name": "CI",
+      "permissions": [
+        "contents:read"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "scripts",
+          "depth": 0,
+          "files": 1
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 20
+        },
+        {
+          "boundary": "site",
+          "depth": 1,
+          "enters": {
+            "file": "site/integrations/model-passthrough.mjs",
+            "from": "tests/model-passthrough.test.ts"
+          },
+          "files": 1
+        }
+      ],
+      "readers": [
+        {
+          "by": ".claude/context/current-priorities.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": ".github/SECURITY-CONTROLS.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readdirSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "statSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/src/content/docs/handbook/reference.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/cli.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/stats.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/manifest.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        }
+      ],
+      "runs": [
+        {
+          "job": "lint-test-build",
+          "path": "scripts/check-audit-allowlist.mjs",
+          "runKind": "executes"
+        },
+        {
+          "directory": true,
+          "job": "integrity",
+          "matched": true,
+          "path": "src/",
+          "runKind": "checks",
+          "via": "tsc tsconfig.json"
+        },
+        {
+          "directory": true,
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "src/",
+          "runKind": "checks",
+          "via": "tsc tsconfig.json"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/add-gallery.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/add-model.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/audit.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/exit-codes.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/history.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/json-output.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/manifest-cmd.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/manifest.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/marker-parser.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/migrate-journal.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/migrate.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/model-channels.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/model-passthrough.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/readme-parser.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/remove-swap-failure.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/remove.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/stats.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/sync.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "lint-test-build",
+          "matched": true,
+          "path": "tests/verify.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        }
+      ],
+      "runsCount": 21,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "event": "pull_request",
+          "paths": [
+            ".gitattributes",
+            ".github/audit-allowlist.json",
+            ".github/workflows/**",
+            "logos/**",
+            "manifest.json",
+            "package-lock.json",
+            "package.json",
+            "scripts/**",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "src/**",
+            "tests/**",
+            "tsconfig.json",
+            "vitest.config.ts"
+          ]
+        },
+        {
+          "event": "push",
+          "paths": [
+            ".gitattributes",
+            ".github/audit-allowlist.json",
+            ".github/workflows/**",
+            "logos/**",
+            "manifest.json",
+            "package-lock.json",
+            "package.json",
+            "scripts/**",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "src/**",
+            "tests/**",
+            "tsconfig.json",
+            "vitest.config.ts"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/setup-node"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 1,
+      "commands": [
+        {
+          "job": "build",
+          "step": "Install root dependencies",
+          "text": "npm ci"
+        },
+        {
+          "job": "build",
+          "step": "Build root package",
+          "text": "npm run build"
+        },
+        {
+          "job": "build",
+          "step": "Install site dependencies",
+          "text": "rm -rf node_modules package-lock.json\nnpm install --no-audit --no-fund\n"
+        },
+        {
+          "job": "build",
+          "step": "Build site",
+          "text": "npm run build"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/pages.yml",
+      "landings": [],
+      "mentions": [
+        {
+          "job": "build",
+          "path": "site/package-lock.json"
+        }
+      ],
+      "name": "Deploy site to GitHub Pages",
+      "permissions": [
+        "contents:read",
+        "id-token:write",
+        "pages:write"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 5
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "job": "build",
+          "matched": true,
+          "path": "site/astro.config.mjs",
+          "runKind": "executes",
+          "via": "astro build"
+        },
+        {
+          "directory": true,
+          "job": "build",
+          "matched": true,
+          "path": "site/src/",
+          "runKind": "executes",
+          "via": "astro build"
+        },
+        {
+          "directory": true,
+          "job": "build",
+          "matched": true,
+          "path": "src/",
+          "runKind": "checks",
+          "via": "tsc tsconfig.json"
+        }
+      ],
+      "runsCount": 3,
+      "secrets": [],
+      "sends": {
+        "deploysPages": true,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "event": "pull_request",
+          "paths": [
+            ".github/workflows/pages.yml",
+            "logos/**",
+            "manifest.json",
+            "package-lock.json",
+            "package.json",
+            "site/**",
+            "src/**",
+            "tsconfig.json"
+          ]
+        },
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "push",
+          "paths": [
+            ".github/workflows/pages.yml",
+            "logos/**",
+            "manifest.json",
+            "package-lock.json",
+            "package.json",
+            "site/**",
+            "src/**",
+            "tsconfig.json"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/configure-pages",
+        "actions/deploy-pages",
+        "actions/setup-node",
+        "actions/upload-pages-artifact"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 1,
+      "commands": [
+        {
+          "job": "release",
+          "step": "Install npm >=11.5 in a sandbox for OIDC trusted-publishing auth",
+          "text": "# Node 22 ships npm 10.9, which signs provenance but cannot negotiate\n# the OIDC auth path (PUT returns a misleading 404). An in-place\n# `npm i -g npm@latest` races the bundled arborist and breaks — install\n# npm@latest into a sandbox dir and shadow the system npm via PATH.\nSANDBOX=\"$HOME/.npm-cli-sandbox\"\nmkdir -p \"$SANDBOX\"\npushd \"$SANDBOX\" >/dev/null\necho '{\"name\":\"npm-cli-sandbox\",\"version\":\"0.0.0\",\"private\":true}' > package.json\nnpm install --no-save --no-audit --no-fund --silent npm@latest\npopd >/dev/null\necho \"$SANDBOX/node_modules/.bin\" >> \"$GITHUB_PATH\"\n\"$SANDBOX/node_modules/.bin/npm\" --version\n"
+        },
+        {
+          "job": "release",
+          "step": "Resolve tag",
+          "text": "TAG=\"${{ github.event.inputs.tag || github.ref_name }}\"\necho \"tag=${TAG}\" >> \"$GITHUB_OUTPUT\"\necho \"version=${TAG#v}\" >> \"$GITHUB_OUTPUT\"\n"
+        },
+        {
+          "job": "release",
+          "step": "Verify tag matches package.json version",
+          "text": "PKG_VERSION=$(node -p \"require('./package.json').version\")\nTAG_VERSION=\"${{ steps.tag.outputs.version }}\"\necho \"Tag: ${{ steps.tag.outputs.tag }} -> ${TAG_VERSION} | package.json: ${PKG_VERSION}\"\nif [ \"${PKG_VERSION}\" != \"${TAG_VERSION}\" ]; then\n  echo \"::error::Tag ${TAG_VERSION} does not match package.json version ${PKG_VERSION}\"\n  exit 1\nfi\n"
+        },
+        {
+          "job": "release",
+          "step": "5",
+          "text": "npm ci"
+        },
+        {
+          "job": "release",
+          "step": "Verify (typecheck + build + test)",
+          "text": "npm run typecheck\nnpm test\n"
+        },
+        {
+          "job": "release",
+          "step": "npm pack dry-run (shape check)",
+          "text": "npm pack --dry-run"
+        },
+        {
+          "job": "release",
+          "step": "Publish to npm with provenance (OIDC trusted publisher, no token)",
+          "text": "npm publish --provenance --access public"
+        },
+        {
+          "job": "release",
+          "step": "Extract CHANGELOG section for the release notes",
+          "text": "VERSION=\"${{ steps.tag.outputs.version }}\"\nawk -v ver=\"$VERSION\" '\n  $0 ~ (\"^## \" ver \"( |$)\") {flag=1; next}\n  flag && /^## / {exit}\n  flag {print}\n' CHANGELOG.md > release-notes.md\nif [ -s release-notes.md ]; then\n  echo \"have_notes=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"have_notes=false\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+        },
+        {
+          "job": "release",
+          "step": "Create GitHub Release",
+          "text": "TAG=\"${{ steps.tag.outputs.tag }}\"\nif [ \"${{ steps.notes.outputs.have_notes }}\" = \"true\" ]; then\n  gh release create \"$TAG\" --title \"brand $TAG\" --notes-file release-notes.md --verify-tag\nelse\n  gh release create \"$TAG\" --title \"brand $TAG\" --generate-notes --verify-tag\nfi\n"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/release.yml",
+      "landings": [
+        "logos"
+      ],
+      "mentions": [
+        {
+          "job": "release",
+          "path": "CHANGELOG.md"
+        },
+        {
+          "job": "release",
+          "path": "package.json"
+        }
+      ],
+      "name": "Release",
+      "permissions": [
+        "contents:write",
+        "id-token:write"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 20
+        },
+        {
+          "boundary": "site",
+          "depth": 1,
+          "enters": {
+            "file": "site/integrations/model-passthrough.mjs",
+            "from": "tests/model-passthrough.test.ts"
+          },
+          "files": 1
+        }
+      ],
+      "readers": [
+        {
+          "by": ".claude/context/current-priorities.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": ".github/SECURITY-CONTROLS.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readdirSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "statSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/src/content/docs/handbook/reference.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/cli.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/stats.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/manifest.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        }
+      ],
+      "runs": [
+        {
+          "directory": true,
+          "job": "release",
+          "matched": true,
+          "path": "src/",
+          "runKind": "checks",
+          "via": "tsc tsconfig.json"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/add-gallery.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/add-model.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/audit.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/exit-codes.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/history.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/json-output.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/manifest-cmd.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/manifest.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/marker-parser.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/migrate-journal.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/migrate.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/model-channels.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/model-passthrough.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/readme-parser.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/remove-swap-failure.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/remove.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/stats.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/sync.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        },
+        {
+          "job": "release",
+          "matched": true,
+          "path": "tests/verify.test.ts",
+          "runKind": "executes",
+          "via": "vitest vitest.config.ts"
+        }
+      ],
+      "runsCount": 20,
+      "secrets": [
+        "GITHUB_TOKEN"
+      ],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": true,
+        "publishesTo": [
+          "npm"
+        ],
+        "releases": true
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "event": "push",
+          "tags": [
+            "v*"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/setup-node"
+      ],
+      "usesWorkflowToken": true
+    },
+    {
+      "checksCount": 1,
+      "commands": [
+        {
+          "job": "sync",
+          "step": "2",
+          "text": "npm ci"
+        },
+        {
+          "job": "sync",
+          "step": "3",
+          "text": "npm run build"
+        },
+        {
+          "job": "sync",
+          "step": "Sync logos from org repos",
+          "text": "set +e\nbash scripts/sync-org-logos.sh\ncode=$?\nset -e\nif [ \"$code\" -eq 10 ]; then\n  echo \"changed=true\" >> \"$GITHUB_OUTPUT\"\nelif [ \"$code\" -eq 0 ]; then\n  echo \"changed=false\" >> \"$GITHUB_OUTPUT\"\nelse\n  exit \"$code\"\nfi\n"
+        },
+        {
+          "job": "sync",
+          "step": "Regenerate manifest",
+          "text": "node dist/cli.js manifest"
+        },
+        {
+          "job": "sync",
+          "step": "Verify regenerated manifest",
+          "text": "node dist/cli.js verify"
+        },
+        {
+          "job": "sync",
+          "step": "Create PR",
+          "text": "git config user.name \"github-actions[bot]\"\ngit config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n# Stable branch name (not date/run_id-suffixed) so every daily run\n# updates the SAME branch instead of minting a new one. Previously\n# each run created auto/sync-logos-<date>-<run_id>, which meant a\n# brand-new PR every single day the sync found changes — 31+ open\n# auto-sync PRs accumulated with nobody merging or closing them.\n# `-B` + `push --force-with-lease` below intentionally overwrite the\n# branch's prior bot-authored content each run (this also subsumes\n# the old run_id suffix's original purpose of avoiding a same-day\n# rerun push collision — force-pushing never collides).\n#\n# Trade-off: this branch is a STABLE, shared name, so it may be the\n# head ref of an open, human-reviewed PR. If a reviewer pushes a\n# fixup commit directly onto it between scheduled runs, plain\n# `--force` would silently discard that commit. `--force-with-lease`\n# refuses to push when the remote tip has moved since the fetch\n# immediately below, so a human's commit makes THIS run fail loudly\n# instead of vanishing quietly. That fetch narrows the race window\n# (fetch, then push moments later) but does not close it completely\n# — a push landing in that gap is still possible, just far less\n# likely than with no fetch at all (the old code never fetched, so\n# it always overwrote blind).\nBRANCH=\"auto/sync-logos\"\n# actions/checkout only fetches the ref that triggered this run\n# (main, for schedule/workflow_dispatch) — never this stable side\n# branch — so without an explicit fetch here, git has no local\n# record of the branch's real remote tip and --force-with-lease\n# below would have nothing to compare against. `|| true`: the\n# branch may not exist yet on the very first run.\ngit fetch origin \"$BRANCH:refs/remotes/origin/$BRANCH\" 2>/dev/null || true\ngit checkout -B \"$BRANCH\"\ngit add logos/ manifest.json\ngit diff --cached --quiet && { echo 'nothing to commit'; exit 0; }\ngit commit -m \"chore: sync org logos ($(date -u +%Y-%m-%d))\"\ngit push --force-with-lease=\"$BRANCH\" -u origin \"$BRANCH\"\n# `gh pr create` fails hard when the repo setting \"Allow GitHub Actions\n# to create and approve pull requests\" is OFF and no SYNC_PAT is set —\n# this used to fail the daily run red AND (under the old per-run\n# dated-branch design) leave an orphan branch behind every single\n# day. Degrade gracefully instead: warn loudly with the likely\n# remediation, leave the already-pushed branch in place (the else\n# branch below intentionally no longer deletes it — see its\n# comment), and exit 0. Once the setting/secret is in place the same\n# step opens PRs normally; until then the run is a clean amber and\n# the stable branch is simply reused next time.\nPR_BODY=$(cat <<'EOF'\n## Auto-sync\n\nDaily logo sync from all repos in **mcp-tool-shop-org**.\n\n- New logos added to `logos/`\n- Updated logos replaced\n- `manifest.json` regenerated\n\n**Review:** Check the diff for any unexpected additions or hash changes before merging.\n\n**Do not push commits directly to this branch.** The next scheduled\nrun force-pushes it (via `--force-with-lease`) and will FAIL loudly\nif your commit is on top by then, rather than silently overwriting\nit — but it also won't merge your fix in. Make manual changes in a\nseparate branch/PR instead.\nEOF\n)\n# Dedup by branch, mirroring the label-based dedup the \"Open issue on\n# verify failure\" step already does below: an open PR on this stable\n# branch was just updated in place by the force-push above, so\n# creating another would only duplicate it.\nexisting=$(gh pr list --state open --head \"$BRANCH\" --json number --jq 'length')\nif [ \"${existing:-0}\" -gt 0 ]; then\n  echo \"Open PR already tracks $BRANCH — force-push above updated it in place; not creating a duplicate.\"\n  echo \"pr_opened=true\" >> \"$GITHUB_OUTPUT\"\nelif gh pr create \\\n  --title \"chore: sync org logos ($(date -u +%Y-%m-%d))\" \\\n  --body \"$PR_BODY\"; then\n  echo \"pr_opened=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  # `gh pr create` can fail for reasons other than the permissions\n  # gap the warning used to assume: a transient API error, rate\n  # limiting, or a race where the dedup check above missed an\n  # already-open PR because of search-index lag right after the\n  # force-push. This branch is STABLE (auto/sync-logos, reused\n  # every run — see the comment above, not a per-run dated branch),\n  # so it may be the head ref of a currently-open, possibly\n  # human-reviewed PR. It is intentionally left in place — deleting\n  # it here could sever that PR's head ref, and under the\n  # stable-branch design a delete buys no cruft-avoidance benefit\n  # anyway (the next run's checkout -B + force-push recreates or\n  # overwrites it unconditionally regardless of whether it exists).\n  # The commit was already force-pushed above either way, so\n  # nothing is lost by leaving the branch as-is.\n  echo \"::warning title=Sync PR not opened::gh pr create failed. This may mean 'Allow GitHub Actions to create and approve pull requests' is OFF and no SYNC_PAT is set (Settings -> Actions -> General), or it may be a transient error (API/rate-limit/index-lag). Branch $BRANCH was force-pushed and left in place -- open the PR manually if needed, or re-run this workflow.\"\n  echo \"pr_opened=false\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+        },
+        {
+          "job": "sync",
+          "step": "Write sync summary",
+          "text": "ADDED=\"${{ steps.sync.outputs.added }}\"\nCHANGED_COUNT=\"${{ steps.sync.outputs.changed_count }}\"\nUNCHANGED=\"${{ steps.sync.outputs.unchanged }}\"\nSKIPPED=\"${{ steps.sync.outputs.skipped }}\"\nREJECTED=\"${{ steps.sync.outputs.rejected }}\"\nNET_ERR=\"${{ steps.sync.outputs.network_errors }}\"\nSUSPICIOUS_COUNT=\"${{ steps.sync.outputs.suspicious_count }}\"\n{\n  echo \"## Daily sync — $(date -u +%Y-%m-%d)\"\n  echo \"\"\n  echo \"| Metric | Count |\"\n  echo \"| --- | --- |\"\n  echo \"| New logos | ${ADDED:-0} |\"\n  echo \"| Updated logos | ${CHANGED_COUNT:-0} |\"\n  echo \"| Unchanged | ${UNCHANGED:-0} |\"\n  echo \"| No logo found | ${SKIPPED:-0} |\"\n  echo \"| Rejected (not an image / too large) | ${REJECTED:-0} |\"\n  echo \"| Network errors | ${NET_ERR:-0} |\"\n  echo \"| Suspicious divergence | ${SUSPICIOUS_COUNT:-0} |\"\n  echo \"\"\n  echo \"Repo changes detected: ${{ steps.sync.outputs.changed }}\"\n  if [ \"${{ steps.verify.outcome }}\" = \"failure\" ]; then\n    echo \"\"\n    echo \"Manifest verification FAILED — see the Verify regenerated manifest step.\"\n  fi\n  if [ -n \"${SUSPICIOUS_COUNT:-}\" ] && [ \"${SUSPICIOUS_COUNT:-0}\" != \"0\" ]; then\n    echo \"\"\n    echo \"### Suspicious logo divergence\"\n    echo \"\"\n    echo \"The registry's copy differed from upstream for the logo(s) below, AND\"\n    echo \"the most recent commit to touch that file in this repo's history was\"\n    echo \"NOT the sync automation's own commit. This does not by itself prove\"\n    echo \"tampering -- git commit authorship is self-reported and this repo does\"\n    echo \"not require signed commits (see \\`.github/SECURITY-CONTROLS.md\\`) -- but\"\n    echo \"it is not explained by a normal sync cycle either. Tracked via a\"\n    echo \"labelled issue (\\`logo-divergence-suspicious\\`) so it isn't only visible\"\n    echo \"in this run's summary.\"\n    echo \"\"\n    echo '```'\n    echo \"$SUSPICIOUS_DETAILS\"\n    echo '```'\n  fi\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+        },
+        {
+          "job": "sync",
+          "step": "Open issue on suspicious logo divergence",
+          "text": "existing=$(gh issue list --label logo-divergence-suspicious --state open --json number --jq 'length')\nif [ \"${existing:-0}\" -gt 0 ]; then\n  echo \"An open logo-divergence-suspicious issue already exists — not opening another.\"\n  exit 0\nfi\n# Idempotent: creates the label the first time this ever fires,\n# updates its color/description in place on later runs, and never\n# errors just because the label already exists.\ngh label create logo-divergence-suspicious \\\n  --color B60205 \\\n  --description \"Sync tripwire: registry logo diverged from upstream outside the normal sync flow\" \\\n  --force >/dev/null 2>&1 || true\n{\n  echo \"The daily logo sync found **$SUSPICIOUS_COUNT** logo(s) where the\"\n  echo \"registry's copy differed from upstream AND the most recent commit to\"\n  echo \"touch that file in this repo's history was not the sync automation's\"\n  echo \"own commit.\"\n  echo \"\"\n  echo \"Affected:\"\n  echo '```'\n  echo \"$SUSPICIOUS_DETAILS\"\n  echo '```'\n  echo \"\"\n  echo \"This does not by itself prove tampering — git commit authorship is\"\n  echo \"self-reported and this repo does not currently require signed commits\"\n  echo \"(see \\`.github/SECURITY-CONTROLS.md\\`). It means a human should confirm\"\n  echo \"who made that commit and why before assuming it's benign.\"\n  echo \"\"\n  echo \"The sync PR proceeds normally for review; this issue exists so the\"\n  echo \"anomaly itself is tracked and not lost in an Actions log nobody reads.\"\n  echo \"\"\n  echo \"See [run log]($RUN_URL).\"\n} > /tmp/suspicious-issue-body.md\ngh issue create \\\n  --title \"Suspicious logo divergence detected ($(date -u +%Y-%m-%d))\" \\\n  --label logo-divergence-suspicious \\\n  --body-file /tmp/suspicious-issue-body.md\n"
+        },
+        {
+          "job": "sync",
+          "step": "Open issue on verify failure",
+          "text": "existing=$(gh issue list --label sync-failure --state open --json number --jq 'length')\nif [ \"${existing:-0}\" -gt 0 ]; then\n  echo \"An open sync-failure issue already exists — not opening another.\"\n  exit 0\nfi\nRUN_URL=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"\ngh issue create \\\n  --title \"Daily sync: manifest verify failed ($(date -u +%Y-%m-%d))\" \\\n  --label sync-failure \\\n  --body \"The daily sync regenerated \\`manifest.json\\` but verification failed. See [run log]($RUN_URL).\"\n"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/sync.yml",
+      "landings": [
+        "logos",
+        "manifest.json"
+      ],
+      "mentions": [
+        {
+          "job": "sync",
+          "path": "manifest.json"
+        }
+      ],
+      "name": "Sync org logos",
+      "permissions": [
+        "contents:read",
+        "contents:write",
+        "issues:write",
+        "pull-requests:write"
+      ],
+      "pushes": true,
+      "reach": [
+        {
+          "boundary": "scripts",
+          "depth": 0,
+          "files": 1
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        }
+      ],
+      "readers": [
+        {
+          "by": ".claude/context/current-priorities.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": ".github/SECURITY-CONTROLS.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readdirSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "statSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/src/content/docs/handbook/reference.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/cli.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/stats.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/manifest.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": ".github/workflows/ci.yml",
+          "target": "manifest.json"
+        },
+        {
+          "by": ".github/workflows/sync.yml",
+          "target": "manifest.json"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "manifest.json"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "manifest.json"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "target": "manifest.json"
+        },
+        {
+          "by": "src/commands/add-gallery.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "manifest.json"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "manifest.json"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "manifest.json"
+        }
+      ],
+      "runs": [
+        {
+          "job": "sync",
+          "path": "scripts/sync-org-logos.sh",
+          "runKind": "executes"
+        },
+        {
+          "directory": true,
+          "job": "sync",
+          "matched": true,
+          "path": "src/",
+          "runKind": "checks",
+          "via": "tsc tsconfig.json"
+        }
+      ],
+      "runsCount": 2,
+      "secrets": [
+        "GITHUB_TOKEN",
+        "SYNC_PAT"
+      ],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": true,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": true,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [
+        "logos/",
+        "manifest.json"
+      ],
+      "triggers": [
+        {
+          "cron": "0 6 * * *",
+          "event": "schedule"
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/setup-node"
+      ],
+      "usesWorkflowToken": true
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "package.json",
+      "kind": "command",
+      "landings": [
+        "logos"
+      ],
+      "mentions": [],
+      "name": "brand",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 17
+        }
+      ],
+      "readers": [
+        {
+          "by": ".claude/context/current-priorities.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": ".github/SECURITY-CONTROLS.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readdirSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "statSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "site/src/content/docs/handbook/reference.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/cli.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "existsSync",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/commands/stats.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        },
+        {
+          "by": "src/manifest.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "target": "logos"
+        }
+      ],
+      "runs": [
+        {
+          "path": "src/cli.ts",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "site",
+      "kind": "file",
+      "to": "src"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "kind": "file",
+      "to": "site"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "kind": "file",
+      "to": "src"
+    }
+  ],
+  "generatedFrom": {
+    "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf",
+    "tracked": 385
+  },
+  "landings": [
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/ci.yml"
+        }
+      ],
+      "target": ".github/audit-allowlist.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/release.yml"
+        }
+      ],
+      "target": "CHANGELOG.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "README.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".claude/context/current-priorities.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        },
+        {
+          "by": ".github/SECURITY-CONTROLS.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readdirSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "statSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/src/content/docs/handbook/reference.md",
+          "call": "raw-url",
+          "confidence": "text",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        },
+        {
+          "by": "src/cli.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "existsSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/commands/stats.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/manifest.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "logos",
+      "writers": [
+        {
+          "by": ".github/workflows/sync.yml"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/ci.yml"
+        },
+        {
+          "by": ".github/workflows/sync.yml"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "existsSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/scripts/check-deployed-bytes.mjs",
+          "call": "readFileSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/commands/add-gallery.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/commands/remove.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "manifest.json",
+      "writers": [
+        {
+          "by": ".github/workflows/sync.yml"
+        }
+      ]
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/release.yml"
+        },
+        {
+          "by": "src/cli.ts",
+          "call": "readFileSync",
+          "confidence": "ast"
+        }
+      ],
+      "target": "package.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/pages.yml"
+        }
+      ],
+      "target": "site/package-lock.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "content-collection",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "autogenerate",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs/handbook",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "vitest.config.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "src/cli.ts",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "vitest.config.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "src/commands/manifest-cmd.ts",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "vitest.config.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "src/commands/verify.ts",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "vitest.config.ts",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "tests/_helpers/global-setup.ts",
+      "writers": []
+    }
+  ],
+  "overlaps": [],
+  "submodules": [],
+  "symlinks": [],
+  "testFiles": 59,
+  "unassigned": []
+}
