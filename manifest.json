@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-21T02:16:39.868Z",
+  "generated": "2026-09-24T18:24:46.825Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1163,6 +1163,12 @@
       "hash": "sha256:69ee1cdc2732713942b84430d8a6e9b2d5ccc93369a9a8cc3a21882c6998ca16",
       "size": 134994,
       "format": "jpeg",
+      "role": "primary"
+    },
+    "logos/si-rpg-engine/readme.png": {
+      "hash": "sha256:e74bb939891dc933e5d149ae798091b1914b385846d4e5d34154f2205db02122",
+      "size": 1946607,
+      "format": "png",
       "role": "primary"
     },
     "logos/siege-kit/readme.png": {
