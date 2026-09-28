@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-09-26T15:46:09.516Z",
+  "generated": "2026-09-28T18:57:40.043Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -396,6 +396,12 @@
     "logos/codeteam/readme.png": {
       "hash": "sha256:bf057f75d6c5d7802b5b31f90ee08db091e10328113a2a1b1b6aa41576eb38b2",
       "size": 1734437,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/cognate/readme.png": {
+      "hash": "sha256:dd7af14f57841c1dbd21700ddee8f7dbe8f712bc65bd344810d85c7e6e09e302",
+      "size": 866154,
       "format": "png",
       "role": "primary"
     },
