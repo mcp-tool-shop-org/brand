@@ -87,7 +87,7 @@
           "path": ".github/dependabot.yml"
         },
         {
-          "hash": "5441cdf3cac2be6f557b66762c90ac6ec9238a00ba4990f82e21b04ab50ab130",
+          "hash": "8593c3c37c2ebe64d8e60d17abbb80b48194f97e98624a972da59efef6263712",
           "path": ".github/workflows/ci.yml"
         },
         {
@@ -2957,70 +2957,6 @@
       ],
       "elsewhere": [],
       "file": ".github/workflows/ci.yml",
-      "findings": [
-        {
-          "job": "lint-test-build",
-          "legs": 3,
-          "lines": [
-            {
-              "file": ".github/workflows/ci.yml",
-              "line": 87
-            },
-            {
-              "file": ".github/workflows/ci.yml",
-              "line": 150
-            },
-            {
-              "file": "package-lock.json",
-              "line": 1371
-            }
-          ],
-          "package": "vitest",
-          "pinnedBy": {
-            "step": "1",
-            "version": "${{ matrix.node-version }}"
-          },
-          "pins": [
-            "20"
-          ],
-          "requires": "^22.12.0 || ^24.0.0 || >=26.0.0",
-          "rule": "D1",
-          "step": "Test",
-          "tool": "vitest run",
-          "version": "5.0.0"
-        },
-        {
-          "job": "lint-test-build",
-          "legs": 3,
-          "lines": [
-            {
-              "file": ".github/workflows/ci.yml",
-              "line": 87
-            },
-            {
-              "file": ".github/workflows/ci.yml",
-              "line": 119
-            },
-            {
-              "file": "package-lock.json",
-              "line": 1371
-            }
-          ],
-          "package": "vitest",
-          "pinnedBy": {
-            "step": "1",
-            "version": "${{ matrix.node-version }}"
-          },
-          "pins": [
-            "20"
-          ],
-          "requires": "^22.12.0 || ^24.0.0 || >=26.0.0",
-          "rule": "D1",
-          "step": "Test (with coverage)",
-          "tool": "vitest run",
-          "version": "5.0.0"
-        }
-      ],
       "jobs": [
         {
           "basis": "declared",
@@ -3040,10 +2976,6 @@
           "setup": [
             {
               "ranges": [
-                {
-                  "from": "20",
-                  "range": ">=20.0.0 <21.0.0-0"
-                },
                 {
                   "from": "22",
                   "range": ">=22.0.0 <23.0.0-0"
@@ -4315,7 +4247,7 @@
   ],
   "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc",
+    "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2",
     "tracked": 391
   },
   "landings": [

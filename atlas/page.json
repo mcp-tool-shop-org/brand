@@ -72,97 +72,24 @@
   ],
   "changes": {
     "fileCounts": {
-      "added": 6,
-      "changed": 100,
+      "added": 0,
+      "changed": 1,
       "moved": 0,
-      "parts": 9,
+      "parts": 1,
       "removed": 0
     },
     "items": [
       {
-        "kind": "door",
-        "sentence": "CI's pull request trigger now also names `atlas/**` and `codecov.yml`.",
-        "subjects": [
-          ".github/workflows/ci.yml"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "CI's push trigger now also names `atlas/**` and `codecov.yml`.",
-        "subjects": [
-          ".github/workflows/ci.yml"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "CI now also runs src/cli.ts.",
-        "subjects": [
-          ".github/workflows/ci.yml",
-          "src/cli.ts"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "And 1 more change to a door.",
-        "subjects": []
-      },
-      {
-        "kind": "landing",
-        "sentence": "README.ja.md is now read by tests/migrate.test.ts.",
-        "subjects": [
-          "README.ja.md",
-          "tests/migrate.test.ts"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "README.md is now also read by tests/audit.test.ts, tests/json-output.test.ts, tests/migrate-journal.test.ts and tests/migrate.test.ts.",
-        "subjects": [
-          "README.md",
-          "tests/audit.test.ts",
-          "tests/json-output.test.ts",
-          "tests/migrate-journal.test.ts",
-          "tests/migrate.test.ts"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "README.zh.md is now read by tests/migrate.test.ts.",
-        "subjects": [
-          "README.zh.md",
-          "tests/migrate.test.ts"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "And 244 more new writers and readers of places.",
-        "subjects": []
-      },
-      {
-        "kind": "origin",
-        "sentence": "logos was generated and is now authored.",
-        "subjects": [
-          "logos"
-        ]
-      },
-      {
-        "kind": "sequence",
-        "sentence": "src/cli.ts now starts at `main`; it started at `withGlobals`.",
-        "subjects": [
-          "src/cli.ts"
-        ]
-      },
-      {
         "kind": "counts",
-        "sentence": "6 files added and 100 changed content, across 9 parts.",
+        "sentence": "Nothing structural changed since 2026-09-30; 1 file changed content.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf",
-      "generatedAt": "2026-09-23T22:26:43.537Z"
+      "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc",
+      "generatedAt": "2026-09-30T20:08:35.292Z"
     },
-    "unchanged": false
+    "unchanged": true
   },
   "changesTogether": [],
   "changesTogetherNote": [
@@ -170,7 +97,7 @@
     "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
   ],
   "changesTogetherWithTests": 2,
-  "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc",
+  "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2",
   "defaultBranch": "main",
   "derived": "11 parts, mostly images (256 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.",
   "doors": [
@@ -452,7 +379,7 @@
   ],
   "engine": "1.24.0",
   "generated": [],
-  "generatedAt": "2026-09-30T20:08:35.292Z",
+  "generatedAt": "2026-09-30T22:03:12.346Z",
   "limits": [
     "6 reads use paths built at run time and are not named here.",
     "24 writes and 66 reads go to a path their caller passes, not to this repository.",

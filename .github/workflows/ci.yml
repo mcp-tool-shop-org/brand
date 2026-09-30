@@ -77,7 +77,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20, 22, 24]
+        node-version: [22, 24]
     env:
       # 'true' on the one leg whose coverage and test results go to Codecov,
       # on a pull request or a push to the default branch.

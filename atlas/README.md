@@ -1,24 +1,14 @@
 # brand: how it works
 
-Mapped at 2026-09-30 from commit b3a0324 by Atlas 1.24.0.
+Mapped at 2026-09-30 from commit f3d1a79 by Atlas 1.24.0.
 
 ## What this is
 
 11 parts, mostly images (256 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.
 
-## What changed since 2026-09-23 (82d3e54)
+## What changed since 2026-09-30 (b3a0324)
 
-- CI's pull request trigger now also names `atlas/**` and `codecov.yml`.
-- CI's push trigger now also names `atlas/**` and `codecov.yml`.
-- CI now also runs src/cli.ts.
-- And 1 more change to a door.
-- README.ja.md is now read by tests/migrate.test.ts.
-- README.md is now also read by tests/audit.test.ts, tests/json-output.test.ts, tests/migrate-journal.test.ts and tests/migrate.test.ts.
-- README.zh.md is now read by tests/migrate.test.ts.
-- And 244 more new writers and readers of places.
-- logos was generated and is now authored.
-- src/cli.ts now starts at `main`; it started at `withGlobals`.
-- 6 files added and 100 changed content, across 9 parts.
+Nothing structural changed since 2026-09-30; 1 file changed content.
 
 ## What comes in
 
