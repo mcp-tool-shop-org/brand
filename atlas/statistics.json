@@ -229,8 +229,8 @@
         "path": ".github/dependabot.yml"
       },
       {
-        "commits": 15,
-        "lines": 329,
+        "commits": 17,
+        "lines": 333,
         "path": ".github/workflows/ci.yml"
       },
       {
@@ -344,8 +344,8 @@
         "path": "assets/portlight-ships/turnaround.png"
       },
       {
-        "commits": 2,
-        "lines": 194,
+        "commits": 4,
+        "lines": 330,
         "path": "atlas/README.md"
       },
       {
@@ -354,18 +354,18 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 2,
-        "lines": 860,
+        "commits": 4,
+        "lines": 1394,
         "path": "atlas/page.json"
       },
       {
-        "commits": 2,
-        "lines": 2814,
+        "commits": 4,
+        "lines": 3298,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 2,
-        "lines": 7112,
+        "commits": 4,
+        "lines": 17264,
         "path": "atlas/structure.json"
       },
       {
@@ -1299,9 +1299,9 @@
     "level": "low",
     "reason": "fewer than 25 source files reach 10 revisions in the window"
   },
-  "generatedAt": "2026-09-30T20:08:35.292Z",
+  "generatedAt": "2026-09-30T22:03:12.346Z",
   "generatedFrom": {
-    "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc"
+    "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2"
   },
   "pairs": [
     {
@@ -1336,16 +1336,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "revision-depth",
-    "headDate": "2026-09-30T11:05:53-07:00",
+    "headDate": "2026-09-30T13:44:30-07:00",
     "inScopeFiles": 396,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 136,
+    "qualifyingCommits": 137,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-03T18:05:53.000Z",
+    "since": "2026-04-03T20:44:30.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
