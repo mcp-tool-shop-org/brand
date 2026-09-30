@@ -5,7 +5,18 @@
     ".github/",
     "assets/",
     "docs/",
+    "logos/",
     "site/"
+  ],
+  "authoredWritten": [
+    {
+      "byPeople": 45,
+      "commits": 46,
+      "place": "manifest.json",
+      "writers": [
+        ".github/workflows/sync.yml"
+      ]
+    }
   ],
   "breaks": [
     {
@@ -49,18 +60,6 @@
     {
       "kind": "place",
       "readers": [
-        "site",
-        "src"
-      ],
-      "target": "logos/",
-      "writers": [
-        ".github",
-        "src"
-      ]
-    },
-    {
-      "kind": "place",
-      "readers": [
         ".github",
         "site",
         "src"
@@ -72,7 +71,98 @@
     }
   ],
   "changes": {
-    "first": true
+    "fileCounts": {
+      "added": 6,
+      "changed": 100,
+      "moved": 0,
+      "parts": 9,
+      "removed": 0
+    },
+    "items": [
+      {
+        "kind": "door",
+        "sentence": "CI's pull request trigger now also names `atlas/**` and `codecov.yml`.",
+        "subjects": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "CI's push trigger now also names `atlas/**` and `codecov.yml`.",
+        "subjects": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "CI now also runs src/cli.ts.",
+        "subjects": [
+          ".github/workflows/ci.yml",
+          "src/cli.ts"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "And 1 more change to a door.",
+        "subjects": []
+      },
+      {
+        "kind": "landing",
+        "sentence": "README.ja.md is now read by tests/migrate.test.ts.",
+        "subjects": [
+          "README.ja.md",
+          "tests/migrate.test.ts"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "README.md is now also read by tests/audit.test.ts, tests/json-output.test.ts, tests/migrate-journal.test.ts and tests/migrate.test.ts.",
+        "subjects": [
+          "README.md",
+          "tests/audit.test.ts",
+          "tests/json-output.test.ts",
+          "tests/migrate-journal.test.ts",
+          "tests/migrate.test.ts"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "README.zh.md is now read by tests/migrate.test.ts.",
+        "subjects": [
+          "README.zh.md",
+          "tests/migrate.test.ts"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "And 244 more new writers and readers of places.",
+        "subjects": []
+      },
+      {
+        "kind": "origin",
+        "sentence": "logos was generated and is now authored.",
+        "subjects": [
+          "logos"
+        ]
+      },
+      {
+        "kind": "sequence",
+        "sentence": "src/cli.ts now starts at `main`; it started at `withGlobals`.",
+        "subjects": [
+          "src/cli.ts"
+        ]
+      },
+      {
+        "kind": "counts",
+        "sentence": "6 files added and 100 changed content, across 9 parts.",
+        "subjects": []
+      }
+    ],
+    "since": {
+      "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf",
+      "generatedAt": "2026-09-23T22:26:43.537Z"
+    },
+    "unchanged": false
   },
   "changesTogether": [],
   "changesTogetherNote": [
@@ -80,21 +170,24 @@
     "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
   ],
   "changesTogetherWithTests": 2,
-  "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf",
+  "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc",
   "defaultBranch": "main",
-  "derived": "11 parts, mostly TypeScript (40 files). Work enters through 5 doors; the busiest is Sync org logos, which reaches 2 parts and commits into the repository (CI reaches 4 but commits nothing). It publishes to npm. People run brand.",
+  "derived": "11 parts, mostly images (256 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.",
   "doors": [
     {
-      "checks": [
+      "builds": [
         "src/"
       ],
-      "checksCount": 1,
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
       "file": ".github/workflows/ci.yml",
       "id": ".github/workflows/ci.yml",
-      "landings": [
-        "logos/"
-      ],
+      "landings": [],
       "name": "CI",
+      "programs": [
+        "git"
+      ],
       "pushes": false,
       "reach": [
         {
@@ -120,6 +213,7 @@
       ],
       "runs": [
         "scripts/check-audit-allowlist.mjs",
+        "src/cli.ts",
         "tests/add-gallery.test.ts",
         "tests/add-model.test.ts",
         "tests/audit.test.ts",
@@ -140,25 +234,28 @@
         "tests/sync.test.ts",
         "tests/verify.test.ts"
       ],
-      "runsCount": 20,
-      "sends": [],
+      "runsCount": 21,
+      "runsMore": 18,
+      "sends": [
+        "uploads coverage to Codecov"
+      ],
       "stages": [],
       "triggers": [
-        "on a pull request touching 15 paths",
-        "on a push touching 15 paths",
+        "on a pull request touching 17 paths",
+        "on a push touching 17 paths",
         "or by hand"
       ]
     },
     {
-      "checks": [
+      "builds": [
         "src/"
       ],
-      "checksCount": 1,
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
       "file": ".github/workflows/release.yml",
       "id": ".github/workflows/release.yml",
-      "landings": [
-        "logos/"
-      ],
+      "landings": [],
       "name": "Release",
       "pushes": false,
       "reach": [
@@ -200,6 +297,7 @@
         "tests/verify.test.ts"
       ],
       "runsCount": 19,
+      "runsMore": 16,
       "sends": [
         "publishes to npm",
         "creates a GitHub release"
@@ -211,10 +309,12 @@
       ]
     },
     {
-      "checks": [
+      "builds": [
         "src/"
       ],
-      "checksCount": 1,
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
       "file": ".github/workflows/pages.yml",
       "id": ".github/workflows/pages.yml",
       "landings": [],
@@ -224,7 +324,7 @@
         {
           "boundary": "site",
           "depth": 0,
-          "files": 5
+          "files": 8
         },
         {
           "boundary": "src",
@@ -237,8 +337,9 @@
         "site/src/"
       ],
       "runsCount": 2,
+      "runsMore": 0,
       "sends": [
-        "deploys the site"
+        "deploys the site on a push to main or by hand"
       ],
       "stages": [],
       "triggers": [
@@ -248,18 +349,23 @@
       ]
     },
     {
-      "checks": [
+      "builds": [
         "src/"
       ],
-      "checksCount": 1,
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
       "file": ".github/workflows/sync.yml",
       "id": ".github/workflows/sync.yml",
       "landings": [
-        "logos/",
         "manifest.json"
       ],
       "name": "Sync org logos",
-      "pushes": true,
+      "programs": [
+        "git"
+      ],
+      "pushes": false,
+      "pushesForReview": true,
       "reach": [
         {
           "boundary": "scripts",
@@ -273,9 +379,11 @@
         }
       ],
       "runs": [
-        "scripts/sync-org-logos.sh"
+        "scripts/sync-org-logos.sh",
+        "src/cli.ts"
       ],
-      "runsCount": 1,
+      "runsCount": 2,
+      "runsMore": 0,
       "sends": [
         "opens an issue",
         "opens a pull request"
@@ -287,18 +395,23 @@
       "triggers": [
         "on a schedule (`0 6 * * *`)",
         "or by hand"
+      ],
+      "unwrittenStages": [
+        "logos"
       ]
     },
     {
       "checks": [],
       "checksCount": 0,
+      "checksMore": 0,
       "file": "package.json",
       "id": "package.json#brand",
       "kind": "command",
-      "landings": [
-        "logos/"
-      ],
+      "landings": [],
       "name": "brand",
+      "programs": [
+        "git"
+      ],
       "pushes": false,
       "reach": [
         {
@@ -311,6 +424,7 @@
         "src/cli.ts"
       ],
       "runsCount": 1,
+      "runsMore": 0,
       "sends": [],
       "stages": [],
       "triggers": []
@@ -336,31 +450,16 @@
       "to": "src"
     }
   ],
-  "generated": [
-    {
-      "place": "logos/",
-      "writers": [
-        ".github/workflows/sync.yml",
-        "src/commands/remove.ts"
-      ]
-    },
-    {
-      "place": "manifest.json",
-      "writers": [
-        ".github/workflows/sync.yml"
-      ]
-    }
-  ],
-  "generatedAt": "2026-09-23T22:26:43.537Z",
+  "engine": "1.24.0",
+  "generated": [],
+  "generatedAt": "2026-09-30T20:08:35.292Z",
   "limits": [
-    "1 file uses syntax the parser cannot read, so what it imports is not known: a NUL character inside a string (1).",
-    "20 writes and 57 reads use paths built at run time and are not named here.",
-    "8 reads go to the directory the command is run in or the home directory, not to this repository.",
-    "8 commands are built at run time and not followed, 6 of them in tests.",
-    "Readers marked (found by text) come from scanning unparsed files.",
-    "Statistics confidence is low: fewer than 20 source files reach 10 revisions in the window."
+    "6 reads use paths built at run time and are not named here.",
+    "24 writes and 66 reads go to a path their caller passes, not to this repository.",
+    "8 reads go to the directory the command is run in (README.md, logos/ and manifest.json), not to this repository.",
+    "Statistics confidence is low: fewer than 25 source files reach 10 revisions in the window."
   ],
-  "mainDoor": ".github/workflows/sync.yml",
+  "mainDoor": ".github/workflows/ci.yml",
   "partLabels": {
     ".claude": ".claude",
     ".githooks": ".githooks",
@@ -375,48 +474,26 @@
     "tests": "tests"
   },
   "parts": 11,
-  "readers": [
-    {
-      "readers": [
-        ".claude/context/current-priorities.md (found by text)",
-        ".github/SECURITY-CONTROLS.md (found by text)",
-        "site/integrations/model-passthrough.mjs",
-        "site/scripts/check-deployed-bytes.mjs",
-        "site/src/content/docs/handbook/reference.md (found by text)",
-        "src (4 files)"
-      ],
-      "target": "logos/"
-    },
-    {
-      "readers": [
-        ".github/workflows/ci.yml",
-        "site/integrations/model-passthrough.mjs",
-        "site/scripts/check-deployed-bytes.mjs",
-        "src/commands/add-gallery.ts",
-        "src/commands/audit.ts",
-        "src/commands/remove.ts"
-      ],
-      "target": "manifest.json"
-    }
-  ],
+  "readers": [],
   "repo": "mcp-tool-shop-org/brand",
   "sequences": [],
   "startDoor": ".github/workflows/ci.yml",
   "startHere": [
     ".github/workflows/ci.yml",
-    "scripts/check-audit-allowlist.mjs",
-    "site/integrations/model-passthrough.mjs",
-    "logos/"
+    "src/cli.ts",
+    "src/commands/verify.ts",
+    "src/manifest.ts"
   ],
   "summary": null,
   "summaryFrom": null,
   "testFiles": 59,
   "testedBy": {
     "scripts": 0,
-    "src": 16
+    "src": 18
   },
-  "unnamedWrites": 20,
+  "unnamedWrites": 0,
   "unread": [],
+  "unreadFiles": 0,
   "unreadNote": [],
   "untested": [
     {
@@ -426,5 +503,5 @@
     }
   ],
   "untestedNote": [],
-  "written": 2
+  "written": 1
 }

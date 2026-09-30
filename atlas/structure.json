@@ -9,23 +9,23 @@
       "externals": 0,
       "files": [
         {
-          "hash": "fda2b1321d6face961e832bd604e4b771781447af302a50cf2781a6feec4bfb9",
+          "hash": "e389410d82d6d54221d6254056d40e5bd4d216c368766d7b7bbdf8f84b9327d4",
           "path": ".claude/context/brand-rules.md"
         },
         {
-          "hash": "3274426048c7ab66edb9aba4148cc36394c968a7cbf7b9bf110ab4b5b06d250a",
+          "hash": "d059e29d31a9937d6e9147403c53aabc1ba7e2ed9f381d6b2c3729b1795e2363",
           "path": ".claude/context/current-priorities.md"
         },
         {
-          "hash": "7681ede1851cc935ed3444a406b695ce3dac7d6b41bff4ce342f65509530ff96",
+          "hash": "76c6c464bbd7549fa24b0ed0f76221e0e3090023cf7d82d306749465b6348326",
           "path": ".claude/context/product-brief.md"
         },
         {
-          "hash": "5c77b6492c1d346d2751ec36ad2f9347ac9e3aab183b55151f8fcb4c2bbb6cb1",
+          "hash": "93a9024c924421156f97cad1469ddc14489357e5dad3551d916bb494f87be9ed",
           "path": ".claude/context/repo-map.md"
         },
         {
-          "hash": "8ac4fe1c80f02525508811f04b8dfc6ce8b9232df48e0f439a1133101bc4973a",
+          "hash": "05d3e356e07958b1d419265fa4653032e9950465ede9f681730eaf8cb0e0b550",
           "path": ".claude/workflows/protect-brand-truth.md"
         }
       ],
@@ -71,35 +71,35 @@
       "externals": 0,
       "files": [
         {
-          "hash": "e8eea24ab3239877b18d1148daec099de5e6d6dfc699004632263a2aa214dcf9",
+          "hash": "7705099296786fccbfcbf8e447cf25856368e32c4e1553c7a0d22a4a84c6ce5e",
           "path": ".github/CODEOWNERS"
         },
         {
-          "hash": "a48e678f7cf76362cf2fe269e033c7da136ffbba4aa39cbe1c0b05c7cc95cf19",
+          "hash": "942fafe22483232cc6197529a2b771451488647a8ce0da452dd7e7ca8ac2e14c",
           "path": ".github/SECURITY-CONTROLS.md"
         },
         {
-          "hash": "a5ab82fdd36858818331e2c20703c9eab48afb8062c7e2c027aa78c13225b6d0",
+          "hash": "54102992c54a1c70821389b735a1f6ceaca56ad7ca93fd12c5d37d3aaedb3a46",
           "path": ".github/audit-allowlist.json"
         },
         {
-          "hash": "95a334f4640d8a1ed118bac5a6aebfbaf409b18b598970f7fabf26c86624d0d0",
+          "hash": "65b5638cdb1469cd1e8690bcb8f5d860f3fa444bd39e953fcd440825981f7db7",
           "path": ".github/dependabot.yml"
         },
         {
-          "hash": "15c9012272b7634ff8b76d7f7456ae2d4a453595e235dd089ddfe1619aa16572",
+          "hash": "5441cdf3cac2be6f557b66762c90ac6ec9238a00ba4990f82e21b04ab50ab130",
           "path": ".github/workflows/ci.yml"
         },
         {
-          "hash": "db25bcb0606f0e413db78c5ae46cf547b541bcacfd4943ffa2b5f47a710a877a",
+          "hash": "291fb415bd2deb95c4ba5d70a7a0ac3a3a5a0ebcfe630bda5f2b120c07182797",
           "path": ".github/workflows/pages.yml"
         },
         {
-          "hash": "425ec4f22aa6b9993d1d1cca75fb54b2d4f87bffb5beaa85d054469816990ba1",
+          "hash": "d3c5d28734d469b10026eaf0faf384cbb36ab1338e639a13ba428f0729ce3017",
           "path": ".github/workflows/release.yml"
         },
         {
-          "hash": "5f1de4acf9d33affe92de4e5ed6f28e19d67e824e3ee71c71658ab6121ac278a",
+          "hash": "d611617a4bfec0a37b87b387f29cd9511e08d0fb6e184e4d5965034126ab9ff2",
           "path": ".github/workflows/sync.yml"
         }
       ],
@@ -161,11 +161,11 @@
       "externals": 0,
       "files": [
         {
-          "hash": "d51e1cd71457bc6b9678ee412e6ae226556b4b7da88b9b3feb5fe1009e815ddf",
+          "hash": "029471ff1f7e71be91fa3745df44ccc4c1ad4fd5817c2877aab3b15c4abd3732",
           "path": "docs/handbook.md"
         },
         {
-          "hash": "913c31e38f0455b4fb6076090cd2a50a150a2b61af63dbd0221484a16239ba1d",
+          "hash": "b305a99223f6becc8e5c979eb3786f9112332410b7033e025cf4063efc118671",
           "path": "docs/model-channels-spec.md"
         }
       ],
@@ -456,6 +456,10 @@
           "path": "logos/codeteam/readme.png"
         },
         {
+          "hash": "dd7af14f57841c1dbd21700ddee8f7dbe8f712bc65bd344810d85c7e6e09e302",
+          "path": "logos/cognate/readme.png"
+        },
+        {
           "hash": "17876da60a432d5b7ea087dd6763883e9660314e56588875bff74f2069fb71e5",
           "path": "logos/comfy-headless/readme.png"
         },
@@ -574,6 +578,10 @@
         {
           "hash": "2717d66b8067f8d84e4e807f8c9cbee348b5f020441c71fada7168a8b863ea8e",
           "path": "logos/homebrew-mcp-tools/readme.png"
+        },
+        {
+          "hash": "37b14249a3acc5e23f86e219515399dccd1d3bc2d3415be1d783b4b3a38fb2f8",
+          "path": "logos/housekeeping/readme.png"
         },
         {
           "hash": "140416f61330a5c84da7c159ab2def564697832983b93e7a16aa85612dfa4649",
@@ -908,6 +916,10 @@
           "path": "logos/prov-spec/readme.png"
         },
         {
+          "hash": "47c0c6b4ab1f94f39f7b75eda070c5442ccabe7dc9f6dd8b9086feaa2b7e30aa",
+          "path": "logos/readouts/readme.png"
+        },
+        {
           "hash": "b39817031c85e5132442aa074d188a32b8b174b879c261984d53792f1ba369e8",
           "path": "logos/receipt-factory/readme.png"
         },
@@ -986,6 +998,14 @@
         {
           "hash": "69ee1cdc2732713942b84430d8a6e9b2d5ccc93369a9a8cc3a21882c6998ca16",
           "path": "logos/shipcheck/readme.jpg"
+        },
+        {
+          "hash": "8eee404aaca0ad8280fbdb7fe3b5768e39ac758dd2d931656881a5ca2310f8ca",
+          "path": "logos/si-jam-sessions/readme.png"
+        },
+        {
+          "hash": "e74bb939891dc933e5d149ae798091b1914b385846d4e5d34154f2205db02122",
+          "path": "logos/si-rpg-engine/readme.png"
         },
         {
           "hash": "c731ad0fb7e3e371acc635a9340b0d6558e97f368b9c616d8167ab7658d7028c",
@@ -1169,7 +1189,7 @@
       ],
       "importConfidence": "full",
       "name": "logos",
-      "origin": "generated",
+      "origin": "authored",
       "role": "config",
       "testedBy": 0,
       "unresolvedSites": 0
@@ -1183,83 +1203,87 @@
       "externals": 0,
       "files": [
         {
-          "hash": "d152fa8fc48cdd9342ebe2fd2b9b4ce6c191591de6f646c98cb6d4ce0959e329",
+          "hash": "194fbf3d8c45dea33aa0975c747a84f320b44a79064167e87534b6c08827fee6",
           "path": ".gitattributes"
         },
         {
-          "hash": "40feddee0d66f920145b3f1ef79f2d80f05dd6c783c8f277fe67ad4118355862",
+          "hash": "3fabb0b1a5cd2a606833c12461716052ba7925ab5b4f5205e35dd5142c55a997",
           "path": ".gitignore"
         },
         {
-          "hash": "8da3b4a64045fda2786212c89bc7192ad3ea60cbd49f796414a77c5bee19a10e",
+          "hash": "0bcf45080043479ab80c306bc2d49e75adc04d2d4a2ade9fd171405fa5c9142b",
           "path": "CHANGELOG.md"
         },
         {
-          "hash": "5ae6b3c8f446f0a7cb95176e4dadb91b68aaffb16b3be09f64f5de248b6a973a",
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
           "path": "LICENSE"
         },
         {
-          "hash": "37a6b5f3812244c62fc51ed4185a0f55fe06832ac71aad9998c3ff202f242e88",
+          "hash": "db4998f75dd8a3fa33f241d342c2feafafd0201c759e4b424402f5de1bdfa01e",
           "path": "README.es.md"
         },
         {
-          "hash": "6b545d60d0c34f90eea7570083b9fb43b98fd4bf2168b4ece7b1fe486604a22e",
+          "hash": "a520a250bb8c1cad76f8b728bc493020eb5f2c8e99740b5a4502ea425112d6bf",
           "path": "README.fr.md"
         },
         {
-          "hash": "81c407dcbba6c55547553012d1a8c212c99bb086e5faf6faddd27772e3ee6dd0",
+          "hash": "4f9f87561ed32aca94ca55bf173313f33c49b6e0b1c06be7dc6f14e1bb1a50f7",
           "path": "README.hi.md"
         },
         {
-          "hash": "6818c388aa4200c4104c4cafa4cf288bc8deb29ee65865bc629a96c97c5ff1d9",
+          "hash": "9472235d5421e2b0d10e3f9430443c06a8d6063c88399d318f9a009a10a3574c",
           "path": "README.it.md"
         },
         {
-          "hash": "83c50ee2d6401a7f4c973dda774c8dd4da2cc88211981a074e7d57fc614ab837",
+          "hash": "5d8fd1d4e767886d224639725aef740374c4d174e9dd87aa64b26ef955dff0ba",
           "path": "README.ja.md"
         },
         {
-          "hash": "ba225a48446eb5f5fb58fab7ccdeb2575d4c0890b953aea0d0122bf5ed3cd6a7",
+          "hash": "0781011914bc70bf7dfd4cc4f624df85c1d9ee0a6caa8017bf7654f9042a8010",
           "path": "README.md"
         },
         {
-          "hash": "bc309be748ebca937742abba515b719b6fa4a3c0b6da5db632b750d7bc3f7b99",
+          "hash": "cb65ee4d2510ac95091fce02263473f87b2946cd5d66f8d0a3ac2f448162b328",
           "path": "README.pt-BR.md"
         },
         {
-          "hash": "76178645515461e0a02b6d352c2af66d20d40374fbfb198a002c5a75eb6be55a",
+          "hash": "b4545a30d8b6a94453f5909ed3896048ecb261a4f310048a5d0d5124e245a5e7",
           "path": "README.zh.md"
         },
         {
-          "hash": "7ca11d4b3d2bf937d95e918db7bbb089e31deacebf206e9368763a92e2f4c568",
+          "hash": "e9929b7c0c77f8abda7450867d51e308dbe828b551c00b0d17cdd6e91e8bec6a",
           "path": "SCORECARD.md"
         },
         {
-          "hash": "b47570ee3503a93d2506493b1cd6194aa9cec288b520568323814d97790a22df",
+          "hash": "587918ec407c38c18241d71495a96f46d417b30d1e5256ebdb53be936026adbc",
           "path": "SECURITY.md"
         },
         {
-          "hash": "f69208f7b3fd0211662ffc128b98b20d4815246c1890e2b348213a3859170fec",
+          "hash": "7943f0adc60031b5b8f62e36f7f7e28fe55449cb647b31e2ff96f007327453eb",
           "path": "SHIP_GATE.md"
         },
         {
-          "hash": "2a45a9c8ad49a70b2a559c0e5e4686bc9e451eb2d21abce9346a230dcc728ed0",
+          "hash": "59ca3f6a5be96b80fee73bebf2b778211208d17cd3fb82e2134608dff0729c76",
+          "path": "codecov.yml"
+        },
+        {
+          "hash": "bdab4d87a545648e9ce61f2501688e431fd7d3ae9215734ff0bf4e4d4d0d642b",
           "path": "manifest.json"
         },
         {
-          "hash": "865ec93ee60e634d1e6f1ffb5bf5b75aac160273a5a1e95599b2f53219888189",
+          "hash": "b72d12bfe99306f86a697c550b1b9a773f7e993bb8ac4f2363331681c5ec87fc",
           "path": "package-lock.json"
         },
         {
-          "hash": "83c277838220bd12fb52e56498c0b9f3e0a9f52463edf00852d934d22597079c",
+          "hash": "c395ed9f570965a2fef95f856df19ef6e7b9eb75f37927f3c214bc997883952c",
           "path": "package.json"
         },
         {
-          "hash": "e2d5bb58a61ebe65fa15505d29cb63636f1480b103edfc2ac2a61841f93d2d1c",
+          "hash": "058726cd27bff9ac39ffed4d5c8aa4e602953024db06152712620abfd4b2b72f",
           "path": "tsconfig.json"
         },
         {
-          "hash": "f0f3b4a6902488355518bbea8c7e437cb2d389bf43701812f00ec01342d65306",
+          "hash": "1064cc9f2920affea285bac39d05028de0f980ad7365e6f7a7d8a1236f8eb2d2",
           "path": "vitest.config.ts"
         }
       ],
@@ -1270,7 +1294,8 @@
       "name": "root",
       "origin": "mixed",
       "role": "config",
-      "testedBy": 0,
+      "testedBy": 1,
+      "testedByScript": true,
       "unresolvedSites": 0
     },
     {
@@ -1282,15 +1307,39 @@
       "externals": 0,
       "files": [
         {
-          "hash": "b39dbbffcdcb20649bb41dd6914a73867b661517d01371c030b080844c20db7a",
+          "failurePaths": [
+            {
+              "kind": "catch",
+              "line": 48
+            },
+            {
+              "kind": "catch",
+              "line": 57
+            },
+            {
+              "kind": "catch",
+              "line": 92
+            }
+          ],
+          "hash": "2bd0073b22bcdb2bf742c096ef30ee732a6b74ec72a2003afd4ba68f05af94fd",
           "path": "scripts/check-audit-allowlist.mjs"
         },
         {
-          "hash": "ad78c3dd784255e92fef37adc022fc43b5e7464fcfd3a67364d0834391f00b62",
+          "failurePaths": [
+            {
+              "kind": "catch",
+              "line": 47
+            },
+            {
+              "kind": "catch",
+              "line": 53
+            }
+          ],
+          "hash": "7be9a55ccb509c51e0676d03dedf195f9c9fb54bd9ca3a720fd60fe55c90f816",
           "path": "scripts/install-hooks.mjs"
         },
         {
-          "hash": "b802bfcd68fd0d83f36e58455ebf83acc78d9a7efd41c1997e55cef62a13d230",
+          "hash": "eb4114cf9d48ca762ffde6f1532977e3de1bee6dd5321b59d77957f1eb38a606",
           "path": "scripts/sync-org-logos.sh"
         }
       ],
@@ -1305,19 +1354,19 @@
       "unresolvedSites": 0
     },
     {
-      "dynamicReads": 5,
+      "dynamicReads": 0,
       "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
-      "dynamicWrites": 1,
+      "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
         {
-          "hash": "64c9de458b1c996bc76005d06568ccb0ed71e791b680f03652dc63d78a9236c3",
+          "hash": "1b0458f46adb4733974ec02783a63a886617073e5e23cbf06547e2ba7cfc851e",
           "path": "site/DEPS.md"
         },
         {
-          "hash": "3f1f17d91619d59ce180057eb4a2de807a0149373697e74014aa040a5e9d86ff",
+          "hash": "6b96b05225477c2c1b62beed4c4dde928e88614417a5bc2f6eb584f896ca4eca",
           "importsFiles": [
             "site/integrations/model-passthrough.mjs"
           ],
@@ -1329,85 +1378,132 @@
             "modelPassthrough",
             "verifyModelPassthrough"
           ],
-          "hash": "77f811a16ee1d7102eb4197e61f9c13b13a7b76cd5e69971bf7e3269dd2019eb",
+          "failurePaths": [
+            {
+              "in": "modelPassthrough",
+              "kind": "throw",
+              "line": 213
+            }
+          ],
+          "hash": "9c64f54123d751084bf29c40b15280a7ef2fe66e3455db39e061293a904282bf",
           "path": "site/integrations/model-passthrough.mjs"
         },
         {
-          "hash": "bd3a78c1d08e555411099515b994bb1f2fd61bbc0410924d1e02ef5df7de115e",
+          "hash": "a7513d573bd6559dcc8e63776bcceb0750a055e248a7fb128a9056c1dbed1820",
           "path": "site/package-lock.json"
         },
         {
-          "hash": "2120854610ff4388f2d6a9ce0f37a4ac69f7506ddf44fde889736b3284780cb4",
+          "hash": "274f58fa7e135c424fcabd90ac79cf20586aef86e9ae70785dbbb2de8130f479",
           "path": "site/package.json"
         },
         {
-          "hash": "f4f90f018daaf9ec8c074de57382074ac5f8c63bf4ab62e8b969cec4b85e8a98",
+          "hash": "98ae3b471e9b4822c2d2fb86492e114a78a6413cfba6630de355492aa5ab84ab",
           "path": "site/public/favicon.svg"
         },
         {
-          "hash": "2487fa9f9335a32afadf2b9cc6b547e32f782d97c67ed6584fcdfec45d877c9d",
+          "failurePaths": [
+            {
+              "in": "categoricalTextures",
+              "kind": "catch",
+              "line": 66
+            },
+            {
+              "kind": "catch",
+              "line": 100
+            }
+          ],
+          "hash": "9221e2112ed19ae9ea2a6467c7a010334c1dd8f1ea8c45dbca4b86fa8677bed5",
           "path": "site/scripts/check-deployed-bytes.mjs"
         },
         {
-          "hash": "e140dcbcab34213bf707bf1ffc70f60447e048645d2201686da8cff680e66acb",
+          "hash": "569ea9aaf230aeb7e36c206225f0f102e7d9919233730df3fa5c3ae2cb75aef8",
           "path": "site/src/assets/logo.svg"
         },
         {
-          "hash": "bc65125f8105ce6260d49087abcf073880a5fd823497a7e2fb96dfcd7f21e428",
+          "constantOnly": true,
+          "hash": "34b036603793e4eb4bfad87e1fd7f851a84fef6a762257a3b2dc1411983d26df",
           "path": "site/src/content.config.ts"
         },
         {
-          "hash": "b037a09aa8202634981b037bb464075bcf327bbac87beab75f24769034e08188",
+          "hash": "f9d2243c791760b8045b193d0b44415f58cb4714c1b3ec4a105dc922d545a197",
           "path": "site/src/content/docs/handbook/beginners.md"
         },
         {
-          "hash": "93b52de425ebd0a4e0d207e9cb36e4b8b36678c32d110def59e643e14c0eca02",
+          "hash": "a46d74676f8c4b9c0f5119f3dcc1cae8da85128b6870b9d389ad3cae46ba025f",
           "path": "site/src/content/docs/handbook/getting-started.md"
         },
         {
-          "hash": "9a5914d8a58ef4408a7701995c74bb3c756c76b9edf3e598ac4eec998364295f",
+          "hash": "2ddeae4ec30a1cfef96bdeda74a6d5ccc07d6a8cd1d36090fc0c782a1b07f63b",
           "path": "site/src/content/docs/handbook/index.md"
         },
         {
-          "hash": "39eebf75fd3cb018198eef2bb9e70c290861cc190d00d86e16db707d1440683c",
+          "hash": "53d4f4f5d6baf4ae9217910b9b0a33d0f00d8905da1b3b43d4c679753f210ad0",
           "path": "site/src/content/docs/handbook/reference.md"
         },
         {
-          "hash": "052815d070b0bcbbd4ba2ae6e7baaf772bf8e6281247a0d96b8559a670933a01",
+          "hash": "1f7c95eee776b2fb39896cf626644b0e46a157a3611ea6bf14a83e92a9b4f5d3",
           "path": "site/src/content/docs/handbook/security.md"
         },
         {
           "exports": [
             "loadModelViews"
           ],
-          "hash": "d75953798b89c0fe841d04cfb822f786ae990974ee293e2a4cbfa222dc7fd027",
+          "failurePaths": [
+            {
+              "in": "findRepoRoot",
+              "kind": "throw",
+              "line": 45
+            }
+          ],
+          "hash": "cd72aa49995fe4cf6e2366d08990a980d364c52adc4b130848b316bfa76dd9c9",
           "importsFiles": [
             "src/model-view.ts"
           ],
           "path": "site/src/lib/model-views.mjs"
         },
         {
-          "hash": "26793fbf7a39b7cda16e2cfb5685650eab7ae82066397ed97a0add9d4711384c",
+          "exports": [
+            "getStaticPaths"
+          ],
+          "hash": "3f53ed3420be7850d711e150af55903e8c885b5b4a2351eddcf4bd6288119ff0",
+          "importOrder": [
+            "site/src/styles/global.css",
+            "site/src/site-config.ts",
+            "site/src/lib/model-views.mjs"
+          ],
+          "importsFiles": [
+            "site/src/lib/model-views.mjs",
+            "site/src/site-config.ts",
+            "site/src/styles/global.css"
+          ],
           "path": "site/src/pages/[slug]/view.astro"
         },
         {
-          "hash": "788712bf237317810c2098965373a69e935003b9e41d50ac2e8b8ce7b98b0028",
+          "hash": "32f01dc841830604746028cf904590cd6f536825f3321a122c82e370bd73faff",
+          "importOrder": [
+            "site/src/styles/global.css",
+            "site/src/site-config.ts"
+          ],
+          "importsFiles": [
+            "site/src/site-config.ts",
+            "site/src/styles/global.css"
+          ],
           "path": "site/src/pages/index.astro"
         },
         {
-          "hash": "e9536b33cba885cacb07803f5d789320b266e734b8a6bef2b0f71742f8958456",
+          "hash": "f2eed21e6ae864484dfa53d10f1954214c388cfc2e2a0c4292facb5b7080d447",
           "path": "site/src/site-config.ts"
         },
         {
-          "hash": "5995279a40a9a63426a93feec129006b261cc7200426a398914d0317722ef19b",
+          "hash": "29ee8df91833e694bdba973126b34a6177de4cf01dab6d9ef7d3126e8e2b67fb",
           "path": "site/src/styles/global.css"
         },
         {
-          "hash": "bcc943d60cb79f655484add470bfcd05cc392483bea07b68b776d58e6b1bdcd5",
+          "hash": "4753dee500278aa21278fec11e7a10eb765a646dc7cecebc9c529e2425d168b3",
           "path": "site/src/styles/starlight-custom.css"
         },
         {
-          "hash": "61fc24492db9aef7ec38eb91cfeebaef96155014bb5f22648fd8ed2327c6cae2",
+          "hash": "b5b0a5b04a14cddd7713c5e1c82e86c79c17c2f86b170e26e9b170b3d5e01cd9",
           "path": "site/tsconfig.json"
         }
       ],
@@ -1417,25 +1513,82 @@
       "importConfidence": "full",
       "name": "site",
       "origin": "authored",
-      "outsideReads": 7,
+      "outsidePlaces": [
+        {
+          "reads": 11,
+          "where": [
+            "caller"
+          ],
+          "writes": 1
+        },
+        {
+          "reads": 3,
+          "where": [
+            "cwd:logos"
+          ],
+          "writes": 0
+        },
+        {
+          "reads": 3,
+          "where": [
+            "cwd:logos/"
+          ],
+          "writes": 0
+        },
+        {
+          "reads": 1,
+          "where": [
+            "cwd:manifest.json"
+          ],
+          "writes": 0
+        }
+      ],
+      "outsideReads": 18,
+      "outsideWrites": 1,
       "role": "site",
+      "testRunners": [
+        "vitest"
+      ],
       "testedBy": 1,
       "unresolvedSites": 0
     },
     {
-      "dynamicReads": 49,
-      "dynamicSpawns": 2,
+      "dynamicReads": 3,
+      "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
-      "dynamicWrites": 19,
+      "dynamicWrites": 0,
       "entryPoints": [
         "src/cli.ts"
       ],
       "externals": 0,
       "files": [
         {
-          "entry": "withGlobals",
+          "entry": "main",
           "entryRule": 1,
-          "hash": "a36429f4346964e739d1225ed48196041d9b80379a6d698e8fe5c6c5ce16bbf8",
+          "failurePaths": [
+            {
+              "kind": "catch",
+              "line": 34
+            },
+            {
+              "in": "main",
+              "kind": "catch",
+              "line": 260
+            }
+          ],
+          "hash": "45b2c184d6005d40e31ca06aed29aab472a79cffe48ac9c5f9ffd2f0a15312dd",
+          "importOrder": [
+            "src/commands/verify.ts",
+            "src/commands/manifest-cmd.ts",
+            "src/commands/audit.ts",
+            "src/commands/migrate.ts",
+            "src/commands/stats.ts",
+            "src/commands/add-gallery.ts",
+            "src/commands/add-model.ts",
+            "src/commands/remove.ts",
+            "src/commands/sync.ts",
+            "src/commands/history.ts"
+          ],
           "importsFiles": [
             "src/commands/add-gallery.ts",
             "src/commands/add-model.ts",
@@ -1459,7 +1612,7 @@
                 }
               ],
               "exported": false,
-              "invokedAtTopLevel": true,
+              "invokedAtTopLevel": false,
               "isDefaultExport": false,
               "name": "withGlobals"
             }
@@ -1472,7 +1625,99 @@
             "stagingDirFor",
             "validateSlug"
           ],
-          "hash": "faf77ebd6bb98aec9e042aa9197eda7b834bc592cbcda82b18c46afea08e5e60",
+          "failurePaths": [
+            {
+              "in": "validateSlug",
+              "kind": "throw",
+              "line": 123
+            },
+            {
+              "in": "validateSlug",
+              "kind": "throw",
+              "line": 126
+            },
+            {
+              "in": "validateGalleryName",
+              "kind": "throw",
+              "line": 135
+            },
+            {
+              "in": "validateGalleryName",
+              "kind": "throw",
+              "line": 138
+            },
+            {
+              "in": "validateOrder",
+              "kind": "throw",
+              "line": 220
+            },
+            {
+              "in": "validateOrder",
+              "kind": "throw",
+              "line": 227
+            },
+            {
+              "in": "validateOrder",
+              "kind": "throw",
+              "line": 234
+            },
+            {
+              "in": "isProcessAlive",
+              "kind": "catch",
+              "line": 310
+            },
+            {
+              "in": "cleanupStaleSiblings",
+              "kind": "catch",
+              "line": 383
+            },
+            {
+              "in": "cleanupStaleSiblings",
+              "kind": "catch",
+              "line": 395
+            },
+            {
+              "in": "reconcile",
+              "kind": "catch",
+              "line": 509
+            },
+            {
+              "in": "reconcile",
+              "kind": "catch",
+              "line": 524
+            },
+            {
+              "in": "reconcile",
+              "kind": "catch",
+              "line": 531
+            },
+            {
+              "in": "reconcile",
+              "kind": "catch",
+              "line": 539
+            },
+            {
+              "in": "reconcile",
+              "kind": "throw",
+              "line": 542
+            },
+            {
+              "in": "runAddGallery",
+              "kind": "throw",
+              "line": 569
+            },
+            {
+              "in": "runAddGallery",
+              "kind": "throw",
+              "line": 572
+            },
+            {
+              "in": "runAddGallery",
+              "kind": "catch",
+              "line": 675
+            }
+          ],
+          "hash": "cbd2c668a0908b12d3c8bc3f760134270dd8deafcc854ff326370cec1e149b49",
           "importsFiles": [
             "src/manifest.ts"
           ],
@@ -1482,7 +1727,60 @@
           "exports": [
             "runAddModel"
           ],
-          "hash": "ba3dc363936d4f5e20b7529ca6e679c45478680716b90d563c6ee47002ef30ae",
+          "failurePaths": [
+            {
+              "in": "refuse",
+              "kind": "throw",
+              "line": 99
+            },
+            {
+              "in": "planAddModel",
+              "kind": "catch",
+              "line": 145
+            },
+            {
+              "in": "planAddModel",
+              "kind": "catch",
+              "line": 187
+            },
+            {
+              "in": "planAddModel",
+              "kind": "catch",
+              "line": 230
+            },
+            {
+              "in": "planAddModel",
+              "kind": "throw",
+              "line": 234
+            },
+            {
+              "in": "runAddModel",
+              "kind": "catch",
+              "line": 287
+            },
+            {
+              "in": "runAddModel",
+              "kind": "catch",
+              "line": 294
+            },
+            {
+              "in": "runAddModel",
+              "kind": "catch",
+              "line": 339
+            },
+            {
+              "in": "runAddModel",
+              "kind": "catch",
+              "line": 345
+            }
+          ],
+          "hash": "271762b79036b5af4cb3908eb34be825b75a9e694d9678b859cc6287be771259",
+          "importOrder": [
+            "src/manifest.ts",
+            "src/commands/add-gallery.ts",
+            "src/model-view.ts",
+            "src/png-palette.ts"
+          ],
           "importsFiles": [
             "src/commands/add-gallery.ts",
             "src/manifest.ts",
@@ -1495,7 +1793,38 @@
           "exports": [
             "runAudit"
           ],
-          "hash": "9e0641f52c1b7e8f8a855e7c88684bffd42aa03ff19f6810ad80f3b63a9c0bba",
+          "failurePaths": [
+            {
+              "in": "checkRepoAcrossOrgs",
+              "kind": "catch",
+              "line": 283
+            },
+            {
+              "in": "fetchRemoteReadme",
+              "kind": "catch",
+              "line": 346
+            },
+            {
+              "in": "fetchRemoteReadme",
+              "kind": "catch",
+              "line": 371
+            },
+            {
+              "in": "runAudit",
+              "kind": "catch",
+              "line": 727
+            },
+            {
+              "in": "runAudit",
+              "kind": "catch",
+              "line": 891
+            }
+          ],
+          "hash": "b99cbea153096b7f6abe1c31ea5d1e031762c558ef01bd7e58e886990f45eb01",
+          "importOrder": [
+            "src/utils/readme-parser.ts",
+            "src/manifest.ts"
+          ],
           "importsFiles": [
             "src/manifest.ts",
             "src/utils/readme-parser.ts"
@@ -1506,7 +1835,74 @@
           "exports": [
             "runHistory"
           ],
-          "hash": "17385bf0c9a4a6fc9248d625b2cd6a84a17fc8e3b1e3043cb5f9ee1d324924cd",
+          "failurePaths": [
+            {
+              "in": "assertSafeSegment",
+              "kind": "throw",
+              "line": 123
+            },
+            {
+              "in": "assertSafeSegment",
+              "kind": "throw",
+              "line": 126
+            },
+            {
+              "in": "assertGitAvailable",
+              "kind": "catch",
+              "line": 175
+            },
+            {
+              "in": "assertGitAvailable",
+              "kind": "throw",
+              "line": 178
+            },
+            {
+              "in": "assertGitAvailable",
+              "kind": "throw",
+              "line": 183
+            },
+            {
+              "in": "hasAnyCommits",
+              "kind": "catch",
+              "line": 247
+            },
+            {
+              "in": "walkHistory",
+              "kind": "catch",
+              "line": 274
+            },
+            {
+              "in": "walkHistory",
+              "kind": "throw",
+              "line": 276
+            },
+            {
+              "in": "hashAtRef",
+              "kind": "catch",
+              "line": 302
+            },
+            {
+              "in": "runHistory",
+              "kind": "throw",
+              "line": 341
+            },
+            {
+              "in": "runHistory",
+              "kind": "throw",
+              "line": 346
+            },
+            {
+              "in": "runHistory",
+              "kind": "throw",
+              "line": 374
+            },
+            {
+              "in": "runHistory",
+              "kind": "catch",
+              "line": 441
+            }
+          ],
+          "hash": "44858afb8e0e3b5f6f7e6c49d12c5f58ccfab9567df1c3b0103a0e71fefb7ba8",
           "importsFiles": [
             "src/commands/add-gallery.ts"
           ],
@@ -1516,7 +1912,19 @@
           "exports": [
             "runManifest"
           ],
-          "hash": "43f300aaf02778e702ec370813f3c21fca9434a0c49bbcb6717d07c982a306a0",
+          "failurePaths": [
+            {
+              "in": "runManifest",
+              "kind": "catch",
+              "line": 89
+            },
+            {
+              "in": "runManifest",
+              "kind": "catch",
+              "line": 237
+            }
+          ],
+          "hash": "5049d20eaa17d4ca44161dfda5e302cd2060d56963b7437c33eff38f984d2d94",
           "importsFiles": [
             "src/manifest.ts"
           ],
@@ -1526,7 +1934,88 @@
           "exports": [
             "runMigrate"
           ],
-          "hash": "4b1643b57fd4a663db61423806b5f08f7636a03f88590846d6d9af54312adac3",
+          "failurePaths": [
+            {
+              "in": "readJournal",
+              "kind": "catch",
+              "line": 89
+            },
+            {
+              "in": "preserveCorruptJournal",
+              "kind": "catch",
+              "line": 115
+            },
+            {
+              "in": "writeJournal",
+              "kind": "catch",
+              "line": 124
+            },
+            {
+              "in": "readMigrateLockInfo",
+              "kind": "catch",
+              "line": 213
+            },
+            {
+              "in": "isMigrateLockHolderAlive",
+              "kind": "catch",
+              "line": 228
+            },
+            {
+              "in": "failMigrateLocked",
+              "kind": "throw",
+              "line": 251
+            },
+            {
+              "in": "acquireMigrateLock",
+              "kind": "catch",
+              "line": 272
+            },
+            {
+              "in": "acquireMigrateLock",
+              "kind": "throw",
+              "line": 274
+            },
+            {
+              "in": "acquireMigrateLock",
+              "kind": "catch",
+              "line": 283
+            },
+            {
+              "in": "acquireMigrateLock",
+              "kind": "throw",
+              "line": 297
+            },
+            {
+              "in": "releaseMigrateLock",
+              "kind": "catch",
+              "line": 303
+            },
+            {
+              "in": "runMigrate",
+              "kind": "catch",
+              "line": 406
+            },
+            {
+              "in": "runMigrate",
+              "kind": "catch",
+              "line": 486
+            },
+            {
+              "in": "runMigrate",
+              "kind": "catch",
+              "line": 557
+            },
+            {
+              "in": "runMigrate",
+              "kind": "catch",
+              "line": 597
+            }
+          ],
+          "hash": "c8f4be282ae37e06896e4e161759730a8802eca8b669b506a294017eb3dc7a89",
+          "importOrder": [
+            "src/utils/readme-parser.ts",
+            "src/manifest.ts"
+          ],
           "importsFiles": [
             "src/manifest.ts",
             "src/utils/readme-parser.ts"
@@ -1537,7 +2026,68 @@
           "exports": [
             "runRemove"
           ],
-          "hash": "3d0ddb693debc974b232239835d19c1392d531439262de66f06ad1b31c3a3a62",
+          "failurePaths": [
+            {
+              "in": "refuse",
+              "kind": "throw",
+              "line": 131
+            },
+            {
+              "in": "findNearMatches",
+              "kind": "catch",
+              "line": 204
+            },
+            {
+              "in": "walkFiles",
+              "kind": "catch",
+              "line": 233
+            },
+            {
+              "in": "walkFiles",
+              "kind": "catch",
+              "line": 241
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 298
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 328
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 359
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 433
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 445
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 461
+            },
+            {
+              "in": "runRemove",
+              "kind": "catch",
+              "line": 491
+            }
+          ],
+          "hash": "33e35f1908e4417fadc42c2e58b24458b1e4feb35e481f2dd4533bb5ea168305",
+          "importOrder": [
+            "src/manifest.ts",
+            "src/commands/add-gallery.ts"
+          ],
           "importsFiles": [
             "src/commands/add-gallery.ts",
             "src/manifest.ts"
@@ -1548,7 +2098,14 @@
           "exports": [
             "runStats"
           ],
-          "hash": "0512d352728c9aee36a0960f46b65a0ebd8a21add8953873e08f76081502885b",
+          "failurePaths": [
+            {
+              "in": "runStats",
+              "kind": "catch",
+              "line": 100
+            }
+          ],
+          "hash": "e8811286f8246ae1dcdcb5642b7e8d19131591e98832888afa2dbeb818a2fe59",
           "importsFiles": [
             "src/manifest.ts"
           ],
@@ -1558,7 +2115,84 @@
           "exports": [
             "runSync"
           ],
-          "hash": "5d20ac4bac25f3c8c749a5a0184947e24c9b9df16d4de672e9e7f5ba1c2bc4d3",
+          "failurePaths": [
+            {
+              "in": "readSyncLockInfo",
+              "kind": "catch",
+              "line": 126
+            },
+            {
+              "in": "isSyncLockHolderAlive",
+              "kind": "catch",
+              "line": 148
+            },
+            {
+              "in": "acquireSyncLock",
+              "kind": "catch",
+              "line": 172
+            },
+            {
+              "in": "acquireSyncLock",
+              "kind": "throw",
+              "line": 174
+            },
+            {
+              "in": "acquireSyncLock",
+              "kind": "catch",
+              "line": 183
+            },
+            {
+              "in": "acquireSyncLock",
+              "kind": "throw",
+              "line": 203
+            },
+            {
+              "in": "releaseSyncLock",
+              "kind": "catch",
+              "line": 209
+            },
+            {
+              "in": "fail",
+              "kind": "throw",
+              "line": 239
+            },
+            {
+              "in": "runSync",
+              "kind": "catch",
+              "line": 255
+            },
+            {
+              "in": "runSync",
+              "kind": "catch",
+              "line": 263
+            },
+            {
+              "in": "runSync",
+              "kind": "catch",
+              "line": 346
+            },
+            {
+              "in": "runSync",
+              "kind": "catch",
+              "line": 355
+            },
+            {
+              "in": "runSync",
+              "kind": "catch",
+              "line": 380
+            },
+            {
+              "in": "runSync",
+              "kind": "catch",
+              "line": 448
+            }
+          ],
+          "hash": "322d817e1e0e862ab09ffaf227f7b29c032525e2c23b7372ef02141b02323540",
+          "importOrder": [
+            "src/manifest.ts",
+            "src/utils/marker-parser.ts",
+            "src/commands/add-gallery.ts"
+          ],
           "importsFiles": [
             "src/commands/add-gallery.ts",
             "src/manifest.ts",
@@ -1570,7 +2204,19 @@
           "exports": [
             "runVerify"
           ],
-          "hash": "4e6c5123c473478fb745503e49e59e076e061fd1f2344d5fc2eec672fc46ebaf",
+          "failurePaths": [
+            {
+              "in": "peekAssetCount",
+              "kind": "catch",
+              "line": 33
+            },
+            {
+              "in": "runVerify",
+              "kind": "catch",
+              "line": 107
+            }
+          ],
+          "hash": "98ebdf2c7b61ebebb0121beabedf6e99b50b899b1795527c6b4e7e9a074cf9c7",
           "importsFiles": [
             "src/manifest.ts"
           ],
@@ -1588,14 +2234,93 @@
             "verifyManifest",
             "writeManifest"
           ],
-          "hash": "799e11ea37fa04bb5054c18e5c2a2d1a12f4dd86317aee2be38ffcc20b5a4457",
+          "failurePaths": [
+            {
+              "in": "hashFile",
+              "kind": "catch",
+              "line": 146
+            },
+            {
+              "in": "hashFile",
+              "kind": "throw",
+              "line": 148
+            },
+            {
+              "in": "safeRealpath",
+              "kind": "catch",
+              "line": 194
+            },
+            {
+              "in": "isContained",
+              "kind": "catch",
+              "line": 211
+            },
+            {
+              "in": "isContained",
+              "kind": "catch",
+              "line": 219
+            },
+            {
+              "in": "findLogoFile",
+              "kind": "catch",
+              "line": 257
+            },
+            {
+              "in": "generateManifest",
+              "kind": "catch",
+              "line": 552
+            },
+            {
+              "in": "generateManifest",
+              "kind": "throw",
+              "line": 554
+            },
+            {
+              "in": "readManifest",
+              "kind": "throw",
+              "line": 615
+            },
+            {
+              "in": "readManifest",
+              "kind": "catch",
+              "line": 625
+            },
+            {
+              "in": "readManifest",
+              "kind": "throw",
+              "line": 626
+            },
+            {
+              "in": "readManifest",
+              "kind": "throw",
+              "line": 632
+            },
+            {
+              "in": "readManifest",
+              "kind": "throw",
+              "line": 646
+            }
+          ],
+          "hash": "c341ee489d104f441d1330a095cad9e5d517f486a50f7c36a9b7a2e00feaa967",
           "path": "src/manifest.ts"
         },
         {
           "exports": [
             "parseModelView"
           ],
-          "hash": "75dda55c5c7c1991906910437f2c4adfa23f5b8c91084994e9214eba6c33c852",
+          "failurePaths": [
+            {
+              "in": "fail",
+              "kind": "throw",
+              "line": 90
+            },
+            {
+              "in": "parseModelView",
+              "kind": "catch",
+              "line": 110
+            }
+          ],
+          "hash": "c9508764dc7151275c94d1edc656725761fc3c8ced6394ae7f4dddd1409ae31d",
           "path": "src/model-view.ts"
         },
         {
@@ -1603,7 +2328,44 @@
             "checkCategoricalPalette",
             "readPngInfo"
           ],
-          "hash": "12c87db2abc523a309edcd7502bf8aef03227e24522035ba2872068079e399de",
+          "failurePaths": [
+            {
+              "in": "readPngInfo",
+              "kind": "throw",
+              "line": 72
+            },
+            {
+              "in": "readPngInfo",
+              "kind": "throw",
+              "line": 87
+            },
+            {
+              "in": "readPngInfo",
+              "kind": "throw",
+              "line": 91
+            },
+            {
+              "in": "readPngInfo",
+              "kind": "throw",
+              "line": 100
+            },
+            {
+              "in": "readPngInfo",
+              "kind": "throw",
+              "line": 114
+            },
+            {
+              "in": "checkCategoricalPalette",
+              "kind": "throw",
+              "line": 145
+            },
+            {
+              "in": "checkCategoricalPalette",
+              "kind": "throw",
+              "line": 153
+            }
+          ],
+          "hash": "d1ffb816eb8c3f42a8ed1b951b58cdc479f69f024e1425591de1be59b20163a7",
           "path": "src/png-palette.ts"
         },
         {
@@ -1611,7 +2373,7 @@
             "computeCodeContext",
             "computeCodeContextLines"
           ],
-          "hash": "22b2d626864f59a6728af877e4dbbcfff17c846f7e88ec866d96abe8cb9beb4b",
+          "hash": "7c262afeaa6f104c39376d168d7b0cb2547ef59f4c900113a161fb488c59a5af",
           "path": "src/utils/code-context.ts"
         },
         {
@@ -1622,7 +2384,54 @@
             "renderGalleryBlock",
             "syncMarkerBlock"
           ],
-          "hash": "6cc166f4802f30718acb2857c019cbb0acc1365faa8dbad6decc06d5ff2e70f0",
+          "failurePaths": [
+            {
+              "in": "parseAttrs",
+              "kind": "throw",
+              "line": 214
+            },
+            {
+              "in": "parseAttrs",
+              "kind": "throw",
+              "line": 234
+            },
+            {
+              "in": "scanRawMarkers",
+              "kind": "catch",
+              "line": 361
+            },
+            {
+              "in": "findMarkerBlocksInternal",
+              "kind": "throw",
+              "line": 411
+            },
+            {
+              "in": "findMarkerBlocksInternal",
+              "kind": "throw",
+              "line": 426
+            },
+            {
+              "in": "findMarkerBlocksInternal",
+              "kind": "throw",
+              "line": 438
+            },
+            {
+              "in": "findMarkerBlocksInternal",
+              "kind": "throw",
+              "line": 465
+            },
+            {
+              "in": "findMarkerBlocksInternal",
+              "kind": "throw",
+              "line": 491
+            },
+            {
+              "in": "syncMarkerBlock",
+              "kind": "throw",
+              "line": 723
+            }
+          ],
+          "hash": "e3a7dd3d6656b446a2ab7583f6840fcefafd59b0574e19b951b97c8d81a4b9b1",
           "importsFiles": [
             "src/utils/code-context.ts"
           ],
@@ -1634,7 +2443,14 @@
             "findLogoImgTags",
             "rewriteLogoSrc"
           ],
-          "hash": "83cbfc6fa6de72210fbe26f902d0dba4dfd7b2f60d9a0777d5042b388463640c",
+          "failurePaths": [
+            {
+              "in": "forEachLogoImg",
+              "kind": "throw",
+              "line": 253
+            }
+          ],
+          "hash": "3401a940aa071bd43912023ec1f7648bbb127918df97b9b617873a95148124d9",
           "importsFiles": [
             "src/utils/code-context.ts"
           ],
@@ -1647,15 +2463,35 @@
       "importConfidence": "full",
       "name": "src",
       "origin": "authored",
-      "outsideReads": 1,
+      "outsidePlaces": [
+        {
+          "reads": 55,
+          "where": [
+            "caller"
+          ],
+          "writes": 23
+        },
+        {
+          "reads": 1,
+          "where": [
+            "cwd:README.md"
+          ],
+          "writes": 0
+        }
+      ],
+      "outsideReads": 56,
+      "outsideWrites": 23,
       "role": "code",
-      "testedBy": 16,
+      "testRunners": [
+        "vitest"
+      ],
+      "testedBy": 18,
       "unresolvedSites": 0
     },
     {
       "dynamicReads": 0,
-      "dynamicSpawns": 6,
-      "dynamicSpawnsInTests": 6,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
       "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
@@ -1665,11 +2501,11 @@
             "setup",
             "teardown"
           ],
-          "hash": "dfdce509b4cf611949cdd02031a61f6c063636ddac5fb7f020348b23511b051e",
+          "hash": "ca845cc5046ec1fea14eb035cfa0f8550d50a2eb36d237d9b8b80fb3d4d63c6a",
           "path": "tests/_helpers/global-setup.ts"
         },
         {
-          "hash": "856ab21b69dc623304900e178fbefd90e99bc507b91d43a26c72deb5e06ccf1a",
+          "hash": "dfe80799105623cd85b8cf592f507d4b3bfb7068055773f78c8633d22d0693f0",
           "importsFiles": [
             "tests/_helpers/png-builder.mjs"
           ],
@@ -1680,38 +2516,45 @@
             "indexedPng",
             "truecolourPng"
           ],
-          "hash": "4907df6ec6dcff3d94d01d12d85727fc19803483bfd9a0dedf7563328716e3c8",
+          "hash": "41ea0c2a0d00b5825fe49ec73d8d86207212d218ea5a62bdaf4c4000e0b4312c",
           "path": "tests/_helpers/png-builder.mjs"
         },
         {
-          "hash": "5eb2e4afaa6a920a35880e6c30adb4b94481308afdc8b1602018ac389ad5c7ea",
+          "hash": "89c85ce43b305a6fa42b25e50e2c774862be02ac2e5050fd7ece1d520f8ac7db",
           "importsFiles": [
             "src/commands/add-gallery.ts",
             "src/manifest.ts"
           ],
-          "path": "tests/add-gallery.test.ts"
+          "path": "tests/add-gallery.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "2cec78b39da384e40ea3a23090c3de50dc304933f6bf9eb3fffa9c667b47181b",
+          "hash": "b8555074244bd2119205270a8714b0a450640f40a57bdab4ee4241869c6dc3a2",
           "importsFiles": [
             "src/commands/add-model.ts",
             "src/manifest.ts",
             "src/png-palette.ts",
             "tests/_helpers/png-builder.mjs"
           ],
-          "path": "tests/add-model.test.ts"
+          "path": "tests/add-model.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "350cca5b77ea5611bf0e15022a5e9cbceb242419017dc15c2e2c0a51a17c337f",
+          "hash": "b47cea6417f51291ba9739206f9b9e7e7634b32ed4bd4819538a2966af493dab",
           "importsFiles": [
             "src/commands/audit.ts",
             "src/manifest.ts"
           ],
-          "path": "tests/audit.test.ts"
+          "path": "tests/audit.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "1d65e98b1669888224cd9f927bc08bbbb7ec5cedb0f715f05570f85e7fd075aa",
-          "path": "tests/exit-codes.test.ts"
+          "hash": "628b73540bda7db124a7d2a5425f2ab8611ce2723e22c9a1c66b2d5b7a5a8733",
+          "path": "tests/exit-codes.test.ts",
+          "spawns": [
+            "src/cli.ts"
+          ],
+          "testFramework": "vitest"
         },
         {
           "hash": "805fa5e2d02cd6134b131cdb12fea9bfc468f73d48fa85d129eb6763d9adabb4",
@@ -1766,7 +2609,7 @@
           "path": "tests/fixtures/logo-unclosed-fence.md"
         },
         {
-          "hash": "802f3bca578748753c04826164420e0b330cfefbad411c088a4e6899569b5ab9",
+          "hash": "1fd57094a3c60ea724aec25f3e915b356aa334764e6ab1778e0ad27870534b38",
           "path": "tests/fixtures/manifests/v1.0-frozen.json"
         },
         {
@@ -1822,11 +2665,11 @@
           "path": "tests/fixtures/marker-valid-single.md"
         },
         {
-          "hash": "1af4b8788b792dd59b08e86de9d7c1c7c63cd59c9a7c47f84e332584647551d5",
+          "hash": "9f7aa214d5d661ef54a913b0d09f988eb5a531180129c285105d8a16f619587a",
           "path": "tests/fixtures/model-views/degenerate.view.json"
         },
         {
-          "hash": "4924f35c0dbe5eed584e2c75f208ed752052d45c1115d78e6eca5f5aade242ef",
+          "hash": "bc5be1dbb8ecedb6f822fd545c5b10e9d3ab90b11fedb565ecdfbb97dd7f23c8",
           "path": "tests/fixtures/model-views/rich.view.json"
         },
         {
@@ -1862,105 +2705,138 @@
           "path": "tests/fixtures/standalone-logo.md"
         },
         {
-          "hash": "a6dcd778625328f1e77175ad0bf6a4b8f606638fcfe9a8700e3f4e84ca21893a",
+          "hash": "af0c4db64aedd5ab27c3637dad9590e6f0dba08aae2a7d9ced0f4035d667f181",
           "importsFiles": [
             "src/commands/history.ts"
           ],
-          "path": "tests/history.test.ts"
+          "path": "tests/history.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "f82c6392ba34157f2aee518a04c965a502b9624e94bc0ca1310c71e2c824eb79",
-          "path": "tests/json-output.test.ts"
+          "hash": "62017ad33bc8282b84aef4c02a8132053d4d242ea270d59291c018e8f1fc27c6",
+          "path": "tests/json-output.test.ts",
+          "spawns": [
+            "src/cli.ts"
+          ],
+          "testFramework": "vitest"
         },
         {
-          "hash": "5e2c585e1880ece049b976d00fe6079e7c51ee26f26bf42fd3921a324233ccdb",
-          "path": "tests/manifest-cmd.test.ts"
+          "hash": "e3f0d14fdd7871cee667a3e11e26004fa77c84214af147858cc0485f5bfbf236",
+          "path": "tests/manifest-cmd.test.ts",
+          "spawns": [
+            "src/cli.ts"
+          ],
+          "testFramework": "vitest"
         },
         {
           "hash": "5c1957b9b674f989d964ed7deaae46c628d6e54d03570954bd42fdfe73157f09",
-          "parseError": true,
+          "importsFiles": [
+            "src/manifest.ts"
+          ],
           "path": "tests/manifest.test.ts",
-          "unreadSyntax": "nul-character"
+          "spawns": [
+            "src/cli.ts"
+          ],
+          "testFramework": "vitest"
         },
         {
-          "hash": "ad0fb262282346babf1a9d55d03920a96715d1263c376cec95ed5106cfec2a0e",
+          "hash": "4555c21d9d9a14d8c17a20fd0c08bb2123e855a07b8a6950d6f69c365498e87e",
           "importsFiles": [
             "src/utils/marker-parser.ts"
           ],
-          "path": "tests/marker-parser.test.ts"
+          "path": "tests/marker-parser.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "6ed8842242552a1e42e05f236d50f4f343478651290548406be13688da27e828",
+          "hash": "c137ac1450b46010489f4d6ebf60fe9e9d8e4689069d1bcac1c23e2d20600cd0",
           "importsFiles": [
             "src/commands/migrate.ts"
           ],
-          "path": "tests/migrate-journal.test.ts"
+          "path": "tests/migrate-journal.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "55b98ceb28500aa693af1722eb4c3655a8d7500efc68a1ea71725d5b190d77e2",
+          "hash": "b88c899612534a680d696e07186a00e654d25bab4239a9229c5ce1c68c4a269c",
           "importsFiles": [
             "src/commands/migrate.ts"
           ],
-          "path": "tests/migrate.test.ts"
+          "path": "tests/migrate.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "e41870081bbf6d2742febb611befac1647c1fa3bf343ccb18b723f6f74c43e59",
+          "hash": "01b1c81e3f9e87ad66c2d4cd4d0237dd1bb5e63a5e992db45fbdbaa373341405",
+          "importOrder": [
+            "src/manifest.ts",
+            "src/model-view.ts",
+            "src/commands/stats.ts"
+          ],
           "importsFiles": [
             "src/commands/stats.ts",
             "src/manifest.ts",
             "src/model-view.ts"
           ],
-          "path": "tests/model-channels.test.ts"
+          "path": "tests/model-channels.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "91b896cb74f0250a3486ea196bc2ca962e72577b6b1eee4756af64d68cddc2e2",
+          "hash": "15dad4d76aa7a2ec2df375b30d94ef049fbb35b96935c65930c5387056260685",
           "importsFiles": [
             "site/integrations/model-passthrough.mjs"
           ],
-          "path": "tests/model-passthrough.test.ts"
+          "path": "tests/model-passthrough.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "703af487c7cd04a3c2e03260a243a1bbee69e6ab4faad1f1a6390aaf348b85b7",
+          "hash": "22d6668333ad157680c5f3dde190206aa06d7d501db9bbe6d77a6cd0974430a2",
           "importsFiles": [
             "src/utils/readme-parser.ts"
           ],
-          "path": "tests/readme-parser.test.ts"
+          "path": "tests/readme-parser.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "a570a46ae90508db8f5f2923e404ebde99691c045239cf0cf2bf686a1f944f3e",
+          "hash": "0983aeda2a25e5620cb5fdcfa569f585adc482658c0902a66467606e8092bc69",
           "importsFiles": [
             "src/commands/remove.ts",
             "src/manifest.ts"
           ],
-          "path": "tests/remove-swap-failure.test.ts"
+          "path": "tests/remove-swap-failure.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "cbb2e6f252450991132bcdff146c8738e53e95ed154de01ccd8fb1b3dd7550ac",
+          "hash": "c1ff916bb4b09aaeaf75df73afac5e6e7b1862b918ae6766dc2f97f6385fec96",
           "importsFiles": [
             "src/commands/remove.ts",
             "src/manifest.ts"
           ],
-          "path": "tests/remove.test.ts"
+          "path": "tests/remove.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "d6781919296b9131a93c0e726410ec9796011dfdd4c12e67d1d51c5aa1b748f0",
+          "hash": "45635f466189d43cd60ebe7799c9bd76c07d245c5a74e99f87833193ca252efd",
           "importsFiles": [
             "src/commands/stats.ts",
             "src/manifest.ts"
           ],
-          "path": "tests/stats.test.ts"
+          "path": "tests/stats.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "75e917d3519113d410c185176ad5bded16c88b1dbbe15e18addecb3c81d87d7e",
+          "hash": "7d18c62d2e33303df3923b715f86aa809c059b90b4ac1af79ee7fdcb5e70ace7",
           "importsFiles": [
             "src/commands/sync.ts",
             "src/manifest.ts"
           ],
-          "path": "tests/sync.test.ts"
+          "path": "tests/sync.test.ts",
+          "testFramework": "vitest"
         },
         {
-          "hash": "890af32cd37943474df05c935731fed460de91ce73809f1c4e0fe53243834f5e",
-          "path": "tests/verify.test.ts"
+          "hash": "c2f3fea0b17339f9eb83f217df501908440119aa224d2e1425b2b8efd86a21de",
+          "path": "tests/verify.test.ts",
+          "spawns": [
+            "src/cli.ts"
+          ],
+          "testFramework": "vitest"
         }
       ],
       "globs": [
@@ -1970,75 +2846,266 @@
       "name": "tests",
       "origin": "authored",
       "role": "test",
+      "testRunners": [
+        "vitest"
+      ],
       "testedBy": 0,
       "unresolvedSites": 0
     }
   ],
   "doors": [
     {
-      "checksCount": 1,
+      "checksCount": 0,
       "commands": [
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "2",
-          "text": "npm ci"
+          "programs": [
+            "npx"
+          ],
+          "step": "Atlas check"
         },
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "npm audit (high)",
-          "text": "set +e\nnpm audit --audit-level=high --json > audit-report.json\nAUDIT_EXIT=$?\nset -e\nnode scripts/check-audit-allowlist.mjs audit-report.json .github/audit-allowlist.json \"$AUDIT_EXIT\"\n"
+          "programs": [
+            "npm"
+          ],
+          "step": "3"
         },
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "4",
-          "text": "npm run typecheck"
+          "programs": [
+            "node",
+            "npm"
+          ],
+          "step": "npm audit (high)"
         },
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "5",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "5"
         },
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "Test (with coverage)",
-          "text": "npm run test:ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "6"
         },
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "Test",
-          "text": "npm test"
+          "programs": [
+            "npm"
+          ],
+          "step": "Test (with coverage)"
         },
         {
+          "dir": "",
           "job": "lint-test-build",
-          "step": "Write CI summary",
-          "text": "{\n  echo \"## CI summary (node ${{ matrix.node-version }})\"\n  echo \"\"\n  echo \"| Step | Result |\"\n  echo \"| --- | --- |\"\n  echo \"| npm audit (high) | ${{ steps.audit.outcome }} |\"\n  echo \"| typecheck / build / test | ${{ job.status }} |\"\n  echo \"| Commit | \\`${{ github.sha }}\\` |\"\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+          "programs": [
+            "npm"
+          ],
+          "step": "Test"
         },
         {
+          "dir": "",
+          "job": "lint-test-build",
+          "programs": [
+            "echo"
+          ],
+          "step": "Write CI summary"
+        },
+        {
+          "dir": "",
           "job": "integrity",
-          "step": "2",
-          "text": "npm ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "2"
         },
         {
+          "dir": "",
           "job": "integrity",
-          "step": "3",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "3"
         },
         {
+          "dir": "",
           "job": "integrity",
-          "step": "Verify manifest integrity",
-          "text": "node dist/cli.js manifest --check --logos logos --output manifest.json"
+          "programs": [
+            "node"
+          ],
+          "step": "Verify manifest integrity"
         },
         {
+          "dir": "",
           "job": "integrity",
-          "step": "Write integrity summary",
-          "text": "{\n  echo \"## Manifest integrity\"\n  echo \"\"\n  if [ \"${{ steps.verify.outcome }}\" = \"success\" ]; then\n    echo \"Manifest hashes match every file in \\`logos/\\`.\"\n  else\n    echo \"Manifest verification FAILED — \\`logos/\\` and \\`manifest.json\\` are out of sync.\"\n  fi\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+          "programs": [
+            "echo"
+          ],
+          "step": "Write integrity summary"
         }
       ],
       "elsewhere": [],
       "file": ".github/workflows/ci.yml",
-      "landings": [
-        "logos"
+      "findings": [
+        {
+          "job": "lint-test-build",
+          "legs": 3,
+          "lines": [
+            {
+              "file": ".github/workflows/ci.yml",
+              "line": 87
+            },
+            {
+              "file": ".github/workflows/ci.yml",
+              "line": 150
+            },
+            {
+              "file": "package-lock.json",
+              "line": 1371
+            }
+          ],
+          "package": "vitest",
+          "pinnedBy": {
+            "step": "1",
+            "version": "${{ matrix.node-version }}"
+          },
+          "pins": [
+            "20"
+          ],
+          "requires": "^22.12.0 || ^24.0.0 || >=26.0.0",
+          "rule": "D1",
+          "step": "Test",
+          "tool": "vitest run",
+          "version": "5.0.0"
+        },
+        {
+          "job": "lint-test-build",
+          "legs": 3,
+          "lines": [
+            {
+              "file": ".github/workflows/ci.yml",
+              "line": 87
+            },
+            {
+              "file": ".github/workflows/ci.yml",
+              "line": 119
+            },
+            {
+              "file": "package-lock.json",
+              "line": 1371
+            }
+          ],
+          "package": "vitest",
+          "pinnedBy": {
+            "step": "1",
+            "version": "${{ matrix.node-version }}"
+          },
+          "pins": [
+            "20"
+          ],
+          "requires": "^22.12.0 || ^24.0.0 || >=26.0.0",
+          "rule": "D1",
+          "step": "Test (with coverage)",
+          "tool": "vitest run",
+          "version": "5.0.0"
+        }
       ],
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "lint-test-build",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "20",
+                  "range": ">=20.0.0 <21.0.0-0"
+                },
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                },
+                {
+                  "from": "24",
+                  "range": ">=24.0.0 <25.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "${{ matrix.node-version }}"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "codecov",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "integrity",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        }
+      ],
+      "landings": [],
       "mentions": [
         {
           "job": "lint-test-build",
@@ -2051,7 +3118,11 @@
       ],
       "name": "CI",
       "permissions": [
-        "contents:read"
+        "contents:read",
+        "id-token:write"
+      ],
+      "programs": [
+        "git"
       ],
       "pushes": false,
       "reach": [
@@ -2080,94 +3151,7 @@
           "files": 1
         }
       ],
-      "readers": [
-        {
-          "by": ".claude/context/current-priorities.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": ".github/SECURITY-CONTROLS.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "readdirSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "statSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "readFileSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/src/content/docs/handbook/reference.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/cli.ts",
-          "call": "raw-url",
-          "confidence": "ast",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/audit.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/stats.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/manifest.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        }
-      ],
+      "readers": [],
       "runs": [
         {
           "job": "lint-test-build",
@@ -2175,20 +3159,27 @@
           "runKind": "executes"
         },
         {
+          "built": true,
           "directory": true,
           "job": "integrity",
           "matched": true,
           "path": "src/",
-          "runKind": "checks",
+          "runKind": "executes",
           "via": "tsc tsconfig.json"
         },
         {
+          "built": true,
           "directory": true,
           "job": "lint-test-build",
           "matched": true,
           "path": "src/",
-          "runKind": "checks",
+          "runKind": "executes",
           "via": "tsc tsconfig.json"
+        },
+        {
+          "job": "integrity",
+          "path": "src/cli.ts",
+          "runKind": "executes"
         },
         {
           "job": "lint-test-build",
@@ -2324,7 +3315,7 @@
           "via": "vitest vitest.config.ts"
         }
       ],
-      "runsCount": 21,
+      "runsCount": 22,
       "secrets": [],
       "sends": {
         "deploysPages": false,
@@ -2337,6 +3328,30 @@
         "releases": false
       },
       "stages": [],
+      "tests": [
+        {
+          "config": "vitest.config.ts",
+          "coverage": true,
+          "files": 19,
+          "job": "lint-test-build",
+          "junit": true,
+          "runner": "vitest",
+          "step": "Test (with coverage)",
+          "through": [
+            "npm run test:ci"
+          ]
+        },
+        {
+          "config": "vitest.config.ts",
+          "files": 19,
+          "job": "lint-test-build",
+          "runner": "vitest",
+          "step": "Test",
+          "through": [
+            "npm test"
+          ]
+        }
+      ],
       "triggers": [
         {
           "event": "pull_request",
@@ -2344,6 +3359,8 @@
             ".gitattributes",
             ".github/audit-allowlist.json",
             ".github/workflows/**",
+            "atlas/**",
+            "codecov.yml",
             "logos/**",
             "manifest.json",
             "package-lock.json",
@@ -2364,6 +3381,8 @@
             ".gitattributes",
             ".github/audit-allowlist.json",
             ".github/workflows/**",
+            "atlas/**",
+            "codecov.yml",
             "logos/**",
             "manifest.json",
             "package-lock.json",
@@ -2384,36 +3403,122 @@
       ],
       "uses": [
         "actions/checkout",
-        "actions/setup-node"
+        "actions/download-artifact",
+        "actions/setup-node",
+        "actions/upload-artifact",
+        "codecov/codecov-action"
       ],
       "usesWorkflowToken": false
     },
     {
-      "checksCount": 1,
+      "checksCount": 0,
       "commands": [
         {
+          "dir": "",
           "job": "build",
-          "step": "Install root dependencies",
-          "text": "npm ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "Install root dependencies"
         },
         {
+          "dir": "",
           "job": "build",
-          "step": "Build root package",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "Build root package"
         },
         {
+          "dir": "site",
           "job": "build",
-          "step": "Install site dependencies",
-          "text": "rm -rf node_modules package-lock.json\nnpm install --no-audit --no-fund\n"
+          "programs": [
+            "npm",
+            "rm"
+          ],
+          "step": "Install site dependencies"
         },
         {
+          "dir": "site",
           "job": "build",
-          "step": "Build site",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "Build site"
         }
       ],
       "elsewhere": [],
       "file": ".github/workflows/pages.yml",
+      "gated": [
+        {
+          "jobs": [
+            "build",
+            "deploy"
+          ],
+          "pushes": false,
+          "sends": [
+            "deploysPages"
+          ],
+          "stages": [],
+          "when": {
+            "branches": [
+              "main"
+            ],
+            "byHand": true,
+            "event": "push"
+          }
+        }
+      ],
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "build",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "environment": {
+            "name": "github-pages"
+          },
+          "name": "deploy",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        }
+      ],
       "landings": [],
       "mentions": [
         {
@@ -2432,7 +3537,7 @@
         {
           "boundary": "site",
           "depth": 0,
-          "files": 5
+          "files": 8
         },
         {
           "boundary": "src",
@@ -2458,18 +3563,19 @@
           "via": "astro build"
         },
         {
+          "built": true,
           "directory": true,
           "job": "build",
           "matched": true,
           "path": "src/",
-          "runKind": "checks",
+          "runKind": "executes",
           "via": "tsc tsconfig.json"
         }
       ],
       "runsCount": 3,
       "secrets": [],
       "sends": {
-        "deploysPages": true,
+        "deploysPages": false,
         "dispatchesTo": [],
         "opensIssues": false,
         "opensIssuesOnFailure": false,
@@ -2513,6 +3619,15 @@
           "event": "workflow_dispatch"
         }
       ],
+      "unresolvedChecks": [
+        {
+          "job": "build",
+          "lock": "site/package-lock.json",
+          "rule": "D2",
+          "step": "Install site dependencies",
+          "why": "npm install may add a missing binding at install time; only npm ci installs the lock as written"
+        }
+      ],
       "uses": [
         "actions/checkout",
         "actions/configure-pages",
@@ -2523,59 +3638,121 @@
       "usesWorkflowToken": false
     },
     {
-      "checksCount": 1,
+      "checksCount": 0,
       "commands": [
         {
+          "dir": "",
           "job": "release",
-          "step": "Install npm >=11.5 in a sandbox for OIDC trusted-publishing auth",
-          "text": "# Node 22 ships npm 10.9, which signs provenance but cannot negotiate\n# the OIDC auth path (PUT returns a misleading 404). An in-place\n# `npm i -g npm@latest` races the bundled arborist and breaks — install\n# npm@latest into a sandbox dir and shadow the system npm via PATH.\nSANDBOX=\"$HOME/.npm-cli-sandbox\"\nmkdir -p \"$SANDBOX\"\npushd \"$SANDBOX\" >/dev/null\necho '{\"name\":\"npm-cli-sandbox\",\"version\":\"0.0.0\",\"private\":true}' > package.json\nnpm install --no-save --no-audit --no-fund --silent npm@latest\npopd >/dev/null\necho \"$SANDBOX/node_modules/.bin\" >> \"$GITHUB_PATH\"\n\"$SANDBOX/node_modules/.bin/npm\" --version\n"
+          "programs": [
+            "echo",
+            "mkdir",
+            "npm",
+            "popd",
+            "pushd"
+          ],
+          "step": "Install npm >=11.5 in a sandbox for OIDC trusted-publishing auth"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "Resolve tag",
-          "text": "TAG=\"${{ github.event.inputs.tag || github.ref_name }}\"\necho \"tag=${TAG}\" >> \"$GITHUB_OUTPUT\"\necho \"version=${TAG#v}\" >> \"$GITHUB_OUTPUT\"\n"
+          "programs": [
+            "echo"
+          ],
+          "step": "Resolve tag"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "Verify tag matches package.json version",
-          "text": "PKG_VERSION=$(node -p \"require('./package.json').version\")\nTAG_VERSION=\"${{ steps.tag.outputs.version }}\"\necho \"Tag: ${{ steps.tag.outputs.tag }} -> ${TAG_VERSION} | package.json: ${PKG_VERSION}\"\nif [ \"${PKG_VERSION}\" != \"${TAG_VERSION}\" ]; then\n  echo \"::error::Tag ${TAG_VERSION} does not match package.json version ${PKG_VERSION}\"\n  exit 1\nfi\n"
+          "programs": [
+            "echo",
+            "node"
+          ],
+          "step": "Verify tag matches package.json version"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "5",
-          "text": "npm ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "5"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "Verify (typecheck + build + test)",
-          "text": "npm run typecheck\nnpm test\n"
+          "programs": [
+            "npm"
+          ],
+          "step": "Verify (typecheck + build + test)"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "npm pack dry-run (shape check)",
-          "text": "npm pack --dry-run"
+          "programs": [
+            "npm"
+          ],
+          "step": "npm pack dry-run (shape check)"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "Publish to npm with provenance (OIDC trusted publisher, no token)",
-          "text": "npm publish --provenance --access public"
+          "programs": [
+            "npm"
+          ],
+          "step": "Publish to npm with provenance (OIDC trusted publisher, no token)"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "Extract CHANGELOG section for the release notes",
-          "text": "VERSION=\"${{ steps.tag.outputs.version }}\"\nawk -v ver=\"$VERSION\" '\n  $0 ~ (\"^## \" ver \"( |$)\") {flag=1; next}\n  flag && /^## / {exit}\n  flag {print}\n' CHANGELOG.md > release-notes.md\nif [ -s release-notes.md ]; then\n  echo \"have_notes=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"have_notes=false\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+          "programs": [
+            "awk",
+            "echo"
+          ],
+          "step": "Extract CHANGELOG section for the release notes"
         },
         {
+          "dir": "",
           "job": "release",
-          "step": "Create GitHub Release",
-          "text": "TAG=\"${{ steps.tag.outputs.tag }}\"\nif [ \"${{ steps.notes.outputs.have_notes }}\" = \"true\" ]; then\n  gh release create \"$TAG\" --title \"brand $TAG\" --notes-file release-notes.md --verify-tag\nelse\n  gh release create \"$TAG\" --title \"brand $TAG\" --generate-notes --verify-tag\nfi\n"
+          "programs": [
+            "gh"
+          ],
+          "step": "Create GitHub Release"
         }
       ],
       "elsewhere": [],
       "file": ".github/workflows/release.yml",
-      "landings": [
-        "logos"
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "release",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        }
       ],
+      "landings": [],
       "mentions": [
         {
           "job": "release",
@@ -2613,101 +3790,15 @@
           "files": 1
         }
       ],
-      "readers": [
-        {
-          "by": ".claude/context/current-priorities.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": ".github/SECURITY-CONTROLS.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "readdirSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "statSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "readFileSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/src/content/docs/handbook/reference.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/cli.ts",
-          "call": "raw-url",
-          "confidence": "ast",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/audit.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/stats.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/manifest.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        }
-      ],
+      "readers": [],
       "runs": [
         {
+          "built": true,
           "directory": true,
           "job": "release",
           "matched": true,
           "path": "src/",
-          "runKind": "checks",
+          "runKind": "executes",
           "via": "tsc tsconfig.json"
         },
         {
@@ -2854,6 +3945,13 @@
         "opensIssues": false,
         "opensIssuesOnFailure": false,
         "opensPullRequests": false,
+        "packages": [
+          {
+            "dir": "",
+            "name": "@mcptoolshop/brand",
+            "registry": "npm"
+          }
+        ],
         "publishes": true,
         "publishesTo": [
           "npm"
@@ -2861,6 +3959,18 @@
         "releases": true
       },
       "stages": [],
+      "tests": [
+        {
+          "config": "vitest.config.ts",
+          "files": 19,
+          "job": "release",
+          "runner": "vitest",
+          "step": "Verify (typecheck + build + test)",
+          "through": [
+            "npm test"
+          ]
+        }
+      ],
       "triggers": [
         {
           "event": "push",
@@ -2879,58 +3989,126 @@
       "usesWorkflowToken": true
     },
     {
-      "checksCount": 1,
+      "checksCount": 0,
       "commands": [
         {
+          "dir": "",
           "job": "sync",
-          "step": "2",
-          "text": "npm ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "2"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "3",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "3"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Sync logos from org repos",
-          "text": "set +e\nbash scripts/sync-org-logos.sh\ncode=$?\nset -e\nif [ \"$code\" -eq 10 ]; then\n  echo \"changed=true\" >> \"$GITHUB_OUTPUT\"\nelif [ \"$code\" -eq 0 ]; then\n  echo \"changed=false\" >> \"$GITHUB_OUTPUT\"\nelse\n  exit \"$code\"\nfi\n"
+          "programs": [
+            "bash",
+            "echo"
+          ],
+          "step": "Sync logos from org repos"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Regenerate manifest",
-          "text": "node dist/cli.js manifest"
+          "programs": [
+            "node"
+          ],
+          "step": "Regenerate manifest"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Verify regenerated manifest",
-          "text": "node dist/cli.js verify"
+          "programs": [
+            "node"
+          ],
+          "step": "Verify regenerated manifest"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Create PR",
-          "text": "git config user.name \"github-actions[bot]\"\ngit config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n# Stable branch name (not date/run_id-suffixed) so every daily run\n# updates the SAME branch instead of minting a new one. Previously\n# each run created auto/sync-logos-<date>-<run_id>, which meant a\n# brand-new PR every single day the sync found changes — 31+ open\n# auto-sync PRs accumulated with nobody merging or closing them.\n# `-B` + `push --force-with-lease` below intentionally overwrite the\n# branch's prior bot-authored content each run (this also subsumes\n# the old run_id suffix's original purpose of avoiding a same-day\n# rerun push collision — force-pushing never collides).\n#\n# Trade-off: this branch is a STABLE, shared name, so it may be the\n# head ref of an open, human-reviewed PR. If a reviewer pushes a\n# fixup commit directly onto it between scheduled runs, plain\n# `--force` would silently discard that commit. `--force-with-lease`\n# refuses to push when the remote tip has moved since the fetch\n# immediately below, so a human's commit makes THIS run fail loudly\n# instead of vanishing quietly. That fetch narrows the race window\n# (fetch, then push moments later) but does not close it completely\n# — a push landing in that gap is still possible, just far less\n# likely than with no fetch at all (the old code never fetched, so\n# it always overwrote blind).\nBRANCH=\"auto/sync-logos\"\n# actions/checkout only fetches the ref that triggered this run\n# (main, for schedule/workflow_dispatch) — never this stable side\n# branch — so without an explicit fetch here, git has no local\n# record of the branch's real remote tip and --force-with-lease\n# below would have nothing to compare against. `|| true`: the\n# branch may not exist yet on the very first run.\ngit fetch origin \"$BRANCH:refs/remotes/origin/$BRANCH\" 2>/dev/null || true\ngit checkout -B \"$BRANCH\"\ngit add logos/ manifest.json\ngit diff --cached --quiet && { echo 'nothing to commit'; exit 0; }\ngit commit -m \"chore: sync org logos ($(date -u +%Y-%m-%d))\"\ngit push --force-with-lease=\"$BRANCH\" -u origin \"$BRANCH\"\n# `gh pr create` fails hard when the repo setting \"Allow GitHub Actions\n# to create and approve pull requests\" is OFF and no SYNC_PAT is set —\n# this used to fail the daily run red AND (under the old per-run\n# dated-branch design) leave an orphan branch behind every single\n# day. Degrade gracefully instead: warn loudly with the likely\n# remediation, leave the already-pushed branch in place (the else\n# branch below intentionally no longer deletes it — see its\n# comment), and exit 0. Once the setting/secret is in place the same\n# step opens PRs normally; until then the run is a clean amber and\n# the stable branch is simply reused next time.\nPR_BODY=$(cat <<'EOF'\n## Auto-sync\n\nDaily logo sync from all repos in **mcp-tool-shop-org**.\n\n- New logos added to `logos/`\n- Updated logos replaced\n- `manifest.json` regenerated\n\n**Review:** Check the diff for any unexpected additions or hash changes before merging.\n\n**Do not push commits directly to this branch.** The next scheduled\nrun force-pushes it (via `--force-with-lease`) and will FAIL loudly\nif your commit is on top by then, rather than silently overwriting\nit — but it also won't merge your fix in. Make manual changes in a\nseparate branch/PR instead.\nEOF\n)\n# Dedup by branch, mirroring the label-based dedup the \"Open issue on\n# verify failure\" step already does below: an open PR on this stable\n# branch was just updated in place by the force-push above, so\n# creating another would only duplicate it.\nexisting=$(gh pr list --state open --head \"$BRANCH\" --json number --jq 'length')\nif [ \"${existing:-0}\" -gt 0 ]; then\n  echo \"Open PR already tracks $BRANCH — force-push above updated it in place; not creating a duplicate.\"\n  echo \"pr_opened=true\" >> \"$GITHUB_OUTPUT\"\nelif gh pr create \\\n  --title \"chore: sync org logos ($(date -u +%Y-%m-%d))\" \\\n  --body \"$PR_BODY\"; then\n  echo \"pr_opened=true\" >> \"$GITHUB_OUTPUT\"\nelse\n  # `gh pr create` can fail for reasons other than the permissions\n  # gap the warning used to assume: a transient API error, rate\n  # limiting, or a race where the dedup check above missed an\n  # already-open PR because of search-index lag right after the\n  # force-push. This branch is STABLE (auto/sync-logos, reused\n  # every run — see the comment above, not a per-run dated branch),\n  # so it may be the head ref of a currently-open, possibly\n  # human-reviewed PR. It is intentionally left in place — deleting\n  # it here could sever that PR's head ref, and under the\n  # stable-branch design a delete buys no cruft-avoidance benefit\n  # anyway (the next run's checkout -B + force-push recreates or\n  # overwrites it unconditionally regardless of whether it exists).\n  # The commit was already force-pushed above either way, so\n  # nothing is lost by leaving the branch as-is.\n  echo \"::warning title=Sync PR not opened::gh pr create failed. This may mean 'Allow GitHub Actions to create and approve pull requests' is OFF and no SYNC_PAT is set (Settings -> Actions -> General), or it may be a transient error (API/rate-limit/index-lag). Branch $BRANCH was force-pushed and left in place -- open the PR manually if needed, or re-run this workflow.\"\n  echo \"pr_opened=false\" >> \"$GITHUB_OUTPUT\"\nfi\n"
+          "programs": [
+            "cat",
+            "date",
+            "echo",
+            "gh",
+            "git"
+          ],
+          "step": "Create PR"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Write sync summary",
-          "text": "ADDED=\"${{ steps.sync.outputs.added }}\"\nCHANGED_COUNT=\"${{ steps.sync.outputs.changed_count }}\"\nUNCHANGED=\"${{ steps.sync.outputs.unchanged }}\"\nSKIPPED=\"${{ steps.sync.outputs.skipped }}\"\nREJECTED=\"${{ steps.sync.outputs.rejected }}\"\nNET_ERR=\"${{ steps.sync.outputs.network_errors }}\"\nSUSPICIOUS_COUNT=\"${{ steps.sync.outputs.suspicious_count }}\"\n{\n  echo \"## Daily sync — $(date -u +%Y-%m-%d)\"\n  echo \"\"\n  echo \"| Metric | Count |\"\n  echo \"| --- | --- |\"\n  echo \"| New logos | ${ADDED:-0} |\"\n  echo \"| Updated logos | ${CHANGED_COUNT:-0} |\"\n  echo \"| Unchanged | ${UNCHANGED:-0} |\"\n  echo \"| No logo found | ${SKIPPED:-0} |\"\n  echo \"| Rejected (not an image / too large) | ${REJECTED:-0} |\"\n  echo \"| Network errors | ${NET_ERR:-0} |\"\n  echo \"| Suspicious divergence | ${SUSPICIOUS_COUNT:-0} |\"\n  echo \"\"\n  echo \"Repo changes detected: ${{ steps.sync.outputs.changed }}\"\n  if [ \"${{ steps.verify.outcome }}\" = \"failure\" ]; then\n    echo \"\"\n    echo \"Manifest verification FAILED — see the Verify regenerated manifest step.\"\n  fi\n  if [ -n \"${SUSPICIOUS_COUNT:-}\" ] && [ \"${SUSPICIOUS_COUNT:-0}\" != \"0\" ]; then\n    echo \"\"\n    echo \"### Suspicious logo divergence\"\n    echo \"\"\n    echo \"The registry's copy differed from upstream for the logo(s) below, AND\"\n    echo \"the most recent commit to touch that file in this repo's history was\"\n    echo \"NOT the sync automation's own commit. This does not by itself prove\"\n    echo \"tampering -- git commit authorship is self-reported and this repo does\"\n    echo \"not require signed commits (see \\`.github/SECURITY-CONTROLS.md\\`) -- but\"\n    echo \"it is not explained by a normal sync cycle either. Tracked via a\"\n    echo \"labelled issue (\\`logo-divergence-suspicious\\`) so it isn't only visible\"\n    echo \"in this run's summary.\"\n    echo \"\"\n    echo '```'\n    echo \"$SUSPICIOUS_DETAILS\"\n    echo '```'\n  fi\n} >> \"$GITHUB_STEP_SUMMARY\"\n"
+          "programs": [
+            "date",
+            "echo"
+          ],
+          "step": "Write sync summary"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Open issue on suspicious logo divergence",
-          "text": "existing=$(gh issue list --label logo-divergence-suspicious --state open --json number --jq 'length')\nif [ \"${existing:-0}\" -gt 0 ]; then\n  echo \"An open logo-divergence-suspicious issue already exists — not opening another.\"\n  exit 0\nfi\n# Idempotent: creates the label the first time this ever fires,\n# updates its color/description in place on later runs, and never\n# errors just because the label already exists.\ngh label create logo-divergence-suspicious \\\n  --color B60205 \\\n  --description \"Sync tripwire: registry logo diverged from upstream outside the normal sync flow\" \\\n  --force >/dev/null 2>&1 || true\n{\n  echo \"The daily logo sync found **$SUSPICIOUS_COUNT** logo(s) where the\"\n  echo \"registry's copy differed from upstream AND the most recent commit to\"\n  echo \"touch that file in this repo's history was not the sync automation's\"\n  echo \"own commit.\"\n  echo \"\"\n  echo \"Affected:\"\n  echo '```'\n  echo \"$SUSPICIOUS_DETAILS\"\n  echo '```'\n  echo \"\"\n  echo \"This does not by itself prove tampering — git commit authorship is\"\n  echo \"self-reported and this repo does not currently require signed commits\"\n  echo \"(see \\`.github/SECURITY-CONTROLS.md\\`). It means a human should confirm\"\n  echo \"who made that commit and why before assuming it's benign.\"\n  echo \"\"\n  echo \"The sync PR proceeds normally for review; this issue exists so the\"\n  echo \"anomaly itself is tracked and not lost in an Actions log nobody reads.\"\n  echo \"\"\n  echo \"See [run log]($RUN_URL).\"\n} > /tmp/suspicious-issue-body.md\ngh issue create \\\n  --title \"Suspicious logo divergence detected ($(date -u +%Y-%m-%d))\" \\\n  --label logo-divergence-suspicious \\\n  --body-file /tmp/suspicious-issue-body.md\n"
+          "programs": [
+            "1",
+            "date",
+            "echo",
+            "gh"
+          ],
+          "step": "Open issue on suspicious logo divergence"
         },
         {
+          "dir": "",
           "job": "sync",
-          "step": "Open issue on verify failure",
-          "text": "existing=$(gh issue list --label sync-failure --state open --json number --jq 'length')\nif [ \"${existing:-0}\" -gt 0 ]; then\n  echo \"An open sync-failure issue already exists — not opening another.\"\n  exit 0\nfi\nRUN_URL=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"\ngh issue create \\\n  --title \"Daily sync: manifest verify failed ($(date -u +%Y-%m-%d))\" \\\n  --label sync-failure \\\n  --body \"The daily sync regenerated \\`manifest.json\\` but verification failed. See [run log]($RUN_URL).\"\n"
+          "programs": [
+            "date",
+            "echo",
+            "gh"
+          ],
+          "step": "Open issue on verify failure"
         }
       ],
       "elsewhere": [],
       "file": ".github/workflows/sync.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "sync",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        }
+      ],
       "landings": [
-        "logos",
         "manifest.json"
       ],
       "mentions": [
@@ -2946,7 +4124,11 @@
         "issues:write",
         "pull-requests:write"
       ],
-      "pushes": true,
+      "programs": [
+        "git"
+      ],
+      "pushes": false,
+      "pushesForReview": true,
       "reach": [
         {
           "boundary": "scripts",
@@ -2961,131 +4143,48 @@
       ],
       "readers": [
         {
-          "by": ".claude/context/current-priorities.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": ".github/SECURITY-CONTROLS.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
+          "by": ".github/workflows/ci.yml",
+          "confidence": "config",
+          "target": "manifest.json"
         },
         {
           "by": "site/integrations/model-passthrough.mjs",
           "call": "existsSync",
           "confidence": "ast",
-          "target": "logos"
+          "target": "manifest.json"
         },
         {
           "by": "site/integrations/model-passthrough.mjs",
-          "call": "readdirSync",
+          "call": "literal",
           "confidence": "ast",
-          "target": "logos"
+          "target": "manifest.json"
         },
         {
           "by": "site/integrations/model-passthrough.mjs",
-          "call": "statSync",
+          "call": "readFileSync",
           "confidence": "ast",
-          "target": "logos"
+          "target": "manifest.json"
         },
         {
           "by": "site/scripts/check-deployed-bytes.mjs",
           "call": "existsSync",
           "confidence": "ast",
-          "target": "logos"
+          "target": "manifest.json"
         },
         {
           "by": "site/scripts/check-deployed-bytes.mjs",
           "call": "readFileSync",
           "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/src/content/docs/handbook/reference.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
+          "target": "manifest.json"
         },
         {
           "by": "src/cli.ts",
-          "call": "raw-url",
-          "confidence": "ast",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/audit.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/stats.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/manifest.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": ".github/workflows/ci.yml",
-          "target": "manifest.json"
-        },
-        {
-          "by": ".github/workflows/sync.yml",
-          "target": "manifest.json"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "manifest.json"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "manifest.json"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "readFileSync",
-          "confidence": "ast",
-          "target": "manifest.json"
-        },
-        {
-          "by": "src/commands/add-gallery.ts",
           "call": "literal",
           "confidence": "ast",
           "target": "manifest.json"
         },
         {
           "by": "src/commands/audit.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "manifest.json"
-        },
-        {
-          "by": "src/commands/remove.ts",
           "call": "literal",
           "confidence": "ast",
           "target": "manifest.json"
@@ -3098,15 +4197,21 @@
           "runKind": "executes"
         },
         {
+          "built": true,
           "directory": true,
           "job": "sync",
           "matched": true,
           "path": "src/",
-          "runKind": "checks",
+          "runKind": "executes",
           "via": "tsc tsconfig.json"
+        },
+        {
+          "job": "sync",
+          "path": "src/cli.ts",
+          "runKind": "executes"
         }
       ],
-      "runsCount": 2,
+      "runsCount": 3,
       "secrets": [
         "GITHUB_TOKEN",
         "SYNC_PAT"
@@ -3134,6 +4239,9 @@
           "event": "workflow_dispatch"
         }
       ],
+      "unwrittenStages": [
+        "logos"
+      ],
       "uses": [
         "actions/checkout",
         "actions/setup-node"
@@ -3146,12 +4254,13 @@
       "elsewhere": [],
       "file": "package.json",
       "kind": "command",
-      "landings": [
-        "logos"
-      ],
+      "landings": [],
       "mentions": [],
       "name": "brand",
       "permissions": [],
+      "programs": [
+        "git"
+      ],
       "pushes": false,
       "reach": [
         {
@@ -3160,94 +4269,7 @@
           "files": 17
         }
       ],
-      "readers": [
-        {
-          "by": ".claude/context/current-priorities.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": ".github/SECURITY-CONTROLS.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "readdirSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/integrations/model-passthrough.mjs",
-          "call": "statSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/scripts/check-deployed-bytes.mjs",
-          "call": "readFileSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "site/src/content/docs/handbook/reference.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/cli.ts",
-          "call": "raw-url",
-          "confidence": "ast",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/audit.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "call": "existsSync",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/commands/stats.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        },
-        {
-          "by": "src/manifest.ts",
-          "call": "literal",
-          "confidence": "ast",
-          "target": "logos"
-        }
-      ],
+      "readers": [],
       "runs": [
         {
           "path": "src/cli.ts",
@@ -3291,15 +4313,17 @@
       "to": "src"
     }
   ],
+  "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf",
-    "tracked": 385
+    "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc",
+    "tracked": 391
   },
   "landings": [
     {
       "readers": [
         {
-          "by": ".github/workflows/ci.yml"
+          "by": ".github/workflows/ci.yml",
+          "confidence": "config"
         }
       ],
       "target": ".github/audit-allowlist.json",
@@ -3308,7 +4332,8 @@
     {
       "readers": [
         {
-          "by": ".github/workflows/release.yml"
+          "by": ".github/workflows/release.yml",
+          "confidence": "config"
         }
       ],
       "target": "CHANGELOG.md",
@@ -3317,9 +4342,40 @@
     {
       "readers": [
         {
-          "by": "src/commands/audit.ts",
+          "by": "tests/migrate.test.ts",
           "call": "literal",
-          "confidence": "ast"
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "README.ja.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "tests/audit.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        },
+        {
+          "by": "tests/json-output.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        },
+        {
+          "by": "tests/migrate-journal.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        },
+        {
+          "by": "tests/migrate.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
         }
       ],
       "target": "README.md",
@@ -3328,19 +4384,110 @@
     {
       "readers": [
         {
-          "by": ".claude/context/current-priorities.md",
+          "by": "tests/migrate.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "README.zh.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "tests/readme-parser.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "assets/logo.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "docs/model-channels-spec.md",
+          "call": "<",
+          "confidence": "text"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readdirSync",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/cli.ts",
           "call": "raw-url",
-          "confidence": "text",
+          "confidence": "ast",
           "ref": "main",
           "repo": "mcp-tool-shop-org/brand"
         },
         {
-          "by": ".github/SECURITY-CONTROLS.md",
+          "by": "src/commands/audit.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/commands/stats.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/manifest.ts",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "tests/json-output.test.ts",
           "call": "raw-url",
-          "confidence": "text",
+          "confidence": "ast",
+          "fromTests": true,
           "ref": "main",
           "repo": "mcp-tool-shop-org/brand"
         },
+        {
+          "by": "tests/manifest.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        },
+        {
+          "by": "tests/migrate-journal.test.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "fromTests": true,
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        },
+        {
+          "by": "tests/migrate.test.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "fromTests": true,
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        },
+        {
+          "by": "tests/sync.test.ts",
+          "call": "raw-url",
+          "confidence": "ast",
+          "fromTests": true,
+          "ref": "main",
+          "repo": "mcp-tool-shop-org/brand"
+        }
+      ],
+      "target": "logos",
+      "writers": []
+    },
+    {
+      "readers": [
         {
           "by": "site/integrations/model-passthrough.mjs",
           "call": "existsSync",
@@ -3365,64 +4512,2643 @@
           "by": "site/scripts/check-deployed-bytes.mjs",
           "call": "readFileSync",
           "confidence": "ast"
-        },
-        {
-          "by": "site/src/content/docs/handbook/reference.md",
-          "call": "raw-url",
-          "confidence": "text",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand"
-        },
-        {
-          "by": "src/cli.ts",
-          "call": "raw-url",
-          "confidence": "ast",
-          "ref": "main",
-          "repo": "mcp-tool-shop-org/brand"
-        },
-        {
-          "by": "src/commands/audit.ts",
-          "call": "literal",
-          "confidence": "ast"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "call": "existsSync",
-          "confidence": "ast"
-        },
-        {
-          "by": "src/commands/stats.ts",
-          "call": "literal",
-          "confidence": "ast"
-        },
-        {
-          "by": "src/manifest.ts",
-          "call": "literal",
-          "confidence": "ast"
         }
       ],
-      "target": "logos",
-      "writers": [
-        {
-          "by": ".github/workflows/sync.yml"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "confidence": "ast"
-        }
-      ]
+      "target": "logos/*",
+      "writers": []
     },
     {
       "readers": [
         {
-          "by": ".github/workflows/ci.yml"
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/Attestia-Desktop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/Attestia/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ClaimLedger/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/CodeClone-Desktop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ConsensusOS/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/CreatorLedger/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/DeterministicMouseTrainingEngine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/GlyphStudio/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/InControl-Desktop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/LeaseGate-Lite/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/LeaseGate/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/LoKey-Typer/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/MouseTrainer/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/NextLedger/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/Registrum/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ScalarScope-Desktop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ScalarScope/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ThrottleAI/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ToolShopStudio/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/Trace/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/VectorCaliper/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/a11y-assist/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/a11y-ci/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/a11y-demo-site/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/a11y-evidence-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/a11y-lint/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/a11y-mcp-tools/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/accessibility-suite/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-jam-sessions/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-loadout/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-music-sheets/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-playtest/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-rpg-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-rpg-stage/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ai-ui/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ally-demo-python/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/armature/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/artifact/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/aspire-ai/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/audiobooker/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/avatar-face-mvp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/backprop-trace/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/backprop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/backpropagate/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/brain-dev/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/build-governor/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/cannon-archive/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/civility-kernel/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-collaborate/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-guardian/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-hook-debug/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-memories/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-rpg/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-rules/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-session-copilot/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-sfx/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-synergy/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/claude-toolstack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/clearance-opinion-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/code-batch/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/code-bearings/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/code-covered/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/codeclone-suite/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/codecomfy-vscode/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/codeteam-suite/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/codeteam/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/cognate/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/comfy-headless/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/comfy-preflight/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/context-window-manager/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/control-room/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/creator-studio-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/cursor-assist/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/datagates/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/db-cluster/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/deltamind/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/dev-op-typer/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/dogfood-labs/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/edgepacks/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/escape-the-valley/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/facet/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/fantasy-heroes-sprite-pack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/fantasy-villains-sprite-pack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/feature-reacher/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/file-compass/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/flexiflow/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/forkable/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/forkctl/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/game-dev-mcp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/goblin-sprite-pack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/grok-bot-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/headless-wheel-builder/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/homebrew-core/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/homebrew-mcp-tools/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/housekeeping/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/integradio/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/jam-session-plugin/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/knowledge-core/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ledger-suite/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/linux-dev-typer/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/llm-sync-drive/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/loadout-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-app-builder/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-arcade-cabinets/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-arcade/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-aside/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-bouncer/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-examples/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-file-forge/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-personify/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-stress-test/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-tool-registry/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-tool-shop.github.io/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-voice-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcp-voice-soundboard/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/mcpt/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/meta-content-system/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/monster-pack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/motif/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/motif/source/lockup-grok-imagine-2.0-raw.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/motif/source/mark-nano-banana-pro-raw.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/multi-claude/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nameops/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nexus-attest/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nexus-control/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nexus-router-adapter-http/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nexus-router-adapter-stdout/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nexus-router/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nexus-suite/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/npm-launcher/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/nullout/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/ollama-intern-mcp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/original_voice-soundboard/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pathway/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/payroll-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
         },
         {
-          "by": ".github/workflows/sync.yml"
+          "by": "tests/audit.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/berserker.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/bombardier.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/bosun.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/breaker.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/brig-keeper.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/cabin-kid.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/cannoneer.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/captain.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/cook.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/diver.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/first-mate.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/harpooner.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/juggernaut.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/marine.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/marksman.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/navigator.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/poisoner.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/quartermaster.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/reaver.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/rigger.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/sawbones.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/sea-witch.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/smuggler.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/stormcaller.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/swashbuckler.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-3d-2/turnarounds/tide-cultist.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pirate-raiders-sprite-pack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/plain-sight/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/pocket-ledger/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/polyglot-mcp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/portlight-desktop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/portlight/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/prov-engine-js/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/prov-spec/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/readouts/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/receipt-factory/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/registry-pulse/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/registry-stats-vscode/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/registry-stats/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/registry-sync/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/repo-crawler-mcp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/repo-dataset/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/repo-knowledge/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/repomesh/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/research-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/research-packs/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/rig-bridge/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/rippled-windows-debug/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/role-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/roll/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/runforge-desktop/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/runforge-vscode/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/saints-mile/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sensor-humor/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/shipcheck/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/si-jam-sessions/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/si-rpg-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/siege-kit/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sonic-core/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sonic-runtime/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/soundboard-maui/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/soundboard-plugin/readme.jpg",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/soundweave/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sovereign/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sovereignty/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sprite-creator-studio/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sprite-foundry-packs/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/sprite-foundry/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/star-freight-client/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/star-freight/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/stillpoint/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/storyboard-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/stresskit-mcp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/style-dataset-lab/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/synthesis/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/taste-compiler/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/taste-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/terminal-tutor/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/tinytrainer/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/tool-compass/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/tool-scan/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/training-studio/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/trellis-sprite-pipeline/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/venvkit/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/vocal-synth-engine/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/voice-soundboard/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/vscode-voice-soundboard/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/watchdog/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/websketch-cli/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/websketch-demo/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/websketch-ir/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/websketch-vscode/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/winget-pkgs/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/witness/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/world-forge/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/xrpl-camp/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/xrpl-creator-capsule/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/xrpl-lab/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/zip-meta-map/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/zombie-sprite-pack/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/ci.yml",
+          "confidence": "config"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "existsSync",
+          "confidence": "ast"
         },
         {
           "by": "site/integrations/model-passthrough.mjs",
           "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "site/integrations/model-passthrough.mjs",
+          "call": "readFileSync",
           "confidence": "ast"
         },
         {
@@ -3436,7 +7162,7 @@
           "confidence": "ast"
         },
         {
-          "by": "src/commands/add-gallery.ts",
+          "by": "src/cli.ts",
           "call": "literal",
           "confidence": "ast"
         },
@@ -3444,24 +7170,21 @@
           "by": "src/commands/audit.ts",
           "call": "literal",
           "confidence": "ast"
-        },
-        {
-          "by": "src/commands/remove.ts",
-          "call": "literal",
-          "confidence": "ast"
         }
       ],
       "target": "manifest.json",
       "writers": [
         {
-          "by": ".github/workflows/sync.yml"
+          "by": ".github/workflows/sync.yml",
+          "confidence": "config"
         }
       ]
     },
     {
       "readers": [
         {
-          "by": ".github/workflows/release.yml"
+          "by": ".github/workflows/release.yml",
+          "confidence": "config"
         },
         {
           "by": "src/cli.ts",
@@ -3475,7 +7198,8 @@
     {
       "readers": [
         {
-          "by": ".github/workflows/pages.yml"
+          "by": ".github/workflows/pages.yml",
+          "confidence": "config"
         }
       ],
       "target": "site/package-lock.json",
@@ -3545,6 +7269,42 @@
         }
       ],
       "target": "tests/_helpers/global-setup.ts",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "tests/manifest.test.ts",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "tests/fixtures/manifests/v1.0-frozen.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "tests/model-channels.test.ts",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "tests/fixtures/model-views/degenerate.view.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "tests/model-channels.test.ts",
+          "call": "readFileSync",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "tests/fixtures/model-views/rich.view.json",
       "writers": []
     }
   ],
