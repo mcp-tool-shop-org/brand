@@ -1,4 +1,14 @@
 {
+  "authorship": {
+    "parts": [],
+    "places": [
+      {
+        "byPeople": 45,
+        "commits": 46,
+        "target": "manifest.json"
+      }
+    ]
+  },
   "boundaries": [
     {
       "breakage": {
@@ -143,7 +153,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "site",
-      "qualifyingSourceCommits": 6,
+      "qualifyingSourceCommits": 5,
       "rebaseline": null
     },
     {
@@ -163,7 +173,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "src",
-      "qualifyingSourceCommits": 22,
+      "qualifyingSourceCommits": 21,
       "rebaseline": null
     },
     {
@@ -181,7 +191,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "tests",
-      "qualifyingSourceCommits": 22,
+      "qualifyingSourceCommits": 21,
       "rebaseline": null
     }
   ],
@@ -219,8 +229,8 @@
         "path": ".github/dependabot.yml"
       },
       {
-        "commits": 12,
-        "lines": 133,
+        "commits": 15,
+        "lines": 329,
         "path": ".github/workflows/ci.yml"
       },
       {
@@ -249,8 +259,8 @@
         "path": ".gitignore"
       },
       {
-        "commits": 13,
-        "lines": 233,
+        "commits": 12,
+        "lines": 225,
         "path": "CHANGELOG.md"
       },
       {
@@ -279,8 +289,8 @@
         "path": "README.ja.md"
       },
       {
-        "commits": 7,
-        "lines": 142,
+        "commits": 6,
+        "lines": 138,
         "path": "README.md"
       },
       {
@@ -335,6 +345,36 @@
       },
       {
         "commits": 2,
+        "lines": 194,
+        "path": "atlas/README.md"
+      },
+      {
+        "commits": 2,
+        "lines": 92,
+        "path": "atlas/boundaries.yaml"
+      },
+      {
+        "commits": 2,
+        "lines": 860,
+        "path": "atlas/page.json"
+      },
+      {
+        "commits": 2,
+        "lines": 2814,
+        "path": "atlas/statistics.json"
+      },
+      {
+        "commits": 2,
+        "lines": 7112,
+        "path": "atlas/structure.json"
+      },
+      {
+        "commits": 2,
+        "lines": 36,
+        "path": "codecov.yml"
+      },
+      {
+        "commits": 2,
         "lines": 59,
         "path": "docs/handbook.md"
       },
@@ -381,22 +421,17 @@
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/claude-rpg/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
         "path": "logos/claude-synergy/readme.png"
       },
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/code-bearings/readme.png"
+        "path": "logos/codecomfy-vscode/readme.png"
       },
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/codecomfy-vscode/readme.png"
+        "path": "logos/cognate/readme.png"
       },
       {
         "commits": 1,
@@ -416,32 +451,12 @@
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/datagates/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
         "path": "logos/db-cluster/readme.png"
       },
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/edgepacks/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
         "path": "logos/facet/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/fantasy-heroes-sprite-pack/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/fantasy-villains-sprite-pack/readme.png"
       },
       {
         "commits": 2,
@@ -452,11 +467,6 @@
         "commits": 1,
         "lines": 0,
         "path": "logos/forkctl/readme.png"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "logos/goblin-sprite-pack/readme.png"
       },
       {
         "commits": 1,
@@ -474,9 +484,9 @@
         "path": "logos/grok-bot-os/readme.png"
       },
       {
-        "commits": 1,
+        "commits": 2,
         "lines": 0,
-        "path": "logos/knowledge-core/readme.png"
+        "path": "logos/housekeeping/readme.png"
       },
       {
         "commits": 2,
@@ -522,11 +532,6 @@
         "commits": 2,
         "lines": 0,
         "path": "logos/mcp-stress-test/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/monster-pack/readme.png"
       },
       {
         "commits": 1,
@@ -699,14 +704,14 @@
         "path": "logos/pirate-raiders-3d-2/turnarounds/tide-cultist.png"
       },
       {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/pirate-raiders-sprite-pack/readme.png"
-      },
-      {
         "commits": 2,
         "lines": 0,
         "path": "logos/plain-sight/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/readouts/readme.png"
       },
       {
         "commits": 1,
@@ -754,29 +759,24 @@
         "path": "logos/schumann-surface/readme.png"
       },
       {
-        "commits": 4,
+        "commits": 3,
         "lines": 0,
         "path": "logos/sensor-humor/readme.png"
       },
       {
         "commits": 1,
         "lines": 0,
+        "path": "logos/si-jam-sessions/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/si-rpg-engine/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
         "path": "logos/sovereign/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/sprite-foundry-packs/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/sprite-foundry/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/star-freight-client/readme.png"
       },
       {
         "commits": 1,
@@ -792,26 +792,6 @@
         "commits": 1,
         "lines": 0,
         "path": "logos/synthesis/readme.png"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "logos/taste-compiler/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/taste-engine/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/terminal-tutor/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/tinytrainer/readme.png"
       },
       {
         "commits": 1,
@@ -839,28 +819,18 @@
         "path": "logos/websketch-ir/readme.png"
       },
       {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/xrpl-creator-capsule/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/zombie-sprite-pack/readme.png"
-      },
-      {
-        "commits": 47,
-        "lines": 1479,
+        "commits": 49,
+        "lines": 1399,
         "path": "manifest.json"
       },
       {
-        "commits": 14,
-        "lines": 4040,
+        "commits": 17,
+        "lines": 4058,
         "path": "package-lock.json"
       },
       {
-        "commits": 15,
-        "lines": 59,
+        "commits": 14,
+        "lines": 57,
         "path": "package.json"
       },
       {
@@ -889,8 +859,8 @@
         "path": "site/DEPS.md"
       },
       {
-        "commits": 5,
-        "lines": 71,
+        "commits": 4,
+        "lines": 52,
         "path": "site/astro.config.mjs"
       },
       {
@@ -899,13 +869,13 @@
         "path": "site/integrations/model-passthrough.mjs"
       },
       {
-        "commits": 10,
-        "lines": 18595,
+        "commits": 8,
+        "lines": 15717,
         "path": "site/package-lock.json"
       },
       {
-        "commits": 9,
-        "lines": 37,
+        "commits": 7,
+        "lines": 31,
         "path": "site/package.json"
       },
       {
@@ -930,27 +900,17 @@
       },
       {
         "commits": 1,
-        "lines": 4,
-        "path": "site/src/content.config.ts"
-      },
-      {
-        "commits": 2,
-        "lines": 98,
+        "lines": 2,
         "path": "site/src/content/docs/handbook/beginners.md"
       },
       {
-        "commits": 3,
-        "lines": 113,
+        "commits": 2,
+        "lines": 33,
         "path": "site/src/content/docs/handbook/getting-started.md"
       },
       {
-        "commits": 1,
-        "lines": 28,
-        "path": "site/src/content/docs/handbook/index.md"
-      },
-      {
-        "commits": 4,
-        "lines": 283,
+        "commits": 3,
+        "lines": 167,
         "path": "site/src/content/docs/handbook/reference.md"
       },
       {
@@ -974,18 +934,18 @@
         "path": "site/src/pages/index.astro"
       },
       {
-        "commits": 4,
-        "lines": 126,
+        "commits": 3,
+        "lines": 120,
         "path": "site/src/site-config.ts"
       },
       {
-        "commits": 2,
-        "lines": 46,
+        "commits": 1,
+        "lines": 36,
         "path": "site/src/styles/starlight-custom.css"
       },
       {
-        "commits": 9,
-        "lines": 406,
+        "commits": 8,
+        "lines": 395,
         "path": "src/cli.ts"
       },
       {
@@ -1024,8 +984,8 @@
         "path": "src/commands/remove.ts"
       },
       {
-        "commits": 8,
-        "lines": 489,
+        "commits": 7,
+        "lines": 373,
         "path": "src/commands/stats.ts"
       },
       {
@@ -1309,8 +1269,8 @@
         "path": "tests/remove.test.ts"
       },
       {
-        "commits": 6,
-        "lines": 696,
+        "commits": 5,
+        "lines": 665,
         "path": "tests/stats.test.ts"
       },
       {
@@ -1337,19 +1297,19 @@
   },
   "confidence": {
     "level": "low",
-    "reason": "fewer than 20 source files reach 10 revisions in the window"
+    "reason": "fewer than 25 source files reach 10 revisions in the window"
   },
-  "generatedAt": "2026-09-23T22:26:43.537Z",
+  "generatedAt": "2026-09-30T20:08:35.292Z",
   "generatedFrom": {
-    "commit": "82d3e54273fe18a15c98d61fae27a7c4c43acdcf"
+    "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc"
   },
   "pairs": [
     {
       "a": "site/package-lock.json",
       "b": "site/package.json",
-      "either": 9,
-      "shared": 8,
-      "strength": 0.888889
+      "either": 7,
+      "shared": 6,
+      "strength": 0.857143
     },
     {
       "a": "src/commands/audit.ts",
@@ -1376,16 +1336,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "revision-depth",
-    "headDate": "2026-09-20T22:16:40-04:00",
-    "inScopeFiles": 385,
+    "headDate": "2026-09-30T11:05:53-07:00",
+    "inScopeFiles": 396,
     "pinnedStart": null,
-    "priorFloor": null,
-    "qualifyingCommits": 158,
+    "priorFloor": "fallen",
+    "qualifyingCommits": 136,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-03-25T02:16:40.000Z",
+    "since": "2026-04-03T18:05:53.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
@@ -1395,7 +1355,9 @@
       ".tsx",
       ".mts",
       ".cts",
-      ".py"
+      ".py",
+      ".rs",
+      ".gd"
     ],
     "sourceFileReach": 20,
     "sourceFileRise": 25,
