@@ -87,19 +87,19 @@
           "path": ".github/dependabot.yml"
         },
         {
-          "hash": "8593c3c37c2ebe64d8e60d17abbb80b48194f97e98624a972da59efef6263712",
+          "hash": "0a507833d4789ea9feca7d723a585585b0d8da2aa2458713475a4280f3e6441f",
           "path": ".github/workflows/ci.yml"
         },
         {
-          "hash": "291fb415bd2deb95c4ba5d70a7a0ac3a3a5a0ebcfe630bda5f2b120c07182797",
+          "hash": "562f8f3c49da578ed0d2ba8502f94b0168ae6490889b5a6a3db0edcdd24ffd57",
           "path": ".github/workflows/pages.yml"
         },
         {
-          "hash": "d3c5d28734d469b10026eaf0faf384cbb36ab1338e639a13ba428f0729ce3017",
+          "hash": "145f1345c1504fb11d4be5cff5beb91f74f3e10cf7baec289046f7ca2ed10148",
           "path": ".github/workflows/release.yml"
         },
         {
-          "hash": "d611617a4bfec0a37b87b387f29cd9511e08d0fb6e184e4d5965034126ab9ff2",
+          "hash": "8eebf0948bedb0e8e6e6e7e7b539ae7a5dc457fcb85df04b97bc66c952fa905c",
           "path": ".github/workflows/sync.yml"
         }
       ],
@@ -580,7 +580,7 @@
           "path": "logos/homebrew-mcp-tools/readme.png"
         },
         {
-          "hash": "37b14249a3acc5e23f86e219515399dccd1d3bc2d3415be1d783b4b3a38fb2f8",
+          "hash": "2406d8518295844e1ab36ff3a9a264aea60a6574b38e5a9c94a8e01d837ee8f7",
           "path": "logos/housekeeping/readme.png"
         },
         {
@@ -1267,15 +1267,15 @@
           "path": "codecov.yml"
         },
         {
-          "hash": "bdab4d87a545648e9ce61f2501688e431fd7d3ae9215734ff0bf4e4d4d0d642b",
+          "hash": "2f104bb35c3e2a9fa64b67cbea7bc499f362b48b485bc9ad0dab3269e46208a0",
           "path": "manifest.json"
         },
         {
-          "hash": "b72d12bfe99306f86a697c550b1b9a773f7e993bb8ac4f2363331681c5ec87fc",
+          "hash": "546fc91b7449b3799f7722d400e7e199ec388cf31b88bd8c44b74a2bd341d48f",
           "path": "package-lock.json"
         },
         {
-          "hash": "c395ed9f570965a2fef95f856df19ef6e7b9eb75f37927f3c214bc997883952c",
+          "hash": "6edf69042ba83e06ed23352acd543c237fe5f085a4ccd36458f819f3836b8d3c",
           "path": "package.json"
         },
         {
@@ -3286,26 +3286,7 @@
       ],
       "triggers": [
         {
-          "event": "pull_request",
-          "paths": [
-            ".gitattributes",
-            ".github/audit-allowlist.json",
-            ".github/workflows/**",
-            "atlas/**",
-            "codecov.yml",
-            "logos/**",
-            "manifest.json",
-            "package-lock.json",
-            "package.json",
-            "scripts/**",
-            "site/astro.config.mjs",
-            "site/package-lock.json",
-            "site/package.json",
-            "src/**",
-            "tests/**",
-            "tsconfig.json",
-            "vitest.config.ts"
-          ]
+          "event": "pull_request"
         },
         {
           "event": "push",
@@ -4247,7 +4228,7 @@
   ],
   "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2",
+    "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3",
     "tracked": 391
   },
   "landings": [
