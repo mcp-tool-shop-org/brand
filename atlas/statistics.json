@@ -3,8 +3,8 @@
     "parts": [],
     "places": [
       {
-        "byPeople": 45,
-        "commits": 46,
+        "byPeople": 46,
+        "commits": 47,
         "target": "manifest.json"
       }
     ]
@@ -229,13 +229,13 @@
         "path": ".github/dependabot.yml"
       },
       {
-        "commits": 17,
-        "lines": 333,
+        "commits": 22,
+        "lines": 349,
         "path": ".github/workflows/ci.yml"
       },
       {
-        "commits": 13,
-        "lines": 109,
+        "commits": 16,
+        "lines": 115,
         "path": ".github/workflows/pages.yml"
       },
       {
@@ -244,13 +244,13 @@
         "path": ".github/workflows/publish.yml"
       },
       {
-        "commits": 4,
-        "lines": 150,
+        "commits": 7,
+        "lines": 156,
         "path": ".github/workflows/release.yml"
       },
       {
-        "commits": 11,
-        "lines": 491,
+        "commits": 14,
+        "lines": 497,
         "path": ".github/workflows/sync.yml"
       },
       {
@@ -344,8 +344,8 @@
         "path": "assets/portlight-ships/turnaround.png"
       },
       {
-        "commits": 4,
-        "lines": 330,
+        "commits": 6,
+        "lines": 366,
         "path": "atlas/README.md"
       },
       {
@@ -354,18 +354,18 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 4,
-        "lines": 1394,
+        "commits": 6,
+        "lines": 1576,
         "path": "atlas/page.json"
       },
       {
-        "commits": 4,
-        "lines": 3298,
+        "commits": 6,
+        "lines": 3358,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 4,
-        "lines": 17264,
+        "commits": 6,
+        "lines": 17408,
         "path": "atlas/structure.json"
       },
       {
@@ -484,7 +484,7 @@
         "path": "logos/grok-bot-os/readme.png"
       },
       {
-        "commits": 2,
+        "commits": 4,
         "lines": 0,
         "path": "logos/housekeeping/readme.png"
       },
@@ -819,18 +819,18 @@
         "path": "logos/websketch-ir/readme.png"
       },
       {
-        "commits": 49,
-        "lines": 1399,
+        "commits": 51,
+        "lines": 1411,
         "path": "manifest.json"
       },
       {
-        "commits": 17,
-        "lines": 4058,
+        "commits": 19,
+        "lines": 4808,
         "path": "package-lock.json"
       },
       {
-        "commits": 14,
-        "lines": 57,
+        "commits": 16,
+        "lines": 61,
         "path": "package.json"
       },
       {
@@ -1299,9 +1299,9 @@
     "level": "low",
     "reason": "fewer than 25 source files reach 10 revisions in the window"
   },
-  "generatedAt": "2026-09-30T22:03:12.346Z",
+  "generatedAt": "2026-10-01T02:14:26.482Z",
   "generatedFrom": {
-    "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2"
+    "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3"
   },
   "pairs": [
     {
@@ -1336,16 +1336,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "revision-depth",
-    "headDate": "2026-09-30T13:44:30-07:00",
+    "headDate": "2026-09-30T18:54:18-07:00",
     "inScopeFiles": 396,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 137,
+    "qualifyingCommits": 141,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-03T20:44:30.000Z",
+    "since": "2026-04-04T01:54:18.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",

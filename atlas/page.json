@@ -10,8 +10,8 @@
   ],
   "authoredWritten": [
     {
-      "byPeople": 45,
-      "commits": 46,
+      "byPeople": 46,
+      "commits": 47,
       "place": "manifest.json",
       "writers": [
         ".github/workflows/sync.yml"
@@ -73,23 +73,30 @@
   "changes": {
     "fileCounts": {
       "added": 0,
-      "changed": 1,
+      "changed": 8,
       "moved": 0,
-      "parts": 1,
+      "parts": 3,
       "removed": 0
     },
     "items": [
       {
+        "kind": "door",
+        "sentence": "CI's pull request trigger no longer names `.gitattributes`, `.github/audit-allowlist.json`, `.github/workflows/**`, `atlas/**`, `codecov.yml`, `logos/**`, `manifest.json`, `package-lock.json`, `package.json`, `scripts/**`, `site/astro.config.mjs`, `site/package-lock.json`, `site/package.json`, `src/**`, `tests/**`, `tsconfig.json` and `vitest.config.ts`.",
+        "subjects": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
         "kind": "counts",
-        "sentence": "Nothing structural changed since 2026-09-30; 1 file changed content.",
+        "sentence": "8 files changed content, across 3 parts.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "b3a03240a427dd7f87faf64361c3740b1d9390bc",
-      "generatedAt": "2026-09-30T20:08:35.292Z"
+      "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2",
+      "generatedAt": "2026-09-30T22:03:12.346Z"
     },
-    "unchanged": true
+    "unchanged": false
   },
   "changesTogether": [],
   "changesTogetherNote": [
@@ -97,7 +104,7 @@
     "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
   ],
   "changesTogetherWithTests": 2,
-  "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2",
+  "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3",
   "defaultBranch": "main",
   "derived": "11 parts, mostly images (256 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.",
   "doors": [
@@ -168,7 +175,7 @@
       ],
       "stages": [],
       "triggers": [
-        "on a pull request touching 17 paths",
+        "on a pull request",
         "on a push touching 17 paths",
         "or by hand"
       ]
@@ -379,7 +386,7 @@
   ],
   "engine": "1.24.0",
   "generated": [],
-  "generatedAt": "2026-09-30T22:03:12.346Z",
+  "generatedAt": "2026-10-01T02:14:26.482Z",
   "limits": [
     "6 reads use paths built at run time and are not named here.",
     "24 writes and 66 reads go to a path their caller passes, not to this repository.",
