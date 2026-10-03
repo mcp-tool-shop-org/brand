@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-02T18:41:39.057Z",
+  "generated": "2026-10-03T18:34:30.309Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1168,6 +1168,12 @@
     "logos/runforge-vscode/readme.png": {
       "hash": "sha256:d28b7bcce816e27a9061aca87d0352fb7738561d2906aa9167f7f2732198d309",
       "size": 1586641,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/runforge/readme.png": {
+      "hash": "sha256:afee21bb1fa990da31c8807e9a2433667c3472fa63b45d9f0a6e59b2241f14bf",
+      "size": 671287,
       "format": "png",
       "role": "primary"
     },
