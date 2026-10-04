@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-04T15:48:22.645Z",
+  "generated": "2026-10-04T18:12:09.281Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -70,8 +70,8 @@
       "role": "primary"
     },
     "logos/LoKey-Typer/readme.png": {
-      "hash": "sha256:ba916a09ff88c6dfb2726d4fef835487890f1157e5da9462e7f4272fdfc35c04",
-      "size": 322991,
+      "hash": "sha256:b3d02ff0e9fc6fd7fcb6a3b71669072ccd84efbb9a451182a7cffba21ccc433e",
+      "size": 285497,
       "format": "png",
       "role": "primary"
     },
