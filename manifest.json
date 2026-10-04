@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-04T18:28:28.422Z",
+  "generated": "2026-10-04T18:32:10.926Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -418,71 +418,71 @@
       "role": "primary"
     },
     "logos/commandui/gallery/icon-1024.png": {
-      "hash": "sha256:2f737ddb17f73dd1338be60246af325f24c17b1c07ce0371ae1ecff665e23f24",
-      "size": 317884,
+      "hash": "sha256:d2c0dcbbee1a89e18282106519f399ab9c8b076d8290feb099ecbec55f80be56",
+      "size": 284627,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-128.png": {
-      "hash": "sha256:baf44fc9e74f5e834c76abe18e15c30f03c3280933d5a5fe1bf8220e0ff6651e",
-      "size": 9676,
+      "hash": "sha256:d1aa077531dc0d03412a3901ed93d3dd6b1517aae72b41187332cd8105113743",
+      "size": 9251,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-16.png": {
-      "hash": "sha256:076237476820dbd2cc216dbe15a4c688adb8523ce6076c452e5d01f83982a0f1",
-      "size": 550,
+      "hash": "sha256:ca98655cd1c5f7d5ac685839bcac99ea0d7f1e08b03270a2c2084f15e94be98a",
+      "size": 541,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-24.png": {
-      "hash": "sha256:2f9220966693ee5725ed75bc607aa959c3156480c336f8c601074840ac3b8013",
-      "size": 922,
+      "hash": "sha256:dc6892e74a21416e1fe3312f5d7c47a3dc2feb4d9cb19e3cf510e232a646e5ce",
+      "size": 908,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-256.png": {
-      "hash": "sha256:237f6fdbebbe40b6113a86f2cea4f78c0f470c8229648b3269331d1abc58c743",
-      "size": 31093,
+      "hash": "sha256:6a614220024f54c2c950154d448cf38cad3577257633cbda3685e5dc9d34d8db",
+      "size": 28976,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-32.png": {
-      "hash": "sha256:7d1d2476ed78735af8e8bc57d9b2b7a1e2f1fb98fae3a10a8021285abbe56c63",
-      "size": 1298,
+      "hash": "sha256:b20420125de979718918d088b7eca0cb1f0d93c79a53230fa769f0f2cc904b37",
+      "size": 1277,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-48.png": {
-      "hash": "sha256:4818813c474af2c64aae7d9c36a3e5b79ebff2ea638f446909b5958a9f1a1cbd",
-      "size": 2174,
+      "hash": "sha256:c1e3875ffef97b560d9f17d121907063a6805de9f3c79109e8a98747189f5999",
+      "size": 2100,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-512.png": {
-      "hash": "sha256:13548bf67f3b91f7170cad23c4313005f09a8248c8ac57ea5d860d4407218807",
-      "size": 116001,
+      "hash": "sha256:7aaa2eeb1ed6c6adb0542194d45ef671f4bfdfa1c6c668c18e3467f14223a8a2",
+      "size": 105861,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/gallery/icon-64.png": {
-      "hash": "sha256:5830dbdd1db1da1c724042b20dd3419d992233638234e3582e38c548208cb6ab",
-      "size": 3271,
+      "hash": "sha256:fc2b2cabca5ab15df03509832ad707e9bb04d98498b53b85fd8243e32dd07d79",
+      "size": 3207,
       "format": "png",
       "role": "gallery",
       "gallery": "gallery"
     },
     "logos/commandui/readme.png": {
-      "hash": "sha256:3706a862e1fafc94af8e0b3b9224b0d56c6f07edfb1f4f5298f6fb88b88e0004",
-      "size": 431018,
+      "hash": "sha256:9547aee99908f2b3e10f8a3833e7984c0b5ee469f615acd4317e234fa6881a7c",
+      "size": 391542,
       "format": "png",
       "role": "primary"
     },
