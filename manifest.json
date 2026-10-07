@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-04T18:32:10.926Z",
+  "generated": "2026-10-07T00:26:01.636Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -234,6 +234,12 @@
     "logos/aspire-ai/readme.png": {
       "hash": "sha256:1f0ff0e5fafc2db9c07054bd6ea91381d35b21b56d3f6cfe20b4b5e354a3c3ab",
       "size": 1215812,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/aspire-si/readme.png": {
+      "hash": "sha256:1f959d9d1f9331dd815b74e9cdbbc429905637fc579800a3956de8e966ee70e0",
+      "size": 1474257,
       "format": "png",
       "role": "primary"
     },
