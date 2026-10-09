@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-07T23:28:08.507Z",
+  "generated": "2026-10-09T21:05:07.924Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1111,6 +1111,12 @@
     "logos/polyglot-mcp/readme.png": {
       "hash": "sha256:2c0defc8ad462773443e004c8bc7ccca0f6e4edfea18e92cb55c87ac5d24680e",
       "size": 1646773,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/portlight-bounty/readme.png": {
+      "hash": "sha256:61fdbf1c56858a469efeb6a55b83cc42e0a0969c6f54f19cee4a8422574ec254",
+      "size": 1403395,
       "format": "png",
       "role": "primary"
     },
