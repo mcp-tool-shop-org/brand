@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-09T21:05:07.924Z",
+  "generated": "2026-10-10T11:36:24.359Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -238,8 +238,8 @@
       "role": "primary"
     },
     "logos/aspire-si/readme.png": {
-      "hash": "sha256:1f959d9d1f9331dd815b74e9cdbbc429905637fc579800a3956de8e966ee70e0",
-      "size": 1474257,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png",
       "role": "primary"
     },
@@ -412,8 +412,8 @@
       "role": "primary"
     },
     "logos/comfy-headless/readme.png": {
-      "hash": "sha256:17876da60a432d5b7ea087dd6763883e9660314e56588875bff74f2069fb71e5",
-      "size": 1089905,
+      "hash": "sha256:17c48ddafe75359e0bb4c20f7c9a7313851ab9fb80e8cb15a88c9367abc41ad4",
+      "size": 1611689,
       "format": "png",
       "role": "primary"
     },
@@ -751,8 +751,8 @@
       "role": "primary"
     },
     "logos/mcp-tool-registry/readme.png": {
-      "hash": "sha256:571a56191d2fee3d7738ed1637a1cdd9be5490f96b5040d77b27b82aace73e43",
-      "size": 1249192,
+      "hash": "sha256:c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+      "size": 30520,
       "format": "png",
       "role": "primary"
     },
@@ -793,8 +793,8 @@
       "role": "primary"
     },
     "logos/motif/readme.png": {
-      "hash": "sha256:f2210096115b693c6eeab6327466338910ca1ecac6852389cdff2918a9145454",
-      "size": 84583,
+      "hash": "sha256:72bf957c9aae033a770e246c49b4ba2634e61865dc8ab8499edcd45a74d4084f",
+      "size": 340710,
       "format": "png",
       "role": "primary"
     },
@@ -1267,6 +1267,12 @@
     "logos/saints-mile/readme.png": {
       "hash": "sha256:bb6cddaaa2e1c47af5d37c074695c813c22976df74ce5c5469608ed385ee4a5b",
       "size": 3307959,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/scalarscope/readme.png": {
+      "hash": "sha256:ed2498cb76ba7f884fb0aebc19c76889c46637d452a67ea32f1c462b9a63462d",
+      "size": 1366249,
       "format": "png",
       "role": "primary"
     },
