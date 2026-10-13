@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-11T17:43:48.063Z",
+  "generated": "2026-10-13T00:02:23.443Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -657,6 +657,12 @@
     "logos/integradio/readme.png": {
       "hash": "sha256:140416f61330a5c84da7c159ab2def564697832983b93e7a16aa85612dfa4649",
       "size": 2202651,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/interlock/readme.png": {
+      "hash": "sha256:1c7ea5b3d8984da5817b44730c55722b84d65aa566b5738374853b9d0fc87455",
+      "size": 934588,
       "format": "png",
       "role": "primary"
     },
