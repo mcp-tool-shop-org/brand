@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-19T23:58:38.136Z",
+  "generated": "2026-10-29T19:28:46.580Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -234,6 +234,12 @@
     "logos/aspire-ai/readme.png": {
       "hash": "sha256:1f0ff0e5fafc2db9c07054bd6ea91381d35b21b56d3f6cfe20b4b5e354a3c3ab",
       "size": 1215812,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/aspire-si-gates/readme.png": {
+      "hash": "sha256:060c2a1e4b266f3192b3cc62e2008c5e8e7ed491193337af78d4459c71070dfd",
+      "size": 1481912,
       "format": "png",
       "role": "primary"
     },
@@ -1159,6 +1165,12 @@
     "logos/readouts/readme.png": {
       "hash": "sha256:47c0c6b4ab1f94f39f7b75eda070c5442ccabe7dc9f6dd8b9086feaa2b7e30aa",
       "size": 37039,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/reasoning-dataset-lab/readme.png": {
+      "hash": "sha256:4203bcf227a0188ad4a338c9c59b391ca91eb12a1ba78cf6af019bed3f03e1b3",
+      "size": 1268676,
       "format": "png",
       "role": "primary"
     },
