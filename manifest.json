@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-10-29T19:28:46.580Z",
+  "generated": "2026-11-03T19:06:43.195Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -1483,6 +1483,12 @@
     "logos/trellis-sprite-pipeline/readme.png": {
       "hash": "sha256:480546468539481d68b998a93116301e019a28a0db497f0680980d7f70301315",
       "size": 126335,
+      "format": "png",
+      "role": "primary"
+    },
+    "logos/understanding-dataset-lab/readme.png": {
+      "hash": "sha256:15a24a83f3b04000e9cd25d840472c09aa1f9d3eff5a7bfb9a9bc78a07d3f5a5",
+      "size": 449240,
       "format": "png",
       "role": "primary"
     },
