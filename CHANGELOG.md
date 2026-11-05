@@ -2,11 +2,22 @@
 
 ## Unreleased
 
+## 1.2.0 — 2026-11-05
+
 ### Added — logos
 
 - **ai-playtest** (`logos/ai-playtest/readme.png`) — square neon gamepad lockup
   with a neural-net core and the `ai-playtest` wordmark. Canonical primary for
   `mcp-tool-shop-org/ai-playtest`.
+- New README marks for **ai-rpg-stage, aspire-si, aspire-si-gates, cognate, dataset-desk, housekeeping,
+  incontrol, interlock, mcp-arcade, offrig, portlight-bounty, readouts, reasoning-dataset-lab, rnd,
+  rnd-data, role-set, runforge, si-jam-sessions, si-rpg-engine** and **understanding-dataset-lab**.
+- **mcp-arcade-cabinets**: README, hero and icon art, plus the ghost and vibe-typer cabinet marks.
+- A **CommandUI** gallery and a **tool-compass** wide lockup.
+
+### Changed — logos
+
+- New marks for **CommandUI** and **LoKey Typer** (the wide lockup).
 
 ### Fixed — logos
 
