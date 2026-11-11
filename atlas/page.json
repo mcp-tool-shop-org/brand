@@ -10,8 +10,8 @@
   ],
   "authoredWritten": [
     {
-      "byPeople": 46,
-      "commits": 47,
+      "byPeople": 58,
+      "commits": 59,
       "place": "manifest.json",
       "writers": [
         ".github/workflows/sync.yml"
@@ -72,29 +72,51 @@
   ],
   "changes": {
     "fileCounts": {
-      "added": 0,
+      "added": 22,
       "changed": 8,
       "moved": 0,
-      "parts": 3,
+      "parts": 4,
       "removed": 0
     },
     "items": [
       {
-        "kind": "door",
-        "sentence": "CI's pull request trigger no longer names `.gitattributes`, `.github/audit-allowlist.json`, `.github/workflows/**`, `atlas/**`, `codecov.yml`, `logos/**`, `manifest.json`, `package-lock.json`, `package.json`, `scripts/**`, `site/astro.config.mjs`, `site/package-lock.json`, `site/package.json`, `src/**`, `tests/**`, `tsconfig.json` and `vitest.config.ts`.",
+        "kind": "landing",
+        "sentence": "logos/aspire-si-gates/readme.png is now read by manifest.json.",
         "subjects": [
-          ".github/workflows/ci.yml"
+          "logos/aspire-si-gates/readme.png",
+          "manifest.json"
         ]
       },
       {
+        "kind": "landing",
+        "sentence": "logos/aspire-si/readme.png is now read by manifest.json.",
+        "subjects": [
+          "logos/aspire-si/readme.png",
+          "manifest.json"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "logos/commandui/gallery/icon-1024.png is now read by manifest.json.",
+        "subjects": [
+          "logos/commandui/gallery/icon-1024.png",
+          "manifest.json"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "And 19 more new writers and readers of places.",
+        "subjects": []
+      },
+      {
         "kind": "counts",
-        "sentence": "8 files changed content, across 3 parts.",
+        "sentence": "22 files added and 8 changed content, across 4 parts.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "f3d1a792cd6dfcd12592c0b9d74e96a6b47d59e2",
-      "generatedAt": "2026-09-30T22:03:12.346Z"
+      "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3",
+      "generatedAt": "2026-10-01T02:14:26.482Z"
     },
     "unchanged": false
   },
@@ -104,9 +126,9 @@
     "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
   ],
   "changesTogetherWithTests": 2,
-  "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3",
+  "commit": "a1e2dc812dae699cd86b14685d2dbd27d3acd7d8",
   "defaultBranch": "main",
-  "derived": "11 parts, mostly images (256 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.",
+  "derived": "11 parts, mostly images (278 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.",
   "doors": [
     {
       "builds": [
@@ -384,9 +406,9 @@
       "to": "src"
     }
   ],
-  "engine": "1.24.0",
+  "engine": "1.26.0",
   "generated": [],
-  "generatedAt": "2026-10-01T02:14:26.482Z",
+  "generatedAt": "2026-11-11T22:10:49.632Z",
   "limits": [
     "6 reads use paths built at run time and are not named here.",
     "24 writes and 66 reads go to a path their caller passes, not to this repository.",
@@ -425,6 +447,7 @@
     "scripts": 0,
     "src": 18
   },
+  "testedCodeParts": 2,
   "unnamedWrites": 0,
   "unread": [],
   "unreadFiles": 0,
