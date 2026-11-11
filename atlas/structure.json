@@ -87,7 +87,7 @@
           "path": ".github/dependabot.yml"
         },
         {
-          "hash": "0a507833d4789ea9feca7d723a585585b0d8da2aa2458713475a4280f3e6441f",
+          "hash": "00bee35742b87fa6b32394277cd87d661cdec470b9ca008448ce927e4117e2c6",
           "path": ".github/workflows/ci.yml"
         },
         {
@@ -236,7 +236,7 @@
           "path": "logos/LeaseGate/readme.png"
         },
         {
-          "hash": "07248e2dc711341c122e0de69b21f59427fce73b0a7a16ca156db4788bcfef6d",
+          "hash": "b3d02ff0e9fc6fd7fcb6a3b71669072ccd84efbb9a451182a7cffba21ccc433e",
           "path": "logos/LoKey-Typer/readme.png"
         },
         {
@@ -346,6 +346,14 @@
         {
           "hash": "1f0ff0e5fafc2db9c07054bd6ea91381d35b21b56d3f6cfe20b4b5e354a3c3ab",
           "path": "logos/aspire-ai/readme.png"
+        },
+        {
+          "hash": "060c2a1e4b266f3192b3cc62e2008c5e8e7ed491193337af78d4459c71070dfd",
+          "path": "logos/aspire-si-gates/readme.png"
+        },
+        {
+          "hash": "1f959d9d1f9331dd815b74e9cdbbc429905637fc579800a3956de8e966ee70e0",
+          "path": "logos/aspire-si/readme.png"
         },
         {
           "hash": "645963f51c2e864f58c600ad43905de4756bfc551f35a18f4dc64df4ece10c58",
@@ -468,7 +476,43 @@
           "path": "logos/comfy-preflight/readme.png"
         },
         {
-          "hash": "8438fd9d4581b05b645712f741ae150992da32db6c4e8f9c8596ba39de79462b",
+          "hash": "d2c0dcbbee1a89e18282106519f399ab9c8b076d8290feb099ecbec55f80be56",
+          "path": "logos/commandui/gallery/icon-1024.png"
+        },
+        {
+          "hash": "d1aa077531dc0d03412a3901ed93d3dd6b1517aae72b41187332cd8105113743",
+          "path": "logos/commandui/gallery/icon-128.png"
+        },
+        {
+          "hash": "ca98655cd1c5f7d5ac685839bcac99ea0d7f1e08b03270a2c2084f15e94be98a",
+          "path": "logos/commandui/gallery/icon-16.png"
+        },
+        {
+          "hash": "dc6892e74a21416e1fe3312f5d7c47a3dc2feb4d9cb19e3cf510e232a646e5ce",
+          "path": "logos/commandui/gallery/icon-24.png"
+        },
+        {
+          "hash": "6a614220024f54c2c950154d448cf38cad3577257633cbda3685e5dc9d34d8db",
+          "path": "logos/commandui/gallery/icon-256.png"
+        },
+        {
+          "hash": "b20420125de979718918d088b7eca0cb1f0d93c79a53230fa769f0f2cc904b37",
+          "path": "logos/commandui/gallery/icon-32.png"
+        },
+        {
+          "hash": "c1e3875ffef97b560d9f17d121907063a6805de9f3c79109e8a98747189f5999",
+          "path": "logos/commandui/gallery/icon-48.png"
+        },
+        {
+          "hash": "7aaa2eeb1ed6c6adb0542194d45ef671f4bfdfa1c6c668c18e3467f14223a8a2",
+          "path": "logos/commandui/gallery/icon-512.png"
+        },
+        {
+          "hash": "fc2b2cabca5ab15df03509832ad707e9bb04d98498b53b85fd8243e32dd07d79",
+          "path": "logos/commandui/gallery/icon-64.png"
+        },
+        {
+          "hash": "9547aee99908f2b3e10f8a3833e7984c0b5ee469f615acd4317e234fa6881a7c",
           "path": "logos/commandui/readme.png"
         },
         {
@@ -490,6 +534,10 @@
         {
           "hash": "749b6a3bbeb34fca7e5aa6f16948ad4ea12e8b0a625982ca27018c72ea168990",
           "path": "logos/datagates/readme.png"
+        },
+        {
+          "hash": "94ecc9a91ecd0a158c271a1fdbb95e858e42ccac42588bcd7ed371e00c6540de",
+          "path": "logos/dataset-desk/readme.png"
         },
         {
           "hash": "454793231c420c0e478743ab826d97b35f4c3656330473e540d3dd2a4700056d",
@@ -584,8 +632,16 @@
           "path": "logos/housekeeping/readme.png"
         },
         {
+          "hash": "e244dde5d9e6e603f89db2abec6de5c5dde8f381c777d743ecdbbc02be3d8195",
+          "path": "logos/incontrol/readme.png"
+        },
+        {
           "hash": "140416f61330a5c84da7c159ab2def564697832983b93e7a16aa85612dfa4649",
           "path": "logos/integradio/readme.png"
+        },
+        {
+          "hash": "1c7ea5b3d8984da5817b44730c55722b84d65aa566b5738374853b9d0fc87455",
+          "path": "logos/interlock/readme.png"
         },
         {
           "hash": "c3fd975d9bbc511ed2fccfaab82462587274385f01e79c5a549dab99be376d41",
@@ -760,6 +816,10 @@
           "path": "logos/nullout/readme.png"
         },
         {
+          "hash": "b5507cbfd0434a3c85e1b11609e5c05ca2c2e529708dc6730d7935e81afda005",
+          "path": "logos/offrig/readme.png"
+        },
+        {
           "hash": "31e4fb5dfb404f0b45043e26abf99f37b875892c32ce7f97ace686c6f5d1b63d",
           "path": "logos/ollama-intern-mcp/readme.png"
         },
@@ -900,6 +960,10 @@
           "path": "logos/polyglot-mcp/readme.png"
         },
         {
+          "hash": "61fdbf1c56858a469efeb6a55b83cc42e0a0969c6f54f19cee4a8422574ec254",
+          "path": "logos/portlight-bounty/readme.png"
+        },
+        {
           "hash": "335376f8f97b64b8ae56eb1f0efde6e2c3e1a034e5b0c093144dabed1bbdeacb",
           "path": "logos/portlight-desktop/readme.png"
         },
@@ -918,6 +982,10 @@
         {
           "hash": "47c0c6b4ab1f94f39f7b75eda070c5442ccabe7dc9f6dd8b9086feaa2b7e30aa",
           "path": "logos/readouts/readme.png"
+        },
+        {
+          "hash": "4203bcf227a0188ad4a338c9c59b391ca91eb12a1ba78cf6af019bed3f03e1b3",
+          "path": "logos/reasoning-dataset-lab/readme.png"
         },
         {
           "hash": "b39817031c85e5132442aa074d188a32b8b174b879c261984d53792f1ba369e8",
@@ -972,8 +1040,20 @@
           "path": "logos/rippled-windows-debug/readme.png"
         },
         {
+          "hash": "3c7d56bb425adb17140643d229872b90eb1e0d6e82f6700ab003b3cb7857230e",
+          "path": "logos/rnd-data/readme.png"
+        },
+        {
+          "hash": "335c29477b2acb33d8b79558086dfee21ecf6972ba432d67eb248449e370037b",
+          "path": "logos/rnd/readme.png"
+        },
+        {
           "hash": "3948769fccd6afbf3159f77f2f3796515d9dda50c07373b10a183b3b52f18b23",
           "path": "logos/role-os/readme.png"
+        },
+        {
+          "hash": "63e534479d71a8543e23b8a4dc4836df988e7c41802b5b438f2e27a6ad432e32",
+          "path": "logos/role-set/readme.png"
         },
         {
           "hash": "f949f387cb443ed26baf77a792619dd976db163b3d90eaa6ebaf2e35a0f5f032",
@@ -986,6 +1066,10 @@
         {
           "hash": "d28b7bcce816e27a9061aca87d0352fb7738561d2906aa9167f7f2732198d309",
           "path": "logos/runforge-vscode/readme.png"
+        },
+        {
+          "hash": "afee21bb1fa990da31c8807e9a2433667c3472fa63b45d9f0a6e59b2241f14bf",
+          "path": "logos/runforge/readme.png"
         },
         {
           "hash": "bb6cddaaa2e1c47af5d37c074695c813c22976df74ce5c5469608ed385ee4a5b",
@@ -1114,6 +1198,10 @@
         {
           "hash": "480546468539481d68b998a93116301e019a28a0db497f0680980d7f70301315",
           "path": "logos/trellis-sprite-pipeline/readme.png"
+        },
+        {
+          "hash": "15a24a83f3b04000e9cd25d840472c09aa1f9d3eff5a7bfb9a9bc78a07d3f5a5",
+          "path": "logos/understanding-dataset-lab/readme.png"
         },
         {
           "hash": "75d6bb452255512169ff4feea525d2b5d6bb9e147a6bb2149332b4fa23873805",
@@ -1267,15 +1355,15 @@
           "path": "codecov.yml"
         },
         {
-          "hash": "2f104bb35c3e2a9fa64b67cbea7bc499f362b48b485bc9ad0dab3269e46208a0",
+          "hash": "a7bbed6c0fa6576d37970188674f7ac45f399b2381d08a2f922b153a2b21ba62",
           "path": "manifest.json"
         },
         {
-          "hash": "546fc91b7449b3799f7722d400e7e199ec388cf31b88bd8c44b74a2bd341d48f",
+          "hash": "fb6028da38eb862d6cda6d3ad2b7b0adb027b6f8eb2e5ae505d55468ac67bf23",
           "path": "package-lock.json"
         },
         {
-          "hash": "6edf69042ba83e06ed23352acd543c237fe5f085a4ccd36458f819f3836b8d3c",
+          "hash": "80cea184e81960e89e4cad43a336e0d2e80d5885abb98824aea8be2a8130fde1",
           "path": "package.json"
         },
         {
@@ -1389,11 +1477,11 @@
           "path": "site/integrations/model-passthrough.mjs"
         },
         {
-          "hash": "a7513d573bd6559dcc8e63776bcceb0750a055e248a7fb128a9056c1dbed1820",
+          "hash": "525f820e8257f9b8b4d052756c4c15a7c23f41ae70bbcd3bef14952b34943d96",
           "path": "site/package-lock.json"
         },
         {
-          "hash": "274f58fa7e135c424fcabd90ac79cf20586aef86e9ae70785dbbb2de8130f479",
+          "hash": "c8e60c7a1482ab98dc36efb4416f3c78585f5d26df9c148f3c5f19b8807eca89",
           "path": "site/package.json"
         },
         {
@@ -3314,6 +3402,13 @@
           "event": "workflow_dispatch"
         }
       ],
+      "unresolvedExpressions": [
+        {
+          "adds": "words",
+          "job": "lint-test-build",
+          "step": "Write CI summary"
+        }
+      ],
       "uses": [
         "actions/checkout",
         "actions/download-artifact",
@@ -3895,6 +3990,13 @@
           "event": "workflow_dispatch"
         }
       ],
+      "unresolvedExpressions": [
+        {
+          "adds": "words",
+          "job": "release",
+          "step": "Verify tag matches package.json version"
+        }
+      ],
       "uses": [
         "actions/checkout",
         "actions/setup-node"
@@ -4226,10 +4328,10 @@
       "to": "src"
     }
   ],
-  "engine": "1.24.0",
+  "engine": "1.26.0",
   "generatedFrom": {
-    "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3",
-    "tracked": 391
+    "commit": "a1e2dc812dae699cd86b14685d2dbd27d3acd7d8",
+    "tracked": 413
   },
   "landings": [
     {
@@ -4867,6 +4969,28 @@
           "confidence": "config"
         }
       ],
+      "target": "logos/aspire-si-gates/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/aspire-si/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
       "target": "logos/audiobooker/readme.jpg",
       "writers": []
     },
@@ -5197,6 +5321,105 @@
           "confidence": "config"
         }
       ],
+      "target": "logos/commandui/gallery/icon-1024.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-128.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-16.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-24.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-256.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-32.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-48.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-512.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/commandui/gallery/icon-64.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
       "target": "logos/commandui/readme.png",
       "writers": []
     },
@@ -5253,6 +5476,17 @@
         }
       ],
       "target": "logos/datagates/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/dataset-desk/readme.png",
       "writers": []
     },
     {
@@ -5494,7 +5728,29 @@
           "confidence": "config"
         }
       ],
+      "target": "logos/incontrol/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
       "target": "logos/integradio/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/interlock/readme.png",
       "writers": []
     },
     {
@@ -5880,6 +6136,17 @@
         }
       ],
       "target": "logos/nullout/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/offrig/readme.png",
       "writers": []
     },
     {
@@ -6281,6 +6548,17 @@
           "confidence": "config"
         }
       ],
+      "target": "logos/portlight-bounty/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
       "target": "logos/portlight-desktop/readme.png",
       "writers": []
     },
@@ -6326,6 +6604,17 @@
         }
       ],
       "target": "logos/readouts/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/reasoning-dataset-lab/readme.png",
       "writers": []
     },
     {
@@ -6479,7 +6768,40 @@
           "confidence": "config"
         }
       ],
+      "target": "logos/rnd-data/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/rnd/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
       "target": "logos/role-os/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/role-set/readme.png",
       "writers": []
     },
     {
@@ -6513,6 +6835,17 @@
         }
       ],
       "target": "logos/runforge-vscode/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/runforge/readme.png",
       "writers": []
     },
     {
@@ -6854,6 +7187,17 @@
         }
       ],
       "target": "logos/trellis-sprite-pipeline/readme.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "logos/understanding-dataset-lab/readme.png",
       "writers": []
     },
     {

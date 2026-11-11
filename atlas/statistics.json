@@ -3,8 +3,8 @@
     "parts": [],
     "places": [
       {
-        "byPeople": 46,
-        "commits": 47,
+        "byPeople": 58,
+        "commits": 59,
         "target": "manifest.json"
       }
     ]
@@ -229,8 +229,8 @@
         "path": ".github/dependabot.yml"
       },
       {
-        "commits": 22,
-        "lines": 349,
+        "commits": 24,
+        "lines": 397,
         "path": ".github/workflows/ci.yml"
       },
       {
@@ -344,8 +344,8 @@
         "path": "assets/portlight-ships/turnaround.png"
       },
       {
-        "commits": 6,
-        "lines": 366,
+        "commits": 8,
+        "lines": 388,
         "path": "atlas/README.md"
       },
       {
@@ -354,18 +354,18 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 6,
-        "lines": 1576,
+        "commits": 8,
+        "lines": 1634,
         "path": "atlas/page.json"
       },
       {
-        "commits": 6,
-        "lines": 3358,
+        "commits": 8,
+        "lines": 3478,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 6,
-        "lines": 17408,
+        "commits": 8,
+        "lines": 17486,
         "path": "atlas/structure.json"
       },
       {
@@ -382,6 +382,11 @@
         "commits": 5,
         "lines": 481,
         "path": "docs/model-channels-spec.md"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/LoKey-Typer/readme.png"
       },
       {
         "commits": 2,
@@ -411,6 +416,16 @@
       {
         "commits": 1,
         "lines": 0,
+        "path": "logos/aspire-si-gates/readme.png"
+      },
+      {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/aspire-si/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
         "path": "logos/backprop-trace/readme.png"
       },
       {
@@ -422,11 +437,6 @@
         "commits": 1,
         "lines": 0,
         "path": "logos/claude-synergy/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/codecomfy-vscode/readme.png"
       },
       {
         "commits": 1,
@@ -446,7 +456,57 @@
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/creator-studio-os/readme.png"
+        "path": "logos/commandui/gallery/icon-1024.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-128.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-16.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-24.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-256.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-32.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-48.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-512.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/gallery/icon-64.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/commandui/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/dataset-desk/readme.png"
       },
       {
         "commits": 1,
@@ -457,16 +517,6 @@
         "commits": 1,
         "lines": 0,
         "path": "logos/facet/readme.png"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "logos/forkable/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/forkctl/readme.png"
       },
       {
         "commits": 1,
@@ -487,6 +537,16 @@
         "commits": 4,
         "lines": 0,
         "path": "logos/housekeeping/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/incontrol/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/interlock/readme.png"
       },
       {
         "commits": 2,
@@ -549,7 +609,7 @@
         "path": "logos/motif/mark.svg"
       },
       {
-        "commits": 2,
+        "commits": 1,
         "lines": 0,
         "path": "logos/motif/readme.png"
       },
@@ -566,7 +626,7 @@
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/ollama-intern-mcp/readme.png"
+        "path": "logos/offrig/readme.png"
       },
       {
         "commits": 2,
@@ -711,17 +771,22 @@
       {
         "commits": 1,
         "lines": 0,
+        "path": "logos/portlight-bounty/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
         "path": "logos/readouts/readme.png"
       },
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/registry-stats/readme.png"
+        "path": "logos/reasoning-dataset-lab/readme.png"
       },
       {
-        "commits": 2,
+        "commits": 1,
         "lines": 0,
-        "path": "logos/repo-dataset/readme.png"
+        "path": "logos/registry-stats/readme.png"
       },
       {
         "commits": 1,
@@ -732,6 +797,11 @@
         "commits": 1,
         "lines": 0,
         "path": "logos/repomesh/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/research-and-development/readme.png"
       },
       {
         "commits": 1,
@@ -749,9 +819,24 @@
         "path": "logos/rig-bridge/readme.png"
       },
       {
+        "commits": 2,
+        "lines": 0,
+        "path": "logos/rnd-data/readme.png"
+      },
+      {
+        "commits": 3,
+        "lines": 0,
+        "path": "logos/rnd/readme.png"
+      },
+      {
         "commits": 1,
         "lines": 0,
-        "path": "logos/roll/readme.png"
+        "path": "logos/role-set/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logos/runforge/readme.png"
       },
       {
         "commits": 2,
@@ -781,16 +866,6 @@
       {
         "commits": 1,
         "lines": 0,
-        "path": "logos/storyboard-os/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "logos/style-dataset-lab/readme.png"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
         "path": "logos/synthesis/readme.png"
       },
       {
@@ -811,6 +886,11 @@
       {
         "commits": 1,
         "lines": 0,
+        "path": "logos/understanding-dataset-lab/readme.png"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
         "path": "logos/watchdog/readme.png"
       },
       {
@@ -819,24 +899,29 @@
         "path": "logos/websketch-ir/readme.png"
       },
       {
-        "commits": 51,
-        "lines": 1411,
+        "commits": 64,
+        "lines": 1540,
         "path": "manifest.json"
       },
       {
-        "commits": 19,
-        "lines": 4808,
+        "commits": 25,
+        "lines": 5302,
         "path": "package-lock.json"
       },
       {
-        "commits": 16,
-        "lines": 61,
+        "commits": 17,
+        "lines": 63,
         "path": "package.json"
       },
       {
         "commits": 1,
         "lines": 29,
         "path": "png-builder.mjs}"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "rnd}/readme.png"
       },
       {
         "commits": 1,
@@ -869,13 +954,13 @@
         "path": "site/integrations/model-passthrough.mjs"
       },
       {
-        "commits": 8,
-        "lines": 15717,
+        "commits": 11,
+        "lines": 18491,
         "path": "site/package-lock.json"
       },
       {
-        "commits": 7,
-        "lines": 31,
+        "commits": 8,
+        "lines": 35,
         "path": "site/package.json"
       },
       {
@@ -1299,17 +1384,17 @@
     "level": "low",
     "reason": "fewer than 25 source files reach 10 revisions in the window"
   },
-  "generatedAt": "2026-10-01T02:14:26.482Z",
+  "generatedAt": "2026-11-11T22:10:49.632Z",
   "generatedFrom": {
-    "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3"
+    "commit": "a1e2dc812dae699cd86b14685d2dbd27d3acd7d8"
   },
   "pairs": [
     {
       "a": "site/package-lock.json",
       "b": "site/package.json",
-      "either": 7,
-      "shared": 6,
-      "strength": 0.857143
+      "either": 9,
+      "shared": 7,
+      "strength": 0.777778
     },
     {
       "a": "src/commands/audit.ts",
@@ -1336,16 +1421,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "revision-depth",
-    "headDate": "2026-09-30T18:54:18-07:00",
-    "inScopeFiles": 396,
+    "headDate": "2026-11-03T20:29:03-05:00",
+    "inScopeFiles": 418,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 141,
+    "qualifyingCommits": 154,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-04T01:54:18.000Z",
+    "since": "2026-05-08T01:29:03.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
