@@ -22,7 +22,7 @@
 
 ## Pourquoi
 
-Lorsque chaque dépôt contient sa propre copie du logo, cela entraîne une duplication, une divergence et un manque de cohérence. Un changement de marque implique de parcourir plus de 100 dépôts. Ce dépôt résout ce problème : les logos sont stockés ici, et les fichiers README y font référence via des URL `raw.githubusercontent.com`.
+Lorsque chaque dépôt contient sa propre copie du logo, cela entraîne une duplication, une divergence et une incohérence. Un changement de marque implique de parcourir plus de 100 dépôts. Ce dépôt résout ce problème : les logos sont stockés ici, et les fichiers README y font référence via des URL `raw.githubusercontent.com`.
 
 ## Structure
 
@@ -38,9 +38,9 @@ docs/
   handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-Des centaines de logos dans toute l’organisation. Les fichiers PNG restent des fichiers PNG. Les fichiers JPEG restent des fichiers JPEG. Le format est une décision de marque, et non un objectif de compilation.
+Des centaines de logos dans toute l’organisation. Les fichiers PNG restent des fichiers PNG. Les fichiers JPEG restent des fichiers JPEG. Le format est une décision de marque, et non une cible de compilation.
 
-L’identifiant d’un logo `readme.<ext>` est toujours celui du logo principal. Un identifiant peut également avoir un sous-dossier contenant des images supplémentaires (par exemple, les différentes vues d’un personnage dans un ensemble de sprites, ou un ensemble de captures d’écran pour un outil). Le manifeste identifie explicitement le `role` de chaque élément, au lieu de traiter tous les fichiers image de la même manière. Voir [Galeries et fichiers README dynamiques](#galeries--fichiers-readme-dynamiques) ci-dessous.
+L’identifiant d’un logo `readme.<ext>` est toujours celui du logo canonique. Un identifiant peut également avoir un sous-dossier contenant des images supplémentaires (par exemple, les différentes vues d’un personnage d’un ensemble de sprites, un ensemble de captures d’écran d’un outil). Le manifeste identifie explicitement l’identifiant `role` de chaque élément, au lieu de traiter tous les fichiers image de la même manière. Voir [Galeries et fichiers README dynamiques](#galeries-et-fichiers-readme-dynamiques) ci-dessous.
 
 ## CLI
 
@@ -93,7 +93,7 @@ brand sync --slug <slug> --repos /path/to/clones
 
 ## Synchronisation automatique
 
-Une action GitHub quotidienne (`sync.yml`) analyse tous les dépôts de l’organisation à la recherche de logos, télécharge les nouveaux éléments ou ceux qui ont été modifiés, régénère le manifeste et ouvre une demande d’extraction. Vous pouvez également la déclencher manuellement via `workflow_dispatch`.
+Une action GitHub quotidienne (`sync.yml`) analyse tous les dépôts de l’organisation à la recherche de logos, télécharge les nouveaux éléments ou les éléments modifiés, régénère le manifeste et ouvre une demande de fusion. Vous pouvez également la déclencher manuellement via `workflow_dispatch`.
 
 Le script de synchronisation se trouve à l’adresse `scripts/sync-org-logos.sh` et peut être exécuté localement :
 
@@ -107,25 +107,25 @@ Le script de synchronisation se trouve à l’adresse `scripts/sync-org-logos.sh
 
 ### Configuration (unique, par branche)
 
-L’action de synchronisation ouvre une demande d’extraction, elle a donc besoin de l’autorisation de le faire. Choisissez l’une des options suivantes dans les paramètres du dépôt :
+Le flux de travail de synchronisation ouvre une demande de fusion, il a donc besoin de l’autorisation de le faire. Choisissez l’une de ces options dans les paramètres du dépôt :
 
-1. **Activer la création de demandes d’extraction par les actions.** Paramètres -> Actions -> Général -> « Autoriser les actions GitHub à créer et approuver des demandes d’extraction » -> ACTIVÉ. C’est l’option la plus simple ; il n’y a pas de secrets supplémentaires à gérer. ([Documentation GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
-2. **Fournir un secret de dépôt `SYNC_PAT`.** Jeton d’accès personnel avec les étendues `contents:write` + `pull-requests:write`. Cette option déclenche également le CI en aval sur la demande d’extraction automatique (l’option par défaut `GITHUB_TOKEN` ne le fait pas).
+1. **Activer la création de demandes de fusion par Actions.** Paramètres -> Actions -> Général -> « Autoriser les actions GitHub à créer et à approuver des demandes de fusion » -> ACTIVÉ. Solution la plus simple ; aucun secret supplémentaire à gérer. ([Documentation GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
+2. **Fournir un secret de dépôt `SYNC_PAT`.** Jeton d’accès personnel avec les autorisations `contents:write` + `pull-requests:write`. Cette solution déclenche également le CI en aval sur la demande de fusion automatique (par défaut, `GITHUB_TOKEN` ne le fait pas).
 
-Si aucune de ces options n’est sélectionnée, l’action quotidienne échoue chaque matin à `gh pr create` en raison d’une erreur d’autorisation.
+Si aucune de ces options n’est configurée, le flux de travail quotidien échoue chaque matin à `gh pr create` en raison d’une erreur d’autorisation.
 
-### Résolution des problèmes
+### Dépannage
 
 | Symptôme | Cause | Solution |
 | --- | --- | --- |
-| `gh pr create` 403 | Aucune des options de configuration ci-dessus n’est configurée. | Choisissez l’option 1 ou 2 ci-dessus. |
-| L’action quotidienne n’ouvre aucune demande d’extraction, rien ne change. | Tous les dépôts de l’organisation n’ont soit pas de logo, soit les logos correspondent déjà. | C’est normal : les exécutions sans modification sont normales. |
-| La vérification du manifeste a échoué. | Les logos ont été téléchargés, mais le hachage du manifeste ne correspond pas. | Un problème `sync-failure` est créé automatiquement ; réexécutez `brand manifest && brand verify` localement. |
-| Une demande d’extraction de synchronisation introduit un logo incorrect. | Le dépôt en amont a publié une image corrompue ou avec un contenu incorrect. | Annulez la fusion : `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. Voir [SECURITY.md](SECURITY.md#incident-response). |
+| `gh pr create` 403 | Aucune des options de configuration ci-dessus n’est configurée | Choisissez l’option 1 ou 2 ci-dessus |
+| Le flux de travail quotidien n’ouvre aucune demande de fusion, rien ne change | Tous les dépôts de l’organisation n’ont soit pas de logo, soit les logos correspondent déjà | C’est normal ; les exécutions sans modification sont normales |
+| La vérification du manifeste a échoué | Les logos ont été téléchargés, mais le hachage du manifeste ne correspond pas | Un problème `sync-failure` est créé automatiquement ; réexécutez `brand manifest && brand verify` localement |
+| Une demande de fusion de synchronisation introduit un logo incorrect | Le dépôt en amont a publié une image corrompue ou avec un contenu incorrect | Annulez la fusion : `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. Voir [SECURITY.md](SECURITY.md#incident-response) |
 
 ## Galeries et fichiers README dynamiques
 
-Certains produits ont besoin de plus d’une image pour chaque identifiant, par exemple les huit vues d’un personnage dans un ensemble de sprites ou un ensemble de captures d’écran pour un outil. `brand` traite ces éléments comme une **galerie**, distincte du logo principal, au lieu d’un simple ensemble de fichiers supplémentaires :
+Certains produits ont besoin de plus d’une image de présentation par identifiant : les différentes vues d’un personnage d’un ensemble de sprites, un ensemble de captures d’écran d’un outil. `brand` les traite comme une **galerie** à part entière, distincte du logo canonique, au lieu d’un simple ensemble de fichiers supplémentaires :
 
 ```bash
 # Register a directory of images as a gallery (idempotent — re-run any time
@@ -134,7 +134,7 @@ Certains produits ont besoin de plus d’une image pour chaque identifiant, par 
 brand add-gallery pirate-raiders-3d-2 /path/to/turnarounds
 ```
 
-Pour afficher cette galerie dans le **fichier README d’un dépôt cible** et la maintenir synchronisée lorsque la galerie change, ajoutez une paire de marqueurs n’importe où dans le fichier README :
+Pour afficher cette galerie dans le **fichier README d’un dépôt consommateur** et la maintenir synchronisée lorsque la galerie change, insérez une paire de marqueurs n’importe où dans le fichier README :
 
 ```html
 <!-- brand:gallery:start slug="pirate-raiders-3d-2" -->
@@ -147,32 +147,42 @@ Ensuite, exécutez :
 brand sync --slug pirate-raiders-3d-2 --repos /path/to/clones
 ```
 
-`sync` régénère tout ce qui se trouve entre les marqueurs à partir du manifeste. Cela garantit une sortie déterministe et identique à chaque exécution avec des entrées inchangées, ce qui permet de l’intégrer facilement au CI. `--check` signale les différences sans écrire (renvoie 1 si le fichier README est obsolète, 0 s’il est à jour) ; intégrez-le au CI du dépôt cible de la même manière que `brand manifest --check` contrôle celui-ci. Il s’agit d’une section **dynamique** du fichier README : le contenu rédigé manuellement autour des marqueurs n’est pas modifié ; tout ce qui se trouve entre eux appartient à la machine et peut être régénéré à tout moment. Le préfixe `brand:gallery:` est mis en espace de noms afin que les futurs types de blocs (badges, statistiques) puissent partager un fichier README sans conflit.
+`sync` régénère tout ce qui se trouve entre les marqueurs à partir du manifeste : sortie déterministe et identique à chaque exécution avec des entrées inchangées, ce qui permet une intégration facile avec le CI. `--check` signale les divergences sans écrire (quitte avec le code 1 si le fichier README est obsolète, 0 s’il est à jour) ; intégrez-le au CI d’un dépôt consommateur de la même manière que `brand manifest --check` contrôle celui-ci. Il s’agit d’une section de **fichier README dynamique** : le contenu rédigé manuellement autour des marqueurs n’est pas modifié ; tout ce qui se trouve entre eux est géré par la machine et peut être régénéré à tout moment. Le préfixe `brand:gallery:` est mis en espace de noms afin que les futurs types de blocs (badges, statistiques) puissent partager un fichier README sans conflit.
 
-`brand audit` comprend également la différence : un fichier README contenant plusieurs balises de galerie `<img>` pour un même identifiant ne sera plus signalé comme pouvant entraîner un conflit avec des badges ; s’il n’est pas encore lié à un bloc de marqueur, `audit` oriente plutôt vers `brand sync`.
+`brand audit` comprend également la différence : un fichier README contenant plusieurs balises de galerie `<img>` pour un même identifiant n’est plus signalé comme un possible conflit de badges ; s’il n’est pas encore lié à un bloc de marqueur, `audit` oriente vers `brand sync`.
 
 ## Ajout manuel d’un logo
 
-1. Déposez le fichier dans `logos/<slug>/readme.png` (ou `.jpg`).
-2. Exécutez `brand manifest` pour mettre à jour les hachages d’intégrité.
-3. Validez à la fois le logo et `manifest.json`.
-4. Le CI vérifie le manifeste lors de la validation.
+1. Déposez le fichier dans `logos/<slug>/readme.png` (ou `.jpg`)
+2. Exécutez `brand manifest` pour mettre à jour les hachages d’intégrité
+3. Validez à la fois le logo et `manifest.json`
+4. Le CI vérifie le manifeste lors de la validation
+
+Il est facile d’oublier l’étape 2, et rien n’indique localement que quelque chose ne va pas : la validation du logo se fait correctement, le site se compile correctement, les tests passent toujours et l’échec n’apparaît qu’après la validation dans le CI. Un hook `pre-commit` le fait donc pour vous : il met en scène une modification sous `logos/`, puis il régénère et met en scène `manifest.json` dans la même validation.
+
+Il s’installe dans `npm install` (via `prepare` -> [`scripts/install-hooks.mjs`](scripts/install-hooks.mjs), qui pointe `core.hooksPath` vers [`.githooks/`](.githooks/)). Pour l’installer manuellement :
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Le hook a besoin que `dist/` soit compilé (`npm run build`), car il exécute la CLI, et il refuse de deviner quand `logos/` a des modifications non mises en scène : le manifeste est haché à partir de l’arborescence de travail, donc si cela ne correspond pas à ce que vous validez, les hachages qu’il écrit décriraient des octets que la validation ne contient pas. `git commit --no-verify` le contourne, et le CI applique toujours la même règle.
 
 ## Sécurité
 
 | Aspect | Détail |
 |--------|--------|
-| **Data touched** | Fichiers d’images de logo et de galerie dans `logos/` (lecture), `manifest.json` (lecture/écriture), fichiers README (lecture/écriture pendant la migration et la synchronisation : `sync` ne réécrit jamais que le contenu entre les marqueurs `brand:gallery:start`/`end`). |
-| **Data NOT touched** | Aucune télémétrie, aucune analyse, aucune exécution de code à partir des fichiers logo/galerie. |
-| **Permissions** | Lecture : fichiers logo/galerie, manifeste, fichiers README. Écriture : manifest.json, fichiers README (migration/synchronisation uniquement) et `logos/<slug>/` (`remove` uniquement, ce qui nécessite `--yes`). |
-| **Network** | Aucune par défaut. `brand audit --remote` est la seule exception et son utilisation est strictement facultative ; sans cet indicateur, aucune requête réseau n’est effectuée. `sync`, `verify`, `manifest`, `stats`, `migrate`, `add-gallery`, `remove` et `history` sont entièrement hors ligne. |
-| **Telemetry** | Aucune donnée collectée ou envoyée. |
+| **Data touched** | Fichiers d’images de logo et de galerie dans `logos/` (lecture), `manifest.json` (lecture/écriture), fichiers README (lecture/écriture pendant la migration et la synchronisation : `sync` ne réécrit jamais que le contenu entre les marqueurs `brand:gallery:start`/`end`) |
+| **Data NOT touched** | Aucune télémétrie, aucune analyse, aucune exécution de code à partir des fichiers de logo/galerie |
+| **Permissions** | Lecture : fichiers de logo/galerie, manifeste, fichiers README. Écriture : manifeste.json, fichiers README (migration/synchronisation uniquement) et `logos/<slug>/` (`remove` uniquement, ce qui nécessite `--yes`) |
+| **Network** | Aucun par défaut. `brand audit --remote` est la seule exception et est strictement facultatif : sans ce drapeau, aucune requête réseau n’est effectuée. `sync`, `verify`, `manifest`, `stats`, `migrate`, `add-gallery`, `remove` et `history` sont entièrement hors ligne. |
+| **Telemetry** | Aucun n’est collecté ou envoyé |
 
-Chaque logo est suivi par un hachage SHA-256 dans `manifest.json`. Le CI exécute `brand manifest --check` à chaque validation qui modifie `logos/` ou `manifest.json`. Seuls les fichiers image (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) sont suivis ; les fichiers non-image situés dans `logos/` sont ignorés.
+Chaque logo est suivi par un hachage SHA-256 dans `manifest.json`. Le CI exécute `brand manifest --check` à chaque validation qui touche `logos/` ou `manifest.json`. Seuls les fichiers image (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`) sont suivis ; les fichiers non image sous `logos/` sont ignorés.
 
-**Ce que la valeur de hachage prouve et ne prouve pas.** Une incohérence permet de détecter une écriture accidentelle, un fichier corrompu ou une divergence entre le disque et le manifeste, ce qui correspond aux erreurs courantes. Elle n’empêche **pas** une manipulation délibérée : toute personne ayant les droits d’écriture peut remplacer un logo, exécuter `brand manifest` et valider les deux modifications, après quoi `verify` est accepté. La valeur de hachage prouve que l’arborescence est cohérente en interne, mais pas que son contenu a été approuvé. Ce qui permet réellement de combler cette lacune, ce sont les contrôles du dépôt ainsi que le mécanisme de détection des divergences lors de la synchronisation quotidienne, qui vérifient chaque logo enregistré par rapport à son référentiel d’origine — voir [SECURITY.md](SECURITY.md#the-limit-of-the-manifest--read-this-before-trusting-it) et [`.github/SECURITY-CONTROLS.md`](.github/SECURITY-CONTROLS.md).
+**Ce que la fonction de hachage prouve et ne prouve pas.** Une incohérence permet de détecter une écriture accidentelle, un fichier corrompu ou une divergence entre le disque et le manifeste, soit les erreurs courantes. Elle ne permet **pas** d’empêcher une manipulation délibérée : toute personne ayant un accès en écriture peut remplacer un logo, exécuter `brand manifest` et valider les deux, après quoi `verify` passe. La fonction de hachage prouve que l’arborescence est cohérente en interne, mais pas que son contenu a été approuvé. Ce qui permet réellement de combler cette lacune, ce sont les contrôles du dépôt, ainsi que le mécanisme de détection des divergences de la synchronisation quotidienne, qui vérifient chaque logo du registre par rapport à son dépôt d’origine (voir [SECURITY.md](SECURITY.md#the-limit-of-the-manifest--read-this-before-trusting-it) et [`.github/SECURITY-CONTROLS.md`](.github/SECURITY-CONTROLS.md)).
 
-Les signalements de vulnérabilités sont envoyés au canal d’alerte privé de GitHub : [https://github.com/mcp-tool-shop-org/brand/security/advisories/new](https://github.com/mcp-tool-shop-org/brand/security/advisories/new). Voir [SECURITY.md](SECURITY.md) pour la politique complète et [docs/handbook.md](docs/handbook.md) pour le guide de migration.
+Les rapports de vulnérabilité sont envoyés au [canal de communication privé](https://github.com/mcp-tool-shop-org/brand/security/advisories/new) de GitHub. Consultez [SECURITY.md](SECURITY.md) pour connaître l’intégralité de la politique et [docs/handbook.md](docs/handbook.md) pour le guide de migration.
 
 ## Tableau de bord
 
@@ -185,7 +195,7 @@ Les signalements de vulnérabilités sont envoyés au canal d’alerte privé de
 | E. Identité (souple) | 10 |
 | **Overall** | **50/50** |
 
-Chaque ligne D est verte : matrice Node 20/22/24, actions avec hachage SHA fixe, étape `npm audit`, Dependabot, contenu du fichier tarball et parfaite cohérence entre les balises/versions/paquets npm (résolu le 2026-07-01 — v1.0.2/v1.0.3 n’a jamais été publié sur npm ; étiqueté rétrospectivement pour assurer la cohérence avec git/CHANGELOG).
+Chaque ligne D est verte : matrice Node 20/22/24, actions avec hachage SHA, étape `npm audit`, Dependabot, contenu du fichier tar, et parfaite cohérence entre les balises/versions/paquets npm (résolu le 2026-07-01 — v1.0.2/v1.0.3 n’ont jamais été publiés sur npm ; balises ajoutées rétrospectivement pour assurer la cohérence avec git/CHANGELOG).
 
 > Audit complet : [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 
