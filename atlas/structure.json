@@ -1307,35 +1307,35 @@
           "path": "LICENSE"
         },
         {
-          "hash": "db4998f75dd8a3fa33f241d342c2feafafd0201c759e4b424402f5de1bdfa01e",
+          "hash": "945128d5702790e5b40892535e765554e0f9f11913d268aa8387a21b61f42b97",
           "path": "README.es.md"
         },
         {
-          "hash": "a520a250bb8c1cad76f8b728bc493020eb5f2c8e99740b5a4502ea425112d6bf",
+          "hash": "a2795b66955f657e60398b4c7cfe6a2fd7e4abdbbcda77eccce5554d2cf3e4c2",
           "path": "README.fr.md"
         },
         {
-          "hash": "4f9f87561ed32aca94ca55bf173313f33c49b6e0b1c06be7dc6f14e1bb1a50f7",
+          "hash": "71039e47307be77682a0dee3b26a9f7e63ca041ba9e0613b0fcf45974f170748",
           "path": "README.hi.md"
         },
         {
-          "hash": "9472235d5421e2b0d10e3f9430443c06a8d6063c88399d318f9a009a10a3574c",
+          "hash": "495e4ab58ed2ec313c9fceeeb75e827c8880b5338f0937b5b2610620303ab63d",
           "path": "README.it.md"
         },
         {
-          "hash": "5d8fd1d4e767886d224639725aef740374c4d174e9dd87aa64b26ef955dff0ba",
+          "hash": "35d24aa3ca109644b80dca8b61b56122c5829925680e3cb5ffc0762d1436ced2",
           "path": "README.ja.md"
         },
         {
-          "hash": "0781011914bc70bf7dfd4cc4f624df85c1d9ee0a6caa8017bf7654f9042a8010",
+          "hash": "f231c3799c42255729770d5aa561c09bf3758388396a59c14b6e245d2b63e10c",
           "path": "README.md"
         },
         {
-          "hash": "cb65ee4d2510ac95091fce02263473f87b2946cd5d66f8d0a3ac2f448162b328",
+          "hash": "2fd990385b2b9b1870d408ad3d60a28cccfcecf23e5877a8515c0a5511a5b459",
           "path": "README.pt-BR.md"
         },
         {
-          "hash": "b4545a30d8b6a94453f5909ed3896048ecb261a4f310048a5d0d5124e245a5e7",
+          "hash": "4c2db1437069b877a91b20e2bcdc967ebee8c41ac0d330923854cdc4d59277d1",
           "path": "README.zh.md"
         },
         {
@@ -4330,7 +4330,7 @@
   ],
   "engine": "1.26.0",
   "generatedFrom": {
-    "commit": "a1e2dc812dae699cd86b14685d2dbd27d3acd7d8",
+    "commit": "4cf45de12c53e41f24e92a2c58b37c26d4e6d169",
     "tracked": 413
   },
   "landings": [

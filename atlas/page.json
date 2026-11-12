@@ -10,8 +10,8 @@
   ],
   "authoredWritten": [
     {
-      "byPeople": 58,
-      "commits": 59,
+      "byPeople": 56,
+      "commits": 57,
       "place": "manifest.json",
       "writers": [
         ".github/workflows/sync.yml"
@@ -72,53 +72,24 @@
   ],
   "changes": {
     "fileCounts": {
-      "added": 22,
+      "added": 0,
       "changed": 8,
       "moved": 0,
-      "parts": 4,
+      "parts": 1,
       "removed": 0
     },
     "items": [
       {
-        "kind": "landing",
-        "sentence": "logos/aspire-si-gates/readme.png is now read by manifest.json.",
-        "subjects": [
-          "logos/aspire-si-gates/readme.png",
-          "manifest.json"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "logos/aspire-si/readme.png is now read by manifest.json.",
-        "subjects": [
-          "logos/aspire-si/readme.png",
-          "manifest.json"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "logos/commandui/gallery/icon-1024.png is now read by manifest.json.",
-        "subjects": [
-          "logos/commandui/gallery/icon-1024.png",
-          "manifest.json"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "And 19 more new writers and readers of places.",
-        "subjects": []
-      },
-      {
         "kind": "counts",
-        "sentence": "22 files added and 8 changed content, across 4 parts.",
+        "sentence": "Nothing structural changed since 2026-11-11; 8 files changed content.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "722dc270c58784208f503bfb2a32fcaaedceb6c3",
-      "generatedAt": "2026-10-01T02:14:26.482Z"
+      "commit": "a1e2dc812dae699cd86b14685d2dbd27d3acd7d8",
+      "generatedAt": "2026-11-11T22:10:49.632Z"
     },
-    "unchanged": false
+    "unchanged": true
   },
   "changesTogether": [],
   "changesTogetherNote": [
@@ -126,7 +97,7 @@
     "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
   ],
   "changesTogetherWithTests": 2,
-  "commit": "a1e2dc812dae699cd86b14685d2dbd27d3acd7d8",
+  "commit": "4cf45de12c53e41f24e92a2c58b37c26d4e6d169",
   "defaultBranch": "main",
   "derived": "11 parts, mostly images (278 files) and Markdown (60); code in TypeScript (40), JavaScript (8), Astro (2), CSS (2) and shell (1). Work enters through 5 doors; the busiest is CI, which reaches 4 parts. It publishes to npm. It deploys a site to GitHub Pages. People run brand.",
   "doors": [
@@ -408,7 +379,7 @@
   ],
   "engine": "1.26.0",
   "generated": [],
-  "generatedAt": "2026-11-11T22:10:49.632Z",
+  "generatedAt": "2026-11-12T17:56:30.193Z",
   "limits": [
     "6 reads use paths built at run time and are not named here.",
     "24 writes and 66 reads go to a path their caller passes, not to this repository.",

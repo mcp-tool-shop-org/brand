@@ -22,7 +22,7 @@
 
 ## Perché
 
-Quando ogni repository contiene la propria copia del logo, si ottiene duplicazione, incoerenza e divergenza. Un rebranding significa dover cercare in oltre 100 repository. Questo repository risolve il problema: i loghi sono archiviati qui e i file README fanno riferimento ad essi tramite gli URL `raw.githubusercontent.com`.
+Quando ogni repository contiene la propria copia del logo, si ottiene duplicazione, incoerenza e divergenza. Un rebranding significa dover cercare in oltre 100 repository. Questo repository risolve il problema: i loghi sono archiviati qui e i file README li fanno riferimento tramite URL `raw.githubusercontent.com`.
 
 ## Struttura
 
@@ -38,9 +38,9 @@ docs/
   handbook.md     # Lessons learned from migrating 100+ repos
 ```
 
-Centinaia di loghi in tutta l'organizzazione. I file PNG rimangono PNG, i JPEG rimangono JPEG. Il formato è una decisione del marchio, non un obiettivo di build.
+Centinaia di loghi in tutta l'organizzazione. I file PNG rimangono PNG. I file JPEG rimangono JPEG. Il formato è una decisione di branding, non un obiettivo di build.
 
-A slug's `readme.<ext>` is always the one canonical logo. A slug MAY also have one subfolder of additional showcase images (a sprite pack's character turnarounds, a tool's screenshot set) — the manifest tags each asset's `role` explicitly rather than treating every image file the same way. See [Galleries & Dynamic READMEs](#galleries--dynamic-readmes) below.
+Lo "slug" `readme.<ext>` è sempre il logo canonico. Uno "slug" può anche avere una sottocartella con immagini aggiuntive (ad esempio, le rotazioni dei personaggi di un pacchetto di sprite o una serie di screenshot di un tool). Il file manifest etichetta esplicitamente ogni risorsa con il suo `role`, anziché trattare tutti i file immagine allo stesso modo. Vedere [Gallerie e README dinamici](#gallerie-e-readme-dinamici) di seguito.
 
 ## CLI
 
@@ -93,9 +93,9 @@ brand sync --slug <slug> --repos /path/to/clones
 
 ## Sincronizzazione automatica
 
-Un'azione GitHub giornaliera (`sync.yml`) esegue la scansione di tutti i repository dell'organizzazione alla ricerca di loghi, scarica le risorse nuove o modificate, rigenera il file manifest e apre una richiesta pull. È anche possibile attivarla manualmente tramite `workflow_dispatch`.
+Un'azione GitHub giornaliera (`sync.yml`) esegue la scansione di tutti i repository dell'organizzazione alla ricerca di loghi, scarica le risorse nuove o modificate, rigenera il file manifest e apre una richiesta di pull (PR). È anche possibile attivarla manualmente tramite `workflow_dispatch`.
 
-Lo script di sincronizzazione si trova all'indirizzo `scripts/sync-org-logos.sh` e può essere eseguito localmente:
+Lo script di sincronizzazione si trova in `scripts/sync-org-logos.sh` e può essere eseguito localmente:
 
 ```bash
 # Preview what would change
@@ -107,25 +107,25 @@ Lo script di sincronizzazione si trova all'indirizzo `scripts/sync-org-logos.sh`
 
 ### Configurazione (una tantum, per ogni fork)
 
-Il flusso di lavoro di sincronizzazione apre una richiesta pull, quindi richiede l'autorizzazione per farlo. Scegliere una delle seguenti opzioni nelle impostazioni del repository:
+Il flusso di lavoro di sincronizzazione apre una PR, quindi richiede il permesso per farlo. Scegliere una di queste opzioni nelle impostazioni del repository:
 
-1. **Abilitare la creazione di richieste pull tramite Azioni.** Impostazioni -> Azioni -> Generale -> "Consenti alle azioni GitHub di creare e approvare le richieste pull" -> ATTIVATO. È l'opzione più semplice; non richiede la gestione di segreti aggiuntivi. ([Documentazione GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
-2. **Fornire un segreto di repository `SYNC_PAT`.** Token di accesso personale con gli ambiti `contents:write` + `pull-requests:write`. Questa opzione attiva anche il CI a valle sulla richiesta pull automatica (l'impostazione predefinita `GITHUB_TOKEN` non lo fa).
+1. **Abilitare la creazione di PR per le azioni.** Impostazioni -> Azioni -> Generale -> "Consenti alle azioni GitHub di creare e approvare richieste di pull" -> ATTIVATO. È la soluzione più semplice; non richiede la gestione di segreti aggiuntivi. ([Documentazione GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests))
+2. **Fornire un segreto di repository `SYNC_PAT`.** Token di accesso personale con gli ambiti `contents:write` + `pull-requests:write`. Questa opzione attiva anche la CI a valle sulla PR automatica (l'impostazione predefinita `GITHUB_TOKEN` non lo fa).
 
-Se non si configura una di queste opzioni, il flusso di lavoro giornaliero fallirà ogni mattina alle `gh pr create` con un errore di autorizzazione.
+Se non si configura una di queste opzioni, il flusso di lavoro giornaliero fallisce ogni mattina alle `gh pr create` a causa di un errore di autorizzazione.
 
 ### Risoluzione dei problemi
 
 | Sintomo | Causa | Soluzione |
 | --- | --- | --- |
-| `gh pr create` 403 | Nessuna delle opzioni di configurazione sopra è stata configurata | Scegliere l'opzione 1 o 2 sopra |
-| Il flusso di lavoro giornaliero non apre alcuna richiesta pull, nulla cambia | Tutti i repository dell'organizzazione non hanno loghi oppure i loghi sono già identici | È previsto: le esecuzioni senza modifiche sono normali |
-| La verifica del file manifest è fallita | I loghi sono stati scaricati, ma il valore hash del file manifest non corrisponde | Viene creata automaticamente un'issue `sync-failure`; rieseguire `brand manifest && brand verify` localmente |
-| Una richiesta pull di sincronizzazione introduce un logo errato | Il repository upstream ha pubblicato un'immagine corrotta o con contenuto errato | Annullare l'unione: `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. Vedere [SECURITY.md](SECURITY.md#incident-response) |
+| `gh pr create` 403 | Nessuna delle opzioni di configurazione di cui sopra è configurata | Scegliere l'opzione 1 o 2 di cui sopra |
+| Il flusso di lavoro giornaliero non apre alcuna PR, non cambia nulla | Tutti i repository dell'organizzazione o non hanno un logo, oppure i loghi sono già uguali | È previsto: le esecuzioni senza modifiche sono normali |
+| La verifica del file manifest è fallita | I loghi sono stati scaricati, ma il file manifest presenta un hash non corrispondente | Viene creata automaticamente un'issue `sync-failure`; rieseguire `brand manifest && brand verify` localmente |
+| Una PR di sincronizzazione introduce un logo errato | Il repository upstream ha pubblicato un'immagine corrotta o con contenuto errato | Annullare l'unione: `git revert <merge-sha> && brand manifest && git commit --amend --no-edit && git push`. Vedere [SECURITY.md](SECURITY.md#incident-response) |
 
 ## Gallerie e README dinamici
 
-Alcuni prodotti richiedono più di un'immagine per ogni "slug": ad esempio, le animazioni dei personaggi di uno sprite pack o una serie di screenshot di un tool. `brand` tratta questi elementi come una **galleria**, distinta dal logo principale, anziché come un insieme anonimo di file aggiuntivi:
+Alcuni prodotti richiedono più di un'immagine di presentazione per "slug": le rotazioni dei personaggi di un pacchetto di sprite in 8 direzioni, una serie di screenshot di un tool. `brand` tratta questi elementi come una **galleria** di primo livello, distinta dal logo canonico, anziché come un insieme anonimo di file aggiuntivi:
 
 ```bash
 # Register a directory of images as a gallery (idempotent — re-run any time
@@ -134,47 +134,64 @@ Alcuni prodotti richiedono più di un'immagine per ogni "slug": ad esempio, le a
 brand add-gallery pirate-raiders-3d-2 /path/to/turnarounds
 ```
 
-Per visualizzare la galleria in un **file README del repository di destinazione** e mantenerla sincronizzata quando la galleria cambia, inserire una coppia di marcatori ovunque nel file README:
+Per visualizzare questa galleria in un **file README del repository di destinazione** e mantenerla sincronizzata quando la galleria cambia, inserire una coppia di marcatori ovunque nel file README:
 
 ```html
 <!-- brand:gallery:start slug="pirate-raiders-3d-2" -->
 <!-- brand:gallery:end -->
 ```
 
-Quindi eseguire:
+Quindi, eseguire:
 
 ```bash
 brand sync --slug pirate-raiders-3d-2 --repos /path/to/clones
 ```
 
-`sync` rigenera tutto ciò che si trova tra i marcatori dal file manifest: l'output è deterministico e identico ad ogni esecuzione con input invariati, quindi si integra perfettamente con il CI. `--check` segnala le differenze senza scrivere (esce con codice 1 se il file README non è aggiornato, 0 se lo è): integrarlo nel CI del repository di destinazione nello stesso modo in cui `brand manifest --check` controlla questo flusso di lavoro. Questa è una sezione **README dinamica**: i contenuti creati manualmente attorno ai marcatori rimangono invariati; tutto ciò che si trova tra essi è gestito dalla macchina e può essere rigenerato in qualsiasi momento. Il prefisso `brand:gallery:` è con uno spazio dei nomi, in modo che i tipi di blocco futuri (badge, statistiche) possano condividere un file README senza conflitti.
+`sync` rigenera tutto ciò che si trova tra i marcatori dal file manifest: output deterministico e identico ad ogni esecuzione con input invariati, quindi si integra perfettamente con la CI. `--check` segnala le modifiche senza scrivere (esce con codice 1 se il file README è obsoleto, 0 se è aggiornato) e può essere integrato nel flusso di lavoro della CI del repository di destinazione nello stesso modo in cui `brand manifest --check` controlla questo flusso di lavoro. Questa è una sezione del **README dinamico**: il contenuto scritto manualmente attorno ai marcatori rimane invariato; tutto ciò che si trova tra i marcatori è di proprietà della macchina e può essere rigenerato in qualsiasi momento. Il prefisso `brand:gallery:` è con uno spazio dei nomi in modo che i tipi di blocco futuri (badge, statistiche) possano condividere un file README senza conflitti.
 
-Anche `brand audit` comprende la differenza: un file README con più tag della galleria `<img>` per un singolo "slug" non viene più contrassegnato come possibile conflitto di badge; se non è ancora collegato a un blocco marcatore, `audit` suggerisce invece `brand sync`.
+`brand audit` comprende anche la differenza: un file README con più tag della galleria `<img>` per uno "slug" non viene più segnalato come un possibile conflitto di badge; se non è ancora collegato a un blocco di marcatore, `audit` suggerisce `brand sync`.
 
 ## Aggiunta manuale di un logo
 
 1. Inserire il file in `logos/<slug>/readme.png` (o `.jpg`)
-2. Eseguire `brand manifest` per aggiornare i valori hash dell'integrità
-3. Commit sia del logo che di `manifest.json`
-4. Il CI verifica il file manifest all'invio
+2. Eseguire `brand manifest` per aggiornare gli hash di integrità
+3. Eseguire il commit sia del logo che del file `manifest.json`
+4. La CI verifica il file manifest al push
+
+Il passaggio 2 è facile da dimenticare e, localmente, non viene segnalato alcun errore: il commit del logo
+ha esito positivo, il sito viene comunque compilato, i test vengono comunque superati e l'errore si manifesta solo
+nella CI dopo il push. Quindi, un hook `pre-commit` lo fa automaticamente: crea una modifica
+in `logos/` e rigenera e crea il commit di `manifest.json` nello stesso commit.
+
+Si installa in `npm install` (tramite `prepare` → [`scripts/install-hooks.mjs`](scripts/install-hooks.mjs),
+che punta `core.hooksPath` a [`.githooks/`](.githooks/)). Per installarlo manualmente:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+L'hook richiede che `dist/` sia compilato (`npm run build`) poiché esegue la CLI e
+non cerca di indovinare quando `logos/` ha modifiche non ancora aggiunte: il file manifest viene calcolato
+a partire dall'albero di lavoro, quindi, se questo non corrisponde a ciò che si sta eseguendo il commit,
+gli hash che scrive descriverebbero byte che il commit non contiene. `git commit --no-verify` lo ignora e la CI applica comunque la stessa regola.
 
 ## Sicurezza
 
 | Aspetto | Dettagli |
 |--------|--------|
-| **Data touched** | File immagine del logo e della galleria in `logos/` (lettura), `manifest.json` (lettura/scrittura), file README (lettura/scrittura durante la migrazione e la sincronizzazione: `sync` riscrive solo il contenuto tra i marcatori `brand:gallery:start`/`end`) |
-| **Data NOT touched** | Nessuna telemetria, nessun sistema di analisi, nessuna esecuzione di codice dai file del logo/galleria |
-| **Permissions** | Lettura: file del logo/galleria, file manifest, file README. Scrittura: manifest.json, file README (solo migrazione/sincronizzazione) e `logos/<slug>/` (solo `remove`, che richiede `--yes`) |
-| **Network** | Nessuna impostazione predefinita. `brand audit --remote` è l'unica eccezione ed è strettamente facoltativa: senza tale flag, non viene effettuata alcuna chiamata di rete. `sync`, `verify`, `manifest`, `stats`, `migrate`, `add-gallery`, `remove` e `history` sono completamente offline. |
-| **Telemetry** | Nessun dato raccolto o inviato |
+| **Data touched** | File di immagini dei loghi e delle gallerie in `logos/` (lettura), `manifest.json` (lettura/scrittura), file README (lettura/scrittura durante la migrazione e la sincronizzazione: `sync` riscrive solo il contenuto tra i marcatori `brand:gallery:start`/`end`) |
+| **Data NOT touched** | Nessuna telemetria, nessun sistema di analisi, nessuna esecuzione di codice dai file di loghi/gallerie |
+| **Permissions** | Lettura: file di loghi/gallerie, file manifest, file README. Scrittura: manifest.json, file README (solo migrazione/sincronizzazione) e `logos/<slug>/` (solo `remove`, che richiede `--yes`) |
+| **Network** | Nessuno per impostazione predefinita. `brand audit --remote` è l'unica eccezione ed è strettamente facoltativo: senza tale flag, non viene effettuata alcuna chiamata di rete. `sync`, `verify`, `manifest`, `stats`, `migrate`, `add-gallery`, `remove` e `history` sono completamente offline. |
+| **Telemetry** | Nessuno raccolto o inviato |
 
-Ogni logo è tracciato tramite un valore hash SHA-256 in `manifest.json`. Il CI esegue `brand manifest --check` su ogni invio che modifica `logos/` o `manifest.json`. Vengono tracciati solo i file immagine (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`); i file non di immagine in `logos/` vengono ignorati.
+Ogni logo è tracciato tramite l'hash SHA-256 in `manifest.json`. La CI esegue `brand manifest --check` su ogni push che modifica `logos/` o `manifest.json`. Vengono tracciati solo i file immagine (`.png`, `.jpg`, `.jpeg`, `.svg`, `.webp`); i file non immagine in `logos/` vengono ignorati.
 
-**Cosa dimostra e cosa non dimostra l’hash.** Una discrepanza individua una sovrascrittura accidentale, un file corrotto o una divergenza tra il disco e il manifest: si tratta degli errori più comuni. Non impedisce una manomissione intenzionale: chiunque abbia accesso in scrittura può sostituire un logo, eseguire `brand manifest` e salvare entrambe le modifiche, dopodiché `verify` viene accettato. L’hash dimostra che l’albero è internamente coerente, ma non che il suo contenuto sia stato approvato. Ciò che colma effettivamente questa lacuna sono i controlli del repository, uniti al meccanismo di rilevamento delle divergenze della sincronizzazione giornaliera, che verifica ogni logo presente nel registro rispetto al repository principale: consultare [SECURITY.md](SECURITY.md#the-limit-of-the-manifest--read-this-before-trusting-it) e [`.github/SECURITY-CONTROLS.md`](.github/SECURITY-CONTROLS.md).
+**Cosa dimostra e cosa non dimostra l’hash.** Una discrepanza individua una sovrascrittura accidentale, un file corrotto o una divergenza tra il disco e il file manifest: si tratta degli errori più comuni. Non impedisce una manomissione intenzionale: chiunque abbia accesso in scrittura può sostituire un logo, eseguire `brand manifest` e salvare entrambe le modifiche, dopodiché `verify` viene accettato. L’hash dimostra che l’albero è internamente coerente, ma non che il suo contenuto sia stato approvato. Ciò che colma effettivamente questa lacuna sono i controlli del repository, uniti al meccanismo di rilevamento delle divergenze della sincronizzazione giornaliera, che verifica ogni logo del registro rispetto al repository di origine: vedere [SECURITY.md](SECURITY.md#the-limit-of-the-manifest--read-this-before-trusting-it) e [`.github/SECURITY-CONTROLS.md`](.github/SECURITY-CONTROLS.md).
 
-Le segnalazioni di vulnerabilità vanno inviate al canale privato di GitHub: [private advisory channel](https://github.com/mcp-tool-shop-org/brand/security/advisories/new). Per l’informativa completa, consultare [SECURITY.md](SECURITY.md) e per la guida alla migrazione, [docs/handbook.md](docs/handbook.md).
+Le segnalazioni di vulnerabilità vengono inviate al [canale di comunicazione privato](https://github.com/mcp-tool-shop-org/brand/security/advisories/new) di GitHub. Per la politica completa, vedere [SECURITY.md](SECURITY.md), e per la guida alla migrazione, [docs/handbook.md](docs/handbook.md).
 
-## Valutazione complessiva
+## Scheda di valutazione
 
 | Categoria | Punteggio |
 |----------|-------|
@@ -182,10 +199,10 @@ Le segnalazioni di vulnerabilità vanno inviate al canale privato di GitHub: [pr
 | B. Gestione degli errori | 10 |
 | C. Documentazione per gli operatori | 10 |
 | D. Pratiche di rilascio | 10 |
-| E. Identità (aspetto secondario) | 10 |
+| E. Identità (soft) | 10 |
 | **Overall** | **50/50** |
 
-Ogni riga D è verde: matrice Node 20/22/24, azioni con hash SHA fissato, passaggio `npm audit`, Dependabot, contenuto del tarball e piena corrispondenza tra tag/release/npm (risolto il 2026-07-01; v1.0.2/v1.0.3 non sono mai stati pubblicati su npm; contrassegnati retroattivamente per la corrispondenza con git/CHANGELOG).
+Ogni riga D è verde: matrice Node 20/22/24, azioni con hash SHA, passaggio `npm audit`, Dependabot, contenuto del tarball e piena parità tra tag/release/npm (risolto il 2026-07-01 — v1.0.2/v1.0.3 non sono mai stati pubblicati su npm; contrassegnati retroattivamente per la parità con git/CHANGELOG).
 
 > Audit completo: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
 
