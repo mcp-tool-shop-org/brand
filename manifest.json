@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-11-17T18:26:42.977Z",
+  "generated": "2026-11-19T00:18:55.185Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -418,8 +418,8 @@
       "role": "primary"
     },
     "logos/colab-runner/readme.png": {
-      "hash": "sha256:282a5460ef3a66923bd89207fabfb0b964c2d511879efc2eef8fc83331ab04cf",
-      "size": 392338,
+      "hash": "sha256:f5efbc457049bd00a895e12ec70de0c793a488a18b1cd978c607de11d761d1a4",
+      "size": 455564,
       "format": "png",
       "role": "primary"
     },
