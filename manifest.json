@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated": "2026-11-19T00:18:55.185Z",
+  "generated": "2026-11-20T19:31:45.124Z",
   "algorithm": "sha256",
   "assets": {
     "logos/Attestia-Desktop/readme.png": {
@@ -805,8 +805,8 @@
       "role": "primary"
     },
     "logos/merchant-league/readme.png": {
-      "hash": "sha256:cf7bfdbdbcca8098f4f44c0dfbb1de2ec59124178a39253d72f712bb7cb41065",
-      "size": 1297163,
+      "hash": "sha256:5e9cfd068d4063b9b89541e6dbf974abf465bc6ed8f956c2356b51d76efe006b",
+      "size": 1089903,
       "format": "png",
       "role": "primary"
     },
